@@ -43,3 +43,6 @@ inst/testdata/*.rds
 
 # Ignore temporary man directory
 man/
+
+# Ignore previewed README files
+*/README.html

@@ -40,3 +40,6 @@ packrat/lib*/
 
 # Files for unit testting
 inst/testdata/*.rds
+
+# Ignore temporary man directory
+man/

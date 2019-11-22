@@ -24,9 +24,9 @@ following set of functions:
     [run_viper](https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L30) to 
     understand the arguments.
     * `make_gsea_genesets(genesets)`. First define a standardized input for gene
-    sets in *tibble/dataframe* format and then this function should convert this
-    table in the required input for the underlying function (in this case list 
-    of gene sets for the function `fgsea()`). Check an example 
+    sets in *tibble/dataframe* format for your statistic. Then this function should 
+    convert this table in the required input for the underlying function (in this 
+    case list of gene sets for the function `fgsea()`). Check an example 
     [here](https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L68). In 
     the roxygen comments of the function you define which columns must be 
     available in the standardized format. 
@@ -40,7 +40,7 @@ following set of functions:
 functions work properly. [Here](https://github.com/saezlab/decoupleR/blob/master/tests/testthat/test-viper.R) are 
 examples for the `run_viper` function. 
 
-* *Optional*: For a consisted coding style and efficient implementation we will 
+* *Optional*: For a consistent coding style and efficient implementation we will 
 mainly use `tidyverse`.
 
 ## How to add a new gene set resource

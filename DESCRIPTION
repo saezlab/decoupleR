@@ -6,7 +6,7 @@ Author: Christian H. Holland
 Maintainer: Christian H. Holland <cholland2408@gmail.com>
 Description: Usually functional genomics tools consist of a fixed combination of
     gene sets and statistical approach. To overcome this limitation this package 
-    allows to combine a variety of gene sets with a variey of statistics.
+    allows to combine a variety of gene sets with a variety of statistics.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

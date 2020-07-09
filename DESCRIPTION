@@ -1,15 +1,22 @@
 Package: decoupleR
 Type: Package
 Title: Package to decouple gene sets from statistics
-Version: 0.1.0
-Author: Christian H. Holland
-Maintainer: Christian H. Holland <cholland2408@gmail.com>
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "Christian H.",
+           family = "Holland",
+           role = c("cre", "aut"),
+           email = "cholland2408@gmail.com",
+           comment = c(ORCID = "0000-0002-3060-5786")))
 Description: Usually functional genomics tools consist of a fixed combination of
     gene sets and statistical approach. To overcome this limitation this package 
     allows to combine a variety of gene sets with a variety of statistics.
-License: What license is it under?
+URL: https://github.com/saezlab/decoupleR
+BugReports: https://github.com/saezlab/decoupleR/issues
+Depends: R (>= 4.0)
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: 
     testthat
-RoxygenNote: 7.0.0
+RoxygenNote: 7.1.0

@@ -35,14 +35,9 @@ vignettes/*.pdf
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
 
-# Packrat files
-packrat/lib*/
-
 # Files for unit testting
 inst/testdata/*.rds
 
-# Ignore temporary man directory
-man/
 
 # Ignore previewed README files
 */README.html

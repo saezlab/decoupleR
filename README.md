@@ -33,7 +33,7 @@ renv::restore()
 ## How to add a new statistic
 
   - Open an [issue](https://github.com/saezlab/decoupleR/issues) stating
-    with statistic you would like to add. Assign it to yourself and
+    which statistic you would like to add. Assign it to yourself and
     label it with the badge `enhancement`. Please check before if not
     someone else is already working on implementing this statistic.
 
@@ -78,7 +78,7 @@ renv::restore()
 ## How to add a new gene set resource
 
   - Open an [issue](https://github.com/saezlab/decoupleR/issues) stating
-    with gene set resource you would like to add. Assign it to yourself
+    which gene set resource you would like to add. Assign it to yourself
     and label it with the badge `enhancement`. Please check before if
     not someone else is already working on implementing this gene set
     resource.

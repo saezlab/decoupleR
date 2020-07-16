@@ -111,7 +111,7 @@
 <h2 class="hasAnchor">
 <a href="#how-to-add-a-new-statistic" class="anchor"></a>How to add a new statistic</h2>
 <ul>
-<li><p>Open an <a href="https://github.com/saezlab/decoupleR/issues">issue</a> stating with statistic you would like to add. Assign it to yourself and label it with the badge <code>enhancement</code>. Please check before if not someone else is already working on implementing this statistic.</p></li>
+<li><p>Open an <a href="https://github.com/saezlab/decoupleR/issues">issue</a> stating which statistic you would like to add. Assign it to yourself and label it with the badge <code>enhancement</code>. Please check before if not someone else is already working on implementing this statistic.</p></li>
 <li><p>Don’t work on the <code>master branch</code>. Either create a new <code>branch</code> with a meaningful name or make a <code>fork</code>. When the function is implemented and tested (!) we will use <code>pull requests</code> to integrate the new feature in the <code>master branch</code>.</p></li>
 <li>
 <p>Assuming you would like to implement <code>GSEA</code>. You will need to define the following set of functions:</p>
@@ -134,7 +134,7 @@
 <h2 class="hasAnchor">
 <a href="#how-to-add-a-new-gene-set-resource" class="anchor"></a>How to add a new gene set resource</h2>
 <ul>
-<li><p>Open an <a href="https://github.com/saezlab/decoupleR/issues">issue</a> stating with gene set resource you would like to add. Assign it to yourself and label it with the badge <code>enhancement</code>. Please check before if not someone else is already working on implementing this gene set resource.</p></li>
+<li><p>Open an <a href="https://github.com/saezlab/decoupleR/issues">issue</a> stating which gene set resource you would like to add. Assign it to yourself and label it with the badge <code>enhancement</code>. Please check before if not someone else is already working on implementing this gene set resource.</p></li>
 <li><p>Don’t work on the <code>master branch</code>. Either create a new <code>branch</code> with a meaningful name or make a <code>fork</code>. When the function is implemented and tested (!) we will use <code>pull requests</code> to integrate the new feature in the <code>master branch</code>.</p></li>
 <li><p>Define helper functions for each available statistics that convert your gene sets to the standardized format of the respective statistic (e.g. <code>your_genesets2viper()</code>).</p></li>
 <li><p>Deposit a representative selection of gene sets in the directory <code>inst/testdata</code> and implement unit tests for all available statistics coupled with your new gene sets.</p></li>
@@ -144,8 +144,8 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode" id="cb2"><pre class="r"><span class="co"># install the development version from GitHub</span>
-<span class="co"># install.packages("devtools")</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"saezlab/decoupleR"</span>)</pre></div>
+<span class="co"># install.packages("remotes")</span>
+<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"saezlab/decoupleR"</span>)</pre></div>
 </div>
 </div>
   </div>

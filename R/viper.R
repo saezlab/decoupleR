@@ -60,6 +60,7 @@ run_viper = function(emat, genesets, options = list(), gs_resource, tidy = F) {
 #' @return Gene sets in the \code{\link[=viper]{viper::viper()}} format.
 #'
 #' @export
+#' @importFrom stats setNames
 make_viper_genesets = function(genesets) {
   genesets %>%
     split(.$geneset) %>%

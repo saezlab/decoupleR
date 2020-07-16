@@ -21,7 +21,7 @@ gene sets with a variety of statistics for functional genomics analyses.
 
 ### Dependencies
 
-To ensure that we all use the same package versions we make of
+To ensure that we all use the same package versions we make use of
 [renv](https://rstudio.github.io/renv/articles/renv.html), a package for
 dependency management.
 

@@ -1,0 +1,15 @@
+destination: docs
+navbar:
+  structure:
+    left: [home, intro, reference, articles, tutorials, news]
+    right: [github, twitter, homepage]
+  components:
+     twitter:
+       icon: "fab fa-twitter fa-lg"
+       href: https://twitter.com/saezlab
+     homepage:
+       icon: "fas fa-university"
+       href: http://www.saezlab.org
+
+development:
+  mode: auto

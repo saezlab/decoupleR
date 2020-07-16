@@ -17,6 +17,14 @@ Depends: R (>= 4.0)
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports:
+    dplyr,
+    fgsea,
+    purrr,
+    stringr,
+    tibble,
+    tidyr,
+    viper
 Suggests: 
     testthat
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

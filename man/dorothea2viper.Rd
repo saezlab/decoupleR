@@ -6,6 +6,12 @@
 \usage{
 dorothea2viper(genesets)
 }
+\arguments{
+\item{genesets}{dorothea gene sets}
+}
+\value{
+dorothea gene sets suitable for viper statistic
+}
 \description{
 Helper function to convert DoRothEA gene sets to standardized gene sets
 suitable for the \code{\link[=viper]{viper::viper()}} function.

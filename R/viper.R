@@ -76,6 +76,9 @@ make_viper_genesets = function(genesets) {
 #' Helper function to convert DoRothEA gene sets to standardized gene sets
 #' suitable for the \code{\link[=viper]{viper::viper()}} function.
 #'
+#' @param genesets dorothea gene sets
+#'
+#' @return dorothea gene sets suitable for viper statistic
 #' @export
 dorothea2viper = function(genesets) {
   genesets %>%
@@ -86,6 +89,10 @@ dorothea2viper = function(genesets) {
 #'
 #' Helper function to convert PROGENy gene sets to standardized gene sets
 #' suitable for the \code{\link[=viper]{viper::viper()}} function.
+#'
+#' @param genesets progeny gene sets
+#'
+#' @return progeny gene sets suitable for viper statistic
 #'
 #' @export
 progeny2viper = function(genesets) {

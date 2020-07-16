@@ -6,6 +6,12 @@
 \usage{
 progeny2viper(genesets)
 }
+\arguments{
+\item{genesets}{progeny gene sets}
+}
+\value{
+progeny gene sets suitable for viper statistic
+}
 \description{
 Helper function to convert PROGENy gene sets to standardized gene sets
 suitable for the \code{\link[=viper]{viper::viper()}} function.

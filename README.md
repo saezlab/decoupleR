@@ -100,6 +100,6 @@ renv::restore()
 
 ``` r
 # install the development version from GitHub
-# install.packages("devtools")
-devtools::install_github("saezlab/decoupleR")
+# install.packages("remotes")
+remotes::install_github("saezlab/decoupleR")
 ```

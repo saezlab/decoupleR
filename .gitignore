@@ -46,4 +46,4 @@ man/
 
 # Ignore previewed README files
 */README.html
-docs
+#docs

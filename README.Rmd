@@ -27,9 +27,8 @@ knitr::opts_chunk$set(
 with a variety of statistics for functional genomics analyses. 
 
 ## Before you start
-
 ### Dependencies
-To ensure that we all use the same package versions we make of [renv](https://rstudio.github.io/renv/articles/renv.html), a package for dependency management.
+To ensure that we all use the same package versions we make use of [renv](https://rstudio.github.io/renv/articles/renv.html), a package for dependency management.
 
 ```r
 # install all required packages using the renv package
@@ -98,6 +97,6 @@ with your new gene sets.
 ## Installation
 ```r
 # install the development version from GitHub
-# install.packages("devtools")
-devtools::install_github("saezlab/decoupleR")
+# install.packages("remotes")
+remotes::install_github("saezlab/decoupleR")
 ```

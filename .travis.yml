@@ -28,11 +28,7 @@ install:
   - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"
   - Rscript -e "renv::restore()"
 
-script:
-  - R CMD build
-
-# # R for codecov: see documentation at https://github.com/codecov/example-r
-
+# R for codecov: see documentation at https://github.com/codecov/example-r
 r_packages:
   - covr
 

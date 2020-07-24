@@ -3,54 +3,54 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: r
-cache: packages
-
-
-os:
-  - linux
-  - osx
-
-r:
-  - release
-
-jobs:
-  exclude:
-    - r: devel
-      os: osx
-
-bioc_required: true
-bioc_packages:
-  - fgsea
-  - viper
-
-
-# cache:
-#   directories:
-#   - $HOME/.local/share/renv
-#   - $TRAVIS_BUILD_DIR/renv/library
+# cache: packages
 #
-# install:
-#   - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"
-#   - Rscript -e "renv::restore()"
 #
-# script:
-#   - R CMD build .
-#   - R CMD check *tar.gz
-
-# R for codecov: see documentation at https://github.com/codecov/example-r
-r_packages:
-  - covr
-
-after_success:
-  - Rscript -e 'library(covr); codecov()'
-#   - Rscript -e 'pkgdown::build_site()'
-
-# deploy:
-#   provider: pages
-#   skip_cleanup: true
-#   token: $GITHUB_PAT
-#   keep_history: true
-#   local_dir: docs
-#   on:
-#     branch: master
-
+# os:
+#   - linux
+#   - osx
+#
+# r:
+#   - release
+#
+# jobs:
+#   exclude:
+#     - r: devel
+#       os: osx
+#
+# bioc_required: true
+# bioc_packages:
+#   - fgsea
+#   - viper
+#
+#
+# # cache:
+# #   directories:
+# #   - $HOME/.local/share/renv
+# #   - $TRAVIS_BUILD_DIR/renv/library
+# #
+# # install:
+# #   - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"
+# #   - Rscript -e "renv::restore()"
+# #
+# # script:
+# #   - R CMD build .
+# #   - R CMD check *tar.gz
+#
+# # R for codecov: see documentation at https://github.com/codecov/example-r
+# r_packages:
+#   - covr
+#
+# after_success:
+#   - Rscript -e 'library(covr); codecov()'
+# #   - Rscript -e 'pkgdown::build_site()'
+#
+# # deploy:
+# #   provider: pages
+# #   skip_cleanup: true
+# #   token: $GITHUB_PAT
+# #   keep_history: true
+# #   local_dir: docs
+# #   on:
+# #     branch: master
+#

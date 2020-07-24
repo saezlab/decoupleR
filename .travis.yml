@@ -14,19 +14,18 @@ r:
   - release
   - devel
 
-
 jobs:
   exclude:
     - r: devel
       os: osx
 
 # # R for codecov: see documentation at https://github.com/codecov/example-r
-#
-# r_packages:
-#   - covr
-#
-# after_success:
-#   - Rscript -e 'library(covr); codecov()'
+
+r_packages:
+  - covr
+
+after_success:
+  - Rscript -e 'library(covr); codecov()'
 #   - Rscript -e 'pkgdown::build_site()'
 
 # deploy:

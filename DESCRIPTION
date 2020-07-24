@@ -11,7 +11,7 @@ Authors@R: c(
 Description: Usually functional genomics tools consist of a fixed combination of
     gene sets and statistical approach. To overcome this limitation this package 
     allows to combine a variety of gene sets with a variety of statistics.
-URL: https://github.com/saezlab/decoupleR
+URL: https://saezlab.github.io/decoupleR/, https://github.com/saezlab/decoupleR
 BugReports: https://github.com/saezlab/decoupleR/issues
 Depends: R (>= 4.0)
 License: GPL-3 + file LICENSE

@@ -32,6 +32,9 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
+# Temporary documentation
+man/
+
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
 
@@ -46,4 +49,5 @@ inst/testdata/inputs/*.rds
 Icon[
 ]Icon
 
-Icon
+Icon
+

@@ -18,6 +18,10 @@ jobs:
     - r: devel
       os: osx
 
+bioc_packages:
+  - fgsea
+  - viper
+
 
 cache:
   directories:

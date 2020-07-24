@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Build Status](https://travis-ci.com/saezlab/decoupleR.svg?token=PagY1pyvMyyL3AJHRy5V&branch=master)](https://travis-ci.com/saezlab/decoupleR)
 [![Lifecycle:experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Codecov test coverage](https://codecov.io/gh/saezlab/decoupleR/branch/master/graph/badge.svg)](https://codecov.io/gh/saezlab/decoupleR?branch=master)
 <!-- badges: end -->
 
 > a community effort by saezlab members

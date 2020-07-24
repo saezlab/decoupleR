@@ -12,7 +12,6 @@ os:
 
 r:
   - release
-  - devel
 
 jobs:
   exclude:

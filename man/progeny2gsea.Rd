@@ -6,6 +6,12 @@
 \usage{
 progeny2gsea(genesets)
 }
+\arguments{
+\item{genesets}{progeny gene sets}
+}
+\value{
+progeny gene sets suitable for gsea statistic
+}
 \description{
 Helper function to convert PROGENy gene sets to standardized gene sets
 suitable for the \code{\link[=fgsea]{fgsea::fgsea()}} function.

@@ -28,6 +28,9 @@ install:
   - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"
   - Rscript -e "renv::restore()"
 
+script:
+  - Rscript -e "devtools::check()"
+
 # R for codecov: see documentation at https://github.com/codecov/example-r
 r_packages:
   - covr

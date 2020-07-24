@@ -6,6 +6,12 @@
 \usage{
 dorothea2gsea(genesets)
 }
+\arguments{
+\item{genesets}{dorothea gene sets}
+}
+\value{
+dorothea gene sets suitable for gsea statistic
+}
 \description{
 Helper function to convert DoRothEA gene sets to standardized gene sets
 suitable for the \code{\link[=fgsea]{fgsea::fgsea()}} function.

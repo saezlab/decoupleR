@@ -5,7 +5,7 @@
 #'
 #' @param emat An expression matrix with genes (HGNC symbol) in rows and samples
 #'  in columns.
-#' @param genesets A data frame of gene sets. The structure if dependent on the
+#' @param genesets A data frame of gene sets. The structure is dependent on the
 #' gene set resource.
 #' @param options A list of named options to pass to
 #' \code{\link[=viper]{viper::viper()}} such as \code{minsize} or \code{method}.

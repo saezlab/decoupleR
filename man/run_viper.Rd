@@ -10,7 +10,7 @@ run_viper(emat, genesets, options = list(), gs_resource, tidy = F)
 \item{emat}{An expression matrix with genes (HGNC symbol) in rows and samples
 in columns.}
 
-\item{genesets}{A data frame of gene sets. The structure if dependent on the
+\item{genesets}{A data frame of gene sets. The structure is dependent on the
 gene set resource.}
 
 \item{options}{A list of named options to pass to

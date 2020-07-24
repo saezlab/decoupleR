@@ -36,9 +36,11 @@ vignettes/*.pdf
 rsconnect/
 
 # Files for unit testting
-inst/testdata/*.rds
+inst/testdata/outputs/*.rds
+inst/testdata/inputs/*.rds
 
 
 # Ignore previewed README files
 */README.html
 #docs
+Icon[]Icon

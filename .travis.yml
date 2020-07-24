@@ -4,6 +4,10 @@
 
 language: r
 # cache: packages
+
+bioc_packages:
+  - fgsea
+  - viper
 #
 #
 # os:

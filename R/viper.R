@@ -59,7 +59,7 @@ run_viper = function(emat, genesets, options = list(), gs_resource, tidy = F) {
 #'
 #' @return Gene sets in the \code{\link[=viper]{viper::viper()}} format.
 #'
-#' @export
+#' @keywords internal
 #' @importFrom stats setNames
 make_viper_genesets = function(genesets) {
   genesets %>%
@@ -79,7 +79,7 @@ make_viper_genesets = function(genesets) {
 #' @param genesets dorothea gene sets
 #'
 #' @return dorothea gene sets suitable for viper statistic
-#' @export
+#' @keywords internal
 dorothea2viper = function(genesets) {
   genesets %>%
     rename(geneset = tf, gene = target)
@@ -94,7 +94,7 @@ dorothea2viper = function(genesets) {
 #'
 #' @return progeny gene sets suitable for viper statistic
 #'
-#' @export
+#' @keywords internal
 progeny2viper = function(genesets) {
   genesets %>%
     rename(geneset = pathway) %>%

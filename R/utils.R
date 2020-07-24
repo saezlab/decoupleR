@@ -15,7 +15,7 @@
 #'
 #' @return Tidy table.
 #'
-#' @export
+#' @keywords internal
 tdy = function(mat, feature, key, value, meta = NULL) {
   mat %>%
     data.frame(check.names = F, stringsAsFactors = F) %>%
@@ -36,7 +36,7 @@ tdy = function(mat, feature, key, value, meta = NULL) {
 #'
 #' @return Matrix with observation in rows and variables in columns.
 #'
-#' @export
+#' @keywords internal
 untdy = function(tbl, feature, key, value) {
   tbl %>%
     select({{feature}}, {{key}}, {{value}}) %>%

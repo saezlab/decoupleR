@@ -21,3 +21,4 @@ Matrix with observation in rows and variables in columns.
 \description{
 This utility function takes a tidy tibble and converts it to a matrix.
 }
+\keyword{internal}

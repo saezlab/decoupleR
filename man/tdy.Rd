@@ -28,3 +28,4 @@ Tidy table.
 This utility function takes a matrix and converts it to a tidy format and
 adds if available observations' meta data.
 }
+\keyword{internal}

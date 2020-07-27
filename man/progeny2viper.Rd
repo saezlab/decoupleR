@@ -16,3 +16,4 @@ progeny gene sets suitable for viper statistic
 Helper function to convert PROGENy gene sets to standardized gene sets
 suitable for the \code{\link[=viper]{viper::viper()}} function.
 }
+\keyword{internal}

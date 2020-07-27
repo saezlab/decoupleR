@@ -17,3 +17,4 @@ Gene sets in the \code{\link[=viper]{viper::viper()}} format.
 This function convert gene sets in a table format to the format required by
 the \code{\link[=viper]{viper::viper()}} function.
 }
+\keyword{internal}

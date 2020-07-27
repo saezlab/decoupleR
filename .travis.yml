@@ -3,11 +3,11 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: r
-# cache: packages
+cache: packages
 
-install:
-  - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"
-  - Rscript -e "renv::restore()"
+# install:
+#   - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"
+#   - Rscript -e "renv::restore()"
 
 # bioc_packages:
 #   - biocondcutor/fgsea

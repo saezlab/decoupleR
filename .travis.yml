@@ -12,9 +12,9 @@ os:
 r:
   - release
 
-bioc_packages:
-  - fgsea
-  - viper
+# bioc_packages:
+#   - fgsea
+#   - viper
 
 # install:
 #   - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"

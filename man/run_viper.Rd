@@ -4,7 +4,7 @@
 \alias{run_viper}
 \title{VIPER wrapper}
 \usage{
-run_viper(emat, genesets, options = list(), gs_resource, tidy = F)
+run_viper(emat, genesets, options = list(), gs_resource, tidy = FALSE)
 }
 \arguments{
 \item{emat}{An expression matrix with genes (HGNC symbol) in rows and samples

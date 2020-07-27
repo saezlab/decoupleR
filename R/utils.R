@@ -18,7 +18,7 @@
 #' @keywords internal
 tdy = function(mat, feature, key, value, meta = NULL) {
   mat %>%
-    data.frame(check.names = F, stringsAsFactors = F) %>%
+    data.frame(check.names = FALSE, stringsAsFactors = FALSE) %>%
     rownames_to_column(feature) %>%
     as_tibble() %>%
     gather({{key}}, {{value}}, -{{feature}}) %>%
@@ -41,5 +41,5 @@ untdy = function(tbl, feature, key, value) {
   tbl %>%
     select({{feature}}, {{key}}, {{value}}) %>%
     spread({{key}}, {{value}}) %>%
-    data.frame(row.names = 1, check.names = F, stringsAsFactors = F)
+    data.frame(row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
 }

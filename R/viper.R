@@ -27,7 +27,8 @@
 #' @import purrr
 #' @import tidyr
 #' @import viper
-run_viper = function(emat, genesets, options = list(), gs_resource, tidy = F) {
+run_viper = function(emat, genesets, options = list(), gs_resource,
+                     tidy = FALSE) {
 
   genesets = switch(gs_resource,
     "dorothea" = dorothea2viper(genesets),

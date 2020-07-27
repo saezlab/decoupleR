@@ -9,19 +9,19 @@ progeny_genesets = readRDS(
 
 
 test_that("test run_viper with dorothea gene sets", {
-  res1 = run_viper(emat, dorothea_genesets, gs_resource="dorothea", tidy=F)
+  res1 = run_viper(emat, dorothea_genesets, gs_resource="dorothea", tidy=FALSE)
   exp1 = readRDS(
     system.file("testdata/outputs/viper/", "output-viper_dorothea_default.rds",
                 package = "decoupleR")
   )
-  res2 = run_viper(emat, dorothea_genesets, gs_resource="dorothea", tidy=T)
+  res2 = run_viper(emat, dorothea_genesets, gs_resource="dorothea", tidy=TRUE)
   exp2 = readRDS(
     system.file("testdata/outputs/viper/", "output-viper_dorothea_default_tidy.rds",
                 package = "decoupleR")
   )
 
   res3 = run_viper(emat, dorothea_genesets, options = list(minsize=4),
-                   gs_resource="dorothea", tidy=F)
+                   gs_resource="dorothea", tidy=FALSE)
   exp3 = readRDS(
     system.file("testdata/outputs/viper/", "output-viper_dorothea_minsize4.rds",
                 package = "decoupleR")

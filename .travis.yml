@@ -5,6 +5,13 @@
 language: r
 cache: packages
 
+os:
+  - linux
+  - osx
+
+r:
+  - release
+
 # install:
 #   - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"
 #   - Rscript -e "renv::restore()"
@@ -14,12 +21,7 @@ cache: packages
 #   - bioconductor/viper
 #
 #
-# os:
-#   - linux
-#   - osx
-#
-# r:
-#   - release
+
 #
 # jobs:
 #   exclude:

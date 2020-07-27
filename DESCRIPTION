@@ -19,8 +19,8 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     dplyr,
-    fgsea,
     purrr,
+    stats,
     stringr,
     tibble,
     tidyr,

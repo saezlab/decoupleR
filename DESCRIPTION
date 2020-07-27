@@ -27,5 +27,6 @@ Imports:
     viper
 Suggests: 
     testthat,
-    covr
+    covr,
+    pkgdown
 RoxygenNote: 7.1.1

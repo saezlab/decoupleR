@@ -1,7 +1,5 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-
 language: r
 cache: packages
 
@@ -18,14 +16,14 @@ r_packages:
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
-#   - Rscript -e 'pkgdown::build_site()'
-#
-# # deploy:
-# #   provider: pages
-# #   skip_cleanup: true
-# #   token: $GITHUB_PAT
-# #   keep_history: true
-# #   local_dir: docs
-# #   on:
-# #     branch: master
-#
+  - Rscript -e 'pkgdown::build_site()'
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  token: $GITHUB_PAT
+  keep_history: true
+  local_dir: docs
+  on:
+    branch: master
+

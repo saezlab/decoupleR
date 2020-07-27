@@ -36,8 +36,8 @@ vignettes/*.pdf
 rsconnect/
 
 # Files for unit testting
-inst/testdata/outputs/viper/*.rds
-inst/testdata/inputs/*.rds
+#inst/testdata/outputs/viper/*.rds
+#inst/testdata/inputs/*.rds
 
 
 # Ignore previewed README files

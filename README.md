@@ -19,19 +19,6 @@ coverage](https://codecov.io/gh/saezlab/decoupleR/branch/master/graph/badge.svg)
 **Under development** - This R package allows to combine a variety of
 gene sets with a variety of statistics for functional genomics analyses.
 
-## Before you start
-
-### Dependencies
-
-To ensure that we all use the same package versions we make use of
-[renv](https://rstudio.github.io/renv/articles/renv.html), a package for
-dependency management.
-
-``` r
-# install all required packages using the renv package
-renv::restore()
-```
-
 ## How to add a new statistic
 
   - Open an [issue](https://github.com/saezlab/decoupleR/issues) stating

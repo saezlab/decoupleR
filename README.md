@@ -12,14 +12,16 @@ Status](https://travis-ci.com/saezlab/decoupleR.svg?token=PagY1pyvMyyL3AJHRy5V&b
 coverage](https://codecov.io/gh/saezlab/decoupleR/branch/master/graph/badge.svg)](https://codecov.io/gh/saezlab/decoupleR?branch=master)
 <!-- badges: end -->
 
-> a community effort by saezlab members
+> a community effort by [saezlab](www.saezlab.org) members
 
 ## Overview
 
-**Under development** - This R package allows to combine a variety of
-gene sets with a variety of statistics for functional genomics analyses.
+**Under development** - decoupleR aims to combine various gene sets
+resources with a variety of statistics for functional genomics analyses.
 
-## How to add a new statistic
+## How to contribute?
+
+### How to add a new statistic
 
   - Open an [issue](https://github.com/saezlab/decoupleR/issues) stating
     which statistic you would like to add. Assign it to yourself and
@@ -49,7 +51,7 @@ gene sets with a variety of statistics for functional genomics analyses.
         In the roxygen comments of the function you define which columns
         must be available in the standardized format.
       - In parallel you need to define helper functions that convert
-        every available gene set (e.g. progeny and DoRothEA gene sets)
+        every available gene set (e.g. progeny and dorothea gene sets)
         to your defined standardized input (e.g. `progeny2gsea()`).
         Check an example
         [here](https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L90)
@@ -64,7 +66,7 @@ gene sets with a variety of statistics for functional genomics analyses.
   - *Optional*: For a consistent coding style and efficient
     implementation we will mainly use `tidyverse`.
 
-## How to add a new gene set resource
+### How to add a new gene set resource
 
   - Open an [issue](https://github.com/saezlab/decoupleR/issues) stating
     which gene set resource you would like to add. Assign it to yourself
@@ -84,6 +86,34 @@ gene sets with a variety of statistics for functional genomics analyses.
   - Deposit a representative selection of gene sets in the directory
     `inst/testdata` and implement unit tests for all available
     statistics coupled with your new gene sets.
+
+### How to integrate your changes in the master branch
+
+Before you push your changes to your development branch please first
+make sure that `devtools::check()` runs without any problems on your
+local machine (warning(s) might be acceptable, but will be decided on a
+case-by-case basis). After you pushed then to your development branch
+[travis](https://travis-ci.com/github/saezlab/decoupleR) will also build
+(`R CMD build`) and check (`R CMD check`) the package. **Your changes
+will only be integrated in the master branch when the package passes all
+checks on travis.**
+
+If all requirements are fulfilled (passed `R CMD check` on your local
+machine and travis, implemented unit tests, proper documentation), add a
+brief and concise summary of the implemented features in the
+[NEWS.md](https://github.com/saezlab/decoupleR/blob/master/NEWS.md) file
+and bump the version in the
+[DESCRIPTION](https://github.com/saezlab/decoupleR/blob/master/DESCRIPTION)
+file. In addition list you as contributor (ctr) / author (aut) also in
+the
+[DESCRIPTION](https://github.com/saezlab/decoupleR/blob/master/DESCRIPTION)
+file.
+
+After you open a pull request please refer in the commit message to the
+related issue, e.g. `Closes #5`. This message automatically closes issue
+5, after successful integration. Also request review from someone else
+to double check your code. **Do not accept your own pull request without
+someone else having checked your code**.
 
 ## Installation
 

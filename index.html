@@ -48,6 +48,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/how-to.html">How to decouple?</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -89,16 +101,19 @@
 <!-- badges: start -->
 
 <blockquote>
-<p>a community effort by saezlab members</p>
+<p>a community effort by <a href="www.saezlab.org">saezlab</a> members</p>
 </blockquote>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p><strong>Under development</strong> - This R package allows to combine a variety of gene sets with a variety of statistics for functional genomics analyses.</p>
+<p><strong>Under development</strong> - decoupleR aims to combine various gene sets resources with a variety of statistics for functional genomics analyses.</p>
 </div>
-<div id="how-to-add-a-new-statistic" class="section level2">
+<div id="how-to-contribute" class="section level2">
 <h2 class="hasAnchor">
-<a href="#how-to-add-a-new-statistic" class="anchor"></a>How to add a new statistic</h2>
+<a href="#how-to-contribute" class="anchor"></a>How to contribute?</h2>
+<div id="how-to-add-a-new-statistic" class="section level3">
+<h3 class="hasAnchor">
+<a href="#how-to-add-a-new-statistic" class="anchor"></a>How to add a new statistic</h3>
 <ul>
 <li><p>Open an <a href="https://github.com/saezlab/decoupleR/issues">issue</a> stating which statistic you would like to add. Assign it to yourself and label it with the badge <code>enhancement</code>. Please check before if not someone else is already working on implementing this statistic.</p></li>
 <li><p>Don’t work on the <code>master branch</code>. Either create a new <code>branch</code> with a meaningful name or make a <code>fork</code>. When the function is implemented and tested (!) we will use <code>pull requests</code> to integrate the new feature in the <code>master branch</code>.</p></li>
@@ -110,7 +125,7 @@
 <code>run_gsea(emat, genesets, list=options(), gs_resource, tidy)</code>. Please check the function <a href="https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L30">run_viper</a> to understand the arguments.</li>
 <li>
 <code>make_gsea_genesets(genesets)</code>. First define a standardized input for gene sets in <em>tibble/dataframe</em> format for your statistic. Then this function should convert this table in the required input for the underlying function (in this case list of gene sets for the function <code>fgsea()</code>). Check an example <a href="https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L68">here</a>. In the roxygen comments of the function you define which columns must be available in the standardized format.</li>
-<li>In parallel you need to define helper functions that convert every available gene set (e.g. progeny and DoRothEA gene sets) to your defined standardized input (e.g. <code>progeny2gsea()</code>). Check an example <a href="https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L90">here</a>
+<li>In parallel you need to define helper functions that convert every available gene set (e.g. progeny and dorothea gene sets) to your defined standardized input (e.g. <code>progeny2gsea()</code>). Check an example <a href="https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L90">here</a>
 </li>
 <li><strong>All functions must be documented following the roxygen2 standard.</strong></li>
 </ul>
@@ -119,15 +134,23 @@
 <li><p><em>Optional</em>: For a consistent coding style and efficient implementation we will mainly use <code>tidyverse</code>.</p></li>
 </ul>
 </div>
-<div id="how-to-add-a-new-gene-set-resource" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-to-add-a-new-gene-set-resource" class="anchor"></a>How to add a new gene set resource</h2>
+<div id="how-to-add-a-new-gene-set-resource" class="section level3">
+<h3 class="hasAnchor">
+<a href="#how-to-add-a-new-gene-set-resource" class="anchor"></a>How to add a new gene set resource</h3>
 <ul>
 <li><p>Open an <a href="https://github.com/saezlab/decoupleR/issues">issue</a> stating which gene set resource you would like to add. Assign it to yourself and label it with the badge <code>enhancement</code>. Please check before if not someone else is already working on implementing this gene set resource.</p></li>
 <li><p>Don’t work on the <code>master branch</code>. Either create a new <code>branch</code> with a meaningful name or make a <code>fork</code>. When the function is implemented and tested (!) we will use <code>pull requests</code> to integrate the new feature in the <code>master branch</code>.</p></li>
 <li><p>Define helper functions for each available statistics that convert your gene sets to the standardized format of the respective statistic (e.g. <code>your_genesets2viper()</code>).</p></li>
 <li><p>Deposit a representative selection of gene sets in the directory <code>inst/testdata</code> and implement unit tests for all available statistics coupled with your new gene sets.</p></li>
 </ul>
+</div>
+<div id="how-to-integrate-your-changes-in-the-master-branch" class="section level3">
+<h3 class="hasAnchor">
+<a href="#how-to-integrate-your-changes-in-the-master-branch" class="anchor"></a>How to integrate your changes in the master branch</h3>
+<p>Before you push your changes to your development branch please first make sure that <code>devtools::check()</code> runs without any problems on your local machine (warning(s) might be acceptable, but will be decided on a case-by-case basis). After you pushed then to your development branch <a href="https://travis-ci.com/github/saezlab/decoupleR">travis</a> will also build (<code>R CMD build</code>) and check (<code>R CMD check</code>) the package. <strong>Your changes will only be integrated in the master branch when the package passes all checks on travis.</strong></p>
+<p>If all requirements are fulfilled (passed <code>R CMD check</code> on your local machine and travis, implemented unit tests, proper documentation), add a brief and concise summary of the implemented features in the <a href="https://github.com/saezlab/decoupleR/blob/master/NEWS.md">NEWS.md</a> file and bump the version in the <a href="https://github.com/saezlab/decoupleR/blob/master/DESCRIPTION">DESCRIPTION</a> file. In addition list you as contributor (ctr) / author (aut) also in the <a href="https://github.com/saezlab/decoupleR/blob/master/DESCRIPTION">DESCRIPTION</a> file.</p>
+<p>After you open a pull request please refer in the commit message to the related issue, e.g. <code>Closes #5</code>. This message automatically closes issue 5, after successful integration. Also request review from someone else to double check your code. <strong>Do not accept your own pull request without someone else having checked your code</strong>.</p>
+</div>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">

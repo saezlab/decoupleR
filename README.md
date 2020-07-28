@@ -12,7 +12,7 @@ Status](https://travis-ci.com/saezlab/decoupleR.svg?token=PagY1pyvMyyL3AJHRy5V&b
 coverage](https://codecov.io/gh/saezlab/decoupleR/branch/master/graph/badge.svg)](https://codecov.io/gh/saezlab/decoupleR?branch=master)
 <!-- badges: end -->
 
-> a community effort by [saezlab](www.saezlab.org) members
+> a community effort by [saezlab](http://saezlab.org) members
 
 ## Overview
 
@@ -94,9 +94,10 @@ make sure that `devtools::check()` runs without any problems on your
 local machine (warning(s) might be acceptable, but will be decided on a
 case-by-case basis). After you pushed then to your development branch
 [travis](https://travis-ci.com/github/saezlab/decoupleR) will also build
-(`R CMD build`) and check (`R CMD check`) the package. **Your changes
-will only be integrated in the master branch when the package passes all
-checks on travis.**
+(`R CMD build`) and check (`R CMD check`) the package. This might take
+up to 15 minutes so better be sure it passes at the first try. **Your
+changes will only be integrated in the master branch when the package
+passes all checks on travis.**
 
 If all requirements are fulfilled (passed `R CMD check` on your local
 machine and travis, implemented unit tests, proper documentation), add a
@@ -104,8 +105,8 @@ brief and concise summary of the implemented features in the
 [NEWS.md](https://github.com/saezlab/decoupleR/blob/master/NEWS.md) file
 and bump the version in the
 [DESCRIPTION](https://github.com/saezlab/decoupleR/blob/master/DESCRIPTION)
-file. In addition list you as contributor (ctr) / author (aut) also in
-the
+file. In addition list you as contributor (ctr) and/or author (aut) also
+in the
 [DESCRIPTION](https://github.com/saezlab/decoupleR/blob/master/DESCRIPTION)
 file.
 

@@ -28,5 +28,8 @@ Imports:
 Suggests: 
     testthat,
     covr,
-    pkgdown
+    pkgdown,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr

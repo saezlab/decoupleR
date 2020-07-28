@@ -27,3 +27,6 @@ deploy:
   on:
     branch: master
 
+notifications:
+  slack: saezlab:fphXT6EeaCFQ4ZiI7wRNrlNR
+

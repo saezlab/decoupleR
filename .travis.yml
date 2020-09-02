@@ -14,6 +14,9 @@ r:
 r_packages:
   - covr
 
+bioc_packages:
+  - viper
+
 after_success:
   - Rscript -e 'library(covr); codecov()'
   - Rscript -e 'pkgdown::build_site()'

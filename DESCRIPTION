@@ -25,12 +25,14 @@ Imports:
     tibble,
     tidyr,
     viper,
-    magrittr
+    magrittr,
+    rlang (>= 0.1.2)
 Suggests: 
     testthat,
     covr,
     pkgdown,
     knitr,
-    rmarkdown
+    rmarkdown,
+    roxygen2
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr

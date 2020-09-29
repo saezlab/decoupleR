@@ -10,8 +10,8 @@ pivot_wider_profile(
   names_from,
   values_from,
   values_fill = NA,
-  matrix = FALSE,
-  sparse = FALSE,
+  to_matrix = FALSE,
+  to_sparse = FALSE,
   ...
 )
 }
@@ -46,10 +46,10 @@ front of the output column.}
 This can be a named list if you want to apply different aggregations
 to different value columns.}
 
-\item{matrix}{Logical value indicating if the result should be a matrix.
+\item{to_matrix}{Logical value indicating if the result should be a matrix.
 Parameter is ignored in case \code{sparse} is \code{TRUE}.}
 
-\item{sparse}{Logical value indicating whether the resulting matrix should be sparse or not.}
+\item{to_sparse}{Logical value indicating whether the resulting matrix should be sparse or not.}
 
 \item{...}{Additional arguments passed on to methods.}
 }

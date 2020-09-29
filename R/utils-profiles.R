@@ -70,9 +70,9 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 #'
 #' @inheritParams tidyr::pivot_wider
 #' @inheritParams tidyr::spread
-#' @param matrix Logical value indicating if the result should be a matrix.
+#' @param to_matrix Logical value indicating if the result should be a matrix.
 #'  Parameter is ignored in case \code{sparse} is \code{TRUE}.
-#' @param sparse Logical value indicating whether the resulting matrix should be sparse or not.
+#' @param to_sparse Logical value indicating whether the resulting matrix should be sparse or not.
 #'
 #'
 #' @export
@@ -85,8 +85,8 @@ pivot_wider_profile <- function(data,
                                 names_from,
                                 values_from,
                                 values_fill = NA,
-                                matrix = FALSE,
-                                sparse = FALSE,
+                                to_matrix = FALSE,
+                                to_sparse = FALSE,
                                 ...) {
   wider_profile <- data %>%
     select({{ id_cols }}, {{ names_from }}, {{ values_from }}) %>%
@@ -100,8 +100,8 @@ pivot_wider_profile <- function(data,
     rename(id = {{ id_cols }}) %>%
     column_to_rownames(var = "id")
 
-  if (matrix == TRUE || sparse == TRUE) {
-    if (sparse == TRUE) {
+  if (to_matrix == TRUE || to_sparse == TRUE) {
+    if (to_sparse == TRUE) {
       return(Matrix(data = as.matrix(wider_profile), sparse = TRUE))
     } else {
       return(as.matrix(wider_profile))

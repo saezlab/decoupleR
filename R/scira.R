@@ -183,7 +183,7 @@ run_pscira <- function(emat,
 
   set.seed(seed)
   map_dfr(1:times, ~ map_model_data(emat, random = TRUE) %>%
-                   evaluate_model()) %>%
+    evaluate_model()) %>%
     group_by(.data$source, .data$condition) %>%
     summarise(.mean = mean(.data$value), .sd = stats::sd(.data$value), .groups = "drop") %>%
     left_join(evaluate_model(emat), by = c("source", "condition")) %>%

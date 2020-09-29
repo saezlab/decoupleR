@@ -26,7 +26,8 @@ Imports:
     tidyr,
     viper,
     magrittr,
-    rlang (>= 0.1.2)
+    rlang (>= 0.1.2),
+    Matrix
 Suggests: 
     testthat,
     covr,

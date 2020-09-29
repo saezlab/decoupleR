@@ -58,3 +58,54 @@ get_profile_of <- function(data, sources, values_fill = NA) {
     new_data
   }
 }
+
+#' Pivot a data frame to wider and convert it to matrix
+#'
+#' @description Generates a kind of table where the rows come from \code{id_cols},
+#' the columns from \code{names_from} and the values from \code{values_from}.
+#'
+#' @details
+#' In the current state of the function, to ensure its operation,
+#' the \code{id_cols} parameter is a single selector.
+#'
+#' @inheritParams tidyr::pivot_wider
+#' @inheritParams tidyr::spread
+#' @param matrix Logical value indicating if the result should be a matrix.
+#'  Parameter is ignored in case \code{sparse} is \code{TRUE}.
+#' @param sparse Logical value indicating whether the resulting matrix should be sparse or not.
+#'
+#'
+#' @export
+#' @importFrom dplyr select rename
+#' @importFrom tibble column_to_rownames
+#' @importFrom tidyr pivot_wider
+#' @importFrom Matrix Matrix
+pivot_wider_profile <- function(data,
+                                id_cols,
+                                names_from,
+                                values_from,
+                                values_fill = NA,
+                                matrix = FALSE,
+                                sparse = FALSE,
+                                ...) {
+  wider_profile <- data %>%
+    select({{ id_cols }}, {{ names_from }}, {{ values_from }}) %>%
+    pivot_wider(
+      id_cols = {{ id_cols }},
+      names_from = {{ names_from }},
+      values_from = {{ values_from }},
+      values_fill = values_fill,
+      ...
+    ) %>%
+    rename(id = {{ id_cols }}) %>%
+    column_to_rownames(var = "id")
+
+  if (matrix == TRUE || sparse == TRUE) {
+    if (sparse == TRUE) {
+      return(Matrix(data = as.matrix(wider_profile), sparse = TRUE))
+    } else {
+      return(as.matrix(wider_profile))
+    }
+  }
+  wider_profile
+}

@@ -50,3 +50,18 @@ run_scira(emat, progeny_genesets, gene, pathway, weight) %>%
 
 run_scira(emat, progeny_genesets, gene, pathway, weight, .sparse = TRUE) %>%
   saveRDS(file.path(out_scira_dir, "output-scira_progeny_sparse-background-calculation.rds"))
+
+#----- run_pscira() ------------------------------------------------------------
+
+out_pscira_dir <- file.path("inst", "testdata", "outputs", "pscira")
+
+# dorothea dataset
+
+run_pscira(emat, dorothea_genesets) %>%
+  saveRDS(file.path(out_pscira_dir, "output-pscira_dorothea_default.rds"))
+
+run_pscira(emat, dorothea_genesets, tf, target, mor) %>%
+  saveRDS(file.path(out_pscira_dir, "output-pscira_dorothea_tidy-evaluation.rds"))
+
+run_pscira(emat, dorothea_genesets, .sparse = TRUE) %>%
+  saveRDS(file.path(out_pscira_dir, "output-pscira_dorothea_sparse-background-calculation.rds"))

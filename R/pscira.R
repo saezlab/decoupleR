@@ -28,7 +28,7 @@ run_pscira <- function(emat,
                        seed = 42) {
 
   # Before to start ---------------------------------------------------------
-  if(times < 2){
+  if (times < 2) {
     stop(str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
   }
 

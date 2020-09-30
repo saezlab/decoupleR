@@ -43,18 +43,17 @@ test_that("test run_scira with dorothea gene sets", {
 })
 
 test_that("test run_scira with progeny gene sets", {
-
   res1 <- run_scira(emat, progeny_genesets, gene, pathway, weight)
   exp1 <- readRDS(
     system.file("testdata/outputs/scira/", "output-scira_progeny_tidy-evaluation.rds",
-                package = "decoupleR"
+      package = "decoupleR"
     )
   )
 
   res2 <- run_scira(emat, progeny_genesets, gene, pathway, weight, .sparse = TRUE)
   exp2 <- readRDS(
     system.file("testdata/outputs/scira/", "output-scira_progeny_sparse-background-calculation.rds",
-                package = "decoupleR"
+      package = "decoupleR"
     )
   )
 

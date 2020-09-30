@@ -585,7 +585,87 @@ head(pvalue_df)
 
 
 
-###### V. Turn Pipeline into functions
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+###### V. Test with RegNetwork
+
+# transform RegNetwork
+
+# Load Prerequisites
+setwd("~/Repos/decoupleR")
+
+library(tidyverse)
+library(here)
+library(UpSetR)
+library(cowplot)
+library(singscore)
+library(GSEABase)
+
+###### Dorothea
+# transform dorothea data  ---------------------------
+data(dorothea_hs, package = "dorothea")
+regulons <- dorothea_hs %>%
+  dplyr::filter(confidence %in% c("A", "B","C")) %>%
+  dplyr::rename(geneset = tf, gene = target)
+head(regulons)
+
+dorothea_genesets <- dorothea2singscore(regulons)
+head(singscore_genesets)
+
+
+
+
+###### RegNetwork --------
+# transform RegNetwork
+regnetwork_high <- read.csv("./inst/testdata/inputs/high_confidence.csv")
+regnetwork_med <- read.csv("./inst/testdata/inputs/medium_confidence.csv")
+regnetwork_low <- read.csv("./inst/testdata/inputs/low_confidence.csv")
+regnetwork <- rbind(regnetwork_low, regnetwork_med, regnetwork_high)
+head(regnetwork)
+
+
+regulons <- regnetwork %>%
+  dplyr::select(regulator_symbol, target_symbol,confidence) %>%
+  dplyr::rename(geneset = regulator_symbol, gene = target_symbol) %>%
+  dplyr::filter(!grepl("miR",gene)) %>%
+  dplyr::filter(!grepl("miR",geneset)) %>%
+  dplyr::filter(confidence %in% c("High")) %>%
+  as.tibble(regnetwork)
+head(regulons)
+
+regnetwork_genesets <- regnetwork2singscore(regulons)
+regnetwork_genesets <- Filter(function(x){length(x)>4},singscore_genesets)
+
+
+#### -------
+# Load data ---------------
+expr_matrix <- readRDS("./inst/testdata/inputs/input-expr_matrix.rds")
+
+
+singscore_output <-
+  run_singscore(expr_matrix, "min", dorothea_genesets, 1000, 4, TRUE, TRUE)
+head(singscore_output)
+
+#### -----
+singscore_output <-
+  run_singscore(expr_matrix, "min", regnetwork_genesets, 1000, 4, FALSE, TRUE)
+head(singscore_output)
+
+
+singscore_output_dorothea <-
+  run_singscore(expr_matrix, "min", dorothea_genesets, 100, 4, TRUE, TRUE)
+head(singscore_output)
 
 

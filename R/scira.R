@@ -39,45 +39,6 @@ run_scira <- function(emat,
                       .profile = .data$mor,
                       .sparse = FALSE) {
 
-  # Internal functions ------------------------------------------------------
-
-  # Map model data
-  #
-  # Build a data set with the necessary values to evaluate the model.
-  #
-  # @param source Tf index to extract the corresponding associated profiles.
-  # @param condition Sample index to extract its expression values.
-  #
-  # @return Tibble with the data to use to evaluate the model.
-  map_model_data <- function(source, condition) {
-    tibble(expression = emat[, condition], profile = profile_mat[source, ])
-  }
-
-  # Evaluate model
-  #
-  # Calculate the regulatory activity of a tf under a given condition.
-  #
-  # @param data A data frame, data frame extension (e.g. a tibble).
-  #
-  # @return t-value corresponding to beta 1 parameter of linear regression.
-  evaluate_model <- function(data) {
-    t_values <- lm(expression ~ profile, data = data) %>%
-      summary.lm() %>%
-      coef() %>%
-      .[, "t value"]
-
-    out <- tryCatch(
-      {
-        return(t_values[[2]]) # Using the t value of the beta1 coefficient.
-      },
-      error = function(error) {
-        # message("t-value value of the coefficient B1 of the linear regression was not accessible.")
-        return(NA)
-      }
-    )
-    return(out)
-  }
-
   # Preprocessing -----------------------------------------------------------
 
   # Extract labels that will map to the expression and profile matrices
@@ -97,13 +58,57 @@ run_scira <- function(emat,
     ) %>%
     pivot_wider_profile(.data$source, .data$target, .data$profile, to_matrix = TRUE, to_sparse = .sparse)
 
-
   # Model evaluation --------------------------------------------------------
 
   # Allocate the space for all combinations of sources and conditions
   # and evaluate the proposed model.
   lift_dl(expand_grid)(list(source = sources, condition = conditions)) %>%
     rowwise() %>%
-    mutate(score = map_model_data(.data$source, .data$condition) %>%
-      evaluate_model())
+    mutate(score = .scira_map_model_data(.data$source, .data$condition, emat, profile_mat) %>%
+      .scira_evaluate_model())
+}
+
+# Helper functions ------------------------------------------------------
+
+#' Map model data
+#'
+#' Build a data set with the necessary values to evaluate the model.
+#'
+#' @param source Tf index to extract the corresponding associated profiles.
+#' @param condition Sample index to extract its expression values.
+#' @param .emat Expression matrix.
+#' @param .profile_mat Profile matrix.
+#'
+#' @return Tibble with the data to use to evaluate the model.
+#' @keywords internal
+#' @noRd
+.scira_map_model_data <- function(source, condition, .emat, .profile_mat) {
+  tibble(expression = .emat[, condition], profile = .profile_mat[source, ])
+}
+
+#' Evaluate model
+#'
+#' Fit a linear regression between the value of expression and the profile of its targets.
+#'
+#' @param data A data frame, data frame extension (e.g. a tibble).
+#'
+#' @return t-value corresponding to beta 1 parameter of linear regression.
+#' @keywords internal
+#' @noRd
+.scira_evaluate_model <- function(data) {
+  t_values <- lm(expression ~ profile, data = data) %>%
+    summary.lm() %>%
+    coef() %>%
+    .[, "t value"]
+
+  out <- tryCatch(
+    {
+      return(t_values[[2]]) # Using the t value of the beta1 coefficient.
+    },
+    error = function(error) {
+      # message("t-value value of the coefficient B1 of the linear regression was not accessible.")
+      return(NA)
+    }
+  )
+  return(out)
 }

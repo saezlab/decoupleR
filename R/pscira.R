@@ -1,7 +1,10 @@
 #' PSCIRA (Permutation Single Cell Inference of Regulatory Activity)
 #'
 #' @description
-#' Calculates TF activity according to \href{https://www.biorxiv.org/content/10.1101/553040v1.full.pdf}{SCIRA}.
+#' Calculate the regulatory activity of each tf by multiplying the expression
+#' values of its objectives with their corresponding associated profiles for
+#' each given condition.The result is equal to the z-score of the found value
+#' compared to its null distribution.
 #'
 #' @inherit run_scira details
 #'
@@ -23,40 +26,6 @@ run_pscira <- function(emat,
                        .sparse = TRUE,
                        times = 10,
                        seed = 42) {
-
-  # Internal functions ------------------------------------------------------
-
-  # Map model data
-  #
-  # Build a data set with the necessary values to evaluate the model.
-  #
-  # @param .emat Expression matrix.
-  # @param random Logical value that indicates whether the rows of the matrix should be shuffled or not.
-  #
-  # @return Expression matrix.
-  map_model_data <- function(.emat, random = FALSE) {
-    if (random) {
-      return(.emat[sample(nrow(.emat)), ])
-    } else {
-      .emat
-    }
-  }
-
-  # Evaluate model
-  #
-  # Calculates the regulatory activity of all tfs with respect to its
-  # associated profile for each condition.
-  #
-  # @param .emat Expression matrix.
-  #
-  # @return Tibble with tf regulatory activity for each tf-sample pair.
-  evaluate_model <- function(.emat) {
-    (profile_mat %*% .emat) %>%
-      as.matrix() %>%
-      as.data.frame() %>%
-      rownames_to_column("source") %>%
-      pivot_longer(-.data$source, names_to = "condition")
-  }
 
   # Preprocessing -----------------------------------------------------------
 
@@ -82,11 +51,49 @@ run_pscira <- function(emat,
   # Evaluate model ----------------------------------------------------------
 
   set.seed(seed)
-  map_dfr(1:times, ~ map_model_data(emat, random = TRUE) %>%
-            evaluate_model()) %>%
+  map_dfr(1:times, ~ .pscira_map_model_data(emat, random = TRUE) %>%
+    .pscira_evaluate_model()) %>%
     group_by(.data$source, .data$condition) %>%
     summarise(.mean = mean(.data$value), .sd = stats::sd(.data$value), .groups = "drop") %>%
-    left_join(evaluate_model(emat), by = c("source", "condition")) %>%
+    left_join(.pscira_evaluate_model(emat), by = c("source", "condition")) %>%
     mutate(score = (.data$value - .data$.mean) / .data$.sd) %>%
     transmute(.data$source, .data$condition, .data$score)
+}
+
+# Helper functions --------------------------------------------------------
+
+#' Map model data
+#'
+#' Build a data set with the necessary values to evaluate the model.
+#'
+#' @param .emat Expression matrix.
+#' @param random Logical value that indicates whether the rows of the matrix should be shuffled or not.
+#'
+#' @return Expression matrix.
+#' @keywords internal
+#' @noRd
+.pscira_map_model_data <- function(.emat, random = FALSE) {
+  if (random) {
+    return(.emat[sample(nrow(.emat)), ])
+  } else {
+    .emat
+  }
+}
+
+#' Evaluate model
+#'
+#' Calculates the regulatory activity of all tfs with respect to its
+#' associated profile for each condition.
+#'
+#' @param .emat Expression matrix.
+#'
+#' @return Tibble with tf regulatory activity for each tf-sample pair.
+#' @keywords internal
+#' @noRd
+.pscira_evaluate_model <- function(.emat) {
+  (profile_mat %*% .emat) %>%
+    as.matrix() %>%
+    as.data.frame() %>%
+    rownames_to_column("source") %>%
+    pivot_longer(-.data$source, names_to = "condition")
 }

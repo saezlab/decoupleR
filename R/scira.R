@@ -71,7 +71,7 @@ run_scira <- function(emat,
         return(t_values[[2]]) # Using the t value of the beta1 coefficient.
       },
       error = function(error) {
-        #message("t-value value of the coefficient B1 of the linear regression was not accessible.")
+        # message("t-value value of the coefficient B1 of the linear regression was not accessible.")
         return(NA)
       }
     )
@@ -106,7 +106,6 @@ run_scira <- function(emat,
     rowwise() %>%
     mutate(score = map_model_data(.data$source, .data$condition) %>%
       evaluate_model())
-
 }
 
 #' PSCIRA (Permutation Single Cell Inference of Regulatory Activity)

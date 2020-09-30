@@ -32,6 +32,8 @@ run_viper(emat, progeny_genesets, options = list(minsize=4), gs_resource="progen
 
 out_scira_dir <- file.path("inst", "testdata", "outputs", "scira")
 
+# dorothea dataset
+
 run_scira(emat, dorothea_genesets) %>%
   saveRDS(file.path(out_scira_dir, "output-scira_dorothea_default.rds"))
 
@@ -40,3 +42,11 @@ run_scira(emat, dorothea_genesets, tf, target, mor) %>%
 
 run_scira(emat, dorothea_genesets, .sparse = TRUE) %>%
   saveRDS(file.path(out_scira_dir, "output-scira_dorothea_sparse-background-calculation.rds"))
+
+# progeny dataset
+
+run_scira(emat, progeny_genesets, gene, pathway, weight) %>%
+  saveRDS(file.path(out_scira_dir, "output-scira_progeny_tidy-evaluation.rds"))
+
+run_scira(emat, progeny_genesets, gene, pathway, weight, .sparse = TRUE) %>%
+  saveRDS(file.path(out_scira_dir, "output-scira_progeny_sparse-background-calculation.rds"))

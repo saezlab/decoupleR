@@ -27,6 +27,11 @@ run_pscira <- function(emat,
                        times = 10,
                        seed = 42) {
 
+  # Before to start ---------------------------------------------------------
+  if(times < 2){
+    stop(str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
+  }
+
   # Preprocessing -----------------------------------------------------------
 
   # Extract labels that will map to the expression and profile matrices
@@ -52,10 +57,10 @@ run_pscira <- function(emat,
 
   set.seed(seed)
   map_dfr(1:times, ~ .pscira_map_model_data(emat, random = TRUE) %>%
-    .pscira_evaluate_model()) %>%
+    .pscira_evaluate_model(profile_mat)) %>%
     group_by(.data$source, .data$condition) %>%
-    summarise(.mean = mean(.data$value), .sd = stats::sd(.data$value), .groups = "drop") %>%
-    left_join(.pscira_evaluate_model(emat), by = c("source", "condition")) %>%
+    summarise(.mean = mean(.data$value), .sd = sd(.data$value), .groups = "drop") %>%
+    left_join(.pscira_evaluate_model(emat, profile_mat), by = c("source", "condition")) %>%
     mutate(score = (.data$value - .data$.mean) / .data$.sd) %>%
     transmute(.data$source, .data$condition, .data$score)
 }
@@ -86,12 +91,13 @@ run_pscira <- function(emat,
 #' associated profile for each condition.
 #'
 #' @param .emat Expression matrix.
+#' @param .profile_matrix Matrix with specified profile.
 #'
 #' @return Tibble with tf regulatory activity for each tf-sample pair.
 #' @keywords internal
 #' @noRd
-.pscira_evaluate_model <- function(.emat) {
-  (profile_mat %*% .emat) %>%
+.pscira_evaluate_model <- function(.emat, .profile_mat) {
+  (.profile_mat %*% .emat) %>%
     as.matrix() %>%
     as.data.frame() %>%
     rownames_to_column("source") %>%

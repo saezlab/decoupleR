@@ -1,39 +1,43 @@
-Package: decoupleR
 Type: Package
+Package: decoupleR
 Title: Package to decouple gene sets from statistics
 Version: 0.0.0.9000
-Authors@R: c(
+Authors@R: 
     person(given = "Christian H.",
            family = "Holland",
            role = c("cre", "aut"),
            email = "cholland2408@gmail.com",
-           comment = c(ORCID = "0000-0002-3060-5786")))
-Description: Usually functional genomics tools consist of a fixed combination of
-    gene sets and statistical approach. To overcome this limitation this package 
-    allows to combine a variety of gene sets with a variety of statistics.
-URL: https://saezlab.github.io/decoupleR/, https://github.com/saezlab/decoupleR
-BugReports: https://github.com/saezlab/decoupleR/issues
-Depends: R (>= 4.0)
+           comment = c(ORCID = "0000-0002-3060-5786"))
+Description: Usually functional genomics tools consist of a
+    fixed combination of gene sets and statistical approach. To overcome
+    this limitation this package allows to combine a variety of gene sets
+    with a variety of statistics.
 License: GPL-3 + file LICENSE
-Encoding: UTF-8
-LazyData: true
+URL: https://saezlab.github.io/decoupleR/,
+    https://github.com/saezlab/decoupleR
+BugReports: https://github.com/saezlab/decoupleR/issues
+Depends: 
+    R (>= 4.0)
 Imports:
     dplyr,
+    magrittr,
+    Matrix,
     purrr,
+    rlang (>= 0.1.2),
     stats,
     stringr,
     tibble,
     tidyr,
-    viper,
-    magrittr,
-    rlang (>= 0.1.2),
-    Matrix
+    viper
 Suggests: 
-    testthat,
     covr,
-    pkgdown,
     knitr,
+    pkgdown,
     rmarkdown,
-    roxygen2
+    roxygen2,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
 RoxygenNote: 7.1.1
-VignetteBuilder: knitr

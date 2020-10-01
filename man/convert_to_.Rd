@@ -4,7 +4,7 @@
 \alias{convert_to_}
 \alias{convert_to_scira}
 \alias{convert_to_pscira}
-\title{Convert datasets to standard functions format.}
+\title{Convert data sets to run under the method of interest.}
 \usage{
 convert_to_(dataset, clean)
 
@@ -29,6 +29,8 @@ Returns a tibble with the necessary columns to evaluate the method
  to which the dataset is being converted.
 }
 \description{
-Convert a dataset to the standard
+Convert the data set to the suggested standard for the specified function.
+If the default parameters are not modified, then the function sets its own
+null values for those columns.
 }
 \concept{convert_to_ variants}

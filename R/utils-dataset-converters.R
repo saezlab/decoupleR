@@ -1,9 +1,11 @@
 # main convert_to_ --------------------------------------------------------
 
-#' Convert datasets to standard functions format.
+#' Convert data sets to run under the method of interest.
 #'
 #' @description
-#' Convert a dataset to the standard
+#' Convert the data set to the suggested standard for the specified function.
+#' If the default parameters are not modified, then the function sets its own
+#' null values for those columns.
 #'
 #' @param dataset A data frame or data frame extension (e.g. a tibble) to convert.
 #' @param clean Logical value that indicates whether to keep only the columns

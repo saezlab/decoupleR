@@ -27,11 +27,11 @@
 #'  }
 #' @export
 #'
-#' @importFrom tibble tibble
-#' @importFrom stats lm summary.lm coef
-#' @importFrom dplyr pull rename rowwise mutate
-#' @importFrom purrr lift_dl
-#' @importFrom tidyr expand_grid
+#' @import dplyr
+#' @import purrr
+#' @import tibble
+#' @import tidyr
+#' @importFrom stats coef lm summary.lm
 run_scira <- function(emat,
                       regulons,
                       .source = .data$tf,

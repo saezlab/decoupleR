@@ -14,10 +14,11 @@
 #'
 #' @inherit run_scira return
 #' @export
-#' @importFrom tibble rownames_to_column
-#' @importFrom tidyr pivot_longer
-#' @importFrom dplyr pull rename group_by summarise left_join mutate transmute
-#' @importFrom purrr map_dfr
+#' @import dplyr
+#' @import purrr
+#' @import tibble
+#' @import tidyr
+#' @importFrom stats sd
 run_pscira <- function(emat,
                        regulons,
                        .source = .data$tf,

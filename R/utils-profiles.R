@@ -34,9 +34,9 @@
 #' df %>% get_profile_of(sources = to_get_profile, values_fill = "Unknown")
 #' @seealso \link[tidyr]{complete} \link[tidyr]{expand}
 #'
-#' @importFrom tidyr complete expand_grid replace_na replace_na
-#' @importFrom dplyr left_join mutate across everything
-#' @importFrom purrr map lift_dl is_list
+#' @import dplyr
+#' @import purrr
+#' @import tidyr
 get_profile_of <- function(data, sources, values_fill = NA) {
   # The function only allows to reduce or extend the length of the profile,
   # not to add metadata
@@ -74,11 +74,10 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 #'  Parameter is ignored in case \code{sparse} is \code{TRUE}.
 #' @param to_sparse Logical value indicating whether the resulting matrix should be sparse or not.
 #'
-#'
 #' @export
-#' @importFrom dplyr select rename
-#' @importFrom tibble column_to_rownames
-#' @importFrom tidyr pivot_wider
+#' @import dplyr
+#' @import tibble
+#' @import tidyr
 #' @importFrom Matrix Matrix
 pivot_wider_profile <- function(data,
                                 id_cols,

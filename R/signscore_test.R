@@ -593,12 +593,6 @@ head(pvalue_df)
 
 
 
-
-
-
-
-
-
 ###### V. Test with RegNetwork
 
 # transform RegNetwork
@@ -621,51 +615,379 @@ regulons <- dorothea_hs %>%
   dplyr::rename(geneset = tf, gene = target)
 head(regulons)
 
-dorothea_genesets <- dorothea2singscore(regulons)
-head(singscore_genesets)
+dorothea_genesets <- dorothea2singscore(regulons, minsize = 4)
+head(dorothea_genesets)
 
 
 
 
 ###### RegNetwork --------
 # transform RegNetwork
-regnetwork_high <- read.csv("./inst/testdata/inputs/high_confidence.csv")
-regnetwork_med <- read.csv("./inst/testdata/inputs/medium_confidence.csv")
-regnetwork_low <- read.csv("./inst/testdata/inputs/low_confidence.csv")
-regnetwork <- rbind(regnetwork_low, regnetwork_med, regnetwork_high)
-head(regnetwork)
+# regnetwork_high <- read.csv("./inst/testdata/inputs/high_confidence.csv")
+# regnetwork_med <- read.csv("./inst/testdata/inputs/medium_confidence.csv")
+# regnetwork_low <- read.csv("./inst/testdata/inputs/low_confidence.csv")
+#
+# regnetwork <- rbind(regnetwork_low, regnetwork_med, regnetwork_high)
+# head(regnetwork)
+#
+# regulons <- regnetwork %>%
+#   dplyr::select(regulator_symbol, target_symbol, confidence) %>%
+#   dplyr::rename(geneset = regulator_symbol, gene = target_symbol) %>%
+#   dplyr::filter(!grepl("miR",gene)) %>%
+#   dplyr::filter(!grepl("miR",geneset)) %>%
+#   dplyr::filter(confidence %in% c("High")) %>%
+#   as.tibble(regnetwork)
+# head(regulons)
 
 
+
+
+
+
+# Filtered data by Celina
+regnetwork <- read.csv("./inst/testdata/inputs/regnetwork_filtered.csv")
 regulons <- regnetwork %>%
-  dplyr::select(regulator_symbol, target_symbol,confidence) %>%
-  dplyr::rename(geneset = regulator_symbol, gene = target_symbol) %>%
+  dplyr::rename(geneset = tf, gene = target) %>%
   dplyr::filter(!grepl("miR",gene)) %>%
   dplyr::filter(!grepl("miR",geneset)) %>%
-  dplyr::filter(confidence %in% c("High")) %>%
   as.tibble(regnetwork)
 head(regulons)
 
-regnetwork_genesets <- regnetwork2singscore(regulons)
-regnetwork_genesets <- Filter(function(x){length(x)>4},singscore_genesets)
+
+
+regnetwork_genesets <- regnetwork2singscore(regulons, 4)
+head(regnetwork_genesets)
+
+
+
 
 
 #### -------
-# Load data ---------------
+# load data
 expr_matrix <- readRDS("./inst/testdata/inputs/input-expr_matrix.rds")
 
 
-singscore_output <-
-  run_singscore(expr_matrix, "min", dorothea_genesets, 1000, 4, TRUE, TRUE)
-head(singscore_output)
-
-#### -----
-singscore_output <-
-  run_singscore(expr_matrix, "min", regnetwork_genesets, 1000, 4, FALSE, TRUE)
-head(singscore_output)
+#### Run signscore with Dorothea
+singscore_dorothea <-
+  run_singscore(expr_matrix, "min", dorothea_genesets, 1000, 6, TRUE, TRUE)
+head(singscore_dorothea)
 
 
-singscore_output_dorothea <-
-  run_singscore(expr_matrix, "min", dorothea_genesets, 100, 4, TRUE, TRUE)
-head(singscore_output)
+#### Run signscore with Regnetwork
+singscore_regnetwork <-
+  run_singscore(expr_matrix, "min", regnetwork_genesets, 1000, 6, FALSE, TRUE)
+head(singscore_regnetwork)
 
+
+#### Run signscore with PROGENy
+
+progeny_data <- readRDS("./inst/testdata/inputs/input-progeny_genesets.rds")
+head(progeny_data)
+
+progeny_geneset <- progeny_data %>%
+  dplyr::rename(geneset = pathway) %>%
+  dplyr::mutate(mor = sign(weight),
+         likelihood = 1) %>%
+  dplyr::select(-weight) %>%
+  dplyr::select(-likelihood)
+
+progeny_genesets <- dorothea2singscore(progeny_geneset, 4)
+
+singscore_progeny <-
+  run_singscore(expr_matrix, "min", progeny_genesets, 1000, 6, TRUE, TRUE)
+head(singscore_progeny)
+
+
+
+
+
+# transform RegNetwork
+
+# Load Prerequisites
+setwd("~/Repos/decoupleR")
+
+library(tidyverse)
+library(here)
+library(UpSetR)
+library(cowplot)
+library(singscore)
+library(GSEABase)
+
+###### Dorothea
+# transform dorothea data  ---------------------------
+data(dorothea_hs, package = "dorothea")
+regulons <- dorothea_hs %>%
+  dplyr::filter(confidence %in% c("A", "B","C")) %>%
+  dplyr::rename(geneset = tf, gene = target)
+head(regulons)
+
+dorothea_genesets <- dorothea2singscore(regulons, minsize = 4)
+head(dorothea_genesets)
+
+
+
+
+###### RegNetwork --------
+
+
+
+# Filtered data by Celina
+regnetwork <- read.csv("./inst/testdata/inputs/regnetwork_filtered.csv")
+regulons <- regnetwork %>%
+  dplyr::rename(geneset = tf, gene = target) %>%
+  dplyr::filter(!grepl("miR",gene)) %>%
+  dplyr::filter(!grepl("miR",geneset)) %>%
+  as.tibble(regnetwork)
+head(regulons)
+
+
+
+regnetwork_genesets <- regnetwork2singscore(regulons, 4)
+head(regnetwork_genesets)
+
+
+
+
+
+#### -------
+# load data
+expr_matrix <- readRDS("./inst/testdata/inputs/input-expr_matrix.rds")
+
+
+#### Run signscore with Dorothea
+singscore_dorothea <-
+  run_singscore(expr_matrix, "min", dorothea_genesets, 1000, 6, TRUE, TRUE)
+head(singscore_dorothea)
+
+
+#### Run signscore with Regnetwork
+singscore_regnetwork <-
+  run_singscore(expr_matrix, "min", regnetwork_genesets, 1000, 6, FALSE, TRUE)
+head(singscore_regnetwork)
+
+
+#### Run signscore with PROGENy
+
+progeny_data <- readRDS("./inst/testdata/inputs/input-progeny_genesets.rds")
+head(progeny_data)
+
+progeny_geneset <- progeny_data %>%
+  dplyr::rename(geneset = pathway) %>%
+  dplyr::mutate(mor = sign(weight),
+                likelihood = 1) %>%
+  dplyr::select(-weight) %>%
+  dplyr::select(-likelihood)
+
+progeny_genesets <- dorothea2singscore(progeny_geneset, 4)
+
+singscore_progeny <-
+  run_singscore(expr_matrix, "min", progeny_genesets, 1000, 6, TRUE, TRUE)
+head(singscore_progeny)
+
+
+
+
+
+
+#-------------------------------------------------------------------------
+# GenesetCollection + MultiScoe
+
+
+
+gs1 <- GeneSet(setName = names(dorothea_genesets$genesets_up)[1],
+               geneIds = dorothea_genesets$genesets_up[[1]])
+
+gs2 <- GeneSet(setName = names(dorothea_genesets$genesets_up)[2],
+               geneIds = dorothea_genesets$genesets_up[[2]])
+
+gs3 <- GeneSet(setName = "ATF3",
+               geneIds = "empty")
+
+gs4 <- GeneSet(setName = names(dorothea_genesets$genesets_dn)[1],
+               geneIds = dorothea_genesets$genesets_dn[[1]])
+
+gs5 <- GeneSet(setName = names(dorothea_genesets$genesets_dn)[2],
+               geneIds = dorothea_genesets$genesets_dn[[2]])
+
+gs6 <- GeneSet(setName = "AHR",
+               geneIds = "empty")
+
+gsc_up <- GeneSetCollection(gs1, gs2, gs3)
+gsc_dn<- GeneSetCollection(gs6, gs4, gs5)
+gsc_up
+gsc_dn
+
+
+# Rank genes by the gene expression intensities
+rankData <- rankGenes(expr_matrix, tiesMethod = "min")
+head(rankData)
+
+# remove duplicates
+# rankData <- rankData [!duplicated(rankData, by = "row.id"),]
+
+
+
+multi_scoredf <- multiScore(rankData,
+                            gsc_dn,
+                            subSamples = NULL,
+                            centerScore = FALSE,
+                            dispersionFun = mad,
+                            knownDirection = FALSE)
+
+multi_scoredf
+
+
+GeneSetCollectiongsc_up[2]
+geneIds(gsc_up[2])
+
+
+
+
+generateNull_one_direct(gsc_up, rankData, 100, 6)
+
+gsc_up
+
+head(permuteResult)
+
+# Estimate empirical p-values
+pvals <- getPvals(permuteResult, scoredf, subSamples = 1:ncol(rankData))
+pvals
+
+
+
+
+
+#------------------------------
+# SingScore Final Test runs
+
+
+# Load Prerequisites
+setwd("~/Repos/decoupleR")
+
+library(tidyverse)
+library(here)
+library(UpSetR)
+library(cowplot)
+library(singscore)
+library(GSEABase)
+
+###### Dorothea
+# transform dorothea data  ---------------------------
+data(dorothea_hs, package = "dorothea")
+
+dorothea <- dorothea_hs %>%
+  dplyr::filter(confidence %in% c("A","B","C"))
+
+genesets <- dorothea2viper(dorothea)
+
+dorothea_genesets <- directed2singscore(genesets, minsize = 4)
+head(dorothea_genesets)
+
+
+# RegNetwork filtered data by Celina
+regnetwork <- read.csv("./inst/testdata/inputs/regnetwork_filtered.csv")
+genesets <- regnetwork2singscore(regnetwork)
+
+
+regnetwork_genesets <- undirected2singscore(genesets, 4)
+head(regnetwork_genesets)
+
+
+
+
+
+#### -------
+# load data
+expr_matrix <- readRDS("./inst/testdata/inputs/input-expr_matrix.rds")
+
+
+#### Run signscore with Dorothea
+singscore_dorothea <-
+  run_singscore(expr_matrix, "min", dorothea_genesets, 1000, 6, TRUE, FALSE)
+head(singscore_dorothea)
+
+
+#### Run signscore with Regnetwork
+singscore_regnetwork <-
+  run_singscore(expr_matrix, "min", regnetwork_genesets, 1000, 6, FALSE, FALSE)
+head(singscore_regnetwork)
+
+
+#### Run signscore with PROGENy
+
+progeny_data <- readRDS("./inst/testdata/inputs/input-progeny_genesets.rds")
+head(progeny_data)
+
+progeny_data %>%
+
+progeny <- progeny2viper(progeny_data)
+
+
+
+
+progeny_singscore <- directed2singscore(progeny, 4)
+
+singscore_progeny <-
+  run_singscore(expr_matrix, "min", progeny_singscore, 1000, 6, TRUE, TRUE)
+head(singscore_progeny)
+
+
+
+####################
+
+# Load Prerequisites
+setwd("~/Repos/decoupleR")
+
+library(tidyverse)
+library(here)
+library(UpSetR)
+library(cowplot)
+library(singscore)
+library(GSEABase)
+
+###### Dorothea
+# transform dorothea data  ---------------------------
+data(dorothea_hs, package = "dorothea")
+dorothea <- dorothea_hs %>%
+  dplyr::filter(confidence %in% c("A","B","C"))
+
+regnetwork <- read.csv("./inst/testdata/inputs/regnetwork_filtered.csv")
+
+progeny <- readRDS("./inst/testdata/inputs/input-progeny_genesets.rds")
+
+expr_matrix <- readRDS("./inst/testdata/inputs/input-expr_matrix.rds")
+
+
+# RUN -----
+
+dorothea_singscore <- run_singscore(expr_matrix,
+                                    "min",
+                                    dorothea,
+                                    "dorothea",
+                                    4,
+                                    100,
+                                    6,
+                                    TRUE,
+                                    TRUE)
+
+regnetwork_singscore <- run_singscore(expr_matrix,
+                                      "min",
+                                      regnetwork,
+                                      "regnetwork",
+                                      4,
+                                      100,
+                                      6,
+                                      FALSE,
+                                      TRUE)
+
+
+progeny_singscore <- run_singscore(expr_matrix,
+                                   "min",
+                                   progeny,
+                                   "progeny",
+                                   4,
+                                   100,
+                                   6,
+                                   TRUE,
+                                   TRUE)
 

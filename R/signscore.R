@@ -1,17 +1,21 @@
-##### Functions  -----------
-
 #' SingScore Wrapper
 #'
-#' @param expr_matrix gene expression matrix
-#' @param tiesMethod methods to use when ranking ties: min, max, average
-#' @param singscore_genesets gene sets
-#' @param perm_num number of permutations to be performed
-#' @param ncores number of cores to be used for the calculation
-#' @param directed
+#' @param expr_matrix Gene expression matrix
+#' @param tiesMethod Methods to use when ranking ties: min, max, average
+#' @param gs_resource character vector Genesets
+#' @param perm_num Number of permutations to be performed
+#' @param ncores Number of cores to be used for the calculation
+#' @param directed Bool: Use to indicated whether the Dataset Resource counts
+#' directed genesets/pathways or not
 #' @param permutate Bool: Used to indicate whether we wish to obtain p-values or
 #' just singscores per sample
-#' @return a dataframe with pvalues for each sample or a list of singscore
-#' dataframes (if permute is TRUE)
+#' @param gs_resource A character indicating the gene set resource. Based on
+#' this argument \code{genesets} is processed futher via diverse helper
+#' functions (e.g. \code{\link[=dorothea2viper]{dorothea2viper()}}).
+#'
+#' @return A dataframe with p-values for each sample or a list of singscore
+#' dataframes (if permute is TRUE) or a list of dataframes with signscore and
+#' dispersion (if permute is FALSE)
 #'
 #' @export
 #' @import dplyr
@@ -20,32 +24,49 @@
 #' @import purrr
 #' @import tidyr
 #' @import singscore
+#'
+#' @details Please note that a MultiScore method is exists within singscore
+#' which could be used to produce a DF with scores from a GeneSetCollection,
+#' but this is not feasible because generateNull still has to be applied to
+#' each geneset. Also, all genesets must be directed for the GeneSetCollection
+#' to work with all of them or it would again require a split in un/directed gs
 run_singscore = function(expr_matrix,
                          tiesMethod,
-                         singscore_genesets,
+                         genesets,
+                         resource_name,
+                         minsize,
                          perm_num,
                          ncores,
                          directed,
                          permutate) {
 
 
+  gs_resource = switch(resource_name,
+                    "dorothea" = genesets %>%
+                      dorothea2viper() %>% directed2singscore(.,minsize),
+                    "progeny" = genesets %>%
+                      progeny2viper() %>% directed2singscore(.,minsize),
+                    "regnetwork" = genesets %>%
+                      regnetwork2viper() %>% undirected2singscore(.,minsize))
+
+
+
   # Rank genes by the gene expression intensities
   rankData <- rankGenes(expr_matrix, tiesMethod = tiesMethod)
 
-  # Go through all TFs and assign to DF   -------------
-  if(directed){
-    tfs_up <- names(singscore_genesets$genesets_up)
-    tfs_dn <- names(singscore_genesets$genesets_dn)
-    tfs_all <- union(tfs_up,tfs_dn)
-    tfs_bidirectional <- intersect(tfs_up,tfs_dn)
+  # Go through all Genesets/TFs/Pathways and assign to DF   -------------
+  if (directed) {
+    geneset_up <- names(gs_resource$genesets_up)
+    geneset_dn <- names(gs_resource$genesets_dn)
+    tfs_all <- union(geneset_up, geneset_dn)
+    tfs_bidirectional <- intersect(geneset_up, geneset_dn)
   } else {
-    tfs_all <- names(singscore_genesets)
+    tfs_all <- names(gs_resource)
     tfs_bidirectional <- NULL
   }
 
 
-
-  if(permutate){
+  if (permutate) {
     signscore_output <- matrix(ncol = ncol(expr_matrix), nrow = 0)
     colnames(signscore_output) <- colnames(expr_matrix)
   } else{
@@ -53,35 +74,36 @@ run_singscore = function(expr_matrix,
   }
 
   i = 1
-  for(geneset in tfs_all){
-    if(geneset %in% tfs_bidirectional){ ## check if gene set is bidir
-      results_signscore <- simpleScore_bidir(singscore_genesets,
+  for (geneset in tfs_all) {
+    if (geneset %in% tfs_bidirectional) {
+      ## check if gene set is bidir
+      results_signscore <- simpleScore_bidir(gs_resource,
                                              geneset,
                                              rankData,
                                              perm_num,
                                              ncores,
                                              permutate)
     } else {
-      results_signscore <- simpleScore_onedir(singscore_genesets,
+      results_signscore <- simpleScore_onedir(gs_resource,
                                               geneset,
                                               rankData,
                                               perm_num,
                                               ncores,
                                               directed,
-                                              permutate
-                                              )
+                                              permutate)
     }
 
     # Formulate results
-    if(permutate){
+    if (permutate) {
       signscore_output <- rbind(signscore_output, results_signscore$pvals)
       rownames(signscore_output)[i] <- geneset
     } else {
       signscore_output[[i]] <- results_signscore
       names(signscore_output)[i] <- geneset
     }
+
     print(paste(i, "out of", length(tfs_all), sep = " "))
-    i=i+1
+    i = i + 1
   }
   return(signscore_output)
 }
@@ -94,8 +116,8 @@ run_singscore = function(expr_matrix,
 #' implements the \code{\link[=singscore]{singscore::getPvals()}} functions.
 #'
 #' @param rankData ranked expr matrix
-#' @param singscore_genesets dorothea regulon gene sets with both positively
-#'  and negatively regulated genes
+#' @param gs_resource gene sets with a list of
+#' named lists with positively and negatively regulated genes
 #' @param geneset GO/TF/Pathway gene set
 #' @param perm_num number of permutations to be performed
 #' @param ncores number of cores to be used
@@ -107,18 +129,23 @@ run_singscore = function(expr_matrix,
 #' number of genes as the gene set
 #' pvals - vector with p-values per expr matrix sample for the given gene set
 #' @keywords internal
-simpleScore_bidir = function(singscore_genesets, geneset, rankData,
-                             perm_num, ncores, permutate) {
+simpleScore_bidir = function(gs_resource,
+                             geneset,
+                             rankData,
+                             perm_num,
+                             ncores,
+                             permutate) {
   # Get positively and negatively regulated genes
-  dorothea_up <- singscore_genesets$genesets_up[[geneset]]
-  dorothea_dn <- singscore_genesets$genesets_dn[[geneset]]
+  genesets_up <- gs_resource$genesets_up[[geneset]]
+  genesets_dn <- gs_resource$genesets_dn[[geneset]]
 
   # Calculate singscores
-  scoredf <- simpleScore(rankData, upSet = dorothea_up, downSet = dorothea_dn)
+  scoredf <-
+    simpleScore(rankData, upSet = genesets_up, downSet = genesets_dn)
 
-  if(permutate){
-    permuteResult <- generateNull_bidirect(dorothea_up,
-                                           dorothea_dn,
+  if (permutate) {
+    permuteResult <- generateNull_bidirect(genesets_up,
+                                           genesets_dn,
                                            rankData,
                                            perm_num,
                                            ncores)
@@ -140,7 +167,7 @@ simpleScore_bidir = function(singscore_genesets, geneset, rankData,
 #' implements the \code{\link[=singscore]{singscore::getPvals()}} functions.
 #'
 #' @param rankData ranked expr matrix
-#' @param singscore_genesets dorothea regulon gene sets
+#' @param gs_resource dorothea regulon gene sets
 #' @param geneset
 #' @param perm_num number of permutations to be performed
 #' @param ncores number of cores to be used
@@ -155,24 +182,27 @@ simpleScore_bidir = function(singscore_genesets, geneset, rankData,
 #' number of genes as the gene set
 #' pvals - vector with p-values per expr matrix sample for the given gene set
 #' @keywords internal
-simpleScore_onedir = function(singscore_genesets, geneset, rankData,
-                              perm_num, ncores, directed, permutate) {
-
-
-  if(directed){
-    tfs_up <- names(singscore_genesets$genesets_up)
-    tfs_dn <- names(singscore_genesets$genesets_dn)
+simpleScore_onedir <- function(gs_resource,
+                              geneset,
+                              rankData,
+                              perm_num,
+                              ncores,
+                              directed,
+                              permutate) {
+  if (directed) {
+    geneset_up <- names(gs_resource$genesets_up)
+    geneset_dn <- names(gs_resource$genesets_dn)
 
     # check if the TF is in the up-regulated set
-    if(geneset %in% setdiff(tfs_up,tfs_dn)){
-      geneset_members <- singscore_genesets$genesets_up[[geneset]]
+    if (geneset %in% setdiff(geneset_up, geneset_dn)) {
+      geneset_members <- gs_resource$genesets_up[[geneset]]
     } else{
-      geneset_members <- singscore_genesets$genesets_dn[[geneset]]
+      geneset_members <- gs_resource$genesets_dn[[geneset]]
     }
 
   } else{
-    geneset_members <- singscore_genesets[[geneset]]
-    # remove duplicates
+    geneset_members <- gs_resource[[geneset]]
+    # remove duplicates (in the case of RegNetwork)
     geneset_members <- geneset_members[!duplicated(geneset_members)]
   }
 
@@ -181,7 +211,7 @@ simpleScore_onedir = function(singscore_genesets, geneset, rankData,
                          upSet = geneset_members,
                          knownDirection = FALSE)
 
-  if(permutate){
+  if (permutate) {
     permuteResult <- generateNull_one_direct(geneset_members,
                                              rankData,
                                              perm_num,
@@ -204,25 +234,25 @@ simpleScore_onedir = function(singscore_genesets, geneset, rankData,
 #'
 #' Refer to the \code{\link[=singscore]{singscore::generateNull()}} function.
 #'
-#' @param dorothea_up A character vector of positively reg. gene set IDs
-#' @param dorothea_dn A character vector of negatively reg. gene set IDs
+#' @param genesets_up A character vector of positively reg. gene set IDs
+#' @param genesets_dn A character vector of negatively reg. gene set IDs
 #' @param rankData Ranked expr_matrix
 #' @param perm_num number of permutations to be performed
 #' @param ncores number of cores to be used for the calculation
 #'
 #' @return permutation results to be used to perform a one-tailed test
 #' @keywords internal
-generateNull_bidirect = function(dorothea_up,
-                                 dorothea_dn,
+generateNull_bidirect = function(genesets_up,
+                                 genesets_dn,
                                  rankData,
                                  perm_num,
                                  ncores) {
   permuteResult <-
     generateNull(
-      upSet = dorothea_up, # A character vector of gene IDs of up-regulated gene set
-      downSet = dorothea_dn, # down-regulated gene set
+      upSet = genesets_up,
+      downSet = genesets_dn,
       rankData = rankData,
-      subSamples = 1:ncol(rankData), # which samples
+      subSamples = 1:ncol(rankData),
       centerScore = TRUE,
       knownDirection = TRUE,
       B = perm_num,
@@ -248,7 +278,10 @@ generateNull_bidirect = function(dorothea_up,
 #'
 #' @return permutation results to be used to perform a one-tailed test
 #' @keywords internal
-generateNull_one_direct = function(geneset_members, rankData, perm_num, ncores){
+generateNull_one_direct = function(geneset_members,
+                                   rankData,
+                                   perm_num,
+                                   ncores) {
   permuteResult <-
     generateNull(
       upSet = geneset_members,
@@ -268,76 +301,112 @@ generateNull_one_direct = function(geneset_members, rankData, perm_num, ncores){
 
 #' Helper function
 #'
-#' Helper function to convert DoRothEA gene sets to two seperate sets of
+#' Helper function to convert Directed gene sets to two seperate sets of
 #' TFs with positively and negatively regulated targets
 #' suitable for the \code{\link[=singscore]{singscore::simpleScore()}} function.
 #'
-#' @param regulons dorothea regulon gene sets
+#' @param genesets Directed genesets (e.g. dorothea, progeny)
+#' @param minsize Minimum number of genes/targets in the geneset
 #'
-#' @return positively and negatively regulated dorothea gene sets suitable for
-#' signscore
+#' @return A list of two lists: one for positively and one list for negatively
+#' regulated genesets with gene/target character vectors suitable for signscore
 #' @keywords internal
-dorothea2singscore = function(regulons) {
-  # get positively and negatively regulated gene sets
-  regulons_up <- regulons[regulons$mor==1,]
-  regulons_dn <- regulons[regulons$mor==-1,]
+directed2singscore = function(genesets, minsize) {
 
-  # Positively regulated genes
-  genesets_up <- list()
-  i = 1
-  targets <- c()
-  for(geneset in unique(regulons_up$geneset)){
-    targets <- regulons_up[regulons_up$geneset==geneset,][["gene"]]
-    genesets_up[[i]] <- targets
-    names(genesets_up)[i] <- geneset
-    i=i+1
-    targets <- c()
-  }
-
-  # Negatively regulated genes
-  genesets_dn <- list()
-  i = 1
-  targets <- c()
-  for(geneset in unique(regulons_dn$geneset)){
-    targets <- regulons_dn[regulons_dn$geneset==geneset,][["gene"]]
-    genesets_dn[[i]] <- targets
-    names(genesets_dn)[i] <- geneset
-    i=i+1
-    targets <- c()
-  }
-
-  genesets <- list(genesets_up, genesets_dn)
-  names(genesets) <- c("genesets_up", "genesets_dn")
+  genesets <- genesets %>%
+    group_by(geneset, mor) %>%
+    add_count(geneset) %>%
+    filter(n >= minsize) %>%
+    summarize(tmp = list(gene)) %>%
+    ungroup() %>%
+    group_split(mor, keep=FALSE) %>%
+    set_names(c("genesets_dn", "genesets_up")) %>%
+    map(deframe)
 
   return(genesets)
 }
 
 
 
+#' Helper function
+#'
+#' Helper function to convert undirected resources (e.g. RegNetwork)
+#' to singscore format suitable for the
+#' \code{\link[=singscore]{singscore::simpleScore()}} function.
+#'
+#' @param genesets Undirected genesets genesets
+#' @param minsize Minimum number of genes regulated
+#'
+#' @return a named list of lists where each geneset is itself a list with the
+#' genes/targets within the geneset
+#' @keywords internal
+undirected2singscore = function(genesets, minsize) {
+
+  genesets <- genesets %>%
+    add_count(geneset) %>%
+    filter(n >= minsize) %>%
+    group_by(geneset) %>%
+    summarize(tmp = list(gene)) %>%
+    deframe()
+
+  return(genesets)
+}
+
+
 
 #' Helper function
 #'
-#' Helper function to convert RegNetwork gene sets to singscore format
-#' suitable for the \code{\link[=singscore]{singscore::simpleScore()}} function.
+#' Helper function to convert RegNetwork gene sets to standardized gene sets
+#' \code{\link[=singscore]{singscore::simpleScore()}} function.
 #'
-#' @param regulons regnetowrk regulon gene sets
+#' @param genesets RegNetwork gene sets
 #'
-#' @return a named list of lists where each gene set is a list
+#' @return RegNetwork gene sets suitable for singscore statistic
+#'
 #' @keywords internal
-regnetwork2singscore = function(regulons) {
+regnetwork2singscore = function(genesets) {
+  genesets <- regnetwork %>%
+    dplyr::rename(geneset = tf, gene = target) %>%
+    dplyr::filter(!grepl("miR",gene)) %>%
+    dplyr::filter(!grepl("miR",geneset)) %>%
+    as.tibble(regnetwork)
+}
 
-  # Undirected gene regulation
-  genesets <- list()
-  targets <- c()
-  i = 1
-  for(geneset in unique(regulons$geneset)){
-    targets <- regulons[regulons$geneset==geneset,][["gene"]]
-    genesets[[i]] <- targets
-    names(genesets)[i] <- geneset
-    i=i+1
-    targets <- c()
-  }
 
-  return(genesets)
+
+########## --------------- To be deleted
+
+#' Helper function
+#'
+#' Helper function to convert DoRothEA gene sets to standardized gene sets
+#' suitable for the \code{\link[=viper]{viper::viper()}} function.
+#'
+#' @param genesets dorothea gene sets
+#'
+#' @return dorothea gene sets suitable for viper statistic
+#' @keywords internal
+#'
+dorothea2viper = function(genesets) {
+  genesets %>%
+    dplyr::rename(geneset = tf, gene = target)
+}
+
+
+#' Helper function
+#'
+#' Helper function to convert PROGENy gene sets to standardized gene sets
+#' suitable for the \code{\link[=viper]{viper::viper()}} function.
+#'
+#' @param genesets progeny gene sets
+#'
+#' @return progeny gene sets suitable for viper statistic
+#'
+#' @keywords internal
+progeny2viper = function(genesets) {
+  genesets %>%
+    dplyr::rename(geneset = pathway) %>%
+    dplyr::mutate(mor = sign(weight),
+           likelihood = 1) %>%
+    dplyr::select(-weight)
 }
 

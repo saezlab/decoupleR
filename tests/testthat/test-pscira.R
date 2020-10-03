@@ -36,7 +36,7 @@ test_that("test run_pscira with dorothea gene sets", {
     )
   )
 
-  expect_error(run_pscira(emat, dorothea_genesets, tff), "object 'tff' not found")
+  expect_error(run_pscira(emat, dorothea_genesets, tff), "Can't rename columns that don't exist.")
   expect_error(run_pscira(emat, dorothea_genesets, times = 1), "Parameter 'times' must be greater than or equal to 2, but 1 was passed.")
   expect_equal(res1, exp1)
   expect_equal(res2, exp2)

@@ -35,20 +35,23 @@ run_pscira <- function(emat,
 
   # Preprocessing -----------------------------------------------------------
 
+  # Convert to standard tibble: tf-target-mor.
+  regulons <- regulons %>%
+    convert_to_scira({{ .source }}, {{ .target }}, {{ .target_profile }}, clean = TRUE)
+
   # Extract labels that will map to the expression and profile matrices
-  sources <- regulons %>%
-    pull({{ .source }}) %>%
+  tfs <- regulons %>%
+    pull(.data$tf) %>%
     unique()
 
   # Ensures column matching, expands the target profile to encompass all targets
   # in the expression matrix for each source, and converts the result to a matrix.
   target_profile_mat <- regulons %>%
-    rename(source = {{ .source }}, target = {{ .target }}, profile = {{ .target_profile }}) %>%
     get_profile_of(
-      sources = list(source = sources, target = rownames(emat)),
-      values_fill = list(profile = 0)
+      sources = list(tf = tfs, target = rownames(emat)),
+      values_fill = list(mor = 0)
     ) %>%
-    pivot_wider_profile(.data$source, .data$target, .data$profile, to_matrix = TRUE, to_sparse = .sparse)
+    pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = .sparse)
 
   # Convert to matrix to ensure that matrix multiplication works
   # in case emat is a labelled dataframe.
@@ -59,11 +62,12 @@ run_pscira <- function(emat,
   set.seed(seed)
   map_dfr(1:times, ~ .pscira_map_model_data(emat, random = TRUE) %>%
     .pscira_evaluate_model(target_profile_mat)) %>%
-    group_by(.data$source, .data$condition) %>%
+    group_by(.data$tf, .data$condition) %>%
     summarise(.mean = mean(.data$value), .sd = sd(.data$value), .groups = "drop") %>%
-    left_join(.pscira_evaluate_model(emat, target_profile_mat), by = c("source", "condition")) %>%
-    mutate(score = (.data$value - .data$.mean) / .data$.sd) %>%
-    transmute(.data$source, .data$condition, .data$score)
+    left_join(.pscira_evaluate_model(emat, target_profile_mat), by = c("tf", "condition")) %>%
+    mutate(score = (.data$value - .data$.mean) / .data$.sd,
+           score = replace_na(.data$score, 0)) %>%
+    transmute(.data$tf, .data$condition, .data$score)
 }
 
 # Helper functions --------------------------------------------------------
@@ -101,6 +105,6 @@ run_pscira <- function(emat,
   (.target_profile_mat %*% .emat) %>%
     as.matrix() %>%
     as.data.frame() %>%
-    rownames_to_column("source") %>%
-    pivot_longer(-.data$source, names_to = "condition")
+    rownames_to_column("tf") %>%
+    pivot_longer(-.data$tf, names_to = "condition")
 }

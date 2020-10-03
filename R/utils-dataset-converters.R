@@ -29,19 +29,22 @@ convert_to_ <- function(dataset, clean) invisible()
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_scira <- function(dataset, .source, .target, .profile = NULL, clean = FALSE) {
-  .profile <- enquo(.profile)
+convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
 
-  if (quo_is_null(.profile)) {
+  .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
+
+  .target_profile <- enquo(.target_profile)
+
+  if (quo_is_null(.target_profile)) {
     new_dataset <- dataset %>%
       rename(tf = {{ .source }}, target = {{ .target }}) %>%
       mutate(mor = 0)
   } else {
     new_dataset <- dataset %>%
-      rename(tf = {{ .source }}, target = {{ .target }}, mor = {{ .profile }})
+      rename(tf = {{ .source }}, target = {{ .target }}, mor = {{ .target_profile }})
   }
 
-  .clean(new_dataset, tf, target, mor, clean = clean)
+  .clean(new_dataset, .data$tf, .data$target, .data$mor, clean = clean)
 }
 
 #' @rdname convert_to_
@@ -50,19 +53,22 @@ convert_to_scira <- function(dataset, .source, .target, .profile = NULL, clean =
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_pscira <- function(dataset, .source, .target, .profile = NULL, clean = FALSE) {
-  .profile <- enquo(.profile)
+convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
 
-  if (quo_is_null(.profile)) {
+  .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
+
+  .target_profile <- enquo(.target_profile)
+
+  if (quo_is_null(.target_profile)) {
     new_dataset <- dataset %>%
       rename(tf = {{ .source }}, target = {{ .target }}) %>%
       mutate(mor = 0)
   } else {
     new_dataset <- dataset %>%
-      rename(tf = {{ .source }}, target = {{ .target }}, mor = {{ .profile }})
+      rename(tf = {{ .source }}, target = {{ .target }}, mor = {{ .target_profile }})
   }
 
-  .clean(new_dataset, tf, target, mor, clean = clean)
+  .clean(new_dataset, .data$tf, .data$target, .data$mor, clean = clean)
 }
 
 # Helper functions --------------------------------------------------------
@@ -80,4 +86,20 @@ convert_to_pscira <- function(dataset, .source, .target, .profile = NULL, clean 
   } else {
     dataset
   }
+}
+
+#' Stop if argument in function is missing.
+#'
+#' @param ... a
+#' @param .labels a
+#'
+#' @keywords internal
+#' @noRd
+.missing_quos <- function(..., .labels) {
+  vars <- enquos(...)
+  walk2(.x = vars, .y = .labels, function(.var, .label) {
+    if (quo_is_missing(.var)) {
+      stop(str_glue('argument "{.label}" is missing, with no default'))
+    }
+  })
 }

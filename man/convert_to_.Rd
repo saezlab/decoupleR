@@ -8,9 +8,21 @@
 \usage{
 convert_to_(dataset, clean)
 
-convert_to_scira(dataset, .source, .target, .profile = NULL, clean = FALSE)
+convert_to_scira(
+  dataset,
+  .source,
+  .target,
+  .target_profile = NULL,
+  clean = FALSE
+)
 
-convert_to_pscira(dataset, .source, .target, .profile = NULL, clean = FALSE)
+convert_to_pscira(
+  dataset,
+  .source,
+  .target,
+  .target_profile = NULL,
+  clean = FALSE
+)
 }
 \arguments{
 \item{dataset}{A data frame or data frame extension (e.g. a tibble) to convert.}
@@ -22,7 +34,7 @@ necessary to run the function \code{convert_to_[fun]}.}
 
 \item{.target}{Column name in regulons that relates the labels of the rows in the expression matrix.}
 
-\item{.profile}{Column name in regulons that contains the target profile.}
+\item{.target_profile}{Column name in regulons that contains the target profile. E.g. MoR.}
 }
 \value{
 Returns a tibble with the necessary columns to evaluate the method

@@ -9,7 +9,7 @@ run_scira(
   regulons,
   .source = .data$tf,
   .target = .data$target,
-  .profile = .data$mor,
+  .target_profile = .data$mor,
   .sparse = FALSE
 )
 }
@@ -22,7 +22,7 @@ run_scira(
 
 \item{.target}{Column name in regulons that relates the labels of the rows in the expression matrix.}
 
-\item{.profile}{Column name in regulons that contains the target profile.}
+\item{.target_profile}{Column name in regulons that contains the target profile. E.g. MoR.}
 
 \item{.sparse}{Logical value indicating if the generated profile matrix should be sparse.}
 }

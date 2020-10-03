@@ -15,7 +15,7 @@
 #' @param regulons A data frame of regulons in table format.
 #' @param .source Column name in regulons with the factors to calculate the enrichment scores.
 #' @param .target Column name in regulons that relates the labels of the rows in the expression matrix.
-#' @param .profile Column name in regulons that contains the target profile.
+#' @param .target_profile Column name in regulons that contains the target profile. E.g. MoR.
 #' @param .sparse Logical value indicating if the generated profile matrix should be sparse.
 #'
 #' @return A long format tibble of the enrichment results for each set of genes
@@ -36,14 +36,18 @@ run_scira <- function(emat,
                       regulons,
                       .source = .data$tf,
                       .target = .data$target,
-                      .profile = .data$mor,
+                      .target_profile = .data$mor,
                       .sparse = FALSE) {
 
   # Preprocessing -----------------------------------------------------------
 
+  # Convert to standard tibble: tf-target-mor.
+  regulons <- regulons %>%
+    convert_to_scira({{ .source }}, {{ .target }}, {{ .target_profile }}, clean = TRUE)
+
   # Extract labels that will map to the expression and profile matrices
-  sources <- regulons %>%
-    pull({{ .source }}) %>%
+  tfs <- regulons %>%
+    pull(.data$tf) %>%
     unique()
 
   conditions <- colnames(emat)
@@ -51,20 +55,19 @@ run_scira <- function(emat,
   # Ensures column matching, expands the target profile to encompass all targets
   # in the expression matrix for each source, and converts the result to a matrix.
   profile_mat <- regulons %>%
-    rename(source = {{ .source }}, target = {{ .target }}, profile = {{ .profile }}) %>%
     get_profile_of(
-      sources = list(source = sources, target = rownames(emat)),
-      values_fill = list(profile = 0)
+      sources = list(tf = tfs, target = rownames(emat)),
+      values_fill = list(mor = 0)
     ) %>%
-    pivot_wider_profile(.data$source, .data$target, .data$profile, to_matrix = TRUE, to_sparse = .sparse)
+    pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = .sparse)
 
   # Model evaluation --------------------------------------------------------
 
   # Allocate the space for all combinations of sources and conditions
   # and evaluate the proposed model.
-  lift_dl(expand_grid)(list(source = sources, condition = conditions)) %>%
+  lift_dl(expand_grid)(list(tf = tfs, condition = conditions)) %>%
     rowwise() %>%
-    mutate(score = .scira_map_model_data(.data$source, .data$condition, emat, profile_mat) %>%
+    mutate(score = .scira_map_model_data(.data$tf, .data$condition, emat, profile_mat) %>%
       .scira_evaluate_model())
 }
 
@@ -77,13 +80,13 @@ run_scira <- function(emat,
 #' @param source Tf index to extract the corresponding associated profiles.
 #' @param condition Sample index to extract its expression values.
 #' @param .emat Expression matrix.
-#' @param .profile_mat Profile matrix.
+#' @param .target_profile_mat Profile matrix.
 #'
 #' @return Tibble with the data to use to evaluate the model.
 #' @keywords internal
 #' @noRd
-.scira_map_model_data <- function(source, condition, .emat, .profile_mat) {
-  tibble(expression = .emat[, condition], profile = .profile_mat[source, ])
+.scira_map_model_data <- function(source, condition, .emat, .target_profile_mat) {
+  tibble(expression = .emat[, condition], mor = .target_profile_mat[source, ])
 }
 
 #' Evaluate model
@@ -96,10 +99,11 @@ run_scira <- function(emat,
 #' @keywords internal
 #' @noRd
 .scira_evaluate_model <- function(data) {
-  t_values <- lm(expression ~ profile, data = data) %>%
+  coefficients_values <- lm(expression ~ mor, data = data) %>%
     summary.lm() %>%
-    coef() %>%
-    .[, "t value"]
+    coef()
+
+  t_values <- coefficients_values[, "t value"]
 
   out <- tryCatch(
     {

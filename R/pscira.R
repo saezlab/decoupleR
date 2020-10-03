@@ -23,7 +23,7 @@ run_pscira <- function(emat,
                        regulons,
                        .source = .data$tf,
                        .target = .data$target,
-                       .profile = .data$mor,
+                       .target_profile = .data$mor,
                        .sparse = TRUE,
                        times = 10,
                        seed = 42) {
@@ -42,8 +42,8 @@ run_pscira <- function(emat,
 
   # Ensures column matching, expands the target profile to encompass all targets
   # in the expression matrix for each source, and converts the result to a matrix.
-  profile_mat <- regulons %>%
-    rename(source = {{ .source }}, target = {{ .target }}, profile = {{ .profile }}) %>%
+  target_profile_mat <- regulons %>%
+    rename(source = {{ .source }}, target = {{ .target }}, profile = {{ .target_profile }}) %>%
     get_profile_of(
       sources = list(source = sources, target = rownames(emat)),
       values_fill = list(profile = 0)
@@ -58,10 +58,10 @@ run_pscira <- function(emat,
 
   set.seed(seed)
   map_dfr(1:times, ~ .pscira_map_model_data(emat, random = TRUE) %>%
-    .pscira_evaluate_model(profile_mat)) %>%
+    .pscira_evaluate_model(target_profile_mat)) %>%
     group_by(.data$source, .data$condition) %>%
     summarise(.mean = mean(.data$value), .sd = sd(.data$value), .groups = "drop") %>%
-    left_join(.pscira_evaluate_model(emat, profile_mat), by = c("source", "condition")) %>%
+    left_join(.pscira_evaluate_model(emat, target_profile_mat), by = c("source", "condition")) %>%
     mutate(score = (.data$value - .data$.mean) / .data$.sd) %>%
     transmute(.data$source, .data$condition, .data$score)
 }
@@ -92,13 +92,13 @@ run_pscira <- function(emat,
 #' associated profile for each condition.
 #'
 #' @param .emat Expression matrix.
-#' @param .profile_matrix Matrix with specified profile.
+#' @param .target_profile_mat Matrix with specified profile.
 #'
 #' @return Tibble with tf regulatory activity for each tf-sample pair.
 #' @keywords internal
 #' @noRd
-.pscira_evaluate_model <- function(.emat, .profile_mat) {
-  (.profile_mat %*% .emat) %>%
+.pscira_evaluate_model <- function(.emat, .target_profile_mat) {
+  (.target_profile_mat %*% .emat) %>%
     as.matrix() %>%
     as.data.frame() %>%
     rownames_to_column("source") %>%

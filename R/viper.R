@@ -83,7 +83,7 @@ make_viper_genesets = function(genesets) {
 #' @keywords internal
 dorothea2viper = function(genesets) {
   genesets %>%
-    rename(geneset = tf, gene = target)
+    dplyr::rename(geneset = tf, gene = target)
 }
 
 #' Helper function
@@ -98,10 +98,10 @@ dorothea2viper = function(genesets) {
 #' @keywords internal
 progeny2viper = function(genesets) {
   genesets %>%
-    rename(geneset = pathway) %>%
-    mutate(mor = sign(weight),
+    dplyr::rename(geneset = pathway) %>%
+    dplyr::mutate(mor = sign(weight),
            likelihood = 1) %>%
-    select(-weight)
+    dplyr::select(-weight)
 }
 
 

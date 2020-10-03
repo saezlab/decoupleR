@@ -24,7 +24,8 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    viper
+    viper,
+    singscore
 Suggests: 
     testthat,
     covr,

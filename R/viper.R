@@ -47,7 +47,7 @@ run_viper <- function(emat, genesets, options = list(), gs_resource,
 
   if (tidy) {
     metadata <- genesets %>%
-      select(-c(gene, mor, likelihood)) %>%
+      select(-c(.data$gene, .data$mor, .data$likelihood)) %>%
       distinct()
     tidy_viper_res <- tdy(viper_res, "geneset", "key", "value", meta = metadata)
     return(tidy_viper_res)
@@ -89,7 +89,7 @@ make_viper_genesets <- function(genesets) {
 #' @keywords internal
 dorothea2viper <- function(genesets) {
   genesets %>%
-    rename(geneset = tf, gene = target)
+    rename(geneset = .data$tf, gene = .data$target)
 }
 
 #' Helper function
@@ -104,10 +104,10 @@ dorothea2viper <- function(genesets) {
 #' @keywords internal
 progeny2viper <- function(genesets) {
   genesets %>%
-    rename(geneset = pathway) %>%
+    rename(geneset = .data$pathway) %>%
     mutate(
-      mor = sign(weight),
+      mor = sign(.data$weight),
       likelihood = 1
     ) %>%
-    select(-weight)
+    select(-.data$weight)
 }

@@ -23,7 +23,7 @@ Imports:
     magrittr,
     Matrix,
     purrr,
-    rlang (>= 0.1.2),
+    rlang (>= 0.4.7),
     stats,
     stringr,
     tibble,

@@ -1,5 +1,4 @@
-# decoupleR 0.0.0.9000
-* Project kickoff
+# decoupleR 0.0.1.9000
 
 ## New features
 
@@ -21,3 +20,6 @@ different types of data for the same method.
 * New functions family `convert_to[method]()` that allows the conversion of data to a standard format.
   * `convert_to_scira()`
   * `convert_to_pscira()`
+
+# decoupleR 0.0.0.9000
+* Project kickoff

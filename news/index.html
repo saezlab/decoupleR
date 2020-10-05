@@ -148,6 +148,35 @@
       <small>Source: <a href='https://github.com/saezlab/decoupleR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="decoupler-0-0-1-9000" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.1.9000">
+<a href="#decoupler-0-0-1-9000" class="anchor"></a>decoupleR 0.0.1.9000</h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New features</h2>
+<p>All new features allow for <strong>tidy evaluation</strong>. Making it easier to evaluate different types of data for the same method.</p>
+<div id="methods" class="section level3">
+<h3 class="hasAnchor">
+<a href="#methods" class="anchor"></a>Methods</h3>
+<ul>
+<li>New <code><a href="../reference/run_scira.html">run_scira()</a></code> calculates the regulatory activity of a tf given the MoR of its targets.<br><strong>Regulatory activity</strong> is equal to the t-value of the coefficient <span class="math inline"><em>β</em><sub>1</sub></span> of a linear regression of the expression profiles given a MoR.</li>
+<li>New <code><a href="../reference/run_pscira.html">run_pscira()</a></code> calculates the regulatory activity of a tf given the MoR of its targets.<br><strong>Regulatory activity</strong> is equal to the z-score resulting from comparing the expression value of the tf targets multiplied by their MoR with a distribution of values associated with random targets.</li>
+</ul>
+</div>
+<div id="converters" class="section level3">
+<h3 class="hasAnchor">
+<a href="#converters" class="anchor"></a>Converters</h3>
+<ul>
+<li>New functions family <code>convert_to[method]()</code> that allows the conversion of data to a standard format.
+<ul>
+<li><code><a href="../reference/convert_to_.html">convert_to_scira()</a></code></li>
+<li><code><a href="../reference/convert_to_.html">convert_to_pscira()</a></code></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
     <div id="decoupler-0-0-0-9000" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.0.9000">
 <a href="#decoupler-0-0-0-9000" class="anchor"></a>decoupleR 0.0.0.9000</h1>
@@ -172,7 +201,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Page not found (404) • decoupleR</title>
+<title>SCIRA (Single Cell Inference of Regulatory Activity) — run_scira • decoupleR</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Page not found (404)" />
+<meta property="og:title" content="SCIRA (Single Cell Inference of Regulatory Activity) — run_scira" />
+<meta property="og:description" content="Calculates TF activity according to SCIRA." />
 
 
 
@@ -68,7 +69,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -80,7 +81,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">decoupleR</a>
+        <a class="navbar-link" href="../index.html">decoupleR</a>
         <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
       </span>
     </div>
@@ -88,13 +89,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -104,12 +105,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/how-to.html">How to decouple?</a>
+      <a href="../articles/how-to.html">How to decouple?</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -142,23 +143,80 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Page not found (404)</h1>
+    <h1>SCIRA (Single Cell Inference of Regulatory Activity)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/scira.R'><code>R/scira.R</code></a></small>
+    <div class="hidden name"><code>run_scira.Rd</code></div>
     </div>
 
-Content not found. Please use links in the navbar.
+    <div class="ref-description">
+    <p>Calculates TF activity according to <a href='https://www.biorxiv.org/content/10.1101/553040v1.full.pdf'>SCIRA</a>.</p>
+    </div>
+
+    <pre class="usage"><span class='fu'>run_scira</span><span class='op'>(</span>
+  <span class='va'>emat</span>,
+  <span class='va'>regulons</span>,
+  .source <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>tf</span>,
+  .target <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>target</span>,
+  .target_profile <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>mor</span>,
+  .sparse <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>emat</th>
+      <td><p>A named expression matrix. E.g Genes in rows and samples in columns.</p></td>
+    </tr>
+    <tr>
+      <th>regulons</th>
+      <td><p>A data frame of regulons in table format.</p></td>
+    </tr>
+    <tr>
+      <th>.source</th>
+      <td><p>Column name in regulons with the factors to calculate the enrichment scores.</p></td>
+    </tr>
+    <tr>
+      <th>.target</th>
+      <td><p>Column name in regulons that relates the labels of the rows in the expression matrix.</p></td>
+    </tr>
+    <tr>
+      <th>.target_profile</th>
+      <td><p>Column name in regulons that contains the target profile. E.g. MoR.</p></td>
+    </tr>
+    <tr>
+      <th>.sparse</th>
+      <td><p>Logical value indicating if the generated profile matrix should be sparse.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A long format tibble of the enrichment results for each set of genes
+ across the samples. Resulting tibble contains the following columns:</p><ol>
+<li><p><code>source</code> Resources from the <code>.source</code> column of the <code>regulons</code> data frame.</p></li>
+<li><p><code>condition</code> Samples representing each column of <code>emat</code>.</p></li>
+<li><p><code>score</code> Regulatory activity of each resource for each condition.</p></li>
+</ol>
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Estimation of regulatory activity: A linear regression of the expression profile
+is performed against the "target profile" of the given TF, where in the target
+profile, any member of the regulon will be assigned a +1 for activated actions,
+a -1 for inhibitory activations and, finally, a 0 for all genes that are not
+a member of the TF regulon. TF activity is then defined as the t-statistic of
+this linear regression.</p>
 
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
-
 
 
       <footer>

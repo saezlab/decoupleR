@@ -23,5 +23,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Christian H. Holland \email{cholland2408@gmail.com} (\href{https://orcid.org/0000-0002-3060-5786}{ORCID})
 
+Other contributors:
+\itemize{
+  \item Jesús Vélez \email{jvelez@lcg.unam.mx} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID}) [contractor]
+}
+
 }
 \keyword{internal}

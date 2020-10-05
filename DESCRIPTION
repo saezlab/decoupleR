@@ -2,12 +2,18 @@ Type: Package
 Package: decoupleR
 Title: Package to decouple gene sets from statistics
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R: c(
     person(given = "Christian H.",
            family = "Holland",
            role = c("cre", "aut"),
            email = "cholland2408@gmail.com",
-           comment = c(ORCID = "0000-0002-3060-5786"))
+           comment = c(ORCID = "0000-0002-3060-5786")),
+    person(given = "Jesús",
+           family = "Vélez",
+           role = c("ctr"),
+           email = "jvelez@lcg.unam.mx",
+           comment = c(ORCID = "0000-0001-5128-3838"))
+    )
 Description: Usually functional genomics tools consist of a
     fixed combination of gene sets and statistical approach. To overcome
     this limitation this package allows to combine a variety of gene sets

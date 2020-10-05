@@ -16,13 +16,13 @@
 #' @return Tidy table.
 #'
 #' @keywords internal
-tdy = function(mat, feature, key, value, meta = NULL) {
+tdy <- function(mat, feature, key, value, meta = NULL) {
   mat %>%
     data.frame(check.names = FALSE, stringsAsFactors = FALSE) %>%
     rownames_to_column(feature) %>%
     as_tibble() %>%
-    gather({{key}}, {{value}}, -{{feature}}) %>%
-    left_join(meta, by=feature)
+    gather({{ key }}, {{ value }}, -{{ feature }}) %>%
+    left_join(meta, by = feature)
 }
 
 #' Untidy a tibble
@@ -37,9 +37,9 @@ tdy = function(mat, feature, key, value, meta = NULL) {
 #' @return Matrix with observation in rows and variables in columns.
 #'
 #' @keywords internal
-untdy = function(tbl, feature, key, value) {
+untdy <- function(tbl, feature, key, value) {
   tbl %>%
-    select({{feature}}, {{key}}, {{value}}) %>%
-    spread({{key}}, {{value}}) %>%
+    select({{ feature }}, {{ key }}, {{ value }}) %>%
+    spread({{ key }}, {{ value }}) %>%
     data.frame(row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
 }

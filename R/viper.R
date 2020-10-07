@@ -27,29 +27,23 @@
 #' @import purrr
 #' @import tidyr
 #' @import viper
-run_viper <- function(emat, genesets, options = list(), gs_resource,
-                      tidy = FALSE) {
-  genesets <- switch(gs_resource,
-    "dorothea" = dorothea2viper(genesets),
-    "progeny" = progeny2viper(genesets)
-  )
+run_viper = function(emat, genesets, options = list(), gs_resource,
+                     tidy = FALSE) {
 
-  viper_res <- do.call(
-    viper,
-    c(
-      list(
-        eset = emat,
-        regulon = make_viper_genesets(genesets)
-      ),
-      options
-    )
-  )
+  genesets = switch(gs_resource,
+    "dorothea" = dorothea2viper(genesets),
+    "progeny" = progeny2viper(genesets))
+
+  viper_res = do.call(viper,
+                      c(list(eset = emat,
+                             regulon = make_viper_genesets(genesets)),
+                        options))
 
   if (tidy) {
-    metadata <- genesets %>%
-      select(-c(.data$gene, .data$mor, .data$likelihood)) %>%
+    metadata = genesets %>%
+      select(-c(gene, mor, likelihood)) %>%
       distinct()
-    tidy_viper_res <- tdy(viper_res, "geneset", "key", "value", meta = metadata)
+    tidy_viper_res = tdy(viper_res, "geneset", "key", "value", meta = metadata)
     return(tidy_viper_res)
   } else {
     return(viper_res)
@@ -68,12 +62,12 @@ run_viper <- function(emat, genesets, options = list(), gs_resource,
 #'
 #' @keywords internal
 #' @importFrom stats setNames
-make_viper_genesets <- function(genesets) {
+make_viper_genesets = function(genesets) {
   genesets %>%
     split(.$geneset) %>%
     map(function(gs) {
-      targets <- setNames(gs$mor, gs$gene)
-      likelihood <- gs$likelihood
+      targets = setNames(gs$mor, gs$gene)
+      likelihood = gs$likelihood
       list(tfmode = targets, likelihood = likelihood)
     })
 }
@@ -87,9 +81,9 @@ make_viper_genesets <- function(genesets) {
 #'
 #' @return dorothea gene sets suitable for viper statistic
 #' @keywords internal
-dorothea2viper <- function(genesets) {
+dorothea2viper = function(genesets) {
   genesets %>%
-    rename(geneset = .data$tf, gene = .data$target)
+    rename(geneset = tf, gene = target)
 }
 
 #' Helper function
@@ -102,12 +96,12 @@ dorothea2viper <- function(genesets) {
 #' @return progeny gene sets suitable for viper statistic
 #'
 #' @keywords internal
-progeny2viper <- function(genesets) {
+progeny2viper = function(genesets) {
   genesets %>%
-    rename(geneset = .data$pathway) %>%
-    mutate(
-      mor = sign(.data$weight),
-      likelihood = 1
-    ) %>%
-    select(-.data$weight)
+    rename(geneset = pathway) %>%
+    mutate(mor = sign(weight),
+           likelihood = 1) %>%
+    select(-weight)
 }
+
+

@@ -4,7 +4,7 @@ language: r
 cache: packages
 
 os:
-  #- linux
+  - linux
   - osx
 
 r:

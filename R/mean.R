@@ -48,6 +48,31 @@ run_mean <- function(mat,
 
   # Preprocessing -----------------------------------------------------------
 
+  network <- network %>%
+    add_count(.data$tf, name = "out_degree") %>%
+    filter(.data$out_degree >= minsize) %>%
+    add_count(.data$tf, wt = .data$likelihood, name = "contribution") %>%
+    mutate(weight = .data$mor * .data$likelihood / .data$contribution) %>%
+    select(-.data$out_degree, -.data$contribution)
+
+  # Extract labels that will map to the expression and profile matrices
+  tfs <- network %>%
+    pull(.data$tf) %>%
+    unique()
+
+  targets <- rownames(mat)
+  samples <- colnames(mat)
+
+  # Expands the target profile to encompass all targets in the
+  # expression matrix for each source.
+  network <- network %>%
+    get_profile_of(
+      sources = list(tf = tfs, target = targets),
+      values_fill = 0
+    )
+
+  weight_mat <- network %>%
+    pivot_wider_profile(.data$tf, .data$target, .data$weight, to_matrix = TRUE, to_sparse = sparse)
 
   # Analysis ----------------------------------------------------------------
 }

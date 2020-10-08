@@ -10,7 +10,7 @@
 #' @param minsize Minimum number of genes/targets in the gene set
 #' @param perm_num Number of permutations to be performed
 #' @param ncores Number of cores to be used for the calculation
-#' @param directed Bool: Use to indicated whether the Dataset Resource counts
+#' @param directed Bool: Use to indicated whether the Data set resource counts
 #' directed genesets/pathways or not
 #' @param tidy Bool: Return in tidy format or not
 #'
@@ -37,8 +37,10 @@
 #' low and high they will have the same p-value - check if appropriate)
 run_singscore = function(emat,
                          tiesMethod,
-                         genesets,
-                         resource_name,
+                         dataset,
+                         .source,
+                         .target,
+                         .target_profile = NULL,
                          minsize,
                          perm_num,
                          ncores,
@@ -46,24 +48,21 @@ run_singscore = function(emat,
                          tidy) {
 
   # tiesMethod = "min"
-  # genesets = regNetwork
-  # resource_name = "regnetwork"
+  # dataset = progeny_genesets
+  # .source = "pathway"
+  # .target = "gene"
+  # .target_profile = "weight"
   # minsize = 4
   # perm_num = 100
   # ncores = 6
-  # directed = FALSE
+  # directed = TRUE
   # tidy = TRUE
 
 
-  gs_resource = switch(resource_name,
-                       "dorothea" = genesets %>%
-                         dorothea2viper() %>% directed2singscore(.,minsize),
-                       "progeny" = genesets %>%
-                         progeny2viper() %>% directed2singscore(.,minsize),
-                       "regnetwork" = genesets %>%
-                         regnetwork2viper() %>% undirected2singscore(.,minsize))
+  gs_resource <- dataset %>%
+    convert_to_singscore({{ .source }}, {{ .target }}, {{ .target_profile }})
 
-  # gs_resource <- gs_resource[1:10]
+  gs_resource <- gs_resource[1:10]
 
   # Rank genes by the gene expression intensities
   rankData <- rankGenes(emat, tiesMethod = tiesMethod)
@@ -94,10 +93,12 @@ run_singscore = function(emat,
                            directed)
     }
 
-  # change conversion functions to use placeholders
   # testthat
   # https://github.com/saezlab/decoupleR/blob/devel-jesus/R/utils-dataset-converters.R
-  }) %>% setNames(.,names(gs_resource))
+  })  %>%
+    setNames(.,genesets_all)
+
+  # print(singscore_res)
 
   singscore_res <- singscore_res %>%
     map(., function(x) {setNames(x,NULL)}) %>%
@@ -105,18 +106,14 @@ run_singscore = function(emat,
     `rownames<-`(colnames(emat)) %>%
     t()
 
+  # .target_profile <- enquo(.target_profile)
 
   if (tidy) {
-    metadata = switch(resource_name,
-                      "dorothea" = genesets %>%
-                        dorothea2viper(),
-                      "progeny" = genesets %>%
-                        progeny2viper(),
-                      "regnetwork" = genesets %>%
-                        regnetwork2viper()) %>%
-      select(-c(gene, mor, likelihood)) %>%
+    metadata = dataset %>%
+      dplyr::select(-c({{ .target}})) %>%
       distinct()
-    tidy_singscore_res = tdy(singscore_res, "geneset", "key", "value", meta = metadata)
+    tidy_singscore_res =
+      tdy(singscore_res, {{ .source }}, "key", "value", meta = metadata)
     return(tidy_singscore_res)
   } else {
     return(singscore_res)
@@ -310,6 +307,7 @@ directed2singscore = function(genesets, minsize) {
     group_split(mor, keep=FALSE) %>%
     set_names(c("genesets_dn", "genesets_up")) %>%
     map(deframe)
+    # print()
 
   return(genesets)
 }
@@ -332,10 +330,10 @@ undirected2singscore = function(genesets, minsize) {
 
   genesets <- genesets %>%
     add_count(geneset) %>%
-    filter(n >= minsize) %>%
-    group_by(geneset) %>%
-    filter(!duplicated(gene)) %>%
-    summarize(tmp = list(gene)) %>%
+    dplyr::filter(n >= minsize) %>%
+    dplyr::group_by(geneset) %>%
+    dplyr::filter(!duplicated(gene)) %>%
+    dplyr::summarize(tmp = list(gene)) %>%
     deframe()
 
   return(genesets)
@@ -361,5 +359,5 @@ regnetwork2viper = function(genesets) {
     dplyr::filter(!grepl("miR",geneset)) %>%
     dplyr::mutate(mor = 0) %>%
     dplyr::mutate(likelihood = 0) %>%
-    as.tibble(genesets)
+    as.tibble()
 }

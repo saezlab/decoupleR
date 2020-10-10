@@ -12,10 +12,9 @@ run_mean(
   .mor = .data$mor,
   .likelihood = .data$likelihood,
   minsize = 1,
-  mixed = FALSE,
   times = 2,
   seed = 42,
-  sparse = FALSE
+  sparse = TRUE
 )
 }
 \arguments{
@@ -34,8 +33,6 @@ Target nodes in rows and samples in columns.}
 
 \item{minsize}{How many output edges a source node must have to be included
 in the analysis?}
-
-\item{mixed}{If TRUE permutations are performed only within the positive and negative values.}
 
 \item{times}{How many permutations to do?}
 

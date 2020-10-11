@@ -19,13 +19,19 @@
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the samples. Resulting tibble contains the following columns:
 #'  \enumerate{
-#'    \item{\code{tf}}: {Source nodes of \code{network}}.
-#'    \item{\code{sample}}: {Samples representing each column of \code{mat}}.
-#'    \item{\code{score}}: {Regulatory activity (enrichment score)}.
+#'    \item{\code{tf}}: {Source nodes of \code{network}.}
+#'    \item{\code{sample}}: {Samples representing each column of \code{mat}.}
+#'    \item{\code{score}}: {Regulatory activity (enrichment score).}
+#'    \item{\code{statistic}}: {Indicates which method is associated with which score.}
+#'    \item{\code{p_value}}: {p-value for the score of mean method.}
 #'  }
 #'
 #' @export
 #' @import dplyr
+#' @import purrr
+#' @import tibble
+#' @import tidyr
+#' @importFrom stats sd
 run_mean <- function(mat,
                      network,
                      .source = .data$tf,
@@ -47,6 +53,7 @@ run_mean <- function(mat,
 
   # Preprocessing -----------------------------------------------------------
 
+  # Calculate the weights that will be used for the evaluation of the model
   network <- network %>%
     filter(.data$target %in% rownames(mat)) %>%
     add_count(.data$tf, name = "out_degree") %>%
@@ -80,6 +87,8 @@ run_mean <- function(mat,
 
   # Analysis ----------------------------------------------------------------
 
+  # Thus, it is only necessary to define if we want
+  # to evaluate a random model or not.
   mean_run <- partial(
     .mean_run,
     .mat = mat,
@@ -87,8 +96,9 @@ run_mean <- function(mat,
     .shared_targets = shared_targets
   )
 
-
+  # Set a seed to ensure reproducible results
   set.seed(seed)
+  # Run model for random data
   map_dfr(1:times, ~ mean_run(random = TRUE)) %>%
     group_by(.data$tf, .data$sample) %>%
     summarise(
@@ -97,7 +107,9 @@ run_mean <- function(mat,
       null_sd = stats::sd(.data$value),
       .groups = "drop"
     ) %>%
+    # Run the true model and joined to random.
     left_join(y = mean_run(), by = c("tf", "sample")) %>%
+    # Calculate scores
     mutate(
       z_score = (.data$value - .data$null_mean) / .data$null_sd,
       z_score = replace_na(.data$z_score, 0),
@@ -107,6 +119,7 @@ run_mean <- function(mat,
         .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
       )
     ) %>%
+    # Reformat results
     select(-contains("null")) %>%
     rename(mean = .data$value, normalized_mean = .data$z_score) %>%
     pivot_longer(
@@ -120,6 +133,17 @@ run_mean <- function(mat,
 
 # Helper functions --------------------------------------------------------
 
+#' Collect a subset of data: random or not.
+#'
+#' If random is true, then it permutes the rows of the matrix
+#' (i.e preserves the column relationships), otherwise it maintains
+#' the original order of the data. Then it takes only those rows with
+#' the values provided in \code{.shared_targets}.
+#'
+#' @return Matrix with rows that match \code{.shared_targets}.
+#'
+#' @keywords internal
+#' @noRd
 .mean_map_model_data <- function(.mat, .shared_targets, random = FALSE) {
   if (random) {
     .mat[sample(nrow(.mat)), ] %>%
@@ -130,6 +154,17 @@ run_mean <- function(mat,
   }
 }
 
+#' Evaluate model
+#'
+#' The evaluation model consists of evaluating the multiplication of the
+#' weights by the factor of interest and comparing it against results
+#' from permutations of the matrix of values of interest.
+#'
+#' @return A dataframe with three columns:
+#'  tf (source nodes), sample (colnames of mat) and value (score).
+#'
+#' @keywords internal
+#' @noRd
 .mean_evaluate_model <- function(.mat, .weight_mat) {
   (.weight_mat %*% .mat) %>%
     as.matrix() %>%
@@ -138,6 +173,10 @@ run_mean <- function(mat,
     pivot_longer(-.data$tf, names_to = "sample")
 }
 
+#' Wrapper to run model
+#'
+#' @keywords internal
+#' @noRd
 .mean_run <- function(.mat, .weight_mat, .shared_targets, random = FALSE) {
   .mean_map_model_data(.mat, .shared_targets, random = random) %>%
     .mean_evaluate_model(.weight_mat)

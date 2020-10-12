@@ -12,11 +12,11 @@ undirected2singscore(genesets, minsize)
 \item{minsize}{Minimum number of genes regulated}
 }
 \value{
-a named list of lists where each geneset is itself a list with the
-genes/targets within the geneset
+a named list of lists where each element is a gene set with the
+genes/targets within that gene set
 }
 \description{
-Helper function to convert undirected resources (e.g. RegNetwork)
+Helper function to convert undirected/unsigned resources (e.g. RegNetwork)
 to singscore format suitable for the
 \code{\link[=singscore]{singscore::simpleScore()}} function.
 }

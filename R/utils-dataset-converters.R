@@ -129,15 +129,17 @@ convert_to_singscore <- function(dataset,
       dplyr::mutate(mor = 0) %>%
       dplyr::mutate(likelihood = 0) %>%
       dplyr::rename(geneset = {{ .source }}, gene = {{ .target }}) %>%
-      dplyr::filter(!grepl("miR", geneset)) %>% # tryCatch that returns NA instead?
+      dplyr::filter(!grepl("miR", geneset)) %>% # tryCatch returns NA instead?
       dplyr::filter(!grepl("miR", gene)) %>%
-      as.tibble() %>%
+      as_tibble() %>%
       undirected2singscore(., minsize)
   } else {
     new_dataset <- dataset %>%
-      dplyr::rename(geneset = {{ .source }}, gene = {{ .target }}, mor = {{ .target_profile }}) %>%
+      dplyr::rename(geneset = {{ .source }},
+                    gene = {{ .target }},
+                    mor = {{ .target_profile }}) %>%
       dplyr::mutate(mor = sign(mor)) %>%
-      as.tibble() %>%
+      as_tibble() %>%
       directed2singscore(., minsize)
   }
 }

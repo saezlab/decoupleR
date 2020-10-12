@@ -6,7 +6,7 @@
 which implements the \code{\link[=singscore]{singscore::simpleScore()}} and
 implements the \code{\link[=singscore]{singscore::getPvals()}} functions.}
 \usage{
-simpleScore_bidir(gs_resource, geneset, rankData, perm_num, ncores, permutate)
+simpleScore_bidir(gs_resource, geneset, rankData, perm_num, ncores)
 }
 \arguments{
 \item{gs_resource}{gene sets with a list of
@@ -14,19 +14,14 @@ named lists with positively and negatively regulated genes}
 
 \item{geneset}{GO/TF/Pathway gene set}
 
-\item{rankData}{ranked expr matrix}
+\item{rankData}{ranked expression matrix}
 
 \item{perm_num}{number of permutations to be performed}
 
 \item{ncores}{number of cores to be used}
 }
 \value{
-A list with 3 data frames (if permutate is TRUE):
-scoredf - data.frame of singscores and dispersions for each sample
-(only scoredf is returned if permutate is FALSE)
-permuteResult - a matrix of scored randomly generated gene sets with the same
-number of genes as the gene set
-pvals - vector with p-values per expr matrix sample for the given gene set
+A matrix of p-values
 }
 \description{
 Function to calculate singScore and pvalues for bidirectional sets

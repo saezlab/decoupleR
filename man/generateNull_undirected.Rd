@@ -10,7 +10,7 @@ generateNull_undirected(geneset_members, rankData, perm_num, ncores)
 \arguments{
 \item{geneset_members}{A character vector of gene IDs of the gene set}
 
-\item{rankData}{Ranked expr_matrix}
+\item{rankData}{Ranked expression matrix}
 
 \item{perm_num}{number of permutations to be performed}
 

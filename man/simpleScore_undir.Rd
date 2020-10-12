@@ -6,35 +6,21 @@
 which implements the \code{\link[=singscore]{singscore::simpleScore()}} and
 implements the \code{\link[=singscore]{singscore::getPvals()}} functions.}
 \usage{
-simpleScore_undir(
-  gs_resource,
-  geneset,
-  rankData,
-  perm_num,
-  ncores,
-  directed,
-  permutate
-)
+simpleScore_undir(gs_resource, geneset, rankData, perm_num, ncores, directed)
 }
 \arguments{
 \item{gs_resource}{dorothea regulon gene sets}
 
-\item{rankData}{ranked expr matrix}
+\item{rankData}{ranked expression matrix}
 
 \item{perm_num}{number of permutations to be performed}
 
 \item{ncores}{number of cores to be used}
 
-\item{permutate}{Bool: TRUE if we want to permute and obtain permutate,
-FALSE if we are interested only in the scores of the dataset}
+\item{directed}{}
 }
 \value{
-A list with 3 data frames (if permutate is TRUE):
-scoredf - data.frame of singscores and dispersions for each sample
-(only scoredf is returned if permutate is FALSE)
-permuteResult - a matrix of scored randomly generated gene sets with the same
-number of genes as the gene set
-pvals - vector with p-values per expr matrix sample for the given gene set
+A matrix of p-values
 }
 \description{
 Function to calculate singScore and p-values for undirected sets

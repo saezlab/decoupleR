@@ -16,4 +16,7 @@ RegNetwork gene sets suitable for singscore statistic
 Helper function to convert RegNetwork gene sets to standardized gene sets
 \code{\link[=singscore]{singscore::simpleScore()}} function.
 }
+\details{
+Please note that microRNAs were filtered when working with singscore
+}
 \keyword{internal}

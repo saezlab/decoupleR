@@ -2,10 +2,10 @@
 #'
 #' @param emat Gene expression matrix
 #' @param tiesMethod Methods to use when ranking ties: min, max, average
-#' @param genesets Gene set resource
-#' @param resource_name A character indicating the gene set resource. Based on
-#' this argument \code{genesets} is processed futher via diverse helper
-#' functions (e.g. \code{\link[=dorothea2viper]{dorothea2viper()}} and
+#' @param dataset Gene set resource
+#' @param .source column name of geneset/pathway in dataset
+#' @param .target dataset column name of target mode of regulation,s sign,etc.
+#' @param .target_profile dataset column name that indicates
 #'  \code{\link[=directed2singscore]{directed2singscore()}}).
 #' @param minsize Minimum number of genes/targets in the gene set
 #' @param perm_num Number of permutations to be performed
@@ -24,7 +24,6 @@
 #' @import purrr
 #' @import tidyr
 #' @import singscore
-#' @import GSEABase
 #'
 #'
 #' @details Please note that a MultiScore method is exists within singscore
@@ -47,22 +46,8 @@ run_singscore = function(emat,
                          directed,
                          tidy) {
 
-  # tiesMethod = "min"
-  # dataset = progeny_genesets
-  # .source = "pathway"
-  # .target = "gene"
-  # .target_profile = "weight"
-  # minsize = 4
-  # perm_num = 100
-  # ncores = 6
-  # directed = TRUE
-  # tidy = TRUE
-
-
   gs_resource <- dataset %>%
     convert_to_singscore({{ .source }}, {{ .target }}, {{ .target_profile }})
-
-  gs_resource <- gs_resource[1:10]
 
   # Rank genes by the gene expression intensities
   rankData <- rankGenes(emat, tiesMethod = tiesMethod)
@@ -92,25 +77,20 @@ run_singscore = function(emat,
                            ncores,
                            directed)
     }
-
-  # testthat
-  # https://github.com/saezlab/decoupleR/blob/devel-jesus/R/utils-dataset-converters.R
   })  %>%
-    setNames(.,genesets_all)
-
-  # print(singscore_res)
-
-  singscore_res <- singscore_res %>%
+    setNames(.,genesets_all) %>%
     map(., function(x) {setNames(x,NULL)}) %>%
     rbind.data.frame() %>%
     `rownames<-`(colnames(emat)) %>%
     t()
 
-  # .target_profile <- enquo(.target_profile)
 
   if (tidy) {
     metadata = dataset %>%
-      dplyr::select(-c({{ .target}})) %>%
+      dplyr::select(-c({{ .target }}, {{ .target_profile }})) %>%
+      {
+        if("likelihood" %in% colnames(.)) select(.,-likelihood) else .
+      } %>%
       distinct()
     tidy_singscore_res =
       tdy(singscore_res, {{ .source }}, "key", "value", meta = metadata)
@@ -171,7 +151,8 @@ simpleScore_bidir = function(gs_resource,
 #' @param geneset
 #' @param perm_num number of permutations to be performed
 #' @param ncores number of cores to be used
-#' @param directed
+#' @param directed Bool: indicates whether the set contains signed information
+#' e.g. mode of regulation/sign, etc.
 #'
 #' @return A matrix of p-values
 #' @keywords internal
@@ -198,8 +179,7 @@ simpleScore_undir <- function(gs_resource,
 
   # calculate singscore
   scoredf <- simpleScore(rankData,
-                         upSet = geneset_members,
-                         knownDirection = FALSE)
+                         upSet = geneset_members)
 
   permuteResult <- generateNull_undirected(geneset_members,
                                            rankData,
@@ -273,8 +253,6 @@ generateNull_undirected = function(geneset_members,
       downSet = NULL,
       rankData = rankData,
       subSamples = 1:ncol(rankData),
-      centerScore = FALSE,
-      knownDirection = FALSE,
       B = perm_num,
       ncores = ncores,
       seed = 1,
@@ -286,8 +264,8 @@ generateNull_undirected = function(geneset_members,
 
 #' Helper function
 #'
-#' Helper function to convert a Directed gene set to two seperate gene sets of
-#' according to the direction in which they regulate the genes
+#' Helper function to convert a Directed/signed gene set to two seperate
+#' gene sets according to the direction in which they regulate the genes
 #' suitable for the \code{\link[=singscore]{singscore::simpleScore()}} function.
 #'
 #' @param genesets Directed genesets (e.g. dorothea, progeny)
@@ -304,10 +282,9 @@ directed2singscore = function(genesets, minsize) {
     filter(n >= minsize) %>%
     summarize(tmp = list(gene)) %>%
     ungroup() %>%
-    group_split(mor, keep=FALSE) %>%
+    group_split(mor, .keep=FALSE) %>%
     set_names(c("genesets_dn", "genesets_up")) %>%
     map(deframe)
-    # print()
 
   return(genesets)
 }
@@ -316,7 +293,7 @@ directed2singscore = function(genesets, minsize) {
 
 #' Helper function
 #'
-#' Helper function to convert undirected resources (e.g. RegNetwork)
+#' Helper function to convert undirected/unsigned resources (e.g. RegNetwork)
 #' to singscore format suitable for the
 #' \code{\link[=singscore]{singscore::simpleScore()}} function.
 #'
@@ -359,5 +336,5 @@ regnetwork2viper = function(genesets) {
     dplyr::filter(!grepl("miR",geneset)) %>%
     dplyr::mutate(mor = 0) %>%
     dplyr::mutate(likelihood = 0) %>%
-    as.tibble()
+    as_tibble()
 }

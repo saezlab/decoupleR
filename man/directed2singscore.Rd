@@ -16,8 +16,8 @@ A list of two lists: one for positively and one list for negatively
 regulated genesets with gene/target character vectors suitable for signscore
 }
 \description{
-Helper function to convert Directed gene sets to two seperate sets of
-TFs with positively and negatively regulated targets
+Helper function to convert a Directed/signed gene set to two seperate
+gene sets according to the direction in which they regulate the genes
 suitable for the \code{\link[=singscore]{singscore::simpleScore()}} function.
 }
 \keyword{internal}

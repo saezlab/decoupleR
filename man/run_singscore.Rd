@@ -5,28 +5,32 @@
 \title{SingScore Wrapper}
 \usage{
 run_singscore(
-  expr_matrix,
+  emat,
   tiesMethod,
-  genesets,
-  resource_name,
+  dataset,
+  .source,
+  .target,
+  .target_profile = NULL,
   minsize,
   perm_num,
   ncores,
   directed,
-  permutate
+  tidy
 )
 }
 \arguments{
-\item{expr_matrix}{Gene expression matrix}
+\item{emat}{Gene expression matrix}
 
 \item{tiesMethod}{Methods to use when ranking ties: min, max, average}
 
-\item{genesets}{Gene set resource}
+\item{dataset}{Gene set resource}
 
-\item{resource_name}{A character indicating the gene set resource. Based on
-this argument \code{genesets} is processed futher via diverse helper
-functions (e.g. \code{\link[=dorothea2viper]{dorothea2viper()}} and
- \code{\link[=directed2singscore]{directed2singscore()}}).}
+\item{.source}{column name of geneset/pathway in dataset}
+
+\item{.target}{dataset column name of target mode of regulation,s sign,etc.}
+
+\item{.target_profile}{dataset column name that indicates
+\code{\link[=directed2singscore]{directed2singscore()}}).}
 
 \item{minsize}{Minimum number of genes/targets in the gene set}
 
@@ -34,16 +38,14 @@ functions (e.g. \code{\link[=dorothea2viper]{dorothea2viper()}} and
 
 \item{ncores}{Number of cores to be used for the calculation}
 
-\item{directed}{Bool: Use to indicated whether the Dataset Resource counts
+\item{directed}{Bool: Use to indicated whether the Data set resource counts
 directed genesets/pathways or not}
 
-\item{permutate}{Bool: Used to indicate whether we wish to obtain p-values or
-just singscores per sample}
+\item{tidy}{Bool: Return in tidy format or not}
 }
 \value{
-A dataframe with p-values for each sample or a list of singscore
-dataframes (if permute is TRUE) or a list of dataframes with signscore and
-dispersion (if permute is FALSE)
+A dataframe with p-values for each sample or same thing but as a
+cartesian product for gene set groupings (i.e. tidy format)
 }
 \description{
 SingScore Wrapper
@@ -53,41 +55,8 @@ Please note that a MultiScore method is exists within singscore
 which could be used to produce a DF with scores from a GeneSetCollection,
 but this is not feasible because generateNull still has to be applied to
 each geneset. Also, all genesets must be directed for the GeneSetCollection
-to work with all of them or it would again require a split in un/directed gs
-}
-\examples{
-# Run singscore with dorothea
-dorothea_singscore <- run_singscore(expr_matrix,
-"min",
-dorothea,
-"dorothea",
-4,
-100,
-6,
-TRUE,
-TRUE)
-
-# Run singscore with Regnetwork
-regnetwork_singscore <- run_singscore(expr_matrix,
-                                      "min",
-                                      regnetwork,
-                                      "regnetwork",
-                                      4,
-                                      100,
-                                      6,
-                                      FALSE,
-                                      TRUE)
-
-# Run singscore with PROGENy
-progeny_singscore <- run_singscore(expr_matrix,
-                                  "min",
-                                   progeny,
-                                   "progeny",
-                                   4,
-                                   100,
-                                   6,
-                                   TRUE,
-                                   TRUE)
-
-
+to work with all of them or it would again require a split in un/directed gs.
+Also, in tidy format it returns confidence for each gene set, p-values are
+not calculated seperately for each confidence level (e.g. if the same gs has
+low and high they will have the same p-value - check if appropriate)
 }

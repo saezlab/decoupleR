@@ -12,7 +12,7 @@ generateNull_bidirect(genesets_up, genesets_dn, rankData, perm_num, ncores)
 
 \item{genesets_dn}{A character vector of negatively reg. gene set IDs}
 
-\item{rankData}{Ranked expr_matrix}
+\item{rankData}{Ranked expression matrix}
 
 \item{perm_num}{number of permutations to be performed}
 

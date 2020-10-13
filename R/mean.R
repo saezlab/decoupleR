@@ -15,6 +15,7 @@
 #' @param times How many permutations to do?
 #' @param seed A single value, interpreted as an integer, or NULL for random number generation.
 #' @param sparse Should the matrices used for the calculation be sparse?
+#' @param randomize_type How to randomize the expression matrix.
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the samples. Resulting tibble contains the following columns:
@@ -41,7 +42,8 @@ run_mean <- function(mat,
                      minsize = 1,
                      times = 2,
                      seed = 42,
-                     sparse = TRUE) {
+                     sparse = TRUE,
+                     randomize_type = "rows") {
 
   # Before to start ---------------------------------------------------------
   if (times < 2) {
@@ -93,13 +95,14 @@ run_mean <- function(mat,
     .mean_run,
     .mat = mat,
     .weight_mat = weight_mat,
-    .shared_targets = shared_targets
+    .shared_targets = shared_targets,
+    .randomize_type = randomize_type
   )
 
   # Set a seed to ensure reproducible results
   set.seed(seed)
   # Run model for random data
-  map_dfr(1:times, ~ mean_run(random = TRUE)) %>%
+  map_dfr(1:times, ~ mean_run(.random = TRUE)) %>%
     group_by(.data$tf, .data$sample) %>%
     summarise(
       null_distribution = list(.data$value),
@@ -108,7 +111,7 @@ run_mean <- function(mat,
       .groups = "drop"
     ) %>%
     # Run the true model and joined to random.
-    left_join(y = mean_run(), by = c("tf", "sample")) %>%
+    left_join(y = mean_run(.random = FALSE), by = c("tf", "sample")) %>%
     # Calculate scores
     mutate(
       z_score = (.data$value - .data$null_mean) / .data$null_sd,
@@ -144,11 +147,9 @@ run_mean <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.mean_map_model_data <- function(.mat, .shared_targets, random = FALSE) {
-  if (random) {
-    .mat[sample(nrow(.mat)), ] %>%
-      `rownames<-`(rownames(.mat)) %>%
-      .[.shared_targets, ]
+.mean_map_model_data <- function(.mat, .shared_targets, .random, .randomize_type) {
+  if (.random) {
+    randomize_matrix(.mat, randomize_type = .randomize_type)[.shared_targets, ]
   } else {
     .mat[.shared_targets, ]
   }
@@ -177,7 +178,7 @@ run_mean <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.mean_run <- function(.mat, .weight_mat, .shared_targets, random = FALSE) {
-  .mean_map_model_data(.mat, .shared_targets, random = random) %>%
+.mean_run <- function(.mat, .weight_mat, .shared_targets, .random, .randomize_type) {
+  .mean_map_model_data(.mat, .shared_targets, .random, .randomize_type) %>%
     .mean_evaluate_model(.weight_mat)
 }

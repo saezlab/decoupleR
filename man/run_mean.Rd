@@ -14,7 +14,8 @@ run_mean(
   minsize = 1,
   times = 2,
   seed = 42,
-  sparse = TRUE
+  sparse = TRUE,
+  randomize_type = "rows"
 )
 }
 \arguments{
@@ -39,6 +40,8 @@ in the analysis?}
 \item{seed}{A single value, interpreted as an integer, or NULL for random number generation.}
 
 \item{sparse}{Should the matrices used for the calculation be sparse?}
+
+\item{randomize_type}{How to randomize the expression matrix.}
 }
 \value{
 A long format tibble of the enrichment scores for each tf

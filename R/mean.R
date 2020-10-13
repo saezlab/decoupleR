@@ -88,50 +88,7 @@ run_mean <- function(mat,
     )
 
   # Analysis ----------------------------------------------------------------
-
-  # Thus, it is only necessary to define if we want
-  # to evaluate a random model or not.
-  mean_run <- partial(
-    .mean_run,
-    .mat = mat,
-    .weight_mat = weight_mat,
-    .shared_targets = shared_targets,
-    .randomize_type = randomize_type
-  )
-
-  # Set a seed to ensure reproducible results
-  set.seed(seed)
-  # Run model for random data
-  map_dfr(1:times, ~ mean_run(.random = TRUE)) %>%
-    group_by(.data$tf, .data$sample) %>%
-    summarise(
-      null_distribution = list(.data$value),
-      null_mean = mean(.data$value),
-      null_sd = stats::sd(.data$value),
-      .groups = "drop"
-    ) %>%
-    # Run the true model and joined to random.
-    left_join(y = mean_run(.random = FALSE), by = c("tf", "sample")) %>%
-    # Calculate scores
-    mutate(
-      z_score = (.data$value - .data$null_mean) / .data$null_sd,
-      z_score = replace_na(.data$z_score, 0),
-      p_value = map2_dbl(
-        .x = .data$null_distribution,
-        .y = .data$value,
-        .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
-      )
-    ) %>%
-    # Reformat results
-    select(-contains("null")) %>%
-    rename(mean = .data$value, normalized_mean = .data$z_score) %>%
-    pivot_longer(
-      cols = c(.data$mean, .data$normalized_mean),
-      names_to = "statistic",
-      values_to = "score"
-    ) %>%
-    arrange(.data$statistic, .data$tf, .data$sample) %>%
-    select(.data$tf, .data$sample, .data$score, .data$statistic, .data$p_value)
+  .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type)
 }
 
 # Helper functions --------------------------------------------------------
@@ -181,4 +138,55 @@ run_mean <- function(mat,
 .mean_run <- function(.mat, .weight_mat, .shared_targets, .random, .randomize_type) {
   .mean_map_model_data(.mat, .shared_targets, .random, .randomize_type) %>%
     .mean_evaluate_model(.weight_mat)
+}
+
+
+#' Wrapper to execute run_mean() logic once finished preprocessing of data
+#'
+#' @keywords internal
+#' @noRd
+.mean_analysis <- function(.mat, .weight_mat, .shared_targets, .times, .seed, .randomize_type) {
+  # Thus, it is only necessary to define if we want
+  # to evaluate a random model or not.
+  mean_run <- partial(
+    .mean_run,
+    .mat = .mat,
+    .weight_mat = .weight_mat,
+    .shared_targets = .shared_targets,
+    .randomize_type = .randomize_type
+  )
+
+  # Set a seed to ensure reproducible results
+  set.seed(.seed)
+  # Run model for random data
+  map_dfr(1:.times, ~ mean_run(.random = TRUE)) %>%
+    group_by(.data$tf, .data$sample) %>%
+    summarise(
+      null_distribution = list(.data$value),
+      null_mean = mean(.data$value),
+      null_sd = stats::sd(.data$value),
+      .groups = "drop"
+    ) %>%
+    # Run the true model and joined to random.
+    left_join(y = mean_run(.random = FALSE), by = c("tf", "sample")) %>%
+    # Calculate scores
+    mutate(
+      z_score = (.data$value - .data$null_mean) / .data$null_sd,
+      z_score = replace_na(.data$z_score, 0),
+      p_value = map2_dbl(
+        .x = .data$null_distribution,
+        .y = .data$value,
+        .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
+      )
+    ) %>%
+    # Reformat results
+    select(-contains("null")) %>%
+    rename(mean = .data$value, normalized_mean = .data$z_score) %>%
+    pivot_longer(
+      cols = c(.data$mean, .data$normalized_mean),
+      names_to = "statistic",
+      values_to = "score"
+    ) %>%
+    arrange(.data$statistic, .data$tf, .data$sample) %>%
+    select(.data$tf, .data$sample, .data$score, .data$statistic, .data$p_value)
 }

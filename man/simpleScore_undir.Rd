@@ -11,13 +11,16 @@ simpleScore_undir(gs_resource, geneset, rankData, perm_num, ncores, directed)
 \arguments{
 \item{gs_resource}{dorothea regulon gene sets}
 
+\item{geneset}{gene set resource}
+
 \item{rankData}{ranked expression matrix}
 
 \item{perm_num}{number of permutations to be performed}
 
 \item{ncores}{number of cores to be used}
 
-\item{directed}{}
+\item{directed}{Bool: indicates whether the set contains signed information
+e.g. mode of regulation/sign, etc.}
 }
 \value{
 A matrix of p-values

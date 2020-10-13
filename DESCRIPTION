@@ -25,7 +25,8 @@ Imports:
     tibble,
     tidyr,
     viper,
-    singscore
+    singscore,
+    rlang
 Suggests: 
     testthat,
     covr,

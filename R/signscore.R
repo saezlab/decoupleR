@@ -23,6 +23,7 @@
 #' @import stringr
 #' @import purrr
 #' @import tidyr
+#' @importFrom rlang quo_is_missing quo_is_null
 #' @import singscore
 #'
 #'
@@ -146,9 +147,10 @@ simpleScore_bidir = function(gs_resource,
 #' which implements the \code{\link[=singscore]{singscore::simpleScore()}} and
 #' implements the \code{\link[=singscore]{singscore::getPvals()}} functions.
 #'
-#' @param rankData ranked expression matrix
+
 #' @param gs_resource dorothea regulon gene sets
-#' @param geneset
+#' @param geneset gene set resource
+#' @param rankData ranked expression matrix
 #' @param perm_num number of permutations to be performed
 #' @param ncores number of cores to be used
 #' @param directed Bool: indicates whether the set contains signed information

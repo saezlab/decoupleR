@@ -4,6 +4,7 @@
 \alias{convert_to_}
 \alias{convert_to_scira}
 \alias{convert_to_pscira}
+\alias{convert_to_mean}
 \title{Convert data sets to run under the method of interest.}
 \usage{
 convert_to_(dataset, clean)
@@ -23,6 +24,8 @@ convert_to_pscira(
   .target_profile = NULL,
   clean = FALSE
 )
+
+convert_to_mean(dataset, .source, .target, .mor = NULL, .likelihood = NULL)
 }
 \arguments{
 \item{dataset}{A data frame or data frame extension (e.g. a tibble) to convert.}
@@ -35,6 +38,10 @@ necessary to run the function \code{convert_to_[fun]}.}
 \item{.target}{Column name in regulons that relates the labels of the rows in the expression matrix.}
 
 \item{.target_profile}{Column name in regulons that contains the target profile. E.g. MoR.}
+
+\item{.mor}{Column with edge mode of regulation (mor).}
+
+\item{.likelihood}{Column with edge likelihood.}
 }
 \value{
 Returns a tibble with the necessary columns to evaluate the method

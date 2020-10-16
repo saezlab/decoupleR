@@ -71,6 +71,23 @@ convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL,
   .clean(new_dataset, .data$tf, .data$target, .data$mor, clean = clean)
 }
 
+#' @rdname convert_to_
+#'
+#' @inheritParams run_mean
+#'
+#' @export
+#' @family convert_to_ variants
+convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood = NULL) {
+  .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
+
+  default_columns <- c(mor = 0, likelihood = 1)
+
+  dataset %>%
+    select({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }}) %>%
+    rename(tf = {{ .source }}, target = {{ .target }}, mor = {{ .mor }}, likelihood = {{ .likelihood }}) %>%
+    add_column(., !!!default_columns[!names(default_columns) %in% names(.)])
+}
+
 # Helper functions --------------------------------------------------------
 
 #' Remove unnecessary variables

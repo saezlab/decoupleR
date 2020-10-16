@@ -93,73 +93,35 @@ run_mean <- function(mat,
 
 # Helper functions --------------------------------------------------------
 
-#' Collect a subset of data: random or not.
-#'
-#' If random is true, then it permutes the rows of the matrix
-#' (i.e preserves the column relationships), otherwise it maintains
-#' the original order of the data. Then it takes only those rows with
-#' the values provided in \code{.shared_targets}.
-#'
-#' @return Matrix with rows that match \code{.shared_targets}.
-#'
-#' @keywords internal
-#' @noRd
-.mean_map_model_data <- function(.mat, .shared_targets, .random, .randomize_type) {
-  if (.random) {
-    randomize_matrix(.mat, randomize_type = .randomize_type)[.shared_targets, ]
-  } else {
-    .mat[.shared_targets, ]
-  }
-}
-
-#' Evaluate model
-#'
-#' The evaluation model consists of evaluating the multiplication of the
-#' weights by the factor of interest and comparing it against results
-#' from permutations of the matrix of values of interest.
-#'
-#' @return A dataframe with three columns:
-#'  tf (source nodes), sample (colnames of mat) and value (score).
-#'
-#' @keywords internal
-#' @noRd
-.mean_evaluate_model <- function(.mat, .weight_mat) {
-  (.weight_mat %*% .mat) %>%
-    as.matrix() %>%
-    as.data.frame() %>%
-    rownames_to_column("tf") %>%
-    pivot_longer(-.data$tf, names_to = "sample")
-}
-
-#' Wrapper to run model
-#'
-#' @keywords internal
-#' @noRd
-.mean_run <- function(.mat, .weight_mat, .shared_targets, .random, .randomize_type) {
-  .mean_map_model_data(.mat, .shared_targets, .random, .randomize_type) %>%
-    .mean_evaluate_model(.weight_mat)
-}
-
-
 #' Wrapper to execute run_mean() logic once finished preprocessing of data
 #'
+#' @inherit run_mean description
+#'
+#' @inheritParams run_mean
+#' @param weight_mat Matrix that corresponds to the multiplication of the mor
+#'  column with likelihood divided over the contribution.
+#' @param shared_targets Target nodes that are shared between the
+#'  \code{mat} and \code{network}.
+#'
+#' @inherit run_mean return
+#'
 #' @keywords internal
 #' @noRd
-.mean_analysis <- function(.mat, .weight_mat, .shared_targets, .times, .seed, .randomize_type) {
+.mean_analysis <- function(mat, weight_mat, shared_targets, times, seed, randomize_type) {
   # Thus, it is only necessary to define if we want
   # to evaluate a random model or not.
   mean_run <- partial(
     .mean_run,
-    .mat = .mat,
-    .weight_mat = .weight_mat,
-    .shared_targets = .shared_targets,
-    .randomize_type = .randomize_type
+    mat = mat,
+    weight_mat = weight_mat,
+    shared_targets = shared_targets,
+    randomize_type = randomize_type
   )
 
   # Set a seed to ensure reproducible results
-  set.seed(.seed)
+  set.seed(seed)
   # Run model for random data
-  map_dfr(1:.times, ~ mean_run(.random = TRUE)) %>%
+  map_dfr(1:times, ~ mean_run(random = TRUE)) %>%
     group_by(.data$tf, .data$sample) %>%
     summarise(
       null_distribution = list(.data$value),
@@ -168,7 +130,7 @@ run_mean <- function(mat,
       .groups = "drop"
     ) %>%
     # Run the true model and joined to random.
-    left_join(y = mean_run(.random = FALSE), by = c("tf", "sample")) %>%
+    left_join(y = mean_run(random = FALSE), by = c("tf", "sample")) %>%
     # Calculate scores
     mutate(
       z_score = (.data$value - .data$null_mean) / .data$null_sd,
@@ -189,4 +151,56 @@ run_mean <- function(mat,
     ) %>%
     arrange(.data$statistic, .data$tf, .data$sample) %>%
     select(.data$tf, .data$sample, .data$score, .data$statistic, .data$p_value)
+}
+
+#' Wrapper to run mean one time
+#'
+#' @inheritParams .mean_analysis
+#' @inherit .mean_evaluate_model return
+#' @keywords internal
+#' @noRd
+.mean_run <- function(mat, weight_mat, shared_targets, random, randomize_type) {
+  .mean_map_model_data(mat, shared_targets, random, randomize_type) %>%
+    .mean_evaluate_model(weight_mat)
+}
+
+#' Collect a subset of data: random or not.
+#'
+#' If random is true, then it permutes the rows of the matrix
+#' (i.e preserves the column relationships), otherwise it maintains
+#' the original order of the data. Then it takes only those rows with
+#' the values provided in \code{shared_targets}.
+#'
+#' @return Matrix with rows that match \code{shared_targets}.
+#'
+#' @inheritParams .mean_analysis
+#' @keywords internal
+#' @noRd
+.mean_map_model_data <- function(mat, shared_targets, random, randomize_type) {
+  if (random) {
+    randomize_matrix(mat, randomize_type = randomize_type)[shared_targets, ]
+  } else {
+    mat[shared_targets, ]
+  }
+}
+
+#' Evaluate model
+#'
+#' The evaluation model consists of evaluating the multiplication of the
+#' weights by the factor of interest and comparing it against results
+#' from permutations of the matrix of values of interest.
+#'
+#' @inheritParams .mean_analysis
+#'
+#' @return A dataframe with three columns:
+#'  tf (source nodes), sample (colnames of mat) and value (score).
+#'
+#' @keywords internal
+#' @noRd
+.mean_evaluate_model <- function(mat, weight_mat) {
+  (weight_mat %*% mat) %>%
+    as.matrix() %>%
+    as.data.frame() %>%
+    rownames_to_column("tf") %>%
+    pivot_longer(-.data$tf, names_to = "sample")
 }

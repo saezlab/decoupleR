@@ -21,7 +21,7 @@
 #' @export
 convert_to_ <- function(dataset, clean) invisible()
 
-# scira and variants ------------------------------------------------------
+# scira and pscira ------------------------------------------------------
 
 #' @rdname convert_to_
 #'
@@ -71,6 +71,8 @@ convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL,
   .clean(new_dataset, .data$tf, .data$target, .data$mor, clean = clean)
 }
 
+# mean --------------------------------------------------------------------
+
 #' @rdname convert_to_
 #'
 #' @inheritParams run_mean
@@ -107,8 +109,8 @@ convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood 
 
 #' Stop if argument in function is missing.
 #'
-#' @param ... a
-#' @param .labels a
+#' @param ... Quos to evaluate if they are missing.
+#' @param .labels Name corresponding to each quo.
 #'
 #' @keywords internal
 #' @noRd

@@ -32,18 +32,18 @@ convert_to_ <- function(dataset, clean) invisible()
 convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  .target_profile <- enquo(.target_profile)
-
-  if (quo_is_null(.target_profile)) {
-    new_dataset <- dataset %>%
-      rename(tf = {{ .source }}, target = {{ .target }}) %>%
-      mutate(mor = 0)
-  } else {
-    new_dataset <- dataset %>%
-      rename(tf = {{ .source }}, target = {{ .target }}, mor = {{ .target_profile }})
-  }
-
-  .clean(new_dataset, .data$tf, .data$target, .data$mor, clean = clean)
+  dataset %>%
+    transmute_defaults(
+      .tf = {{ .source }},
+      .target = {{ .target }},
+      .mor = {{ .target_profile }},
+      .def_col_val = c(.mor = 0)
+    ) %>%
+    rename(
+      tf = .data$.tf,
+      target = .data$.target,
+      mor = .data$.mor,
+    )
 }
 
 #' @rdname convert_to_
@@ -55,18 +55,18 @@ convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, 
 convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  .target_profile <- enquo(.target_profile)
-
-  if (quo_is_null(.target_profile)) {
-    new_dataset <- dataset %>%
-      rename(tf = {{ .source }}, target = {{ .target }}) %>%
-      mutate(mor = 0)
-  } else {
-    new_dataset <- dataset %>%
-      rename(tf = {{ .source }}, target = {{ .target }}, mor = {{ .target_profile }})
-  }
-
-  .clean(new_dataset, .data$tf, .data$target, .data$mor, clean = clean)
+  dataset %>%
+    transmute_defaults(
+      .tf = {{ .source }},
+      .target = {{ .target }},
+      .mor = {{ .target_profile }},
+      .def_col_val = c(.mor = 0)
+    ) %>%
+    rename(
+      tf = .data$.tf,
+      target = .data$.target,
+      mor = .data$.mor,
+    )
 }
 
 # mean --------------------------------------------------------------------

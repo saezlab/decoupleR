@@ -57,7 +57,7 @@ test_that("test run_scira with progeny gene sets", {
     )
   )
 
-  expect_error(run_scira(emat, progeny_genesets), class = "rlang_error_data_pronoun_not_found")
+  expect_error(run_scira(emat, progeny_genesets), regexp = "Column `tf` not found in `.data`", class = "dplyr:::mutate_error")
   expect_equal(res1, exp1)
   expect_equal(res2, exp2)
   expect_equal(res1, res2)

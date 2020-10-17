@@ -30,7 +30,6 @@ convert_to_ <- function(dataset, clean) invisible()
 #' @export
 #' @family convert_to_ variants
 convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
-
   .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
 
   .target_profile <- enquo(.target_profile)
@@ -54,7 +53,6 @@ convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, 
 #' @export
 #' @family convert_to_ variants
 convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
-
   .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
 
   .target_profile <- enquo(.target_profile)
@@ -121,4 +119,30 @@ convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood 
       stop(str_glue('argument "{.label}" is missing, with no default'))
     }
   })
+}
+
+#' Transmute add column with defaults
+#'
+#' @description
+#' \code{transmute_defaults} combine the \code{\link[dplyr]{transmute}} way of
+#' working and combine it with the \code{\link[tibble]{add_column}} to add columns
+#' with default values in case they don't exist after transmuting the dataset.
+#'
+#' @inheritParams dplyr::transmute
+#' @param .def_col_val Named vector with columns with default values
+#'  if none exist after transmute.
+#'
+#' @details
+#' \code{transmute} adds new variables and drops existing ones.
+#' New variables overwrite existing variables of the same name.
+#' Variables can be removed by setting their value to NULL.
+#'
+#' @inherit dplyr::transmute return
+#' @keywords internal
+#' @import dplyr
+#' @import tibble
+transmute_defaults <- function(.data, ..., .def_col_val = c()) {
+  .data %>%
+    transmute(...) %>%
+    add_column(., !!!.def_col_val[!names(.def_col_val) %in% names(.)])
 }

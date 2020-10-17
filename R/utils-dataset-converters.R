@@ -30,7 +30,7 @@ convert_to_ <- function(dataset, clean) invisible()
 #' @export
 #' @family convert_to_ variants
 convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
-  .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
+  .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   .target_profile <- enquo(.target_profile)
 
@@ -53,7 +53,7 @@ convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, 
 #' @export
 #' @family convert_to_ variants
 convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
-  .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
+  .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   .target_profile <- enquo(.target_profile)
 
@@ -78,7 +78,7 @@ convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL,
 #' @export
 #' @family convert_to_ variants
 convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood = NULL) {
-  .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
+  .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   default_columns <- c(mor = 0, likelihood = 1)
 
@@ -105,18 +105,29 @@ convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood 
   }
 }
 
-#' Stop if argument in function is missing.
+#' Stop if any of past quos are missing or NULL.
 #'
-#' @param ... Quos to evaluate if they are missing.
+#' @param ... Quos to evaluate if they are missing or NULL.
 #' @param .labels Name corresponding to each quo.
 #'
 #' @keywords internal
 #' @noRd
-.missing_quos <- function(..., .labels) {
-  vars <- enquos(...)
-  walk2(.x = vars, .y = .labels, function(.var, .label) {
-    if (quo_is_missing(.var)) {
-      stop(str_glue('argument "{.label}" is missing, with no default'))
+# TODO be able to use name of dots as name of quo.
+.check_quos_status <- function(..., .dots_names) {
+  dots <- enquos(...)
+
+  walk2(.x = dots, .y = .dots_names, function(.dot, .name) {
+    if (quo_is_missing(.dot)) {
+      abort(
+        message = str_glue('Quo "{.name}" is missing, with no default.'),
+        .subclass = "quo_missing_error"
+      )
+    }
+    if (quo_is_null(.dot)) {
+      abort(
+        message = str_glue('Quo "{.name}" can not be NULL.'),
+        .subclass = "quo_null_error"
+      )
     }
   })
 }

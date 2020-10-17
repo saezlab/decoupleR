@@ -80,12 +80,20 @@ convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL,
 convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  default_columns <- c(mor = 0, likelihood = 1)
-
   dataset %>%
-    select({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }}) %>%
-    rename(tf = {{ .source }}, target = {{ .target }}, mor = {{ .mor }}, likelihood = {{ .likelihood }}) %>%
-    add_column(., !!!default_columns[!names(default_columns) %in% names(.)])
+    transmute_defaults(
+      .tf = {{ .source }},
+      .target = {{ .target }},
+      .mor = {{ .mor }},
+      .likelihood = {{ .likelihood }},
+      .def_col_val = c(.mor = 0, .likelihood = 1)
+    ) %>%
+    rename(
+      tf = .data$.tf,
+      target = .data$.target,
+      mor = .data$.mor,
+      likelihood = .data$.likelihood
+    )
 }
 
 # Helper functions --------------------------------------------------------

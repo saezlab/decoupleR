@@ -30,7 +30,7 @@ convert_to_singscore(
   .source,
   .target,
   .target_profile = NULL,
-  minsize = 4
+  minsize
 )
 }
 \arguments{

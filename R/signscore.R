@@ -99,9 +99,10 @@ run_singscore = function(emat,
           dplyr::select(., c({{ .source }}))
         }
       } %>%
-      distinct()
+      distinct() %>%
+      rename(geneset = {{ .source }})
     tidy_singscore_res =
-      tdy(singscore_res, {{ .source }}, "key", "value", meta = metadata)
+      tdy(singscore_res, "geneset", "key", "value", meta = metadata)
     return(tidy_singscore_res)
   } else {
     return(singscore_res)
@@ -128,23 +129,33 @@ simpleScore_bidir = function(gs_resource,
                              perm_num,
                              ncores) {
   # Get positively and negatively regulated genes
-  genesets_up <- gs_resource$genesets_up[[geneset]]
-  genesets_dn <- gs_resource$genesets_dn[[geneset]]
+  out <- tryCatch(
+    {
 
-  # Calculate singscores
-  scoredf <-
-    simpleScore(rankData, upSet = genesets_up, downSet = genesets_dn)
+      genesets_up <- gs_resource$genesets_up[[geneset]]
+      genesets_dn <- gs_resource$genesets_dn[[geneset]]
 
-  permuteResult <- generateNull_bidirect(genesets_up,
-                                         genesets_dn,
-                                         rankData,
-                                         perm_num,
-                                         ncores)
-  pvals <- getPvals(permuteResult,
-                    scoredf,
-                    subSamples = 1:ncol(rankData))
+      # Calculate singscores
+      scoredf <-
+        simpleScore(rankData, upSet = genesets_up, downSet = genesets_dn)
 
-  return(pvals)
+      permuteResult <- generateNull_bidirect(genesets_up,
+                                             genesets_dn,
+                                             rankData,
+                                             perm_num,
+                                             ncores)
+      out <- getPvals(permuteResult,
+                        scoredf,
+                        subSamples = 1:ncol(rankData))
+    },
+    error=function(cond) {
+      print(cond)
+      out = as.numeric(rep(-9999, ncol(rankData)))
+      return(out)
+    }
+  )
+
+  return(out)
 }
 
 
@@ -169,34 +180,43 @@ simpleScore_undir <- function(gs_resource,
                               perm_num,
                               ncores,
                               directed) {
-  if (directed) {
-    geneset_up <- names(gs_resource$genesets_up)
-    geneset_dn <- names(gs_resource$genesets_dn)
+  out <- tryCatch(
+    {
 
-    # check if the TF is in the up-regulated set
-    if (geneset %in% setdiff(geneset_up, geneset_dn)) {
-      geneset_members <- gs_resource$genesets_up[[geneset]]
-    } else{
-      geneset_members <- gs_resource$genesets_dn[[geneset]]
+      if (directed) {
+        geneset_up <- names(gs_resource$genesets_up)
+        geneset_dn <- names(gs_resource$genesets_dn)
+
+        # check if the TF is in the up-regulated set
+        if (geneset %in% setdiff(geneset_up, geneset_dn)) {
+          geneset_members <- gs_resource$genesets_up[[geneset]]
+        } else{
+          geneset_members <- gs_resource$genesets_dn[[geneset]]
+        }
+
+      } else{
+        geneset_members <- gs_resource[[geneset]]
+      }
+
+      # calculate singscore
+      scoredf <- simpleScore(rankData,
+                             upSet = geneset_members)
+
+      permuteResult <- generateNull_undirected(geneset_members,
+                                               rankData,
+                                               perm_num,
+                                               ncores)
+      out <- getPvals(permuteResult,
+                        scoredf,
+                        subSamples = 1:ncol(rankData))
+    },
+    error=function(cond) {
+      print(cond)
+      out = as.numeric(rep(-9999, ncol(rankData)))
+      return(out)
     }
-
-  } else{
-    geneset_members <- gs_resource[[geneset]]
-  }
-
-  # calculate singscore
-  scoredf <- simpleScore(rankData,
-                         upSet = geneset_members)
-
-  permuteResult <- generateNull_undirected(geneset_members,
-                                           rankData,
-                                           perm_num,
-                                           ncores)
-  pvals <- getPvals(permuteResult,
-                    scoredf,
-                    subSamples = 1:ncol(rankData))
-
-  return(pvals)
+  )
+  return(out)
 }
 
 
@@ -292,7 +312,6 @@ directed2singscore = function(genesets, minsize) {
     group_split(mor, .keep=FALSE) %>%
     set_names(c("genesets_dn", "genesets_up")) %>%
     map(deframe)
-
 
   return(genesets)
 }

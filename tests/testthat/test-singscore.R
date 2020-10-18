@@ -39,10 +39,20 @@ test_that("test run_singscore with progeny gene sets", {
                 package = "decoupleR")
   )
 
+  res4 =  run_singscore(emat, tiesMethod="min", progeny_genesets, .source="pathway",
+                        .target="gene", .target_profile="weight", minsize=0, perm=100,
+                        ncores=6, directed=TRUE, tidy=FALSE)
+  exp4 = readRDS(
+    system.file("testdata/outputs/singscore/", "output-singscore_progeny_avg.rds",
+                package = "decoupleR")
+  )
+
   # NOTE: I included tolerance because of variability due to low perm number
+  # + forced arrangement
   expect_equal(res1[rownames(exp1),], exp1, tolerance=0.2)
-  expect_equal(res2, dplyr::arrange(exp2, key, pathway), tolerance=0.2)
+  expect_equal(res2, dplyr::arrange(exp2, key, geneset), tolerance=0.2)
   expect_equal(res3[rownames(exp3),], exp3, tolerance=0.2)
+  expect_equal(res3[rownames(exp4),], exp4, tolerance=0.2)
 })
 
 
@@ -72,10 +82,19 @@ test_that("test run_singscore with dorothea genesets", {
                 package = "decoupleR")
   )
 
+  res4 =  run_singscore(emat, tiesMethod="average", dorothea_genesets, .source="tf",
+                        .target="target", .target_profile="mor", minsize=0, perm=100,
+                        ncores=6, directed=TRUE, tidy=FALSE)
+  exp4 = readRDS(
+    system.file("testdata/outputs/singscore/", "output-singscore_dorothea_avg.rds",
+                package = "decoupleR")
+  )
+
   # NOTE: I included tolerance because of variability due to low perm number
   expect_equal(res1[rownames(exp1),], exp1, tolerance=0.2)
   expect_equal(res2[rownames(exp2),], exp2, tolerance=0.2)
   expect_equal(res3[rownames(exp3),], exp3, tolerance=0.2)
+  expect_equal(res3[rownames(exp4),], exp4, tolerance=0.2)
 })
 
 
@@ -104,8 +123,18 @@ test_that("test run_singscore with regnetwork genesets", {
                 package = "decoupleR")
   )
 
+  res4 = run_singscore(emat, tiesMethod="average", regnetwork_genesets, .source="tf",
+                      .target="target", .target_profile=NULL, minsize=0, perm=100,
+                      ncores=6, directed=FALSE, tidy=FALSE)
+
+  exp4 = readRDS(
+    system.file("testdata/outputs/singscore/", "output-singscore_regnetwork_avg.rds",
+                package = "decoupleR")
+  )
+
   # NOTE: I included tolerance because of variability due to low perm number
   expect_equal(res1[rownames(exp1),], exp1, tolerance=0.2)
   expect_equal(res2[rownames(exp2),], exp2, tolerance=0.2)
   expect_equal(res3[rownames(exp3),], exp3, tolerance=0.2)
+  expect_equal(res3[rownames(exp4),], exp4, tolerance=0.2)
 })

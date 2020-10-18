@@ -118,7 +118,7 @@ convert_to_singscore <- function(dataset,
                              .source,
                              .target,
                              .target_profile = NULL,
-                             minsize = 4) {
+                             minsize) {
 
   .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
 
@@ -129,8 +129,6 @@ convert_to_singscore <- function(dataset,
       dplyr::mutate(mor = 0) %>%
       dplyr::mutate(likelihood = 0) %>%
       dplyr::rename(geneset = {{ .source }}, gene = {{ .target }}) %>%
-      dplyr::filter(!grepl("miR", geneset)) %>% # tryCatch returns NA instead?
-      dplyr::filter(!grepl("miR", gene)) %>%
       as_tibble() %>%
       undirected2singscore(., minsize)
   } else {
@@ -138,8 +136,7 @@ convert_to_singscore <- function(dataset,
       dplyr::rename(geneset = {{ .source }},
                     gene = {{ .target }},
                     mor = {{ .target_profile }}) %>%
-      dplyr::mutate(mor = sign(mor)) %>%
-      as_tibble() %>%
+      mutate(mor=sign(mor)) %>%
       directed2singscore(., minsize)
   }
 }

@@ -34,6 +34,20 @@ run_viper(emat, progeny_genesets, options = list(minsize=4), gs_resource="progen
 
 
 #---- run_singscore() ----------------------------------------------------------
+run_singscore(emat, tiesMethod="min", progeny_genesets, .source="pathway",
+              .target="gene", .target_profile="weight", minsize=0, perm=100,
+              ncores=6, directed=TRUE, tidy=TRUE)
+
+run_singscore(emat, tiesMethod="min", dorothea_genesets, .source="tf",
+              .target="target", .target_profile="mor", minsize=0, perm=100,
+              ncores=6, directed=TRUE, tidy=TRUE)
+
+run_singscore(emat, tiesMethod="min", regnetwork_genesets, .source="tf",
+              .target="target", .target_profile=NULL, minsize=0, perm=100,
+              ncores=6, directed=FALSE, tidy=TRUE)
+
+
+
 # progeny
 run_singscore(emat, tiesMethod="min", progeny_genesets, .source="pathway",
               .target="gene", .target_profile="weight", minsize=0, perm=100,

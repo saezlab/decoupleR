@@ -48,7 +48,10 @@ run_singscore = function(emat,
                          tidy) {
 
   gs_resource <- dataset %>%
-    convert_to_singscore({{ .source }}, {{ .target }}, {{ .target_profile }})
+    convert_to_singscore({{ .source }},
+                         {{ .target }},
+                         {{ .target_profile }},
+                         minsize)
 
   # Rank genes by the gene expression intensities
   rankData <- rankGenes(emat, tiesMethod = tiesMethod)
@@ -88,9 +91,13 @@ run_singscore = function(emat,
 
   if (tidy) {
     metadata = dataset %>%
-      dplyr::select(-c({{ .target }}, {{ .target_profile }})) %>%
       {
-        if("likelihood" %in% colnames(.)) select(.,-likelihood) else .
+        if("confidence" %in% colnames(.)){
+          dplyr::select(., c({{ .source }}, confidence))
+        }
+        else{
+          dplyr::select(., c({{ .source }}))
+        }
       } %>%
       distinct()
     tidy_singscore_res =
@@ -100,8 +107,6 @@ run_singscore = function(emat,
     return(singscore_res)
   }
 }
-
-
 
 
 #' Function to calculate singScore and pvalues for bidirectional sets
@@ -288,6 +293,7 @@ directed2singscore = function(genesets, minsize) {
     set_names(c("genesets_dn", "genesets_up")) %>%
     map(deframe)
 
+
   return(genesets)
 }
 
@@ -316,27 +322,4 @@ undirected2singscore = function(genesets, minsize) {
     deframe()
 
   return(genesets)
-}
-
-
-
-#' Helper function
-#'
-#' Helper function to convert RegNetwork gene sets to standardized gene sets
-#' \code{\link[=singscore]{singscore::simpleScore()}} function.
-#'
-#' @param genesets RegNetwork gene sets
-#'
-#' @return RegNetwork gene sets suitable for singscore statistic
-#'
-#' @details Please note that microRNAs were filtered when working with singscore
-#' @keywords internal
-regnetwork2viper = function(genesets) {
-  genesets <- genesets %>%
-    dplyr::rename(geneset = tf, gene = target) %>%
-    dplyr::filter(!grepl("miR",gene)) %>%
-    dplyr::filter(!grepl("miR",geneset)) %>%
-    dplyr::mutate(mor = 0) %>%
-    dplyr::mutate(likelihood = 0) %>%
-    as_tibble()
 }

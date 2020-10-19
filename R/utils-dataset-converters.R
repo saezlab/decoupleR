@@ -43,7 +43,8 @@ convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, 
       tf = .data$.tf,
       target = .data$.target,
       mor = .data$.mor,
-    )
+    ) %>%
+    mutate(mor = sign(.data$mor))
 }
 
 #' @rdname convert_to_
@@ -66,7 +67,8 @@ convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL,
       tf = .data$.tf,
       target = .data$.target,
       mor = .data$.mor,
-    )
+    ) %>%
+    mutate(mor = sign(.data$mor))
 }
 
 # mean --------------------------------------------------------------------

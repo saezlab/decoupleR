@@ -69,10 +69,12 @@ run_scira <- function(mat,
 
 #' Wrapper to execute run_scira() logic one finished preprocessing of data
 #'
-#' @inheritParams run_mean
+#' Fit a linear regression between the value of expression and the profile of its targets.
+#'
+#' @inheritParams run_scira
 #' @param target_profile_mat
 #'
-#' @inherit run_mean return
+#' @inherit run_scira return
 #' @keywords intern
 #' @noRd
 .scira_analysis <- function(mat, target_profile_mat) {

@@ -104,15 +104,5 @@ run_scira <- function(emat,
     coef()
 
   t_values <- coefficients_values[, "t value"]
-
-  out <- tryCatch(
-    {
-      return(t_values[[2]]) # Using the t value of the beta1 coefficient.
-    },
-    error = function(error) {
-      # message("t-value value of the coefficient B1 of the linear regression was not accessible.")
-      return(NA)
-    }
-  )
-  return(out)
+  pluck(t_values, 2, .default = NA)
 }

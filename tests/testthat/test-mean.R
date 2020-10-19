@@ -38,7 +38,7 @@ test_that("test run_mean with dorothea gene sets", {
     )
   )
 
-  expect_error(run_mean(emat, dorothea_genesets, tff, .likelihood = NULL), class = "vctrs_error_subscript_oob")
+  expect_error(run_mean(emat, dorothea_genesets, tff, .likelihood = NULL), regexp = "object 'tff' not found", class = "dplyr:::mutate_error")
   expect_error(run_mean(emat, dorothea_genesets, times = 1, .likelihood = NULL), "Parameter 'times' must be greater than or equal to 2, but 1 was passed.")
   expect_equal(res1, exp1)
   expect_equal(res2, exp2)

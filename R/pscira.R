@@ -58,28 +58,60 @@ run_pscira <- function(mat,
   mat <- as.matrix(mat)
 
   # Evaluate model ----------------------------------------------------------
-
-  set.seed(seed)
-  map_dfr(1:times, ~ .pscira_map_model_data(mat, random = TRUE) %>%
-    .pscira_evaluate_model(target_profile_mat)) %>%
-    group_by(.data$tf, .data$condition) %>%
-    summarise(.mean = mean(.data$value), .sd = sd(.data$value), .groups = "drop") %>%
-    left_join(.pscira_evaluate_model(mat, target_profile_mat), by = c("tf", "condition")) %>%
-    mutate(score = (.data$value - .data$.mean) / .data$.sd,
-           score = replace_na(.data$score, 0)) %>%
-    transmute(.data$tf, .data$condition, .data$score)
+  .pscira_analysis(mat, target_profile_mat, times, seed)
 }
 
 # Helper functions --------------------------------------------------------
+
+#' Wrapper to execute run_pscira() logic one finished preprocessing of data
+#'
+#' @inheritParams run_pscira
+#' @param target_profile_mat Matrix that corresponds to the mor of the
+#' target genes (columns) of a tf (rows).
+#'
+#' @inherit run_pscira return
+#' @keywords intern
+#' @noRd
+.pscira_analysis <- function(mat, target_profile_mat, times, seed) {
+  pscira_run <- partial(
+    .f = .pscira_run,
+    mat = mat,
+    target_profile_mat = target_profile_mat
+  )
+
+  set.seed(seed)
+  map_dfr(1:times, ~ pscira_run(random = TRUE)) %>%
+    group_by(.data$tf, .data$condition) %>%
+    summarise(.mean = mean(.data$value), .sd = sd(.data$value), .groups = "drop") %>%
+    left_join(pscira_run(random = FALSE), by = c("tf", "condition")) %>%
+    mutate(
+      score = (.data$value - .data$.mean) / .data$.sd,
+      score = replace_na(.data$score, 0)
+    ) %>%
+    transmute(.data$tf, .data$condition, .data$score)
+}
+
+#'  Wrapper to perform mat %*% target_profile_mat
+#'
+#' @inheritParams .pscira_analysis
+#' @param random Logical value that indicates whether the rows of the matrix
+#' should be shuffled or not.
+#'
+#' @inherit .pscira_evaluate_model return
+#' @keywords internal
+#' @noRd
+.pscira_run <- function(mat, target_profile_mat, random) {
+  .pscira_map_model_data(mat, random) %>%
+    .pscira_evaluate_model(target_profile_mat)
+}
 
 #' Map model data
 #'
 #' Build a data set with the necessary values to evaluate the model.
 #'
-#' @param .mat Expression matrix.
-#' @param random Logical value that indicates whether the rows of the matrix should be shuffled or not.
+#' @inheritParams .pscira_run
 #'
-#' @return Expression matrix.
+#' @return origin nal/shuffled matrix
 #' @keywords internal
 #' @noRd
 .pscira_map_model_data <- function(mat, random = FALSE) {
@@ -95,8 +127,7 @@ run_pscira <- function(mat,
 #' Calculates the regulatory activity of all tfs with respect to its
 #' associated profile for each condition.
 #'
-#' @param mat Expression matrix.
-#' @param target_profile_mat Matrix with specified profile.
+#' @inheritParams .pscira_run
 #'
 #' @return Tibble with tf regulatory activity for each tf-sample pair.
 #' @keywords internal

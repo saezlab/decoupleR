@@ -5,8 +5,8 @@
 \title{PSCIRA (Permutation Single Cell Inference of Regulatory Activity)}
 \usage{
 run_pscira(
-  emat,
-  regulons,
+  mat,
+  network,
   .source = .data$tf,
   .target = .data$target,
   .target_profile = .data$mor,
@@ -16,6 +16,10 @@ run_pscira(
 )
 }
 \arguments{
+\item{mat}{A named expression matrix. E.g Genes in rows and samples in columns.}
+
+\item{network}{Tibble or dataframe with edges and associated metadata.}
+
 \item{.source}{Column with source nodes.}
 
 \item{.target}{Column with target nodes.}

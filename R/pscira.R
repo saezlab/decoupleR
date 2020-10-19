@@ -19,8 +19,8 @@
 #' @import tibble
 #' @import tidyr
 #' @importFrom stats sd
-run_pscira <- function(emat,
-                       regulons,
+run_pscira <- function(mat,
+                       network,
                        .source = .data$tf,
                        .target = .data$target,
                        .target_profile = .data$mor,
@@ -36,35 +36,35 @@ run_pscira <- function(emat,
   # Preprocessing -----------------------------------------------------------
 
   # Convert to standard tibble: tf-target-mor.
-  regulons <- regulons %>%
+  network <- network %>%
     convert_to_scira({{ .source }}, {{ .target }}, {{ .target_profile }}, clean = TRUE)
 
   # Extract labels that will map to the expression and profile matrices
-  tfs <- regulons %>%
+  tfs <- network %>%
     pull(.data$tf) %>%
     unique()
 
   # Ensures column matching, expands the target profile to encompass all targets
   # in the expression matrix for each source, and converts the result to a matrix.
-  target_profile_mat <- regulons %>%
+  target_profile_mat <- network %>%
     get_profile_of(
-      sources = list(tf = tfs, target = rownames(emat)),
+      sources = list(tf = tfs, target = rownames(mat)),
       values_fill = list(mor = 0)
     ) %>%
     pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = .sparse)
 
   # Convert to matrix to ensure that matrix multiplication works
-  # in case emat is a labelled dataframe.
-  emat <- as.matrix(emat)
+  # in case mat is a labelled dataframe.
+  mat <- as.matrix(mat)
 
   # Evaluate model ----------------------------------------------------------
 
   set.seed(seed)
-  map_dfr(1:times, ~ .pscira_map_model_data(emat, random = TRUE) %>%
+  map_dfr(1:times, ~ .pscira_map_model_data(mat, random = TRUE) %>%
     .pscira_evaluate_model(target_profile_mat)) %>%
     group_by(.data$tf, .data$condition) %>%
     summarise(.mean = mean(.data$value), .sd = sd(.data$value), .groups = "drop") %>%
-    left_join(.pscira_evaluate_model(emat, target_profile_mat), by = c("tf", "condition")) %>%
+    left_join(.pscira_evaluate_model(mat, target_profile_mat), by = c("tf", "condition")) %>%
     mutate(score = (.data$value - .data$.mean) / .data$.sd,
            score = replace_na(.data$score, 0)) %>%
     transmute(.data$tf, .data$condition, .data$score)
@@ -76,17 +76,17 @@ run_pscira <- function(emat,
 #'
 #' Build a data set with the necessary values to evaluate the model.
 #'
-#' @param .emat Expression matrix.
+#' @param .mat Expression matrix.
 #' @param random Logical value that indicates whether the rows of the matrix should be shuffled or not.
 #'
 #' @return Expression matrix.
 #' @keywords internal
 #' @noRd
-.pscira_map_model_data <- function(.emat, random = FALSE) {
+.pscira_map_model_data <- function(mat, random = FALSE) {
   if (random) {
-    return(.emat[sample(nrow(.emat)), ])
+    return(mat[sample(nrow(mat)), ])
   } else {
-    .emat
+    mat
   }
 }
 
@@ -95,14 +95,14 @@ run_pscira <- function(emat,
 #' Calculates the regulatory activity of all tfs with respect to its
 #' associated profile for each condition.
 #'
-#' @param .emat Expression matrix.
-#' @param .target_profile_mat Matrix with specified profile.
+#' @param mat Expression matrix.
+#' @param target_profile_mat Matrix with specified profile.
 #'
 #' @return Tibble with tf regulatory activity for each tf-sample pair.
 #' @keywords internal
 #' @noRd
-.pscira_evaluate_model <- function(.emat, .target_profile_mat) {
-  (.target_profile_mat %*% .emat) %>%
+.pscira_evaluate_model <- function(mat, target_profile_mat) {
+  (target_profile_mat %*% mat) %>%
     as.matrix() %>%
     as.data.frame() %>%
     rownames_to_column("tf") %>%

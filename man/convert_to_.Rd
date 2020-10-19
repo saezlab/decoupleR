@@ -33,11 +33,11 @@ convert_to_mean(dataset, .source, .target, .mor = NULL, .likelihood = NULL)
 \item{clean}{Logical value that indicates whether to keep only the columns
 necessary to run the function \code{convert_to_[fun]}.}
 
-\item{.source}{Column name in regulons with the factors to calculate the enrichment scores.}
+\item{.source}{Column with source nodes.}
 
-\item{.target}{Column name in regulons that relates the labels of the rows in the expression matrix.}
+\item{.target}{Column with target nodes.}
 
-\item{.target_profile}{Column name in regulons that contains the target profile. E.g. MoR.}
+\item{.target_profile}{Column name in network that contains the target profile. E.g. MoR.}
 
 \item{.mor}{Column with edge mode of regulation (mor).}
 

@@ -16,15 +16,11 @@ run_pscira(
 )
 }
 \arguments{
-\item{emat}{A named expression matrix. E.g Genes in rows and samples in columns.}
+\item{.source}{Column with source nodes.}
 
-\item{regulons}{A data frame of regulons in table format.}
+\item{.target}{Column with target nodes.}
 
-\item{.source}{Column name in regulons with the factors to calculate the enrichment scores.}
-
-\item{.target}{Column name in regulons that relates the labels of the rows in the expression matrix.}
-
-\item{.target_profile}{Column name in regulons that contains the target profile. E.g. MoR.}
+\item{.target_profile}{Column name in network that contains the target profile. E.g. MoR.}
 
 \item{.sparse}{Logical value indicating if the generated profile matrix should be sparse.}
 
@@ -36,8 +32,8 @@ run_pscira(
 A long format tibble of the enrichment results for each set of genes
  across the samples. Resulting tibble contains the following columns:
  \enumerate{
-   \item \code{source} Resources from the \code{.source} column of the \code{regulons} data frame.
-   \item \code{condition} Samples representing each column of \code{emat}.
+   \item \code{source} Resources from the \code{.source} column of the \code{network} data frame.
+   \item \code{condition} Samples representing each column of \code{mat}.
    \item \code{score} Regulatory activity of each resource for each condition.
  }
 }

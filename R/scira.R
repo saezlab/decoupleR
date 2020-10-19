@@ -62,38 +62,62 @@ run_scira <- function(emat,
     pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = .sparse)
 
   # Model evaluation --------------------------------------------------------
-
-  # Allocate the space for all combinations of sources and conditions
-  # and evaluate the proposed model.
-  lift_dl(expand_grid)(list(tf = tfs, condition = conditions)) %>%
-    rowwise() %>%
-    mutate(score = .scira_map_model_data(.data$tf, .data$condition, emat, profile_mat) %>%
-      .scira_evaluate_model())
+  .scira_analysis(emat, profile_mat)
 }
 
 # Helper functions ------------------------------------------------------
+
+#' Wrapper to execute run_scira() logic one finished preprocessing of data
+#'
+#' @inheritParams run_mean
+#' @param target_profile_mat
+#'
+#' @inherit run_mean return
+#' @keywords intern
+#' @noRd
+.scira_analysis <- function(emat, target_profile_mat) {
+
+  # Allocate the space for all combinations of sources and conditions
+  # and evaluate the proposed model.
+  lift_dl(expand_grid)(list(tf = rownames(target_profile_mat), condition = colnames(emat))) %>%
+    rowwise() %>%
+    mutate(score = .scira_run(.data$tf, .data$condition, emat, target_profile_mat))
+}
+
+#' Wrapper to run scira one tf per sample at time
+#'
+#' @inheritParams .scira_analysis
+#' @param source Current `source` to evaluate.
+#' @param condition Current `condition` to evaluate
+#'
+#' @inherit .scira_evaluate_model return
+#'
+#' @keywords internal
+#' @noRd
+.scira_run <- function(source, condition, emat, target_profile_mat) {
+  .scira_map_model_data(source, condition, emat, target_profile_mat) %>%
+    .scira_evaluate_model()
+}
 
 #' Map model data
 #'
 #' Build a data set with the necessary values to evaluate the model.
 #'
-#' @param source Tf index to extract the corresponding associated profiles.
-#' @param condition Sample index to extract its expression values.
-#' @param .emat Expression matrix.
-#' @param .target_profile_mat Profile matrix.
+#' @inheritParams .scira_run
 #'
 #' @return Tibble with the data to use to evaluate the model.
 #' @keywords internal
 #' @noRd
-.scira_map_model_data <- function(source, condition, .emat, .target_profile_mat) {
-  tibble(expression = .emat[, condition], mor = .target_profile_mat[source, ])
+.scira_map_model_data <- function(source, condition, emat, target_profile_mat) {
+  tibble(expression = emat[, condition], mor = target_profile_mat[source, ])
 }
 
 #' Evaluate model
 #'
 #' Fit a linear regression between the value of expression and the profile of its targets.
 #'
-#' @param data A data frame, data frame extension (e.g. a tibble).
+#' @param data A data frame, data frame extension (e.g. a tibble) with two
+#'  columns; `expression` and `mor` to perform lineal regression.
 #'
 #' @return t-value corresponding to beta 1 parameter of linear regression.
 #' @keywords internal

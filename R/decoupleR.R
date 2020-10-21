@@ -23,11 +23,11 @@
 #' @export
 #' @import purrr
 decouple <- function(mat,
-                      network,
-                      .source,
-                      .target,
-                      .options = list(),
-                      statistics) {
+                     network,
+                     .source,
+                     .target,
+                     .options = list(),
+                     statistics) {
 
   # Match statistics to couple ----------------------------------------------
 

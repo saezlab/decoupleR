@@ -2,28 +2,10 @@
 % Please edit documentation in R/utils-dataset-converters.R
 \name{convert_to_}
 \alias{convert_to_}
-\alias{convert_to_scira}
-\alias{convert_to_pscira}
 \alias{convert_to_singscore}
 \title{Convert data sets to run under the method of interest.}
 \usage{
 convert_to_(dataset, clean)
-
-convert_to_scira(
-  dataset,
-  .source,
-  .target,
-  .target_profile = NULL,
-  clean = FALSE
-)
-
-convert_to_pscira(
-  dataset,
-  .source,
-  .target,
-  .target_profile = NULL,
-  clean = FALSE
-)
 
 convert_to_singscore(
   dataset,
@@ -39,11 +21,12 @@ convert_to_singscore(
 \item{clean}{Logical value that indicates whether to keep only the columns
 necessary to run the function \code{convert_to_[fun]}.}
 
-\item{.source}{Column name in regulons with the factors to calculate the enrichment scores.}
+\item{.source}{column name of geneset/pathway in dataset}
 
-\item{.target}{Column name in regulons that relates the labels of the rows in the expression matrix.}
+\item{.target}{dataset column name of target mode of regulation,s sign,etc.}
 
-\item{.target_profile}{Column name in regulons that contains the target profile. E.g. MoR.}
+\item{.target_profile}{dataset column name that indicates
+\code{\link[=directed2singscore]{directed2singscore()}}).}
 
 \item{minsize}{Minimum number of genes/targets in the gene set}
 }

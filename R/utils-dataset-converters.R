@@ -21,15 +21,19 @@
 #' @export
 convert_to_ <- function(dataset, clean) invisible()
 
-# scira and variants ------------------------------------------------------
+
 
 #' @rdname convert_to_
 #'
-#' @inheritParams run_scira
+#' @inheritParams run_singscore
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
+convert_to_singscore <- function(dataset,
+                                 .source,
+                                 .target,
+                                 .target_profile = NULL,
+                                 minsize) {
 
   .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
 
@@ -37,39 +41,21 @@ convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, 
 
   if (quo_is_null(.target_profile)) {
     new_dataset <- dataset %>%
-      rename(tf = {{ .source }}, target = {{ .target }}) %>%
-      mutate(mor = 0)
+      dplyr::mutate(mor = 0) %>%
+      dplyr::mutate(likelihood = 0) %>%
+      dplyr::rename(geneset = {{ .source }}, gene = {{ .target }}) %>%
+      as_tibble() %>%
+      undirected2singscore(., minsize)
   } else {
     new_dataset <- dataset %>%
-      rename(tf = {{ .source }}, target = {{ .target }}, mor = {{ .target_profile }})
+      dplyr::rename(geneset = {{ .source }},
+                    gene = {{ .target }},
+                    mor = {{ .target_profile }}) %>%
+      mutate(mor=sign(mor)) %>%
+      directed2singscore(., minsize)
   }
-
-  .clean(new_dataset, .data$tf, .data$target, .data$mor, clean = clean)
 }
 
-#' @rdname convert_to_
-#'
-#' @inheritParams run_pscira
-#'
-#' @export
-#' @family convert_to_ variants
-convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
-
-  .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
-
-  .target_profile <- enquo(.target_profile)
-
-  if (quo_is_null(.target_profile)) {
-    new_dataset <- dataset %>%
-      rename(tf = {{ .source }}, target = {{ .target }}) %>%
-      mutate(mor = 0)
-  } else {
-    new_dataset <- dataset %>%
-      rename(tf = {{ .source }}, target = {{ .target }}, mor = {{ .target_profile }})
-  }
-
-  .clean(new_dataset, .data$tf, .data$target, .data$mor, clean = clean)
-}
 
 # Helper functions --------------------------------------------------------
 
@@ -102,41 +88,4 @@ convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL,
       stop(str_glue('argument "{.label}" is missing, with no default'))
     }
   })
-}
-
-
-
-# -----------------------------------
-
-#' @rdname convert_to_
-#'
-#' @inheritParams run_singscore
-#'
-#' @export
-#' @family convert_to_ variants
-convert_to_singscore <- function(dataset,
-                             .source,
-                             .target,
-                             .target_profile = NULL,
-                             minsize) {
-
-  .missing_quos({{ .source }}, {{ .target }}, .labels = c(".source", ".target"))
-
-  .target_profile <- enquo(.target_profile)
-
-  if (quo_is_null(.target_profile)) {
-    new_dataset <- dataset %>%
-      dplyr::mutate(mor = 0) %>%
-      dplyr::mutate(likelihood = 0) %>%
-      dplyr::rename(geneset = {{ .source }}, gene = {{ .target }}) %>%
-      as_tibble() %>%
-      undirected2singscore(., minsize)
-  } else {
-    new_dataset <- dataset %>%
-      dplyr::rename(geneset = {{ .source }},
-                    gene = {{ .target }},
-                    mor = {{ .target_profile }}) %>%
-      mutate(mor=sign(mor)) %>%
-      directed2singscore(., minsize)
-  }
 }

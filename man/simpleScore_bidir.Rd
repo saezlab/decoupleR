@@ -9,8 +9,8 @@ implements the \code{\link[=singscore]{singscore::getPvals()}} functions.}
 simpleScore_bidir(gs_resource, geneset, rankData, perm_num, ncores)
 }
 \arguments{
-\item{gs_resource}{gene sets with a list of
-named lists with positively and negatively regulated genes}
+\item{gs_resource}{gene sets with a list of named lists with positively and
+negatively regulated genes}
 
 \item{geneset}{GO/TF/Pathway gene set}
 

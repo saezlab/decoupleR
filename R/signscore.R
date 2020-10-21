@@ -80,6 +80,7 @@ run_singscore = function(emat,
                            perm_num,
                            ncores,
                            directed)
+
     }
   })  %>%
     setNames(.,genesets_all) %>%
@@ -114,10 +115,10 @@ run_singscore = function(emat,
 #' which implements the \code{\link[=singscore]{singscore::simpleScore()}} and
 #' implements the \code{\link[=singscore]{singscore::getPvals()}} functions.
 #'
-#' @param rankData ranked expression matrix
-#' @param gs_resource gene sets with a list of
-#' named lists with positively and negatively regulated genes
+#' @param gs_resource gene sets with a list of named lists with positively and
+#' negatively regulated genes
 #' @param geneset GO/TF/Pathway gene set
+#' @param rankData ranked expression matrix
 #' @param perm_num number of permutations to be performed
 #' @param ncores number of cores to be used
 #'
@@ -128,25 +129,31 @@ simpleScore_bidir = function(gs_resource,
                              rankData,
                              perm_num,
                              ncores) {
+
   # Get positively and negatively regulated genes
   out <- tryCatch(
     {
+        genesets_up <- gs_resource$genesets_up[[geneset]]
+        genesets_dn <- gs_resource$genesets_dn[[geneset]]
 
-      genesets_up <- gs_resource$genesets_up[[geneset]]
-      genesets_dn <- gs_resource$genesets_dn[[geneset]]
+        # Calculate singscores
+        suppressWarnings({
+        scoredf <-
+          simpleScore(rankData, upSet = genesets_up, downSet = genesets_dn)
 
-      # Calculate singscores
-      scoredf <-
-        simpleScore(rankData, upSet = genesets_up, downSet = genesets_dn)
 
-      permuteResult <- generateNull_bidirect(genesets_up,
-                                             genesets_dn,
-                                             rankData,
-                                             perm_num,
-                                             ncores)
-      out <- getPvals(permuteResult,
+        permuteResult <- generateNull_bidirect(genesets_up,
+                                               genesets_dn,
+                                               rankData,
+                                               perm_num,
+                                               ncores)
+        })
+
+        out <- getPvals(permuteResult,
                         scoredf,
                         subSamples = 1:ncol(rankData))
+
+
     },
     error=function(cond) {
       print(cond)
@@ -199,13 +206,17 @@ simpleScore_undir <- function(gs_resource,
       }
 
       # calculate singscore
+      suppressWarnings({
       scoredf <- simpleScore(rankData,
                              upSet = geneset_members)
+
 
       permuteResult <- generateNull_undirected(geneset_members,
                                                rankData,
                                                perm_num,
                                                ncores)
+      })
+
       out <- getPvals(permuteResult,
                         scoredf,
                         subSamples = 1:ncol(rankData))
@@ -239,6 +250,7 @@ generateNull_bidirect = function(genesets_up,
                                  rankData,
                                  perm_num,
                                  ncores) {
+
   permuteResult <-
     generateNull(
       upSet = genesets_up,
@@ -249,7 +261,6 @@ generateNull_bidirect = function(genesets_up,
       knownDirection = TRUE,
       B = perm_num,
       ncores = ncores,
-      seed = 1,
       useBPPARAM = NULL
     )
   return(permuteResult)
@@ -274,6 +285,8 @@ generateNull_undirected = function(geneset_members,
                                    rankData,
                                    perm_num,
                                    ncores) {
+
+
   permuteResult <-
     generateNull(
       upSet = geneset_members,
@@ -282,8 +295,7 @@ generateNull_undirected = function(geneset_members,
       subSamples = 1:ncol(rankData),
       B = perm_num,
       ncores = ncores,
-      seed = 1,
-      useBPPARAM = NULL
+      useBPPARAM = NULL,
     )
   return(permuteResult)
 }

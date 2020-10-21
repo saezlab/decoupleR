@@ -45,30 +45,3 @@ untdy = function(tbl, feature, key, value) {
 }
 
 
-
-
-#' Helper function
-#'
-#' Helper function to convert between commonly used gene IDs
-#' (before committing I should create a resource separate from annotation dbi)
-#'
-#' @param de_data Table with de results
-#' @param input_type input gene IDs e.g. ENSEMBL
-#' @param output_type output gene IDs e.g. Symbol
-#' @export
-#' @return Returns a df with gene names convert to symbols
-convert_gene_type <- function(de_data, input_type, output_type) {
-  geneIDs1 <- AnnotationDbi::select(org.Hs.eg.db,
-                                    keys=de_data$X,
-                                    keytype = input_type,
-                                    columns = c(output_type, input_type))
-
-  geneIDs1 <- subset(geneIDs1, (!duplicated(geneIDs1[[output_type]])))
-  geneIDs1 <- subset(geneIDs1, !is.na(geneIDs1[[output_type]]))
-  data_me <- merge(de_data, geneIDs1, by.x = "X", by.y = input_type)
-  data_me$X <- data_me[[output_type]]
-  data_me <- within(data_me, rm(list=sub("[.]test","",output_type)))
-  return(data_me)
-}
-
-

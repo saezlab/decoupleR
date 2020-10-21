@@ -33,12 +33,13 @@ convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, 
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   dataset %>%
-    transmute_defaults(
+    rename_defaults(
       .tf = {{ .source }},
       .target = {{ .target }},
       .mor = {{ .target_profile }},
       .def_col_val = c(.mor = 0)
     ) %>%
+    select(.data$.tf, .data$.target, .data$.mor) %>%
     rename(
       tf = .data$.tf,
       target = .data$.target,
@@ -57,12 +58,13 @@ convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL,
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   dataset %>%
-    transmute_defaults(
+    rename_defaults(
       .tf = {{ .source }},
       .target = {{ .target }},
       .mor = {{ .target_profile }},
       .def_col_val = c(.mor = 0)
     ) %>%
+    select(.data$.tf, .data$.target, .data$.mor) %>%
     rename(
       tf = .data$.tf,
       target = .data$.target,
@@ -83,13 +85,14 @@ convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood 
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   dataset %>%
-    transmute_defaults(
+    rename_defaults(
       .tf = {{ .source }},
       .target = {{ .target }},
       .mor = {{ .mor }},
       .likelihood = {{ .likelihood }},
       .def_col_val = c(.mor = 0, .likelihood = 1)
     ) %>%
+    select(.data$.tf, .data$.target, .data$.mor, .data$.likelihood) %>%
     rename(
       tf = .data$.tf,
       target = .data$.target,
@@ -142,28 +145,23 @@ convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood 
   })
 }
 
-#' Transmute add column with defaults
+#' Rename and add column with defaults
 #'
 #' @description
-#' \code{transmute_defaults} combine the \code{\link[dplyr]{transmute}} way of
-#' working and combine it with the \code{\link[tibble]{add_column}} to add columns
-#' with default values in case they don't exist after transmuting the dataset.
+#' \code{rename_defaults} combine the \code{\link[dplyr]{rename}} way of
+#' working and with the \code{\link[tibble]{add_column}} to add columns
+#' with default values in case they don't exist after renaming the dataset.
 #'
-#' @inheritParams dplyr::transmute
+#' @inheritParams dplyr::rename
 #' @param .def_col_val Named vector with columns with default values
-#'  if none exist after transmute.
+#'  if none exist after rename.
 #'
-#' @details
-#' \code{transmute} adds new variables and drops existing ones.
-#' New variables overwrite existing variables of the same name.
-#' Variables can be removed by setting their value to NULL.
-#'
-#' @inherit dplyr::transmute return
+#' @inherit dplyr::rename return
 #' @keywords internal
 #' @import dplyr
 #' @import tibble
-transmute_defaults <- function(.data, ..., .def_col_val = c()) {
+rename_defaults <- function(.data, ..., .def_col_val = c()) {
   .data %>%
-    transmute(...) %>%
+    rename(...) %>%
     add_column(., !!!.def_col_val[!names(.def_col_val) %in% names(.)])
 }

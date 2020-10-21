@@ -12,10 +12,6 @@ regnetwork_genesets = readRDS(
   system.file("testdata/inputs","input-regnetwork_genesets.rds",
               package = "decoupleR"))
 
-# Set Seed
-set.seed(123)
-
-
 #----- run_viper() -------------------------------------------------------------
 run_viper(emat, dorothea_genesets, gs_resource="dorothea", tidy=FALSE) %>%
   saveRDS("inst/testdata/outputs/viper/output-viper_dorothea_default.rds")
@@ -38,7 +34,6 @@ run_viper(emat, progeny_genesets, options = list(minsize=4), gs_resource="progen
 
 #---- run_singscore() ----------------------------------------------------------
 # dorothea
-set.seed(123)
 run_singscore(emat, tiesMethod="min", dorothea_genesets, .source="tf",
               .target="target", .target_profile="mor", minsize=0, perm=100,
               ncores=6, directed=TRUE, tidy=FALSE) %>%

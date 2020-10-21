@@ -1,4 +1,4 @@
-#' decoupleR
+#' decouple
 #'
 #' Calculate the TF activity per sample out of a gene expression matrix by
 #' coupling a regulon network with a variety of statistics.
@@ -8,7 +8,7 @@
 #' @param network Tibble or dataframe with edges and metadata.
 #' @param .source Column in network with source nodes.
 #' @param .target Column in network with target nodes.
-#' @param options Named list with edge attributes to use in the statistics.
+#' @param .options Named list with edge attributes to use in the statistics.
 #' @param statistics Statistical methods to be coupled.
 #'
 #' @return A long format tibble of the enrichment scores for each tf
@@ -22,7 +22,7 @@
 #'  }
 #' @export
 #' @import purrr
-decoupleR <- function(mat,
+decouple <- function(mat,
                       network,
                       .source,
                       .target,

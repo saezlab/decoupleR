@@ -43,3 +43,5 @@ untdy = function(tbl, feature, key, value) {
     spread({{key}}, {{value}}) %>%
     data.frame(row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
 }
+
+

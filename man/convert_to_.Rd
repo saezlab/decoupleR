@@ -7,31 +7,18 @@
 \alias{convert_to_mean}
 \title{Convert data sets to run under the method of interest.}
 \usage{
-convert_to_(dataset, clean)
+convert_to_(dataset, ...)
 
-convert_to_scira(
-  dataset,
-  .source,
-  .target,
-  .target_profile = NULL,
-  clean = FALSE
-)
+convert_to_scira(dataset, .source, .target, .target_profile = NULL)
 
-convert_to_pscira(
-  dataset,
-  .source,
-  .target,
-  .target_profile = NULL,
-  clean = FALSE
-)
+convert_to_pscira(dataset, .source, .target, .target_profile = NULL)
 
 convert_to_mean(dataset, .source, .target, .mor = NULL, .likelihood = NULL)
 }
 \arguments{
 \item{dataset}{A data frame or data frame extension (e.g. a tibble) to convert.}
 
-\item{clean}{Logical value that indicates whether to keep only the columns
-necessary to run the function \code{convert_to_[fun]}.}
+\item{...}{Specific parameters to convert the dataset to the correct format.}
 
 \item{.source}{Column with source nodes.}
 

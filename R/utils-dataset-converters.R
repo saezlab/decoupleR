@@ -8,8 +8,7 @@
 #' null values for those columns.
 #'
 #' @param dataset A data frame or data frame extension (e.g. a tibble) to convert.
-#' @param clean Logical value that indicates whether to keep only the columns
-#'  necessary to run the function \code{convert_to_[fun]}.
+#' @param ... Specific parameters to convert the dataset to the correct format.
 #'
 #' @return Returns a tibble with the necessary columns to evaluate the method
 #'  to which the dataset is being converted.
@@ -19,7 +18,7 @@
 #' @family convert_to_ variants
 #'
 #' @export
-convert_to_ <- function(dataset, clean) invisible()
+convert_to_ <- function(dataset, ...) invisible(dataset)
 
 # scira and pscira ------------------------------------------------------
 
@@ -29,7 +28,7 @@ convert_to_ <- function(dataset, clean) invisible()
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
+convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   dataset %>%
@@ -48,7 +47,7 @@ convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, 
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL, clean = FALSE) {
+convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   dataset %>%
@@ -85,21 +84,6 @@ convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood 
 
 # Helper functions --------------------------------------------------------
 
-#' Remove unnecessary variables
-#'
-#' @inheritParams convert_to_
-#' @inheritParams dplyr::select
-#'
-#' @keywords internal
-#' @noRd
-.clean <- function(dataset, ..., clean) {
-  if (clean) {
-    select(dataset, ...)
-  } else {
-    dataset
-  }
-}
-
 #' Stop if any of past quos are missing or NULL.
 #'
 #' @param ... Quos to evaluate if they are missing or NULL.
@@ -126,28 +110,6 @@ convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood 
     }
   })
 }
-
-#' Rename and add column with defaults
-#'
-#' @description
-#' \code{rename_defaults} combine the \code{\link[dplyr]{rename}} way of
-#' working and with the \code{\link[tibble]{add_column}} to add columns
-#' with default values in case they don't exist after renaming the dataset.
-#'
-#' @inheritParams dplyr::rename
-#' @param .def_col_val Named vector with columns with default values
-#'  if none exist after rename.
-#'
-#' @inherit dplyr::rename return
-#' @keywords internal
-#' @import dplyr
-#' @import tibble
-rename_defaults <- function(.data, ..., .def_col_val = c()) {
-  .data %>%
-    rename(...) %>%
-    add_column(., !!!.def_col_val[!names(.def_col_val) %in% names(.)])
-}
-
 
 #' Rename columns and add defaults values if column not present
 #'

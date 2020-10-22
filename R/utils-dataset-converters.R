@@ -195,6 +195,7 @@ rename_defaults <- function(.data, ..., .def_col_val = c()) {
 #'   \item Column order is the same as that of the function call.
 #' }
 #' @export
+#' @importFrom tidyselect eval_rename
 convert_f_defaults <- function(.data,
                                ...,
                                .def_col_val = c(),
@@ -207,7 +208,7 @@ convert_f_defaults <- function(.data,
   if (.use_dots) .expr <- expr(c(. = !!.expr))
 
   # Return rename changes with dot prefix variables.
-  loc <- tidyselect::eval_rename(expr(c(. = c(...))), data = .data)
+  loc <- eval_rename(expr(c(. = c(...))), data = .data)
 
   .data <- .data %>%
     select(loc) %>%

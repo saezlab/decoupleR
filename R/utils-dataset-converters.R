@@ -33,17 +33,11 @@ convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL, 
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   dataset %>%
-    rename_defaults(
-      .tf = {{ .source }},
-      .target = {{ .target }},
-      .mor = {{ .target_profile }},
-      .def_col_val = c(.mor = 0)
-    ) %>%
-    select(.data$.tf, .data$.target, .data$.mor) %>%
-    rename(
-      tf = .data$.tf,
-      target = .data$.target,
-      mor = .data$.mor,
+    convert_f_defaults(
+      tf = {{ .source }},
+      target = {{ .target }},
+      mor = {{ .target_profile }},
+      .def_col_val = c(mor = 0)
     ) %>%
     mutate(mor = sign(.data$mor))
 }
@@ -58,17 +52,11 @@ convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL,
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   dataset %>%
-    rename_defaults(
-      .tf = {{ .source }},
-      .target = {{ .target }},
-      .mor = {{ .target_profile }},
-      .def_col_val = c(.mor = 0)
-    ) %>%
-    select(.data$.tf, .data$.target, .data$.mor) %>%
-    rename(
-      tf = .data$.tf,
-      target = .data$.target,
-      mor = .data$.mor,
+    convert_f_defaults(
+      tf = {{ .source }},
+      target = {{ .target }},
+      mor = {{ .target_profile }},
+      .def_col_val = c(mor = 0)
     ) %>%
     mutate(mor = sign(.data$mor))
 }
@@ -85,20 +73,14 @@ convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood 
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   dataset %>%
-    rename_defaults(
-      .tf = {{ .source }},
-      .target = {{ .target }},
-      .mor = {{ .mor }},
-      .likelihood = {{ .likelihood }},
-      .def_col_val = c(.mor = 0, .likelihood = 1)
+    convert_f_defaults(
+      tf = {{ .source }},
+      target = {{ .target }},
+      mor = {{ .mor }},
+      likelihood = {{ .likelihood }},
+      .def_col_val = c(mor = 0, likelihood = 1)
     ) %>%
-    select(.data$.tf, .data$.target, .data$.mor, .data$.likelihood) %>%
-    rename(
-      tf = .data$.tf,
-      target = .data$.target,
-      mor = .data$.mor,
-      likelihood = .data$.likelihood
-    )
+    mutate(mor = sign(.data$mor))
 }
 
 # Helper functions --------------------------------------------------------

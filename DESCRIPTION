@@ -34,7 +34,8 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    viper
+    viper,
+    tidyselect
 Suggests: 
     covr,
     knitr,

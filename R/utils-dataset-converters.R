@@ -190,7 +190,7 @@ convert_f_defaults <- function(.data,
       "Removed: {removed_cols}"
     )
 
-    abort(message = out_message, class = "assasassas")
+    abort(message = out_message, class = "different_set_columns")
   }
 
   .data

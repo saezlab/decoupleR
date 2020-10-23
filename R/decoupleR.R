@@ -63,7 +63,8 @@ decouple <- function(mat,
     network = network,
     .source = enquo(.source),
     .target = enquo(.target)
-  )
+  ) %>%
+    bind_rows()
 }
 
 # Helpers -----------------------------------------------------------------

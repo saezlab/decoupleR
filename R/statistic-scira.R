@@ -83,7 +83,11 @@ run_scira <- function(mat,
   # and evaluate the proposed model.
   lift_dl(expand_grid)(list(tf = rownames(target_profile_mat), condition = colnames(mat))) %>%
     rowwise() %>%
-    mutate(score = .scira_run(.data$tf, .data$condition, mat, target_profile_mat))
+    mutate(
+      score = .scira_run(.data$tf, .data$condition, mat, target_profile_mat),
+      statistic = "scira"
+    ) %>%
+    ungroup()
 }
 
 #' Wrapper to run scira one tf per sample at time

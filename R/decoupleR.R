@@ -56,15 +56,14 @@ decouple <- function(mat,
 
   # For the moment this will only ensure that the parameters passed
   # to decoupleR are the same when invoking the functions.
-  invoke_map(
+  invoke_map_dfr(
     .f = statistics,
     .x = .options,
     mat = mat,
     network = network,
     .source = enquo(.source),
     .target = enquo(.target)
-  ) %>%
-    bind_rows()
+  )
 }
 
 # Helpers -----------------------------------------------------------------

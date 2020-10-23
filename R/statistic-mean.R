@@ -1,10 +1,10 @@
 #' SAFE mean
 #'
-#' Calculate the activity of a regulon through the samples in the \code{mat}
+#' Calculate the activity of a regulon through the conditions in the \code{mat}
 #' matrix by calculating the mean over the expression of all genes.
 #'
 #' @param mat Evaluation matrix (e.g. expression matrix).
-#'  Target nodes in rows and samples in columns.
+#'  Target nodes in rows and conditions in columns.
 #' @param network Tibble or dataframe with edges and metadata.
 #' @param .source Column with source nodes.
 #' @param .target Column with target nodes.
@@ -18,10 +18,10 @@
 #' @param randomize_type How to randomize the expression matrix.
 #'
 #' @return A long format tibble of the enrichment scores for each tf
-#'  across the samples. Resulting tibble contains the following columns:
+#'  across the conditions. Resulting tibble contains the following columns:
 #'  \enumerate{
 #'    \item{\code{tf}}: {Source nodes of \code{network}.}
-#'    \item{\code{sample}}: {Samples representing each column of \code{mat}.}
+#'    \item{\code{condition}}: {Condition representing each column of \code{mat}.}
 #'    \item{\code{score}}: {Regulatory activity (enrichment score).}
 #'    \item{\code{statistic}}: {Indicates which method is associated with which score.}
 #'    \item{\code{p_value}}: {p-value for the score of mean method.}
@@ -74,7 +74,7 @@ run_mean <- function(mat,
     unique()
 
   targets <- rownames(mat)
-  samples <- colnames(mat)
+  conditions <- colnames(mat)
 
   # Extract matrix of weights
   weight_mat <- network %>%
@@ -122,7 +122,7 @@ run_mean <- function(mat,
   set.seed(seed)
   # Run model for random data
   map_dfr(1:times, ~ mean_run(random = TRUE)) %>%
-    group_by(.data$tf, .data$sample) %>%
+    group_by(.data$tf, .data$condition) %>%
     summarise(
       null_distribution = list(.data$value),
       null_mean = mean(.data$value),
@@ -130,7 +130,7 @@ run_mean <- function(mat,
       .groups = "drop"
     ) %>%
     # Run the true model and joined to random.
-    left_join(y = mean_run(random = FALSE), by = c("tf", "sample")) %>%
+    left_join(y = mean_run(random = FALSE), by = c("tf", "condition")) %>%
     # Calculate scores
     mutate(
       z_score = (.data$value - .data$null_mean) / .data$null_sd,
@@ -149,8 +149,8 @@ run_mean <- function(mat,
       names_to = "statistic",
       values_to = "score"
     ) %>%
-    arrange(.data$statistic, .data$tf, .data$sample) %>%
-    select(.data$tf, .data$sample, .data$score, .data$statistic, .data$p_value)
+    arrange(.data$statistic, .data$tf, .data$condition) %>%
+    select(.data$tf, .data$condition, .data$score, .data$statistic, .data$p_value)
 }
 
 #' Wrapper to run mean one time
@@ -193,7 +193,7 @@ run_mean <- function(mat,
 #' @inheritParams .mean_analysis
 #'
 #' @return A dataframe with three columns:
-#'  tf (source nodes), sample (colnames of mat) and value (score).
+#'  tf (source nodes), condition (colnames of mat) and value (score).
 #'
 #' @keywords internal
 #' @noRd
@@ -202,5 +202,5 @@ run_mean <- function(mat,
     as.matrix() %>%
     as.data.frame() %>%
     rownames_to_column("tf") %>%
-    pivot_longer(-.data$tf, names_to = "sample")
+    pivot_longer(-.data$tf, names_to = "condition")
 }

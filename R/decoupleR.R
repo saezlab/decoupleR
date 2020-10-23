@@ -8,7 +8,10 @@
 #' @param network Tibble or dataframe with edges and metadata.
 #' @param .source Column in network with source nodes.
 #' @param .target Column in network with target nodes.
-#' @param .options Named list with edge attributes to use in the statistics.
+#' @param .options A list of argument-lists the same length as \code{statistics} (or length 1).
+#'  The default argument, list(NULL), will be recycled to the same length as \code{statistics},
+#'  and will call each function with no arguments (apart from \code{mat},
+#'  \code{network}, \code{.source} and, \code{.target}).
 #' @param statistics Statistical methods to be coupled.
 #'
 #' @return A long format tibble of the enrichment scores for each tf
@@ -26,7 +29,7 @@ decouple <- function(mat,
                      network,
                      .source,
                      .target,
-                     .options = list(),
+                     .options = list(NULL),
                      statistics) {
 
   # Match statistics to couple ----------------------------------------------
@@ -45,22 +48,22 @@ decouple <- function(mat,
     available_statistics[.]
 
   # Check options -----------------------------------------------------------
+  if (is_empty(.options)) {
+    .options <- list(NULL)
+  }
+
+  # Evaluate statistics -----------------------------------------------------
 
   # For the moment this will only ensure that the parameters passed
   # to decoupleR are the same when invoking the functions.
-  # TODO add function to check extra parameters.
-  # TODO add function that allows list of list modification to ensure
-  # shared parameters across statistics.
-  .options <- list_modify(
+  invoke_map(
+    .f = statistics,
     .x = .options,
     mat = mat,
     network = network,
-    .source = ensym(.source),
-    .target = ensym(.target)
+    .source = enquo(.source),
+    .target = enquo(.target)
   )
-
-  # Evaluate statistics -----------------------------------------------------
-  invoke_map(statistics, list(.options))
 }
 
 # Helpers -----------------------------------------------------------------

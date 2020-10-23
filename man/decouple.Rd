@@ -4,7 +4,7 @@
 \alias{decouple}
 \title{decouple}
 \usage{
-decouple(mat, network, .source, .target, .options = list(), statistics)
+decouple(mat, network, .source, .target, .options = list(NULL), statistics)
 }
 \arguments{
 \item{mat}{Evaluation matrix (e.g. expression matrix).
@@ -16,7 +16,10 @@ Target nodes in rows and samples in columns.}
 
 \item{.target}{Column in network with target nodes.}
 
-\item{.options}{Named list with edge attributes to use in the statistics.}
+\item{.options}{A list of argument-lists the same length as \code{statistics} (or length 1).
+The default argument, list(NULL), will be recycled to the same length as \code{statistics},
+and will call each function with no arguments (apart from \code{mat},
+\code{network}, \code{.source} and, \code{.target}).}
 
 \item{statistics}{Statistical methods to be coupled.}
 }

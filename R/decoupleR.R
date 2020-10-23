@@ -13,7 +13,6 @@
 #'  and will call each function with no arguments (apart from \code{mat},
 #'  \code{network}, \code{.source} and, \code{.target}).
 #' @param statistics Statistical methods to be coupled.
-#' @param run_ids What identifier to associate with each model evaluated?
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the samples. Resulting tibble contains the following columns:
@@ -32,8 +31,7 @@ decouple <- function(mat,
                      .source,
                      .target,
                      .options = list(NULL),
-                     statistics,
-                     run_ids = NULL) {
+                     statistics) {
 
   # Match statistics to couple ----------------------------------------------
 
@@ -48,16 +46,8 @@ decouple <- function(mat,
 
   statistics <- statistics %>%
     match.arg(names(available_statistics), several.ok = TRUE) %>%
-    available_statistics[.]
-
-  # If requested add user identifiers to runs.
-  # This only applies when running n-statistics to n-options.
-  # Otherwise the run_id would be sequential numbers.
-  # TODO apply run_ids as prefix in the else case.
-  if (!is_null(run_ids)) {
-
-     statistics <- set_names(statistics, run_ids)
-  }
+    available_statistics[.] %>%
+    unname()
 
   # Check options -----------------------------------------------------------
   if (is_empty(.options)) {

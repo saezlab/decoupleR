@@ -4,15 +4,7 @@
 \alias{decouple}
 \title{decouple}
 \usage{
-decouple(
-  mat,
-  network,
-  .source,
-  .target,
-  .options = list(NULL),
-  statistics,
-  run_ids = NULL
-)
+decouple(mat, network, .source, .target, .options = list(NULL), statistics)
 }
 \arguments{
 \item{mat}{Evaluation matrix (e.g. expression matrix).
@@ -30,8 +22,6 @@ and will call each function with no arguments (apart from \code{mat},
 \code{network}, \code{.source} and, \code{.target}).}
 
 \item{statistics}{Statistical methods to be coupled.}
-
-\item{run_ids}{What identifier to associate with each model evaluated?}
 }
 \value{
 A long format tibble of the enrichment scores for each tf

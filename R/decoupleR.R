@@ -13,10 +13,12 @@
 #'  and will call each function with no arguments (apart from \code{mat},
 #'  \code{network}, \code{.source} and, \code{.target}).
 #' @param statistics Statistical methods to be coupled.
+#' @param run_ids What identifier to associate with each model evaluated?
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the samples. Resulting tibble contains the following columns:
 #'  \enumerate{
+#'    \item{\code{run_id}}: {Indicates which statistic run is associeted to each observation.}
 #'    \item{\code{tf}}: {Source nodes of \code{network}.}
 #'    \item{\code{sample}}: {Samples representing each column of \code{mat}.}
 #'    \item{\code{score}}: {Regulatory activity (enrichment score).}
@@ -30,7 +32,8 @@ decouple <- function(mat,
                      .source,
                      .target,
                      .options = list(NULL),
-                     statistics) {
+                     statistics,
+                     run_ids = NULL) {
 
   # Match statistics to couple ----------------------------------------------
 
@@ -47,6 +50,11 @@ decouple <- function(mat,
     match.arg(names(available_statistics), several.ok = TRUE) %>%
     available_statistics[.]
 
+  # If requested add user identifiers to runs.
+  if (!is_null(run_ids)) {
+    statistics <- set_names(statistics, run_ids)
+  }
+
   # Check options -----------------------------------------------------------
   if (is_empty(.options)) {
     .options <- list(NULL)
@@ -56,14 +64,15 @@ decouple <- function(mat,
 
   # For the moment this will only ensure that the parameters passed
   # to decoupleR are the same when invoking the functions.
-  invoke_map_dfr(
+  invoke_map(
     .f = statistics,
     .x = .options,
     mat = mat,
     network = network,
     .source = enquo(.source),
     .target = enquo(.target)
-  )
+  ) %>%
+    bind_rows(.id = "run_id")
 }
 
 # Helpers -----------------------------------------------------------------

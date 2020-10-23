@@ -15,7 +15,7 @@
 #' @param network Tibble or dataframe with edges and associated metadata.
 #' @param .source Column with source nodes.
 #' @param .target Column with target nodes.
-#' @param .target_profile Column name in network that contains the target profile. E.g. MoR.
+#' @param .mor Column with edge mode of regulation (mor).
 #' @param .sparse Logical value indicating if the generated profile matrix should be sparse.
 #'
 #' @return A long format tibble of the enrichment results for each set of genes
@@ -36,14 +36,14 @@ run_scira <- function(mat,
                       network,
                       .source = .data$tf,
                       .target = .data$target,
-                      .target_profile = .data$mor,
+                      .mor = .data$mor,
                       .sparse = FALSE) {
 
   # Preprocessing -----------------------------------------------------------
 
   # Convert to standard tibble: tf-target-mor.
   network <- network %>%
-    convert_to_scira({{ .source }}, {{ .target }}, {{ .target_profile }})
+    convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }})
 
   # Extract labels that will map to the expression and profile matrices
   tfs <- network %>%
@@ -72,19 +72,19 @@ run_scira <- function(mat,
 #' Fit a linear regression between the value of expression and the profile of its targets.
 #'
 #' @inheritParams run_scira
-#' @param target_profile_mat
+#' @param mor_mat
 #'
 #' @inherit run_scira return
 #' @keywords intern
 #' @noRd
-.scira_analysis <- function(mat, target_profile_mat) {
+.scira_analysis <- function(mat, mor_mat) {
 
   # Allocate the space for all combinations of sources and conditions
   # and evaluate the proposed model.
-  lift_dl(expand_grid)(list(tf = rownames(target_profile_mat), condition = colnames(mat))) %>%
+  lift_dl(expand_grid)(list(tf = rownames(mor_mat), condition = colnames(mat))) %>%
     rowwise() %>%
     mutate(
-      score = .scira_run(.data$tf, .data$condition, mat, target_profile_mat),
+      score = .scira_run(.data$tf, .data$condition, mat, mor_mat),
       statistic = "scira"
     ) %>%
     ungroup()
@@ -100,8 +100,8 @@ run_scira <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.scira_run <- function(source, condition, mat, target_profile_mat) {
-  .scira_map_model_data(source, condition, mat, target_profile_mat) %>%
+.scira_run <- function(source, condition, mat, mor_mat) {
+  .scira_map_model_data(source, condition, mat, mor_mat) %>%
     .scira_evaluate_model()
 }
 
@@ -114,8 +114,8 @@ run_scira <- function(mat,
 #' @return Tibble with the data to use to evaluate the model.
 #' @keywords internal
 #' @noRd
-.scira_map_model_data <- function(source, condition, mat, target_profile_mat) {
-  tibble(expression = mat[, condition], mor = target_profile_mat[source, ])
+.scira_map_model_data <- function(source, condition, mat, mor_mat) {
+  tibble(expression = mat[, condition], mor = mor_mat[source, ])
 }
 
 #' Evaluate model

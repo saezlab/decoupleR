@@ -51,8 +51,12 @@ decouple <- function(mat,
     available_statistics[.]
 
   # If requested add user identifiers to runs.
+  # This only applies when running n-statistics to n-options.
+  # Otherwise the run_id would be sequential numbers.
+  # TODO apply run_ids as prefix in the else case.
   if (!is_null(run_ids)) {
-    statistics <- set_names(statistics, run_ids)
+
+     statistics <- set_names(statistics, run_ids)
   }
 
   # Check options -----------------------------------------------------------
@@ -64,7 +68,7 @@ decouple <- function(mat,
 
   # For the moment this will only ensure that the parameters passed
   # to decoupleR are the same when invoking the functions.
-  invoke_map(
+  run_results <- invoke_map(
     .f = statistics,
     .x = .options,
     mat = mat,

@@ -89,7 +89,6 @@ test_that("decouple tidy rename", {
   # rename function (i.e convert_f_defaults()), then this tests
   # for all methods the different tidy selection rename.
   walk(statistics, ~ {
-
     res_x <- partial_decouple(
       .options = list(
         string = list(.mor = "mor"),

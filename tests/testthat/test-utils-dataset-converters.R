@@ -9,7 +9,6 @@ dorothea_genesets <- readRDS(
 # convert_f_defaults ------------------------------------------------------
 
 test_that("convert_f_defaults tidy-evaluation", {
-
   res_1 <- convert_f_defaults(
     .data = dorothea_genesets,
     .tf = tf, # Indirect symbols
@@ -20,13 +19,12 @@ test_that("convert_f_defaults tidy-evaluation", {
   )
 
   exp_1 <- dorothea_genesets %>%
-    rename_with(~paste0(".", .x))
+    rename_with(~ paste0(".", .x))
 
   expect_equal(res_1, exp_1)
 })
 
 test_that("convert_f_defaults (select-transmute)-like property", {
-
   res_1 <- convert_f_defaults(
     .data = dorothea_genesets,
     tf = tf,
@@ -72,11 +70,11 @@ test_that("convert_f_defaults swap property for single.", {
     .use_dots = FALSE
   ),
   regexp = "Names must be unique.",
-  class = "vctrs_error_names_must_be_unique")
+  class = "vctrs_error_names_must_be_unique"
+  )
 })
 
 test_that("convert_f_defaults add columns with defaults", {
-
   res_1 <- convert_f_defaults(
     .data = dorothea_genesets,
     tf = tf,
@@ -94,12 +92,12 @@ test_that("convert_f_defaults add columns with defaults", {
 
   expect_error(
     convert_f_defaults(
-    .data = dorothea_genesets,
-    tf = tf,
-    target = target,
-    .def_col_val = c(mor = 0, likelihood = 1)
-  ),
-  regexp = "Output columns are different than expected.\nExpected: tf, target\nExtra: mor, likelihood\nRemoved: ",
-  class = "different_set_columns"
+      .data = dorothea_genesets,
+      tf = tf,
+      target = target,
+      .def_col_val = c(mor = 0, likelihood = 1)
+    ),
+    regexp = "Output columns are different than expected.\nExpected: tf, target\nExtra: mor, likelihood\nRemoved: ",
+    class = "different_set_columns"
   )
 })

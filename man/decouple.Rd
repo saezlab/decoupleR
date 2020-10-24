@@ -30,7 +30,7 @@ A long format tibble of the enrichment scores for each tf
    \item{\code{run_id}}: {Indicates which statistic run is associeted to each observation.}
    \item{\code{statistic}}: {Indicates which method is associated with which score.}
    \item{\code{tf}}: {Source nodes of \code{network}.}
-   \item{\code{sample}}: {Samples representing each column of \code{mat}.}
+   \item{\code{condition}}: {Conditions representing each column of \code{mat}.}
    \item{\code{score}}: {Regulatory activity (enrichment score).}
    \item{\code{metadata}}: {Metadata corresponding to the statistic collapsed to a string.}
  }

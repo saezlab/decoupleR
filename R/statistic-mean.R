@@ -150,7 +150,7 @@ run_mean <- function(mat,
       values_to = "score"
     ) %>%
     arrange(.data$statistic, .data$tf, .data$condition) %>%
-    select(.data$tf, .data$condition, .data$score, .data$statistic, .data$p_value)
+    select(.data$statistic, .data$tf, .data$condition, .data$score, .data$p_value)
 }
 
 #' Wrapper to run mean one time

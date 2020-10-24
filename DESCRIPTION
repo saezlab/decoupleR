@@ -36,7 +36,8 @@ Imports:
     tibble,
     tidyr,
     viper,
-    tidyselect
+    tidyselect,
+    dorothea
 Suggests: 
     covr,
     knitr,

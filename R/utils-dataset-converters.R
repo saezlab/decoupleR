@@ -174,7 +174,7 @@ convert_f_defaults <- function(.data,
   if (.use_dots) .expr <- expr(c(. = !!.expr))
 
   # Return rename changes with dot prefix variables.
-  loc <- eval_rename(expr(c(. = c(...))), data = .data)
+  loc <- eval_rename(.expr, data = .data)
 
   .data <- .data %>%
     select(loc) %>%

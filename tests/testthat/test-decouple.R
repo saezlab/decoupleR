@@ -16,7 +16,8 @@ dorothea_genesets <- readRDS(
 statistics <- c(
   "scira",
   "pscira",
-  "mean"
+  "mean",
+  "viper"
 )
 
 partial_decouple <- partial(
@@ -48,7 +49,8 @@ test_that("decouple same results as independent functions", {
     .options = list(
       scira = list(.mor = "mor"),
       pscira = list(.mor = "mor"),
-      mean = list(.mor = "mor")
+      mean = list(.mor = "mor"),
+      viper = list(.mor = "mor")
     ),
     statistics = statistics
   )

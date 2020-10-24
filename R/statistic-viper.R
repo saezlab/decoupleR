@@ -3,9 +3,9 @@
 #' This function is a convenient wrapper for the
 #' \code{\link[=viper]{viper::viper()}} function.
 #'
-#' @param emat An expression matrix with genes (HGNC symbol) in rows and samples
+#' @param mat An expression matrix with genes (HGNC symbol) in rows and samples
 #'  in columns.
-#' @param genesets A data frame of gene sets. The structure is dependent on the
+#' @param network A data frame of gene sets. The structure is dependent on the
 #' gene set resource.
 #' @param .source Column with source nodes.
 #' @param .target Column with target nodes.
@@ -31,22 +31,22 @@
 #' @import purrr
 #' @import tidyr
 #' @import viper
-run_viper <- function(emat,
-                      genesets,
+run_viper <- function(mat,
+                      network,
                       .source = .data$tf,
                       .target = .data$target,
                       .mor = .data$mor,
                       .likelihood = .data$likelihood,
                       options = list()) {
-  genesets <- genesets %>%
+  network <- network %>%
     convert_to_viper({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
   do.call(
     viper,
     c(
       list(
-        eset = emat,
-        regulon = make_viper_genesets(genesets)
+        eset = mat,
+        regulon = make_viper_genesets(network)
       ),
       options
     )

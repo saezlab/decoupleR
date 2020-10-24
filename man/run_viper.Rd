@@ -5,8 +5,8 @@
 \title{VIPER wrapper}
 \usage{
 run_viper(
-  emat,
-  genesets,
+  mat,
+  network,
   .source = .data$tf,
   .target = .data$target,
   .mor = .data$mor,
@@ -15,10 +15,10 @@ run_viper(
 )
 }
 \arguments{
-\item{emat}{An expression matrix with genes (HGNC symbol) in rows and samples
+\item{mat}{An expression matrix with genes (HGNC symbol) in rows and samples
 in columns.}
 
-\item{genesets}{A data frame of gene sets. The structure is dependent on the
+\item{network}{A data frame of gene sets. The structure is dependent on the
 gene set resource.}
 
 \item{.source}{Column with source nodes.}

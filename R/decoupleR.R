@@ -18,10 +18,10 @@
 #'  across the samples. Resulting tibble contains the following columns:
 #'  \enumerate{
 #'    \item{\code{run_id}}: {Indicates which statistic run is associeted to each observation.}
+#'    \item{\code{statistic}}: {Indicates which method is associated with which score.}
 #'    \item{\code{tf}}: {Source nodes of \code{network}.}
 #'    \item{\code{sample}}: {Samples representing each column of \code{mat}.}
 #'    \item{\code{score}}: {Regulatory activity (enrichment score).}
-#'    \item{\code{statistic}}: {Indicates which method is associated with which score.}
 #'    \item{\code{metadata}}: {Metadata corresponding to the statistic collapsed to a string.}
 #'  }
 #' @export
@@ -58,7 +58,7 @@ decouple <- function(mat,
 
   # For the moment this will only ensure that the parameters passed
   # to decoupleR are the same when invoking the functions.
-  run_results <- invoke_map(
+  invoke_map(
     .f = statistics,
     .x = .options,
     mat = mat,
@@ -66,7 +66,15 @@ decouple <- function(mat,
     .source = enquo(.source),
     .target = enquo(.target)
   ) %>%
-    bind_rows(.id = "run_id")
+    bind_rows(.id = "run_id") %>%
+    select(
+      .data$run_id,
+      .data$statistic,
+      .data$tf,
+      .data$condition,
+      .data$score,
+      everything()
+    )
 }
 
 # Helpers -----------------------------------------------------------------

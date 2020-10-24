@@ -5,6 +5,7 @@
 \alias{convert_to_scira}
 \alias{convert_to_pscira}
 \alias{convert_to_mean}
+\alias{convert_to_viper}
 \title{Convert data sets to run under the method of interest.}
 \usage{
 convert_to_(dataset, ...)
@@ -14,6 +15,8 @@ convert_to_scira(dataset, .source, .target, .target_profile = NULL)
 convert_to_pscira(dataset, .source, .target, .target_profile = NULL)
 
 convert_to_mean(dataset, .source, .target, .mor = NULL, .likelihood = NULL)
+
+convert_to_viper(dataset, .source, .target, .mor = NULL, .likelihood = NULL)
 }
 \arguments{
 \item{dataset}{A data frame or data frame extension (e.g. a tibble) to convert.}

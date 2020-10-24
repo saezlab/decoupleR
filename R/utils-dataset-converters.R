@@ -82,6 +82,28 @@ convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood 
     mutate(mor = sign(.data$mor))
 }
 
+# viper -------------------------------------------------------------------
+
+#' @rdname convert_to_
+#'
+#' @inheritParams run_viper
+#'
+#' @export
+#' @family convert_to_ variants
+convert_to_viper <- function(dataset, .source, .target, .mor = NULL, .likelihood = NULL) {
+  .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+
+  dataset %>%
+    convert_f_defaults(
+      geneset = {{ .source }},
+      gene = {{ .target }},
+      mor = {{ .mor }},
+      likelihood = {{ .likelihood }},
+      .def_col_val = c(mor = 0, likelihood = 1)
+    ) %>%
+    mutate(mor = sign(.data$mor))
+}
+
 # Helper functions --------------------------------------------------------
 
 #' Stop if any of past quos are missing or NULL.

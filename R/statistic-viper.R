@@ -7,18 +7,22 @@
 #'  in columns.
 #' @param genesets A data frame of gene sets. The structure is dependent on the
 #' gene set resource.
+#' @param .source Column with source nodes.
+#' @param .target Column with target nodes.
+#' @param .mor Column with edge mode of regulation (mor).
+#' @param .likelihood Column with edge likelihood.
 #' @param options A list of named options to pass to
 #' \code{\link[=viper]{viper::viper()}} such as \code{minsize} or \code{method}.
 #'  These options should not \code{include}, \code{eset} or \code{regulon}.
-#' @param gs_resource A character indicating the gene set resource. Based on
-#' this argument \code{genesets} is processed futher via diverse helper
-#' functions (e.g. \code{\link[=dorothea2viper]{dorothea2viper()}}).
-#' @param tidy Logical, whether computed viper scores should be returned in a
-#' tidy format.
 #'
-#' @return A matrix of normalized enrichment scores for each gene set across all
-#'  samples. If \code{tidy} is TRUE the normalized enrichment scores are retured
-#'  in a tidy format.
+#' @return A long format tibble of the enrichment scores for each tf
+#'  across the conditions. Resulting tibble contains the following columns:
+#'  \enumerate{
+#'    \item{\code{statistic}}: {Indicates which method is associated with which score.}
+#'    \item{\code{tf}}: {Source nodes of \code{network}.}
+#'    \item{\code{condition}}: {Conditions representing each column of \code{mat}.}
+#'    \item{\code{score}}: {Regulatory activity (enrichment score).}
+#'  }
 #'
 #' @export
 #' @import dplyr
@@ -27,14 +31,17 @@
 #' @import purrr
 #' @import tidyr
 #' @import viper
-run_viper <- function(emat, genesets, options = list(), gs_resource,
-                      tidy = FALSE) {
-  genesets <- switch(gs_resource,
-    "dorothea" = dorothea2viper(genesets),
-    "progeny" = progeny2viper(genesets)
-  )
+run_viper <- function(emat,
+                      genesets,
+                      .source = .data$tf,
+                      .target = .data$target,
+                      .mor = .data$mor,
+                      .likelihood = .data$likelihood,
+                      options = list()) {
+  genesets <- genesets %>%
+    convert_to_viper({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
-  viper_res <- do.call(
+  do.call(
     viper,
     c(
       list(
@@ -43,17 +50,11 @@ run_viper <- function(emat, genesets, options = list(), gs_resource,
       ),
       options
     )
-  )
-
-  if (tidy) {
-    metadata <- genesets %>%
-      select(-c(.data$gene, .data$mor, .data$likelihood)) %>%
-      distinct()
-    tidy_viper_res <- tdy(viper_res, "geneset", "key", "value", meta = metadata)
-    return(tidy_viper_res)
-  } else {
-    return(viper_res)
-  }
+  ) %>%
+    as.data.frame() %>%
+    rownames_to_column("tf") %>%
+    pivot_longer(-.data$tf, names_to = "condition", values_to = "score") %>%
+    add_column(statistic = "viper", .before = 1)
 }
 
 #' Make gene sets for VIPER
@@ -76,38 +77,4 @@ make_viper_genesets <- function(genesets) {
       likelihood <- gs$likelihood
       list(tfmode = targets, likelihood = likelihood)
     })
-}
-
-#' Helper function
-#'
-#' Helper function to convert DoRothEA gene sets to standardized gene sets
-#' suitable for the \code{\link[=viper]{viper::viper()}} function.
-#'
-#' @param genesets dorothea gene sets
-#'
-#' @return dorothea gene sets suitable for viper statistic
-#' @keywords internal
-dorothea2viper <- function(genesets) {
-  genesets %>%
-    rename(geneset = .data$tf, gene = .data$target)
-}
-
-#' Helper function
-#'
-#' Helper function to convert PROGENy gene sets to standardized gene sets
-#' suitable for the \code{\link[=viper]{viper::viper()}} function.
-#'
-#' @param genesets progeny gene sets
-#'
-#' @return progeny gene sets suitable for viper statistic
-#'
-#' @keywords internal
-progeny2viper <- function(genesets) {
-  genesets %>%
-    rename(geneset = .data$pathway) %>%
-    mutate(
-      mor = sign(.data$weight),
-      likelihood = 1
-    ) %>%
-    select(-.data$weight)
 }

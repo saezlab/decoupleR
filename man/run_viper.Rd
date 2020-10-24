@@ -4,7 +4,15 @@
 \alias{run_viper}
 \title{VIPER wrapper}
 \usage{
-run_viper(emat, genesets, options = list(), gs_resource, tidy = FALSE)
+run_viper(
+  emat,
+  genesets,
+  .source = .data$tf,
+  .target = .data$target,
+  .mor = .data$mor,
+  .likelihood = .data$likelihood,
+  options = list()
+)
 }
 \arguments{
 \item{emat}{An expression matrix with genes (HGNC symbol) in rows and samples
@@ -13,21 +21,27 @@ in columns.}
 \item{genesets}{A data frame of gene sets. The structure is dependent on the
 gene set resource.}
 
+\item{.source}{Column with source nodes.}
+
+\item{.target}{Column with target nodes.}
+
+\item{.mor}{Column with edge mode of regulation (mor).}
+
+\item{.likelihood}{Column with edge likelihood.}
+
 \item{options}{A list of named options to pass to
 \code{\link[=viper]{viper::viper()}} such as \code{minsize} or \code{method}.
  These options should not \code{include}, \code{eset} or \code{regulon}.}
-
-\item{gs_resource}{A character indicating the gene set resource. Based on
-this argument \code{genesets} is processed futher via diverse helper
-functions (e.g. \code{\link[=dorothea2viper]{dorothea2viper()}}).}
-
-\item{tidy}{Logical, whether computed viper scores should be returned in a
-tidy format.}
 }
 \value{
-A matrix of normalized enrichment scores for each gene set across all
- samples. If \code{tidy} is TRUE the normalized enrichment scores are retured
- in a tidy format.
+A long format tibble of the enrichment scores for each tf
+ across the conditions. Resulting tibble contains the following columns:
+ \enumerate{
+   \item{\code{statistic}}: {Indicates which method is associated with which score.}
+   \item{\code{tf}}: {Source nodes of \code{network}.}
+   \item{\code{condition}}: {Conditions representing each column of \code{mat}.}
+   \item{\code{score}}: {Regulatory activity (enrichment score).}
+ }
 }
 \description{
 This function is a convenient wrapper for the

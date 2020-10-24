@@ -10,9 +10,9 @@
 \usage{
 convert_to_(dataset, ...)
 
-convert_to_scira(dataset, .source, .target, .target_profile = NULL)
+convert_to_scira(dataset, .source, .target, .mor = NULL)
 
-convert_to_pscira(dataset, .source, .target, .target_profile = NULL)
+convert_to_pscira(dataset, .source, .target, .mor = NULL)
 
 convert_to_mean(dataset, .source, .target, .mor = NULL, .likelihood = NULL)
 
@@ -26,8 +26,6 @@ convert_to_viper(dataset, .source, .target, .mor = NULL, .likelihood = NULL)
 \item{.source}{Column with source nodes.}
 
 \item{.target}{Column with target nodes.}
-
-\item{.target_profile}{Column name in network that contains the target profile. E.g. MoR.}
 
 \item{.mor}{Column with edge mode of regulation (mor).}
 

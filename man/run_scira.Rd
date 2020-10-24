@@ -9,7 +9,7 @@ run_scira(
   network,
   .source = .data$tf,
   .target = .data$target,
-  .target_profile = .data$mor,
+  .mor = .data$mor,
   .sparse = FALSE
 )
 }
@@ -22,7 +22,7 @@ run_scira(
 
 \item{.target}{Column with target nodes.}
 
-\item{.target_profile}{Column name in network that contains the target profile. E.g. MoR.}
+\item{.mor}{Column with edge mode of regulation (mor).}
 
 \item{.sparse}{Logical value indicating if the generated profile matrix should be sparse.}
 }

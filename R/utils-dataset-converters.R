@@ -28,14 +28,14 @@ convert_to_ <- function(dataset, ...) invisible(dataset)
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL) {
+convert_to_scira <- function(dataset, .source, .target, .mor = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   dataset %>%
     convert_f_defaults(
       tf = {{ .source }},
       target = {{ .target }},
-      mor = {{ .target_profile }},
+      mor = {{ .mor }},
       .def_col_val = c(mor = 0)
     ) %>%
     mutate(mor = sign(.data$mor))
@@ -47,14 +47,14 @@ convert_to_scira <- function(dataset, .source, .target, .target_profile = NULL) 
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_pscira <- function(dataset, .source, .target, .target_profile = NULL) {
+convert_to_pscira <- function(dataset, .source, .target, .mor = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
   dataset %>%
     convert_f_defaults(
       tf = {{ .source }},
       target = {{ .target }},
-      mor = {{ .target_profile }},
+      mor = {{ .mor }},
       .def_col_val = c(mor = 0)
     ) %>%
     mutate(mor = sign(.data$mor))

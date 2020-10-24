@@ -20,7 +20,7 @@ run_mean(
 }
 \arguments{
 \item{mat}{Evaluation matrix (e.g. expression matrix).
-Target nodes in rows and samples in columns.}
+Target nodes in rows and conditions in columns.}
 
 \item{network}{Tibble or dataframe with edges and metadata.}
 
@@ -45,16 +45,16 @@ in the analysis?}
 }
 \value{
 A long format tibble of the enrichment scores for each tf
- across the samples. Resulting tibble contains the following columns:
+ across the conditions. Resulting tibble contains the following columns:
  \enumerate{
    \item{\code{tf}}: {Source nodes of \code{network}.}
-   \item{\code{sample}}: {Samples representing each column of \code{mat}.}
+   \item{\code{condition}}: {Condition representing each column of \code{mat}.}
    \item{\code{score}}: {Regulatory activity (enrichment score).}
    \item{\code{statistic}}: {Indicates which method is associated with which score.}
    \item{\code{p_value}}: {p-value for the score of mean method.}
  }
 }
 \description{
-Calculate the activity of a regulon through the samples in the \code{mat}
+Calculate the activity of a regulon through the conditions in the \code{mat}
 matrix by calculating the mean over the expression of all genes.
 }

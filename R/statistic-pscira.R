@@ -23,7 +23,7 @@ run_pscira <- function(mat,
                        network,
                        .source = .data$tf,
                        .target = .data$target,
-                       .target_profile = .data$mor,
+                       .mor = .data$mor,
                        .sparse = TRUE,
                        times = 10,
                        seed = 42) {
@@ -37,7 +37,7 @@ run_pscira <- function(mat,
 
   # Convert to standard tibble: tf-target-mor.
   network <- network %>%
-    convert_to_scira({{ .source }}, {{ .target }}, {{ .target_profile }})
+    convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }})
 
   # Extract labels that will map to the expression and profile matrices
   tfs <- network %>%
@@ -46,7 +46,7 @@ run_pscira <- function(mat,
 
   # Ensures column matching, expands the target profile to encompass all targets
   # in the expression matrix for each source, and converts the result to a matrix.
-  target_profile_mat <- network %>%
+  mor_mat <- network %>%
     get_profile_of(
       sources = list(tf = tfs, target = rownames(mat)),
       values_fill = list(mor = 0)
@@ -58,7 +58,7 @@ run_pscira <- function(mat,
   mat <- as.matrix(mat)
 
   # Evaluate model ----------------------------------------------------------
-  .pscira_analysis(mat, target_profile_mat, times, seed)
+  .pscira_analysis(mat, mor_mat, times, seed)
 }
 
 # Helper functions --------------------------------------------------------
@@ -66,17 +66,17 @@ run_pscira <- function(mat,
 #' Wrapper to execute run_pscira() logic one finished preprocessing of data
 #'
 #' @inheritParams run_pscira
-#' @param target_profile_mat Matrix that corresponds to the mor of the
+#' @param mor_mat Matrix that corresponds to the mor of the
 #' target genes (columns) of a tf (rows).
 #'
 #' @inherit run_pscira return
 #' @keywords intern
 #' @noRd
-.pscira_analysis <- function(mat, target_profile_mat, times, seed) {
+.pscira_analysis <- function(mat, mor_mat, times, seed) {
   pscira_run <- partial(
     .f = .pscira_run,
     mat = mat,
-    target_profile_mat = target_profile_mat
+    mor_mat = mor_mat
   )
 
   set.seed(seed)
@@ -88,10 +88,10 @@ run_pscira <- function(mat,
       score = (.data$value - .data$.mean) / .data$.sd,
       score = replace_na(.data$score, 0)
     ) %>%
-    transmute(.data$tf, .data$condition, .data$score)
+    transmute(statistic = "pscira", .data$tf, .data$condition, .data$score)
 }
 
-#'  Wrapper to perform mat %*% target_profile_mat
+#'  Wrapper to perform mat %*% mor_mat
 #'
 #' @inheritParams .pscira_analysis
 #' @param random Logical value that indicates whether the rows of the matrix
@@ -100,9 +100,9 @@ run_pscira <- function(mat,
 #' @inherit .pscira_evaluate_model return
 #' @keywords internal
 #' @noRd
-.pscira_run <- function(mat, target_profile_mat, random) {
+.pscira_run <- function(mat, mor_mat, random) {
   .pscira_map_model_data(mat, random) %>%
-    .pscira_evaluate_model(target_profile_mat)
+    .pscira_evaluate_model(mor_mat)
 }
 
 #' Map model data
@@ -132,8 +132,8 @@ run_pscira <- function(mat,
 #' @return Tibble with tf regulatory activity for each tf-sample pair.
 #' @keywords internal
 #' @noRd
-.pscira_evaluate_model <- function(mat, target_profile_mat) {
-  (target_profile_mat %*% mat) %>%
+.pscira_evaluate_model <- function(mat, mor_mat) {
+  (mor_mat %*% mat) %>%
     as.matrix() %>%
     as.data.frame() %>%
     rownames_to_column("tf") %>%

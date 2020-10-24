@@ -24,6 +24,7 @@ URL: https://saezlab.github.io/decoupleR/,
 BugReports: https://github.com/saezlab/decoupleR/issues
 Depends: 
     R (>= 4.0)
+biocViews:
 Imports:
     dplyr,
     magrittr,

@@ -36,7 +36,8 @@ Imports:
     tibble,
     tidyr,
     viper,
-    tidyselect
+    tidyselect,
+    GSVA
 Suggests: 
     covr,
     knitr,

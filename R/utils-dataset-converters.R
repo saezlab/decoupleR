@@ -104,6 +104,30 @@ convert_to_viper <- function(dataset, .source, .target, .mor = NULL, .likelihood
     mutate(mor = sign(.data$mor))
 }
 
+# gsva --------------------------------------------------------------------
+
+#' @rdname convert_to_
+#'
+#' @inheritParams run_gsva
+#'
+#' @export
+#' @family convert_to_ variants
+convert_to_gsva <- function(dataset, .source, .target) {
+  .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+
+  dataset %>%
+    convert_f_defaults(
+      tf = {{ .source }},
+      target = {{ .target }}
+    ) %>%
+    group_by(.data$tf) %>%
+    summarise(
+      regulons = set_names(list(.data$target), .data$tf[1]),
+      .groups = "drop"
+    ) %>%
+    pull(.data$regulons)
+}
+
 # Helper functions --------------------------------------------------------
 
 #' Stop if any of past quos are missing or NULL.

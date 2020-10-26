@@ -18,23 +18,22 @@
 #'    \item{\code{score}}: {Regulatory activity (enrichment score).}
 #'  }
 #' @export
-run_gsva <- function(mat, network, .source, .target, options = list()) {
-  network <- network %>%
-    rename(tf = {{ .source }}, target = {{ .target }}) %>%
-    select(.data$tf, .data$target) %>%
-    group_by(.data$tf) %>%
-    summarise(
-      regulons = set_names(list(.data$target), unique(.data$tf)),
-      .groups = "drop"
-    ) %>%
-    pull(.data$regulons)
+run_gsva <- function(mat,
+                     network,
+                     .source = .data$tf,
+                     .target = .data$target,
+                     options = list()) {
+  # Before to start ---------------------------------------------------------
+  regulons <- network %>%
+    convert_to_gsva({{ .source }}, {{ .target }})
 
+  # Analysis ----------------------------------------------------------------
   do.call(
     what = GSVA::gsva,
     args = c(
       list(
         expr = mat,
-        gset.idx.list = network
+        gset.idx.list = regulons
       ),
       options
     )

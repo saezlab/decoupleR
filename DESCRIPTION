@@ -37,7 +37,7 @@ Imports:
     tidyr,
     viper,
     tidyselect,
-    dorothea
+    GSVA
 Suggests: 
     covr,
     knitr,

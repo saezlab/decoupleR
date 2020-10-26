@@ -17,7 +17,8 @@ statistics <- c(
   "scira",
   "pscira",
   "mean",
-  "viper"
+  "viper",
+  "gsva"
 )
 
 partial_decouple <- partial(
@@ -38,25 +39,26 @@ test_that("decouple same results as independent functions", {
     statistics = statistics
   )
 
-  # n-statistics against 1-option.
-  res_2 <- partial_decouple(
-    .options = list(.mor = "mor"),
-    statistics = statistics
-  )
+  # Removed since no all statistics share at least one parameter.
+  # # n-statistics against 1-option.
+  # res_2 <- partial_decouple(
+  #   .options = list(.mor = "mor"),
+  #   statistics = statistics
+  # )
 
   # n-statistics against n-options.
-  res_3 <- partial_decouple(
+  res_2 <- partial_decouple(
     .options = list(
       scira = list(.mor = "mor"),
       pscira = list(.mor = "mor"),
       mean = list(.mor = "mor"),
-      viper = list(.mor = "mor")
+      viper = list(.mor = "mor"),
+      gsva = list()
     ),
     statistics = statistics
   )
 
   expect_equal(res_1, res_2)
-  expect_equal(res_2, res_3)
 
   # Compare results.
   res_4 <- res_1 %>%
@@ -81,33 +83,4 @@ test_that("decouple same results as independent functions", {
 })
 
 # Tidy selection ----------------------------------------------------------
-
-test_that("decouple tidy rename", {
-
-  # 1-statistic against n-options.
-  # Since we expect all conversion functions to use the same
-  # rename function (i.e convert_f_defaults()), then this tests
-  # for all methods the different tidy selection rename.
-  walk(statistics, ~ {
-    res_x <- partial_decouple(
-      .options = list(
-        string = list(.mor = "mor"),
-        sym = list(.mor = sym("mor")),
-        quo = list(.mor = quo(mor)),
-        position = list(.mor = 4)
-      ),
-      statistics = c(.x)
-    ) %>%
-      select(-.data$run_id) %>%
-      distinct()
-
-    exp_x <- readRDS(
-      system.file(str_glue("testdata/outputs/{.x}/output-{.x}_dorothea_default.rds"),
-        package = "decoupleR"
-      )
-    ) %>%
-      select(statistic, tf, condition, score, everything())
-
-    expect_equal(res_x, exp_x)
-  })
-})
+# This must be tested in `test-utils-dataset-converters`.

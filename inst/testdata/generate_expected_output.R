@@ -12,7 +12,8 @@ out <- list(
   mean = file.path(output_dir, "mean"),
   pscira = file.path(output_dir, "pscira"),
   scira = file.path(output_dir, "scira"),
-  viper = file.path(output_dir, "viper")
+  viper = file.path(output_dir, "viper"),
+  gsva = file.path(output_dir, "gsva")
 )
 
 sapply(out, dir.create, showWarnings = TRUE)
@@ -62,7 +63,7 @@ run_pscira(emat, dorothea_genesets, tf, target, mor) %>%
 run_pscira(emat, dorothea_genesets, .sparse = TRUE) %>%
   saveRDS(file.path(out$pscira, "output-pscira_dorothea_sparse-background-calculation.rds"))
 
-#----- run_mean() ------------------------------------------------------------
+#----- run_mean() -------------------------------------------------------------
 
 run_mean(emat, dorothea_genesets, .likelihood = NULL) %>%
   saveRDS(file.path(out$mean, "output-mean_dorothea_default.rds"))
@@ -72,3 +73,14 @@ run_mean(emat, dorothea_genesets, tf, target, mor, .likelihood = NULL) %>%
 
 run_mean(emat, dorothea_genesets, sparse = TRUE, .likelihood = NULL) %>%
   saveRDS(file.path(out$mean, "output-mean_dorothea_sparse-background-calculation.rds"))
+
+#---- run_gsva() ---------------------------------------------------------------
+
+run_gsva(emat, dorothea_genesets) %>%
+  saveRDS(file.path(out$gsva, "output-gsva_dorothea_default.rds"))
+
+run_gsva(emat, dorothea_genesets, tf, target) %>%
+  saveRDS(file.path(out$gsva, "output-gsva_dorothea_tidy-evaluation.rds"))
+
+run_gsva(emat, dorothea_genesets, options = list(min.sz = 4)) %>%
+  saveRDS(file.path(out$gsva, "output-gsva_dorothea_minsize4.rds"))

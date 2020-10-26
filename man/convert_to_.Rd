@@ -27,7 +27,7 @@ convert_to_viper(dataset, .source, .target, .mor = NULL, .likelihood = NULL)
 
 \item{.target}{Column with target nodes.}
 
-\item{.mor}{Column with edge mode of regulation (mor).}
+\item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
 \item{.likelihood}{Column with edge likelihood.}
 }

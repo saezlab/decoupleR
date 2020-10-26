@@ -15,17 +15,18 @@ run_viper(
 )
 }
 \arguments{
-\item{mat}{An expression matrix with genes (HGNC symbol) in rows and samples
-in columns.}
+\item{mat}{Matrix to evaluate (e.g. expression matrix).
+Target nodes in rows and conditions in columns.
+\code{rownames(mat)} must have at least one intersection with the elements
+in \code{network} \code{.target} column.}
 
-\item{network}{A data frame of gene sets. The structure is dependent on the
-gene set resource.}
+\item{network}{Tibble or dataframe with edges and it's associated metadata.}
 
 \item{.source}{Column with source nodes.}
 
 \item{.target}{Column with target nodes.}
 
-\item{.mor}{Column with edge mode of regulation (mor).}
+\item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
 \item{.likelihood}{Column with edge likelihood.}
 

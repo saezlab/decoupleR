@@ -4,8 +4,10 @@
 \alias{.decoupler_mat_format}
 \title{DecoupleR mat format}
 \arguments{
-\item{mat}{Evaluation matrix (e.g. expression matrix).
-Target nodes in rows and conditions in columns.}
+\item{mat}{Matrix to evaluate (e.g. expression matrix).
+Target nodes in rows and conditions in columns.
+\code{rownames(mat)} must have at least one intersection with the elements
+in \code{network} \code{.target} column.}
 }
 \description{
 DecoupleR mat format

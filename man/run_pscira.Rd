@@ -16,15 +16,18 @@ run_pscira(
 )
 }
 \arguments{
-\item{mat}{A named expression matrix. E.g Genes in rows and samples in columns.}
+\item{mat}{Matrix to evaluate (e.g. expression matrix).
+Target nodes in rows and conditions in columns.
+\code{rownames(mat)} must have at least one intersection with the elements
+in \code{network} \code{.target} column.}
 
-\item{network}{Tibble or dataframe with edges and associated metadata.}
+\item{network}{Tibble or dataframe with edges and it's associated metadata.}
 
 \item{.source}{Column with source nodes.}
 
 \item{.target}{Column with target nodes.}
 
-\item{.mor}{Column with edge mode of regulation (mor).}
+\item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
 \item{.sparse}{Logical value indicating if the generated profile matrix should be sparse.}
 

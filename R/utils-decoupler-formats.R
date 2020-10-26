@@ -8,8 +8,10 @@
 
 #' DecoupleR mat format
 #'
-#' @param mat Evaluation matrix (e.g. expression matrix).
+#' @param mat Matrix to evaluate (e.g. expression matrix).
 #'  Target nodes in rows and conditions in columns.
+#'  \code{rownames(mat)} must have at least one intersection with the elements
+#'  in \code{network} \code{.target} column.
 #'
 #' @keywords internal
 #' @name .decoupler_mat_format

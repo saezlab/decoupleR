@@ -3,13 +3,8 @@
 #' Calculate the activity of a regulon through the conditions in the \code{mat}
 #' matrix by calculating the mean over the expression of all genes.
 #'
-#' @param mat Evaluation matrix (e.g. expression matrix).
-#'  Target nodes in rows and conditions in columns.
-#' @param network Tibble or dataframe with edges and metadata.
-#' @param .source Column with source nodes.
-#' @param .target Column with target nodes.
-#' @param .mor Column with edge mode of regulation (mor).
-#' @param .likelihood Column with edge likelihood.
+#' @inheritParams .decoupler_mat_format
+#' @inheritParams .decoupler_network_format
 #' @param minsize How many output edges a source node must have to be included
 #'  in the analysis?
 #' @param times How many permutations to do?

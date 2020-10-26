@@ -11,11 +11,8 @@
 #' a member of the TF regulon. TF activity is then defined as the t-statistic of
 #' this linear regression.
 #'
-#' @param mat A named expression matrix. E.g Genes in rows and samples in columns.
-#' @param network Tibble or dataframe with edges and associated metadata.
-#' @param .source Column with source nodes.
-#' @param .target Column with target nodes.
-#' @param .mor Column with edge mode of regulation (mor).
+#' @inheritParams .decoupler_mat_format
+#' @inheritParams .decoupler_network_format
 #' @param .sparse Logical value indicating if the generated profile matrix should be sparse.
 #'
 #' @return A long format tibble of the enrichment results for each set of genes

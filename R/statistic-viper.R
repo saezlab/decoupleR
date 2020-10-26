@@ -3,14 +3,8 @@
 #' This function is a convenient wrapper for the
 #' \code{\link[=viper]{viper::viper()}} function.
 #'
-#' @param mat An expression matrix with genes (HGNC symbol) in rows and samples
-#'  in columns.
-#' @param network A data frame of gene sets. The structure is dependent on the
-#' gene set resource.
-#' @param .source Column with source nodes.
-#' @param .target Column with target nodes.
-#' @param .mor Column with edge mode of regulation (mor).
-#' @param .likelihood Column with edge likelihood.
+#' @inheritParams .decoupler_mat_format
+#' @inheritParams .decoupler_network_format
 #' @param options A list of named options to pass to
 #' \code{\link[=viper]{viper::viper()}} such as \code{minsize} or \code{method}.
 #'  These options should not \code{include}, \code{eset} or \code{regulon}.

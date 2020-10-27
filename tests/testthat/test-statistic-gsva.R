@@ -19,15 +19,15 @@ dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
 # Test for run_gsva function ---------------------------------------------
 
 test_that("test run_gsva with dorothea gene sets", {
-  res_1 <- run_gsva(emat, dorothea_genesets)
+  res_1 <- run_gsva(emat, dorothea_genesets, options = list(verbose = FALSE))
   exp_1 <- file.path(expected_dir, "output-gsva_dorothea_default.rds") %>%
     readRDS()
 
-  res_2 <- run_gsva(emat, dorothea_genesets, tf, target)
+  res_2 <- run_gsva(emat, dorothea_genesets, tf, target, options = list(verbose = FALSE))
   exp_2 <- file.path(expected_dir, "output-gsva_dorothea_tidy-evaluation.rds") %>%
     readRDS()
 
-  res_3 <- run_gsva(emat, dorothea_genesets, options = list(min.sz = 4))
+  res_3 <- run_gsva(emat, dorothea_genesets, options = list(min.sz = 4, verbose = FALSE))
   exp_3 <- file.path(expected_dir, "output-gsva_dorothea_minsize4.rds") %>%
     readRDS()
 

@@ -59,7 +59,7 @@ test_that("decouple same results as independent functions", {
       pscira = list(.mor = "mor"),
       mean = list(.mor = "mor"),
       viper = list(.mor = "mor"),
-      gsva = list()
+      gsva = list(options = list(verbose = FALSE))
     ),
     statistics = statistics
   )

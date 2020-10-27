@@ -1,57 +1,40 @@
 library(decoupleR)
 
-emat <- readRDS(
-  system.file("testdata/inputs", "input-expr_matrix.rds", package = "decoupleR")
-)
-dorothea_genesets <- readRDS(
-  system.file("testdata/inputs", "input-dorothea_genesets.rds", package = "decoupleR")
-)
-progeny_genesets <- readRDS(
-  system.file("testdata/inputs", "input-progeny_genesets.rds", package = "decoupleR")
-)
+# Directories -------------------------------------------------------------
 
+# Inputs
+input_dir <- system.file("testdata", "inputs", package = "decoupleR")
+
+# Outputs
+expected_dir <- system.file("testdata", "outputs", "viper", package = "decoupleR")
+
+# Data to run -------------------------------------------------------------
+
+emat <- file.path(input_dir, "input-expr_matrix.rds") %>%
+  readRDS()
+
+dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
+  readRDS()
+
+
+# test for run_viper() ----------------------------------------------------
 
 test_that("test run_viper with dorothea gene sets", {
-  res1 <- run_viper(emat, dorothea_genesets)
-  exp1 <- readRDS(
-    system.file(
-      "testdata/outputs/viper/",
-      "output-viper_dorothea_default.rds",
-      package = "decoupleR"
-    )
-  )
+  res_1 <- run_viper(emat, dorothea_genesets)
+  exp_1 <- file.path(expected_dir, "output-viper_dorothea_default.rds") %>%
+    readRDS()
 
-  res2 <- run_viper(
-    emat,
-    dorothea_genesets,
-    tf,
-    target,
-    mor,
-    likelihood
-  )
-  exp2 <- readRDS(
-    system.file(
-      "testdata/outputs/viper/",
-      "output-viper_dorothea_tidy-evaluation.rds",
-      package = "decoupleR"
-    )
-  )
+  res_2 <- run_viper(emat, dorothea_genesets, tf, target, mor, likelihood)
+  exp_2 <- file.path(expected_dir, "output-viper_dorothea_tidy-evaluation.rds") %>%
+    readRDS()
 
-  res3 <- run_viper(emat,
-    dorothea_genesets,
-    options = list(minsize = 4)
-  )
-  exp3 <- readRDS(
-    system.file(
-      "testdata/outputs/viper/",
-      "output-viper_dorothea_minsize4.rds",
-      package = "decoupleR"
-    )
-  )
+  res_3 <- run_viper(emat, dorothea_genesets, options = list(minsize = 4))
+  exp_3 <- file.path(expected_dir, "output-viper_dorothea_minsize4.rds") %>%
+    readRDS()
 
-  expect_equal(res1, exp1)
-  expect_equal(res2, exp2)
-  expect_equal(res3, exp3)
+  expect_equal(res_1, exp_1)
+  expect_equal(res_2, exp_2)
+  expect_equal(res_3, exp_3)
 })
 
 

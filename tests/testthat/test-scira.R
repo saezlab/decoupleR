@@ -1,64 +1,39 @@
 library(decoupleR)
 
+# Directories -------------------------------------------------------------
+
+# Inputs
+input_dir <- system.file("testdata", "inputs", package = "decoupleR")
+
+# Outputs
+expected_dir <- system.file("testdata", "outputs", "scira", package = "decoupleR")
+
 # Data to run -------------------------------------------------------------
 
-emat <- readRDS(
-  system.file("testdata/inputs", "input-expr_matrix.rds", package = "decoupleR")
-)
-dorothea_genesets <- readRDS(
-  system.file("testdata/inputs", "input-dorothea_genesets.rds", package = "decoupleR")
-)
-progeny_genesets <- readRDS(
-  system.file("testdata/inputs", "input-progeny_genesets.rds", package = "decoupleR")
-)
+emat <- file.path(input_dir, "input-expr_matrix.rds") %>%
+  readRDS()
+
+dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
+  readRDS()
 
 # Test for run_scira function ---------------------------------------------
 
 test_that("test run_scira with dorothea gene sets", {
-  res1 <- run_scira(emat, dorothea_genesets)
-  exp1 <- readRDS(
-    system.file("testdata/outputs/scira/", "output-scira_dorothea_default.rds",
-      package = "decoupleR"
-    )
-  )
+  res_1 <- run_scira(emat, dorothea_genesets)
+  exp_1 <- file.path(expected_dir, "output-scira_dorothea_default.rds") %>%
+    readRDS()
 
-  res2 <- run_scira(emat, dorothea_genesets, tf, target, mor)
-  exp2 <- readRDS(
-    system.file("testdata/outputs/scira/", "output-scira_dorothea_tidy-evaluation.rds",
-      package = "decoupleR"
-    )
-  )
+  res_2 <- run_scira(emat, dorothea_genesets, tf, target, mor)
+  exp_2 <- file.path(expected_dir, "output-scira_dorothea_tidy-evaluation.rds") %>%
+    readRDS()
 
-  res3 <- run_scira(emat, dorothea_genesets, .sparse = TRUE)
-  exp3 <- readRDS(
-    system.file("testdata/outputs/scira/", "output-scira_dorothea_sparse-background-calculation.rds",
-      package = "decoupleR"
-    )
-  )
 
-  expect_equal(res1, exp1)
-  expect_equal(res2, exp2)
-  expect_equal(res3, exp3)
-  expect_equal(res2, res3)
+  res_3 <- run_scira(emat, dorothea_genesets, .sparse = TRUE)
+  exp_3 <- file.path(expected_dir, "output-scira_dorothea_sparse-background-calculation.rds") %>%
+    readRDS()
+
+  expect_equal(res_1, exp_1)
+  expect_equal(res_2, exp_2)
+  expect_equal(res_3, exp_3)
+  expect_equal(res_2, res_3)
 })
-
-# test_that("test run_scira with progeny gene sets", {
-#   res1 <- run_scira(emat, progeny_genesets, gene, pathway, weight)
-#   exp1 <- readRDS(
-#     system.file("testdata/outputs/scira/", "output-scira_progeny_tidy-evaluation.rds",
-#       package = "decoupleR"
-#     )
-#   )
-#
-#   res2 <- run_scira(emat, progeny_genesets, gene, pathway, weight, .sparse = TRUE)
-#   exp2 <- readRDS(
-#     system.file("testdata/outputs/scira/", "output-scira_progeny_sparse-background-calculation.rds",
-#       package = "decoupleR"
-#     )
-#   )
-#
-#   expect_error(run_scira(emat, progeny_genesets), class = "rlang_error_data_pronoun_not_found")
-#   expect_equal(res1, exp1)
-#   expect_equal(res2, exp2)
-#   expect_equal(res1, res2)
-# })

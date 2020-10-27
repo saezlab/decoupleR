@@ -3,15 +3,21 @@ library(stringr)
 library(purrr)
 library(decoupleR)
 
+# Directories -------------------------------------------------------------
+
+# Inputs
+input_dir <- system.file("testdata", "inputs", package = "decoupleR")
+
+# Outputs
+expected_dir <- system.file("testdata", "outputs", package = "decoupleR")
+
 # Data to run -------------------------------------------------------------
 
-mat <- readRDS(
-  system.file("testdata/inputs", "input-expr_matrix.rds", package = "decoupleR")
-)
+mat <- file.path(input_dir, "input-expr_matrix.rds") %>%
+  readRDS()
 
-dorothea_genesets <- readRDS(
-  system.file("testdata/inputs", "input-dorothea_genesets.rds", package = "decoupleR")
-)
+dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
+  readRDS()
 
 statistics <- c(
   "scira",
@@ -66,7 +72,7 @@ test_that("decouple same results as independent functions", {
     arrange(statistic, tf, condition)
 
   default_dorothea_statistics <- list.files(
-    path = system.file("testdata/outputs/", package = "decoupleR"),
+    path = expected_dir,
     pattern = "_dorothea_default.rds",
     full.names = TRUE,
     recursive = TRUE

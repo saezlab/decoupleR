@@ -30,15 +30,18 @@ in \code{network} \code{.target} column.}
 
 \item{sparse}{Logical value indicating if the generated profile matrix should be sparse.}
 
-\item{fast}{as}
+\item{fast}{Logical value indicating if the lineal model must be calculated
+with \code{\link[speedglm:speedlm.fit]{speedlm.fit()}} or with base
+\code{\link[stats:lm]{lm()}}.}
 }
 \value{
-A long format tibble of the enrichment results for each set of genes
- across the samples. Resulting tibble contains the following columns:
+A long format tibble of the enrichment scores for each tf
+ across the conditions. Resulting tibble contains the following columns:
  \enumerate{
-   \item \code{source} Resources from the \code{.source} column of the \code{network} data frame.
-   \item \code{condition} Samples representing each column of \code{mat}.
-   \item \code{score} Regulatory activity of each resource for each condition.
+   \item{\code{statistic}}: {Indicates which method is associated with which score.}
+   \item{\code{tf}}: {Source nodes of \code{network}.}
+   \item{\code{condition}}: {Condition representing each column of \code{mat}.}
+   \item{\code{score}}: {Regulatory activity (enrichment score).}
  }
 }
 \description{

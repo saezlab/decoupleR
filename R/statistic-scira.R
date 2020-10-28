@@ -13,7 +13,7 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param .sparse Logical value indicating if the generated profile matrix should be sparse.
+#' @param sparse Logical value indicating if the generated profile matrix should be sparse.
 #'
 #' @return A long format tibble of the enrichment results for each set of genes
 #'  across the samples. Resulting tibble contains the following columns:
@@ -34,7 +34,7 @@ run_scira <- function(mat,
                       .source = .data$tf,
                       .target = .data$target,
                       .mor = .data$mor,
-                      .sparse = FALSE) {
+                      sparse = FALSE) {
 
   # Preprocessing -----------------------------------------------------------
 
@@ -56,7 +56,7 @@ run_scira <- function(mat,
       sources = list(tf = tfs, target = rownames(mat)),
       values_fill = list(mor = 0)
     ) %>%
-    pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = .sparse)
+    pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = sparse)
 
   # Model evaluation --------------------------------------------------------
   .scira_analysis(mat, profile_mat)

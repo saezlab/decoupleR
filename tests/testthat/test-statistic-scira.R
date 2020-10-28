@@ -27,8 +27,7 @@ test_that("test run_scira with dorothea gene sets", {
   exp_2 <- file.path(expected_dir, "output-scira_dorothea_tidy-evaluation.rds") %>%
     readRDS()
 
-
-  res_3 <- run_scira(emat, dorothea_genesets, .sparse = TRUE)
+  res_3 <- run_scira(emat, dorothea_genesets, sparse = TRUE)
   exp_3 <- file.path(expected_dir, "output-scira_dorothea_sparse-background-calculation.rds") %>%
     readRDS()
 

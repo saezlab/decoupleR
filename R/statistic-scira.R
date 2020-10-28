@@ -14,6 +14,7 @@
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
 #' @param sparse Logical value indicating if the generated profile matrix should be sparse.
+#' @param fast as
 #'
 #' @return A long format tibble of the enrichment results for each set of genes
 #'  across the samples. Resulting tibble contains the following columns:
@@ -29,12 +30,14 @@
 #' @import tibble
 #' @import tidyr
 #' @importFrom stats coef lm summary.lm
+#' @importFrom speedglm speedlm.fit
 run_scira <- function(mat,
                       network,
                       .source = .data$tf,
                       .target = .data$target,
                       .mor = .data$mor,
-                      sparse = FALSE) {
+                      sparse = FALSE,
+                      fast = TRUE) {
 
   # Preprocessing -----------------------------------------------------------
 
@@ -47,19 +50,17 @@ run_scira <- function(mat,
     pull(.data$tf) %>%
     unique()
 
-  conditions <- colnames(mat)
-
   # Ensures column matching, expands the target profile to encompass all targets
   # in the expression matrix for each source, and converts the result to a matrix.
-  profile_mat <- network %>%
+  mor_mat <- network %>%
     get_profile_of(
       sources = list(tf = tfs, target = rownames(mat)),
       values_fill = list(mor = 0)
     ) %>%
-    pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = sparse)
+    pivot_wider_profile(.data$target, .data$tf, .data$mor, to_matrix = TRUE, to_sparse = sparse)
 
   # Model evaluation --------------------------------------------------------
-  .scira_analysis(mat, profile_mat)
+  .scira_analysis(mat, mor_mat, fast)
 }
 
 # Helper functions ------------------------------------------------------
@@ -74,62 +75,44 @@ run_scira <- function(mat,
 #' @inherit run_scira return
 #' @keywords intern
 #' @noRd
-.scira_analysis <- function(mat, mor_mat) {
+.scira_analysis <- function(mat, mor_mat, fast) {
+  scira_evaluate_model <- partial(
+    .f = .scira_evaluate_model,
+    mat = mat,
+    mor_mat = mor_mat,
+    fast = fast
+  )
 
   # Allocate the space for all combinations of sources and conditions
   # and evaluate the proposed model.
-  lift_dl(expand_grid)(list(tf = rownames(mor_mat), condition = colnames(mat))) %>%
-    rowwise() %>%
-    mutate(
-      score = .scira_run(.data$tf, .data$condition, mat, mor_mat)
+  lift_dl(expand_grid)(list(tf = colnames(mor_mat), condition = colnames(mat))) %>%
+    rowwise(.data$tf, .data$condition) %>%
+    summarise(
+      score = scira_evaluate_model(.data$tf, .data$condition),
+      .groups = "drop"
     ) %>%
-    ungroup() %>%
     transmute(statistic = "scira", .data$tf, .data$condition, .data$score)
 }
 
 #' Wrapper to run scira one tf per sample at time
 #'
-#' @inheritParams .scira_analysis
-#' @param source Current `source` to evaluate.
-#' @param condition Current `condition` to evaluate
-#'
-#' @inherit .scira_evaluate_model return
-#'
 #' @keywords internal
 #' @noRd
-.scira_run <- function(source, condition, mat, mor_mat) {
-  .scira_map_model_data(source, condition, mat, mor_mat) %>%
-    .scira_evaluate_model()
-}
+.scira_evaluate_model <- function(source, condition, mat, mor_mat, fast) {
 
-#' Map model data
-#'
-#' Build a data set with the necessary values to evaluate the model.
-#'
-#' @inheritParams .scira_run
-#'
-#' @return Tibble with the data to use to evaluate the model.
-#' @keywords internal
-#' @noRd
-.scira_map_model_data <- function(source, condition, mat, mor_mat) {
-  tibble(expression = mat[, condition], mor = mor_mat[source, ])
-}
+  if (fast) {
+    speedlm.fit(
+      y = mat[, condition],
+      X = cbind(1, mor_mat[, source])
+    ) %>%
+      summary() %>%
+      pluck("coefficients", "t", 2, .default = NA)
+  } else {
+    coefficients_values <- lm(mat[, condition] ~ mor_mat[, source]) %>%
+      summary() %>%
+      coef()
 
-#' Evaluate model
-#'
-#' Fit a linear regression between the value of expression and the profile of its targets.
-#'
-#' @param data A data frame, data frame extension (e.g. a tibble) with two
-#'  columns; `expression` and `mor` to perform lineal regression.
-#'
-#' @return t-value corresponding to beta 1 parameter of linear regression.
-#' @keywords internal
-#' @noRd
-.scira_evaluate_model <- function(data) {
-  coefficients_values <- lm(expression ~ mor, data = data) %>%
-    summary.lm() %>%
-    coef()
-
-  t_values <- coefficients_values[, "t value"]
-  pluck(t_values, 2, .default = NA)
+    t_values <- coefficients_values[, "t value"]
+    pluck(t_values, 2, .default = NA)
+  }
 }

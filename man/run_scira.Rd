@@ -10,7 +10,8 @@ run_scira(
   .source = .data$tf,
   .target = .data$target,
   .mor = .data$mor,
-  sparse = FALSE
+  sparse = FALSE,
+  fast = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ in \code{network} \code{.target} column.}
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
 \item{sparse}{Logical value indicating if the generated profile matrix should be sparse.}
+
+\item{fast}{as}
 }
 \value{
 A long format tibble of the enrichment results for each set of genes

@@ -5,11 +5,11 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
+#' @param statistics Statistical methods to be coupled.
 #' @param .options A list of argument-lists the same length as \code{statistics} (or length 1).
 #'  The default argument, list(NULL), will be recycled to the same length as \code{statistics},
 #'  and will call each function with no arguments (apart from \code{mat},
 #'  \code{network}, \code{.source} and, \code{.target}).
-#' @param statistics Statistical methods to be coupled.
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the samples. Resulting tibble contains the following columns:
@@ -27,8 +27,8 @@ decouple <- function(mat,
                      network,
                      .source,
                      .target,
-                     .options = list(NULL),
-                     statistics) {
+                     statistics,
+                     .options = list(NULL)) {
 
   # Match statistics to couple ----------------------------------------------
 
@@ -56,15 +56,15 @@ decouple <- function(mat,
 
   # For the moment this will only ensure that the parameters passed
   # to decoupleR are the same when invoking the functions.
-  invoke_map(
+  invoke_map_dfr(
     .f = statistics,
     .x = .options,
     mat = mat,
     network = network,
     .source = enquo(.source),
-    .target = enquo(.target)
+    .target = enquo(.target),
+    .id = "run_id"
   ) %>%
-    bind_rows(.id = "run_id") %>%
     select(
       .data$run_id,
       .data$statistic,

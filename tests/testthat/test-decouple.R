@@ -32,7 +32,8 @@ partial_decouple <- partial(
   mat = mat,
   network = dorothea_genesets,
   .source = tf,
-  .target = target
+  .target = target,
+  statistics = statistics
 )
 
 # decouple statistics -----------------------------------------------------
@@ -41,15 +42,13 @@ test_that("decouple same results as independent functions", {
 
   # n-statistics against no options.
   res_1 <- partial_decouple(
-    .options = list(),
-    statistics = statistics
+    .options = list()
   )
 
   # Removed since no all statistics share at least one parameter.
   # # n-statistics against 1-option.
   # res_2 <- partial_decouple(
-  #   .options = list(.mor = "mor"),
-  #   statistics = statistics
+  #   .options = list(.mor = "mor")
   # )
 
   # n-statistics against n-options.
@@ -60,8 +59,7 @@ test_that("decouple same results as independent functions", {
       mean = list(.mor = "mor"),
       viper = list(.mor = "mor"),
       gsva = list(options = list(verbose = FALSE))
-    ),
-    statistics = statistics
+    )
   )
 
   expect_equal(res_1, res_2)

@@ -102,7 +102,6 @@ run_scira <- function(mat,
 #' @keywords internal
 #' @noRd
 .scira_evaluate_model <- function(source, condition, mat, mor_mat, fast) {
-
   if (fast) {
     speedlm.fit(
       y = mat[, condition],

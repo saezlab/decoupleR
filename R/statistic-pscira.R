@@ -24,7 +24,7 @@ run_pscira <- function(mat,
                        .source = .data$tf,
                        .target = .data$target,
                        .mor = .data$mor,
-                       .sparse = TRUE,
+                       sparse = TRUE,
                        times = 10,
                        seed = 42) {
 
@@ -51,7 +51,7 @@ run_pscira <- function(mat,
       sources = list(tf = tfs, target = rownames(mat)),
       values_fill = list(mor = 0)
     ) %>%
-    pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = .sparse)
+    pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = sparse)
 
   # Convert to matrix to ensure that matrix multiplication works
   # in case mat is a labelled dataframe.

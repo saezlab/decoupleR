@@ -1,6 +1,6 @@
 library(decoupleR)
 
-# Directories -------------------------------------------------------------
+# Base directories definition ---------------------------------------------
 
 # Inputs
 input_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -8,13 +8,19 @@ input_dir <- system.file("testdata", "inputs", package = "decoupleR")
 # Outputs
 output_dir <- file.path("inst", "testdata", "outputs")
 
-out <- list(
-  mean = file.path(output_dir, "mean"),
-  pscira = file.path(output_dir, "pscira"),
-  scira = file.path(output_dir, "scira"),
-  viper = file.path(output_dir, "viper"),
-  gsva = file.path(output_dir, "gsva")
-)
+# Specific directories creation -------------------------------------------
+# Here you need to extend the vector with the name of your new statistic.
+
+out <- c(
+  "mean",
+  "pscira",
+  "scira",
+  "viper",
+  "gsva"
+) %>%
+  file.path(output_dir, .) %>%
+  setNames(object = ., nm = basename(.)) %>%
+  as.list()
 
 sapply(out, dir.create, showWarnings = TRUE)
 
@@ -49,7 +55,7 @@ run_scira(emat, dorothea_genesets) %>%
 run_scira(emat, dorothea_genesets, tf, target, mor) %>%
   saveRDS(file.path(out$scira, "output-scira_dorothea_tidy-evaluation.rds"))
 
-run_scira(emat, dorothea_genesets, .sparse = TRUE) %>%
+run_scira(emat, dorothea_genesets, sparse = TRUE) %>%
   saveRDS(file.path(out$scira, "output-scira_dorothea_sparse-background-calculation.rds"))
 
 #----- run_pscira() ------------------------------------------------------------
@@ -60,7 +66,7 @@ run_pscira(emat, dorothea_genesets) %>%
 run_pscira(emat, dorothea_genesets, tf, target, mor) %>%
   saveRDS(file.path(out$pscira, "output-pscira_dorothea_tidy-evaluation.rds"))
 
-run_pscira(emat, dorothea_genesets, .sparse = TRUE) %>%
+run_pscira(emat, dorothea_genesets, sparse = TRUE) %>%
   saveRDS(file.path(out$pscira, "output-pscira_dorothea_sparse-background-calculation.rds"))
 
 #----- run_mean() -------------------------------------------------------------

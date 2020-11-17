@@ -47,11 +47,6 @@ decouple <- function(mat,
     available_statistics[.] %>%
     unname()
 
-  # Check options -----------------------------------------------------------
-  if (is_empty(.options)) {
-    .options <- list(NULL)
-  }
-
   # Evaluate statistics -----------------------------------------------------
 
   # For the moment this will only ensure that the parameters passed

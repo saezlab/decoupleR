@@ -21,6 +21,8 @@ dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
 test_that("test run_scira with dorothea gene sets", {
   res_1 <- run_scira(emat, dorothea_genesets) %>%
     select(-statistic_time)
+  res_1_2 <- run_scira(emat, dorothea_genesets, fast = FALSE) %>%
+    select(-statistic_time)
   exp_1 <- file.path(expected_dir, "output-scira_dorothea_default.rds") %>%
     readRDS()
 
@@ -38,4 +40,5 @@ test_that("test run_scira with dorothea gene sets", {
   expect_equal(res_2, exp_2)
   expect_equal(res_3, exp_3)
   expect_equal(res_2, res_3)
+  expect_equal(res_1, res_1_2)
 })

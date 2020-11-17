@@ -145,13 +145,13 @@ convert_to_gsva <- function(dataset, .source, .target) {
     if (quo_is_missing(.dot)) {
       abort(
         message = str_glue('Quo "{.name}" is missing, with no default.'),
-        .subclass = "quo_missing_error"
+        class = "quo_missing_error"
       )
     }
     if (quo_is_null(.dot)) {
       abort(
         message = str_glue('Quo "{.name}" can not be NULL.'),
-        .subclass = "quo_null_error"
+        class = "quo_null_error"
       )
     }
   })

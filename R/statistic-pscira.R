@@ -39,7 +39,7 @@ run_pscira <- function(mat,
 
   # Convert to standard tibble: tf-target-mor.
   network <- network %>%
-    convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }})
+    convert_to_pscira({{ .source }}, {{ .target }}, {{ .mor }})
 
   # Extract labels that will map to the expression and profile matrices
   tfs <- network %>%

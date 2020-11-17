@@ -19,15 +19,18 @@ dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
 # Test for run_mean function ---------------------------------------------
 
 test_that("test run_mean with dorothea gene sets", {
-  res_1 <- run_mean(emat, dorothea_genesets, .likelihood = NULL)
+  res_1 <- run_mean(emat, dorothea_genesets, .likelihood = NULL) %>%
+    select(-statistic_time)
   exp_1 <- file.path(expected_dir, "output-mean_dorothea_default.rds") %>%
     readRDS()
 
-  res_2 <- run_mean(emat, dorothea_genesets, tf, target, mor, .likelihood = NULL)
+  res_2 <- run_mean(emat, dorothea_genesets, tf, target, mor, .likelihood = NULL) %>%
+    select(-statistic_time)
   exp_2 <- file.path(expected_dir, "output-mean_dorothea_tidy-evaluation.rds") %>%
     readRDS()
 
-  res_3 <- run_mean(emat, dorothea_genesets, sparse = TRUE, .likelihood = NULL)
+  res_3 <- run_mean(emat, dorothea_genesets, sparse = TRUE, .likelihood = NULL) %>%
+    select(-statistic_time)
   exp_3 <- file.path(expected_dir, "output-mean_dorothea_sparse-background-calculation.rds") %>%
     readRDS()
 

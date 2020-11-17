@@ -45,7 +45,8 @@ test_that("decouple same results as independent functions", {
     )
   ) %>%
     dplyr::select(-.data$run_id) %>%
-    dplyr::arrange(.data$statistic, .data$tf, .data$condition)
+    dplyr::arrange(.data$statistic, .data$tf, .data$condition) %>%
+    select(-.data$statistic_time)
 
   exp_decouple_defaults <- file.path(
     expected_dir,

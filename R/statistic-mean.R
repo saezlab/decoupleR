@@ -41,6 +41,8 @@ run_mean <- function(mat,
                      randomize_type = "rows") {
 
   # Before to start ---------------------------------------------------------
+  .start_time <- Sys.time()
+
   if (times < 2) {
     stop(str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
   }
@@ -83,7 +85,8 @@ run_mean <- function(mat,
     )
 
   # Analysis ----------------------------------------------------------------
-  .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type)
+  .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type) %>%
+    mutate(statistic_time = difftime(Sys.time(), .start_time))
 }
 
 # Helper functions --------------------------------------------------------

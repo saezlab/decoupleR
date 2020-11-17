@@ -24,6 +24,8 @@ run_gsva <- function(mat,
                      .target = .data$target,
                      options = list()) {
   # Before to start ---------------------------------------------------------
+  .start_time <- Sys.time()
+
   regulons <- network %>%
     convert_to_gsva({{ .source }}, {{ .target }})
 
@@ -41,5 +43,6 @@ run_gsva <- function(mat,
     as.data.frame() %>%
     rownames_to_column(var = "tf") %>%
     pivot_longer(cols = -.data$tf, names_to = "condition", values_to = "score") %>%
-    transmute(statistic = "gsva", .data$tf, .data$condition, .data$score)
+    transmute(statistic = "gsva", .data$tf, .data$condition, .data$score) %>%
+    mutate(statistic_time = difftime(Sys.time(), .start_time))
 }

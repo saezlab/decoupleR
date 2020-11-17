@@ -43,6 +43,7 @@ run_scira <- function(mat,
                       fast = TRUE) {
 
   # Preprocessing -----------------------------------------------------------
+  .start_time <- Sys.time()
 
   # Convert to standard tibble: tf-target-mor.
   network <- network %>%
@@ -63,7 +64,8 @@ run_scira <- function(mat,
     pivot_wider_profile(.data$target, .data$tf, .data$mor, to_matrix = TRUE, to_sparse = sparse)
 
   # Model evaluation --------------------------------------------------------
-  .scira_analysis(mat, mor_mat, fast)
+  .scira_analysis(mat, mor_mat, fast) %>%
+    mutate(statistic_time = difftime(Sys.time(), .start_time))
 }
 
 # Helper functions ------------------------------------------------------

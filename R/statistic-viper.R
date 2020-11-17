@@ -32,6 +32,9 @@ run_viper <- function(mat,
                       .mor = .data$mor,
                       .likelihood = .data$likelihood,
                       options = list()) {
+
+  .start_time <- Sys.time()
+
   network <- network %>%
     convert_to_viper({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
@@ -48,7 +51,8 @@ run_viper <- function(mat,
     as.data.frame() %>%
     rownames_to_column("tf") %>%
     pivot_longer(-.data$tf, names_to = "condition", values_to = "score") %>%
-    add_column(statistic = "viper", .before = 1)
+    add_column(statistic = "viper", .before = 1) %>%
+    mutate(statistic_time = difftime(Sys.time(), .start_time))
 }
 
 #' Make gene sets for VIPER

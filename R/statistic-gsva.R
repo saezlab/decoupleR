@@ -30,15 +30,11 @@ run_gsva <- function(mat,
     convert_to_gsva({{ .source }}, {{ .target }})
 
   # Analysis ----------------------------------------------------------------
+  args <- c(list(expr = mat, gset.idx.list = regulons), options)
+
   do.call(
     what = GSVA::gsva,
-    args = c(
-      list(
-        expr = mat,
-        gset.idx.list = regulons
-      ),
-      options
-    )
+    args = args
   ) %>%
     as.data.frame() %>%
     rownames_to_column(var = "tf") %>%

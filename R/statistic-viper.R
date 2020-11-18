@@ -33,46 +33,19 @@ run_viper <- function(mat,
                       .likelihood = .data$likelihood,
                       options = list()) {
 
+  # Before to start ---------------------------------------------------------
   .start_time <- Sys.time()
 
   network <- network %>%
     convert_to_viper({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
-  do.call(
-    viper,
-    c(
-      list(
-        eset = mat,
-        regulon = make_viper_genesets(network)
-      ),
-      options
-    )
-  ) %>%
+  # Analysis ----------------------------------------------------------------
+  args <- c(list(eset = mat, regulon = network), options)
+
+  do.call(what = viper::viper, args = args) %>%
     as.data.frame() %>%
     rownames_to_column("tf") %>%
     pivot_longer(-.data$tf, names_to = "condition", values_to = "score") %>%
     add_column(statistic = "viper", .before = 1) %>%
     mutate(statistic_time = difftime(Sys.time(), .start_time))
-}
-
-#' Make gene sets for VIPER
-#'
-#' This function convert gene sets in a table format to the format required by
-#' the \code{\link[=viper]{viper::viper()}} function.
-#'
-#' @param genesets A dataframe of gene sets that must contain the
-#' columns \code{geneset}, \code{gene}, \code{mor} and \code{likelihood}.
-#'
-#' @return Gene sets in the \code{\link[=viper]{viper::viper()}} format.
-#'
-#' @keywords internal
-#' @importFrom stats setNames
-make_viper_genesets <- function(genesets) {
-  genesets %>%
-    split(.$geneset) %>%
-    map(function(gs) {
-      targets <- setNames(gs$mor, gs$gene)
-      likelihood <- gs$likelihood
-      list(tfmode = targets, likelihood = likelihood)
-    })
 }

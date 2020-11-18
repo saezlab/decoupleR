@@ -20,17 +20,17 @@ dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
 # test for run_viper() ----------------------------------------------------
 
 test_that("test run_viper with dorothea gene sets", {
-  res_1 <- run_viper(emat, dorothea_genesets) %>%
+  res_1 <- run_viper(emat, dorothea_genesets, options = list(verbose = FALSE)) %>%
     select(-statistic_time)
   exp_1 <- file.path(expected_dir, "output-viper_dorothea_default.rds") %>%
     readRDS()
 
-  res_2 <- run_viper(emat, dorothea_genesets, tf, target, mor, likelihood) %>%
+  res_2 <- run_viper(emat, dorothea_genesets, tf, target, mor, likelihood, options = list(verbose = FALSE)) %>%
     select(-statistic_time)
   exp_2 <- file.path(expected_dir, "output-viper_dorothea_tidy-evaluation.rds") %>%
     readRDS()
 
-  res_3 <- run_viper(emat, dorothea_genesets, options = list(minsize = 4)) %>%
+  res_3 <- run_viper(emat, dorothea_genesets, options = list(verbose = FALSE, minsize = 4)) %>%
     select(-statistic_time)
   exp_3 <- file.path(expected_dir, "output-viper_dorothea_minsize4.rds") %>%
     readRDS()

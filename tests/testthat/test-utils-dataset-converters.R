@@ -103,18 +103,21 @@ test_that("convert_f_defaults add columns with defaults", {
 })
 
 test_that("missing quos", {
-
   convert_to_foo <- function(x) {
     .check_quos_status({{ x }}, .dots_names = "x")
   }
 
-  expect_error(convert_to_foo(),
-               regexp =  'Quo "x" is missing, with no default.',
-               class = "quo_missing_error")
+  expect_error(
+    object = convert_to_foo(),
+    regexp = 'Quo "x" is missing, with no default.',
+    class = "quo_missing_error"
+  )
 
-  expect_error(convert_to_foo(NULL),
-               regexp =  'Quo "x" can not be NULL.',
-               class = "quo_null_error")
+  expect_error(
+    object = convert_to_foo(NULL),
+    regexp = 'Quo "x" can not be NULL.',
+    class = "quo_null_error"
+  )
 })
 
 test_that("convert_to return same", {

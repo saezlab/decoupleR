@@ -14,6 +14,7 @@
 \alias{quo_is_null}
 \alias{quo_is_missing}
 \alias{abort}
+\alias{exec}
 \title{Tidy eval helpers}
 \description{
 \itemize{

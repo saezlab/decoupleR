@@ -40,9 +40,12 @@ run_viper <- function(mat,
     convert_to_viper({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
   # Analysis ----------------------------------------------------------------
-  args <- c(list(eset = mat, regulon = network), options)
-
-  do.call(what = viper::viper, args = args) %>%
+  exec(
+    .fn = viper::viper,
+    eset = mat,
+    regulon = network,
+    !!!options
+  ) %>%
     as.data.frame() %>%
     rownames_to_column("tf") %>%
     pivot_longer(-.data$tf, names_to = "condition", values_to = "score") %>%

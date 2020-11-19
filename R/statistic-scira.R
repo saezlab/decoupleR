@@ -15,8 +15,7 @@
 #' @inheritParams .decoupler_network_format
 #' @param sparse Logical value indicating if the generated profile matrix should be sparse.
 #' @param fast Logical value indicating if the lineal model must be calculated
-#' with [speedglm::speedlm.fit()] or with base
-#' [stats::lm()].
+#' with [speedglm::speedlm.fit()] or with base [stats::lm()].
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the conditions. Resulting tibble contains the following columns:

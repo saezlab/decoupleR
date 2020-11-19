@@ -4,9 +4,7 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param options A list of named options to pass to
-#' [viper::viper()] such as `minsize` or `method`.
-#'  These options should not `include`, `eset` or `regulon`.
+#' @inheritDotParams viper::viper -eset -regulon
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the conditions. Resulting tibble contains the following columns:
@@ -29,7 +27,7 @@ run_viper <- function(mat,
                       .target = .data$target,
                       .mor = .data$mor,
                       .likelihood = .data$likelihood,
-                      options = list()) {
+                      ...) {
 
   # Before to start ---------------------------------------------------------
   .start_time <- Sys.time()
@@ -42,7 +40,7 @@ run_viper <- function(mat,
     .fn = viper::viper,
     eset = mat,
     regulon = network,
-    !!!options
+    !!!list(...)
   ) %>%
     as.data.frame() %>%
     rownames_to_column("tf") %>%

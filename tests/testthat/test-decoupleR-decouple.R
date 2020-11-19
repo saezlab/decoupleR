@@ -40,7 +40,7 @@ test_that("decouple same results as independent functions", {
       scira = list(),
       pscira = list(),
       mean = list(.likelihood = NULL),
-      viper = list(options = list(verbose = FALSE)),
+      viper = list(verbose = FALSE),
       gsva = list(options = list(verbose = FALSE))
     )
   ) %>%

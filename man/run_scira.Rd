@@ -31,8 +31,7 @@ in \code{network} \code{.target} column.}
 \item{sparse}{Logical value indicating if the generated profile matrix should be sparse.}
 
 \item{fast}{Logical value indicating if the lineal model must be calculated
-with \code{\link[speedglm:speedlm]{speedglm::speedlm.fit()}} or with base
-\code{\link[stats:lm]{stats::lm()}}.}
+with \code{\link[speedglm:speedlm]{speedglm::speedlm.fit()}} or with base \code{\link[stats:lm]{stats::lm()}}.}
 }
 \value{
 A long format tibble of the enrichment scores for each tf

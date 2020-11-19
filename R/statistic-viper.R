@@ -6,19 +6,16 @@
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
 #' @param options A list of named options to pass to
-#' \code{\link[=viper]{viper::viper()}} such as \code{minsize} or \code{method}.
-#'  These options should not \code{include}, \code{eset} or \code{regulon}.
+#' \code{\link[=viper]{viper::viper()}} such as `minsize` or `method`.
+#'  These options should not `include`, `eset` or `regulon`.
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the conditions. Resulting tibble contains the following columns:
-#'  \enumerate{
-#'    \item{\code{statistic}}: {Indicates which method is associated with which score.}
-#'    \item{\code{tf}}: {Source nodes of \code{network}.}
-#'    \item{\code{condition}}: {Conditions representing each column of \code{mat}.}
-#'    \item{\code{score}}: {Regulatory activity (enrichment score).}
-#'    \item{\code{statistic_time}}: {Internal execution time indicator.}
-#'  }
-#'
+#'  1. `statistic`: Indicates which method is associated with which score.
+#'  2. `tf`: Source nodes of `network`.
+#'  3. `condition`: Condition representing each column of `mat`.
+#'  4. `score`: Regulatory activity (enrichment score).
+#'  5. `statistic_time`: Internal execution time indicator.
 #' @export
 #' @import dplyr
 #' @import tibble

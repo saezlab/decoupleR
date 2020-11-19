@@ -167,8 +167,8 @@ convert_to_gsva <- function(dataset, .source, .target) {
 #' Rename columns and add defaults values if column not present
 #'
 #' @description
-#' \code{rename_defaults} combine the \code{\link[dplyr]{rename}} way of
-#' working and with the \code{\link[tibble]{add_column}} to add columns
+#' `rename_defaults` combine the [dplyr::rename()] way of
+#' working and with the [tibble::add_column()] to add columns
 #' with default values in case they don't exist after renaming the dataset.
 #'
 #' @inheritParams dplyr::rename

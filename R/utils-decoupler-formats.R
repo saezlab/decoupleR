@@ -10,8 +10,8 @@
 #'
 #' @param mat Matrix to evaluate (e.g. expression matrix).
 #'  Target nodes in rows and conditions in columns.
-#'  \code{rownames(mat)} must have at least one intersection with the elements
-#'  in \code{network} \code{.target} column.
+#'  `rownames(mat)` must have at least one intersection with the elements
+#'  in `network` `.target` column.
 #'
 #' @keywords internal
 #' @name .decoupler_mat_format
@@ -22,8 +22,8 @@ NULL
 #' DecoupleR network format
 #'
 #' @description
-#' A network passed to any \code{run_} method in the package must contain at
-#' least two attributes: \code{.source} and \code{.target}. In addition,
+#' A network passed to any `run_` method in the package must contain at
+#' least two attributes: `.source` and `.target`. In addition,
 #' the methods must map their corresponding metadata associated with their edges.
 #'
 #' @param network Tibble or dataframe with edges and it's associated metadata.

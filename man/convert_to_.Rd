@@ -36,7 +36,7 @@ convert_to_gsva(dataset, .source, .target)
 }
 \value{
 Returns a tibble with the necessary columns to evaluate the method
- to which the dataset is being converted.
+to which the dataset is being converted.
 }
 \description{
 Convert the data set to the suggested standard for the specified function.

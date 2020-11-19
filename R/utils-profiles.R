@@ -7,7 +7,7 @@
 #' @param sources A named vector or list with the values to expand and get profile.
 #'
 #' @return A data frame with the expanded grid of the values passed in
-#'  \code{sources} and filled as specified in the \code{fill} argument.
+#'  `sources` and filled as specified in the `fill` argument.
 #' @export
 #'
 #' @examples
@@ -32,7 +32,7 @@
 #'
 #' # Replace all NAs with "Unkwnon"
 #' df %>% get_profile_of(sources = to_get_profile, values_fill = "Unknown")
-#' @seealso \link[tidyr]{complete} \link[tidyr]{expand}
+#' @seealso [complete][tidyr::complete] [expand][tidyr::expand]
 #'
 #' @import dplyr
 #' @import purrr
@@ -61,17 +61,17 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 
 #' Pivot a data frame to wider and convert it to matrix
 #'
-#' @description Generates a kind of table where the rows come from \code{id_cols},
-#' the columns from \code{names_from} and the values from \code{values_from}.
+#' @description Generates a kind of table where the rows come from `id_cols`,
+#' the columns from `names_from` and the values from `values_from`.
 #'
 #' @details
 #' In the current state of the function, to ensure its operation,
-#' the \code{id_cols} parameter is a single selector.
+#' the `id_cols` parameter is a single selector.
 #'
 #' @inheritParams tidyr::pivot_wider
 #' @inheritParams tidyr::spread
 #' @param to_matrix Logical value indicating if the result should be a matrix.
-#'  Parameter is ignored in case \code{sparse} is \code{TRUE}.
+#'  Parameter is ignored in case `sparse` is `TRUE`.
 #' @param to_sparse Logical value indicating whether the resulting matrix should be sparse or not.
 #'
 #' @export

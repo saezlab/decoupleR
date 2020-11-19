@@ -1,7 +1,7 @@
 #' SCIRA (Single Cell Inference of Regulatory Activity)
 #'
 #' @description
-#' Calculates TF activity according to \href{https://www.biorxiv.org/content/10.1101/553040v1.full.pdf}{SCIRA}.
+#' Calculates TF activity according to [SCIRA](https://www.biorxiv.org/content/10.1101/553040v1.full.pdf).
 #'
 #' @details
 #' Estimation of regulatory activity: A linear regression of the expression profile
@@ -15,18 +15,16 @@
 #' @inheritParams .decoupler_network_format
 #' @param sparse Logical value indicating if the generated profile matrix should be sparse.
 #' @param fast Logical value indicating if the lineal model must be calculated
-#' with \code{\link[speedglm:speedlm.fit]{speedlm.fit()}} or with base
-#' \code{\link[stats:lm]{lm()}}.
+#' with [speedglm::speedlm.fit()] or with base
+#' [stats::lm()].
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the conditions. Resulting tibble contains the following columns:
-#'  \enumerate{
-#'    \item{\code{statistic}}: {Indicates which method is associated with which score.}
-#'    \item{\code{tf}}: {Source nodes of \code{network}.}
-#'    \item{\code{condition}}: {Condition representing each column of \code{mat}.}
-#'    \item{\code{score}}: {Regulatory activity (enrichment score).}
-#'    \item{\code{statistic_time}}: {Internal execution time indicator.}
-#'  }
+#'  1. `statistic`: Indicates which method is associated with which score.
+#'  2. `tf`: Source nodes of `network`.
+#'  3. `condition`: Condition representing each column of `mat`.
+#'  4. `score`: Regulatory activity (enrichment score).
+#'  5. `statistic_time`: Internal execution time indicator.
 #' @export
 #'
 #' @import dplyr

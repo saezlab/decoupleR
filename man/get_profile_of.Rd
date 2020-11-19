@@ -19,7 +19,7 @@ to different value columns.}
 }
 \value{
 A data frame with the expanded grid of the values passed in
- \code{sources} and filled as specified in the \code{fill} argument.
+\code{sources} and filled as specified in the \code{fill} argument.
 }
 \description{
 Turns implicit missing values into explicit missing values.
@@ -51,5 +51,5 @@ df \%>\% get_profile_of(sources = to_get_profile, values_fill = list(item_name =
 df \%>\% get_profile_of(sources = to_get_profile, values_fill = "Unknown")
 }
 \seealso{
-\link[tidyr]{complete} \link[tidyr]{expand}
+\link[tidyr:complete]{complete} \link[tidyr:expand]{expand}
 }

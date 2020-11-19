@@ -1,6 +1,6 @@
 #' SAFE mean
 #'
-#' Calculate the activity of a regulon through the conditions in the \code{mat}
+#' Calculate the activity of a regulon through the conditions in the `mat`
 #' matrix by calculating the mean over the expression of all genes.
 #'
 #' @inheritParams .decoupler_mat_format
@@ -14,15 +14,12 @@
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the conditions. Resulting tibble contains the following columns:
-#'  \enumerate{
-#'    \item{\code{statistic}}: {Indicates which method is associated with which score.}
-#'    \item{\code{tf}}: {Source nodes of \code{network}.}
-#'    \item{\code{condition}}: {Condition representing each column of \code{mat}.}
-#'    \item{\code{score}}: {Regulatory activity (enrichment score).}
-#'    \item{\code{statistic_time}}: {Internal execution time indicator.}
-#'    \item{\code{p_value}}: {p-value for the score of mean method.}
-#'  }
-#'
+#'  1. `statistic`: Indicates which method is associated with which score.
+#'  2. `tf`: Source nodes of `network`.
+#'  3. `condition`: Condition representing each column of `mat`.
+#'  4. `score`: Regulatory activity (enrichment score).
+#'  5. `statistic_time`: Internal execution time indicator.
+#'  6. `p_value`: p-value for the score of mean method.
 #' @export
 #' @import dplyr
 #' @import purrr
@@ -103,7 +100,7 @@ run_mean <- function(mat,
 #' @param weight_mat Matrix that corresponds to the multiplication of the mor
 #'  column with likelihood divided over the contribution.
 #' @param shared_targets Target nodes that are shared between the
-#'  \code{mat} and \code{network}.
+#'  `mat` and `network`.
 #'
 #' @inherit run_mean return
 #'
@@ -171,9 +168,9 @@ run_mean <- function(mat,
 #' If random is true, then it permutes the rows of the matrix
 #' (i.e preserves the column relationships), otherwise it maintains
 #' the original order of the data. Then it takes only those rows with
-#' the values provided in \code{shared_targets}.
+#' the values provided in `shared_targets`.
 #'
-#' @return Matrix with rows that match \code{shared_targets}.
+#' @return Matrix with rows that match `shared_targets`.
 #'
 #' @inheritParams .mean_analysis
 #' @keywords internal

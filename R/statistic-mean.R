@@ -85,10 +85,10 @@ run_mean <- function(mat,
 
   # Analysis ----------------------------------------------------------------
   .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type) %>%
-  add_column(
-    statistic_time = difftime(Sys.time(), .start_time),
-    .after = "score"
-  )
+    add_column(
+      statistic_time = difftime(Sys.time(), .start_time),
+      .after = "score"
+    )
 }
 
 # Helper functions --------------------------------------------------------

@@ -16,6 +16,7 @@
 #'    \item{\code{tf}}: {Source nodes of \code{network}.}
 #'    \item{\code{condition}}: {Conditions representing each column of \code{mat}.}
 #'    \item{\code{score}}: {Regulatory activity (enrichment score).}
+#'    \item{\code{statistic_time}}: {Internal execution time indicator.}
 #'  }
 #'
 #' @export

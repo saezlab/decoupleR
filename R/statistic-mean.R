@@ -19,6 +19,7 @@
 #'    \item{\code{tf}}: {Source nodes of \code{network}.}
 #'    \item{\code{condition}}: {Condition representing each column of \code{mat}.}
 #'    \item{\code{score}}: {Regulatory activity (enrichment score).}
+#'    \item{\code{statistic_time}}: {Internal execution time indicator.}
 #'    \item{\code{p_value}}: {p-value for the score of mean method.}
 #'  }
 #'
@@ -86,7 +87,10 @@ run_mean <- function(mat,
 
   # Analysis ----------------------------------------------------------------
   .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type) %>%
-    mutate(statistic_time = difftime(Sys.time(), .start_time))
+  add_column(
+    statistic_time = difftime(Sys.time(), .start_time),
+    .after = "score"
+  )
 }
 
 # Helper functions --------------------------------------------------------

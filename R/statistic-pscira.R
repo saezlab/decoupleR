@@ -13,6 +13,7 @@
 #' @param seed A single value, interpreted as an integer, or NULL.
 #'
 #' @inherit run_scira return
+#' @family decoupleR statistic
 #' @export
 #' @import dplyr
 #' @import purrr

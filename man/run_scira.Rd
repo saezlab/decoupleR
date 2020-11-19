@@ -56,3 +56,11 @@ a -1 for inhibitory activations and, finally, a 0 for all genes that are not
 a member of the TF regulon. TF activity is then defined as the t-statistic of
 this linear regression.
 }
+\seealso{
+Other decoupleR statistic: 
+\code{\link{run_gsva}()},
+\code{\link{run_mean}()},
+\code{\link{run_pscira}()},
+\code{\link{run_viper}()}
+}
+\concept{decoupleR statistic}

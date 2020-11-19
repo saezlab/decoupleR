@@ -25,6 +25,7 @@
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #'  5. `statistic_time`: Internal execution time indicator.
+#' @family decoupleR statistic
 #' @export
 #'
 #' @import dplyr

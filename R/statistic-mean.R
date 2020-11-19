@@ -20,6 +20,7 @@
 #'  4. `score`: Regulatory activity (enrichment score).
 #'  5. `statistic_time`: Internal execution time indicator.
 #'  6. `p_value`: p-value for the score of mean method.
+#' @family decoupleR statistic
 #' @export
 #' @import dplyr
 #' @import purrr

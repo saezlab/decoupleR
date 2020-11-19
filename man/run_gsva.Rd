@@ -41,3 +41,11 @@ across the conditions. Resulting tibble contains the following columns:
 \description{
 This function is a convenient wrapper for the \code{\link[GSVA:gsva]{GSVA::gsva()}} function.
 }
+\seealso{
+Other decoupleR statistic: 
+\code{\link{run_mean}()},
+\code{\link{run_pscira}()},
+\code{\link{run_scira}()},
+\code{\link{run_viper}()}
+}
+\concept{decoupleR statistic}

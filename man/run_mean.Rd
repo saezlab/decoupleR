@@ -61,3 +61,11 @@ across the conditions. Resulting tibble contains the following columns:
 Calculate the activity of a regulon through the conditions in the \code{mat}
 matrix by calculating the mean over the expression of all genes.
 }
+\seealso{
+Other decoupleR statistic: 
+\code{\link{run_gsva}()},
+\code{\link{run_pscira}()},
+\code{\link{run_scira}()},
+\code{\link{run_viper}()}
+}
+\concept{decoupleR statistic}

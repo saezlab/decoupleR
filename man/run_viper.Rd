@@ -48,3 +48,11 @@ across the conditions. Resulting tibble contains the following columns:
 \description{
 This function is a convenient wrapper for the \code{\link[viper:viper]{viper::viper()}} function.
 }
+\seealso{
+Other decoupleR statistic: 
+\code{\link{run_gsva}()},
+\code{\link{run_mean}()},
+\code{\link{run_pscira}()},
+\code{\link{run_scira}()}
+}
+\concept{decoupleR statistic}

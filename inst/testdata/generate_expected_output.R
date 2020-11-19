@@ -114,7 +114,7 @@ run_gsva(emat, dorothea_genesets, tf, target) %>%
   select(-statistic_time) %>%
   saveRDS(file.path(out$gsva, "output-gsva_dorothea_tidy-evaluation.rds"))
 
-run_gsva(emat, dorothea_genesets, options = list(min.sz = 4)) %>%
+run_gsva(emat, dorothea_genesets, min.sz = 4) %>%
   select(-statistic_time) %>%
   saveRDS(file.path(out$gsva, "output-gsva_dorothea_minsize4.rds"))
 

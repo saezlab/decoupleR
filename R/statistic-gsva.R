@@ -4,8 +4,7 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param options A list of named options to pass to [GSVA::gsva()]
-#' These options should not `include`, `expr` or `gset.idx.list`.
+#' @inheritDotParams GSVA::gsva -expr -gset.idx.list
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the conditions. Resulting tibble contains the following columns:
@@ -20,7 +19,7 @@ run_gsva <- function(mat,
                      network,
                      .source = .data$tf,
                      .target = .data$target,
-                     options = list()) {
+                     ...) {
   # Before to start ---------------------------------------------------------
   .start_time <- Sys.time()
 
@@ -32,7 +31,7 @@ run_gsva <- function(mat,
     .fn = GSVA::gsva,
     expr = mat,
     gset.idx.list = regulons,
-    !!!options
+    !!!list(...)
   ) %>%
     as.data.frame() %>%
     rownames_to_column(var = "tf") %>%

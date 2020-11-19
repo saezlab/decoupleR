@@ -41,7 +41,7 @@ test_that("decouple same results as independent functions", {
       pscira = list(),
       mean = list(.likelihood = NULL),
       viper = list(verbose = FALSE),
-      gsva = list(options = list(verbose = FALSE))
+      gsva = list(verbose = FALSE)
     )
   ) %>%
     dplyr::select(-.data$run_id) %>%

@@ -4,13 +4,7 @@
 \alias{run_gsva}
 \title{GSVA wrapper}
 \usage{
-run_gsva(
-  mat,
-  network,
-  .source = .data$tf,
-  .target = .data$target,
-  options = list()
-)
+run_gsva(mat, network, .source = .data$tf, .target = .data$target, ...)
 }
 \arguments{
 \item{mat}{Matrix to evaluate (e.g. expression matrix).
@@ -24,8 +18,11 @@ in \code{network} \code{.target} column.}
 
 \item{.target}{Column with target nodes.}
 
-\item{options}{A list of named options to pass to \code{\link[GSVA:gsva]{GSVA::gsva()}}
-These options should not \code{include}, \code{expr} or \code{gset.idx.list}.}
+\item{...}{
+  Arguments passed on to \code{\link[GSVA:gsva]{GSVA::gsva}}
+  \describe{
+    \item{\code{}}{}
+  }}
 }
 \value{
 A long format tibble of the enrichment scores for each tf

@@ -24,8 +24,7 @@ in \code{network} \code{.target} column.}
 
 \item{.target}{Column with target nodes.}
 
-\item{options}{A list of named options to pass to
-\code{\link[=gsva]{GSVA::gsva()}}.
+\item{options}{A list of named options to pass to \code{\link[GSVA:gsva]{GSVA::gsva()}}
 These options should not \code{include}, \code{expr} or \code{gset.idx.list}.}
 }
 \value{
@@ -40,6 +39,5 @@ across the conditions. Resulting tibble contains the following columns:
 }
 }
 \description{
-This function is a convenient wrapper for the
-\code{\link[=gsva]{GSVA::gsva()}} function.
+This function is a convenient wrapper for the \code{\link[GSVA:gsva]{GSVA::gsva()}} function.
 }

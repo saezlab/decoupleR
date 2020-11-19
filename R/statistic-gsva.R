@@ -1,12 +1,10 @@
 #' GSVA wrapper
 #'
-#' This function is a convenient wrapper for the
-#' \code{\link[=gsva]{GSVA::gsva()}} function.
+#' This function is a convenient wrapper for the [GSVA::gsva()] function.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param options A list of named options to pass to
-#' \code{\link[=gsva]{GSVA::gsva()}}.
+#' @param options A list of named options to pass to [GSVA::gsva()]
 #' These options should not `include`, `expr` or `gset.idx.list`.
 #'
 #' @return A long format tibble of the enrichment scores for each tf

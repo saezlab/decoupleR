@@ -1,12 +1,11 @@
 #' VIPER wrapper
 #'
-#' This function is a convenient wrapper for the
-#' \code{\link[=viper]{viper::viper()}} function.
+#' This function is a convenient wrapper for the [viper::viper()] function.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
 #' @param options A list of named options to pass to
-#' \code{\link[=viper]{viper::viper()}} such as `minsize` or `method`.
+#' [viper::viper()] such as `minsize` or `method`.
 #'  These options should not `include`, `eset` or `regulon`.
 #'
 #' @return A long format tibble of the enrichment scores for each tf

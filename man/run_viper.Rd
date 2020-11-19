@@ -31,7 +31,7 @@ in \code{network} \code{.target} column.}
 \item{.likelihood}{Column with edge likelihood.}
 
 \item{options}{A list of named options to pass to
-\code{\link[=viper]{viper::viper()}} such as \code{minsize} or \code{method}.
+\code{\link[viper:viper]{viper::viper()}} such as \code{minsize} or \code{method}.
 These options should not \code{include}, \code{eset} or \code{regulon}.}
 }
 \value{
@@ -46,6 +46,5 @@ across the conditions. Resulting tibble contains the following columns:
 }
 }
 \description{
-This function is a convenient wrapper for the
-\code{\link[=viper]{viper::viper()}} function.
+This function is a convenient wrapper for the \code{\link[viper:viper]{viper::viper()}} function.
 }

@@ -3,22 +3,27 @@
 #' Convert data sets to run under the method of interest.
 #'
 #' @description
-#' Convert the data set to the suggested standard for the specified function.
+#' Convert the data set to the suggested standard for the specified `run_{statistic}()`.
 #' If the default parameters are not modified, then the function sets its own
 #' null values for those columns.
 #'
 #' @param dataset A data frame or data frame extension (e.g. a tibble) to convert.
-#' @param ... Specific parameters to convert the dataset to the correct format.
 #'
-#' @return Returns a tibble with the necessary columns to evaluate the method
-#'  to which the dataset is being converted.
+#' @return
+#'
+#' * `convert_to_gsva()` Return a list of regulons suitable for [GSVA::gsva()].
+#' * `convert_to_mean()` Return a tibble with four columns: `tf`, `target`, `mor` and `likelihood`.
+#' * `convert_to_pcira()` Returns a tibble with three columns: `tf`, `target` and `mor`.
+#' * `convert_to_scira()` Returns a tibble with three columns: `tf`, `target` and `mor`.
+#' * `convert_to_viper()` Return a list of regulons suitable for [viper::viper()]
 #'
 #' @name convert_to_
 #' @rdname convert_to_
 #' @family convert_to_ variants
 #'
+#' @seealso [convert_f_defaults()]
 #' @export
-convert_to_ <- function(dataset, ...) invisible(dataset)
+convert_to_ <- function(dataset) invisible(dataset)
 
 # scira and pscira ------------------------------------------------------
 

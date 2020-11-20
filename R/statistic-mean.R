@@ -1,7 +1,14 @@
-#' SAFE mean
+#' Mean
 #'
-#' Calculate the activity of a regulon through the conditions in the `mat`
-#' matrix by calculating the mean over the expression of all genes.
+#' Calculate the activity of all regulons in `network` through the conditions in
+#' the `mat` matrix by calculating the mean over the expression of all genes.
+#'
+#' @details
+#'  `run_mean()` calculates the activity score, but in addition, it takes advantage
+#'  of the permutations used to calculate the `p-value`, to provide the
+#'  normalized activity score. This is represented in the `statistic` column
+#'  which will contain two values for each call to `run_mean()`; __mean__ and
+#'  __normalized_mean__.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -12,14 +19,16 @@
 #' @param sparse Should the matrices used for the calculation be sparse?
 #' @param randomize_type How to randomize the expression matrix.
 #'
-#' @return A long format tibble of the enrichment scores for each tf
-#'  across the conditions. Resulting tibble contains the following columns:
+#' @return
+#'  A long format tibble of the enrichment scores for each tf across the conditions.
+#'  Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
 #'  2. `tf`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #'  5. `statistic_time`: Internal execution time indicator.
 #'  6. `p_value`: p-value for the score of mean method.
+#'
 #' @family decoupleR statistic
 #' @export
 #' @import dplyr

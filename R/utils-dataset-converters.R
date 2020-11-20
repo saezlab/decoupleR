@@ -1,24 +1,29 @@
 # main convert_to_ --------------------------------------------------------
 
-#' Convert data sets to run under the method of interest.
+#' Convert a network to run under the method of interest.
 #'
 #' @description
-#' Convert the data set to the suggested standard for the specified function.
+#' Convert a long-format network to the suggested standard for the specified `run_{statistic}()`.
 #' If the default parameters are not modified, then the function sets its own
 #' null values for those columns.
 #'
-#' @param dataset A data frame or data frame extension (e.g. a tibble) to convert.
-#' @param ... Specific parameters to convert the dataset to the correct format.
+#' @inheritParams .decoupler_network_format
 #'
-#' @return Returns a tibble with the necessary columns to evaluate the method
-#'  to which the dataset is being converted.
+#' @return
+#'
+#' * `convert_to_gsva()` Return a list of regulons suitable for [GSVA::gsva()].
+#' * `convert_to_mean()` Return a tibble with four columns: `tf`, `target`, `mor` and `likelihood`.
+#' * `convert_to_pcira()` Returns a tibble with three columns: `tf`, `target` and `mor`.
+#' * `convert_to_scira()` Returns a tibble with three columns: `tf`, `target` and `mor`.
+#' * `convert_to_viper()` Return a list of regulons suitable for [viper::viper()]
 #'
 #' @name convert_to_
 #' @rdname convert_to_
 #' @family convert_to_ variants
 #'
+#' @seealso [convert_f_defaults()]
 #' @export
-convert_to_ <- function(dataset, ...) invisible(dataset)
+convert_to_ <- function(network) invisible(network)
 
 # scira and pscira ------------------------------------------------------
 
@@ -28,10 +33,10 @@ convert_to_ <- function(dataset, ...) invisible(dataset)
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_scira <- function(dataset, .source, .target, .mor = NULL) {
+convert_to_scira <- function(network, .source, .target, .mor = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  dataset %>%
+  network %>%
     convert_f_defaults(
       tf = {{ .source }},
       target = {{ .target }},
@@ -47,10 +52,10 @@ convert_to_scira <- function(dataset, .source, .target, .mor = NULL) {
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_pscira <- function(dataset, .source, .target, .mor = NULL) {
+convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  dataset %>%
+  network %>%
     convert_f_defaults(
       tf = {{ .source }},
       target = {{ .target }},
@@ -68,10 +73,10 @@ convert_to_pscira <- function(dataset, .source, .target, .mor = NULL) {
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood = NULL) {
+convert_to_mean <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  dataset %>%
+  network %>%
     convert_f_defaults(
       tf = {{ .source }},
       target = {{ .target }},
@@ -90,10 +95,10 @@ convert_to_mean <- function(dataset, .source, .target, .mor = NULL, .likelihood 
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_viper <- function(dataset, .source, .target, .mor = NULL, .likelihood = NULL) {
+convert_to_viper <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  dataset %>%
+  network %>%
     convert_f_defaults(
       tf = {{ .source }},
       target = {{ .target }},
@@ -119,10 +124,10 @@ convert_to_viper <- function(dataset, .source, .target, .mor = NULL, .likelihood
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_gsva <- function(dataset, .source, .target) {
+convert_to_gsva <- function(network, .source, .target) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  dataset %>%
+  network %>%
     convert_f_defaults(
       tf = {{ .source }},
       target = {{ .target }}
@@ -167,9 +172,9 @@ convert_to_gsva <- function(dataset, .source, .target) {
 #' Rename columns and add defaults values if column not present
 #'
 #' @description
-#' \code{rename_defaults} combine the \code{\link[dplyr]{rename}} way of
-#' working and with the \code{\link[tibble]{add_column}} to add columns
-#' with default values in case they don't exist after renaming the dataset.
+#' `rename_defaults` combine the [dplyr::rename()] way of
+#' working and with the [tibble::add_column()] to add columns
+#' with default values in case they don't exist after renaming data.
 #'
 #' @inheritParams dplyr::rename
 #' @param .def_col_val Named vector with columns with default values

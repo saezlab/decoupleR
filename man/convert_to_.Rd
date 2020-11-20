@@ -7,24 +7,22 @@
 \alias{convert_to_mean}
 \alias{convert_to_viper}
 \alias{convert_to_gsva}
-\title{Convert data sets to run under the method of interest.}
+\title{Convert a network to run under the method of interest.}
 \usage{
-convert_to_(dataset, ...)
+convert_to_(network)
 
-convert_to_scira(dataset, .source, .target, .mor = NULL)
+convert_to_scira(network, .source, .target, .mor = NULL)
 
-convert_to_pscira(dataset, .source, .target, .mor = NULL)
+convert_to_pscira(network, .source, .target, .mor = NULL)
 
-convert_to_mean(dataset, .source, .target, .mor = NULL, .likelihood = NULL)
+convert_to_mean(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
-convert_to_viper(dataset, .source, .target, .mor = NULL, .likelihood = NULL)
+convert_to_viper(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
-convert_to_gsva(dataset, .source, .target)
+convert_to_gsva(network, .source, .target)
 }
 \arguments{
-\item{dataset}{A data frame or data frame extension (e.g. a tibble) to convert.}
-
-\item{...}{Specific parameters to convert the dataset to the correct format.}
+\item{network}{Tibble or dataframe with edges and it's associated metadata.}
 
 \item{.source}{Column with source nodes.}
 
@@ -35,12 +33,20 @@ convert_to_gsva(dataset, .source, .target)
 \item{.likelihood}{Column with edge likelihood.}
 }
 \value{
-Returns a tibble with the necessary columns to evaluate the method
- to which the dataset is being converted.
+\itemize{
+\item \code{convert_to_gsva()} Return a list of regulons suitable for \code{\link[GSVA:gsva]{GSVA::gsva()}}.
+\item \code{convert_to_mean()} Return a tibble with four columns: \code{tf}, \code{target}, \code{mor} and \code{likelihood}.
+\item \code{convert_to_pcira()} Returns a tibble with three columns: \code{tf}, \code{target} and \code{mor}.
+\item \code{convert_to_scira()} Returns a tibble with three columns: \code{tf}, \code{target} and \code{mor}.
+\item \code{convert_to_viper()} Return a list of regulons suitable for \code{\link[viper:viper]{viper::viper()}}
+}
 }
 \description{
-Convert the data set to the suggested standard for the specified function.
+Convert a long-format network to the suggested standard for the specified \verb{run_\{statistic\}()}.
 If the default parameters are not modified, then the function sets its own
 null values for those columns.
+}
+\seealso{
+\code{\link[=convert_f_defaults]{convert_f_defaults()}}
 }
 \concept{convert_to_ variants}

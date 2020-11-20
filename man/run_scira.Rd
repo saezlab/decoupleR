@@ -31,18 +31,18 @@ in \code{network} \code{.target} column.}
 \item{sparse}{Logical value indicating if the generated profile matrix should be sparse.}
 
 \item{fast}{Logical value indicating if the lineal model must be calculated
-with \code{\link[speedglm:speedlm.fit]{speedlm.fit()}} or with base
-\code{\link[stats:lm]{lm()}}.}
+with \code{\link[speedglm:speedlm]{speedglm::speedlm.fit()}} or with base \code{\link[stats:lm]{stats::lm()}}.}
 }
 \value{
 A long format tibble of the enrichment scores for each tf
- across the conditions. Resulting tibble contains the following columns:
- \enumerate{
-   \item{\code{statistic}}: {Indicates which method is associated with which score.}
-   \item{\code{tf}}: {Source nodes of \code{network}.}
-   \item{\code{condition}}: {Condition representing each column of \code{mat}.}
-   \item{\code{score}}: {Regulatory activity (enrichment score).}
- }
+across the conditions. Resulting tibble contains the following columns:
+\enumerate{
+\item \code{statistic}: Indicates which method is associated with which score.
+\item \code{tf}: Source nodes of \code{network}.
+\item \code{condition}: Condition representing each column of \code{mat}.
+\item \code{score}: Regulatory activity (enrichment score).
+\item \code{statistic_time}: Internal execution time indicator.
+}
 }
 \description{
 Calculates TF activity according to \href{https://www.biorxiv.org/content/10.1101/553040v1.full.pdf}{SCIRA}.
@@ -55,3 +55,11 @@ a -1 for inhibitory activations and, finally, a 0 for all genes that are not
 a member of the TF regulon. TF activity is then defined as the t-statistic of
 this linear regression.
 }
+\seealso{
+Other decoupleR statistic: 
+\code{\link{run_gsva}()},
+\code{\link{run_mean}()},
+\code{\link{run_pscira}()},
+\code{\link{run_viper}()}
+}
+\concept{decoupleR statistic}

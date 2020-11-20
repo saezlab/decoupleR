@@ -39,6 +39,74 @@ If you’ve found a bug, please file an issue that illustrates the bug with a mi
 
 *  We use [testthat](https://cran.r-project.org/package=testthat) for unit tests. 
    Contributions with test cases included are easier to accept.  
+   
+## Add a new statistic
+
+Read carefully the instructions dedicated to the pull request section above and consider the following specific steps:
+
+*   Open an [issue](https://github.com/saezlab/decoupleR/issues) stating which statistic you would like to add.
+    Assign it to yourself and label it with the badge `enhancement`; check before if not someone else is
+    already working on implementing this statistic.  
+
+*   Define the name of the statistic, for now, assume you want to define the statistic `foo`.
+    
+*   Create a file called `R/statistic-foo.R` and define
+    `run_foo(mat, network, .source, .target, ...)` or
+    `run_foo(mat, network, .source, .target, ..., options = list())`,
+    depending if the statistic is designed from zero or is a wrapper, respectively;
+    where `...` denote any extra arguments needed for the statistic.
+    If the algorithm requires helper functions, add them here too.  
+    **Return** of any function of the `run_` family must always be a tidy tibble with the following columns:  
+    1. **statistic**: Indicates which methods is associated with which score.
+    2. **tf**: Source nodes of `network`.
+    3. **condition**: Conditions representing each column of `mat`.
+    4. **score**: Regulatory activity (enrichment score).
+    5. **statistic_time**: Internal execution time indicator.
+    6. **...**: If the algorithm requires it, add the generated metadata columns. For instance, p-value.
+      
+    **Notes:**
+    *   Check
+        [utils-decoupler-formats.R](https://github.com/saezlab/decoupleR/blob/documentation/R/utils-decoupler-formats.R)
+        to understand the arguments and specific conventions.
+    *   For examples of implementations, please check
+        [statistic-scira.R](https://github.com/saezlab/decoupleR/blob/documentation/R/statistic-scira.R) or
+        [statistic-viper.R](https://github.com/saezlab/decoupleR/blob/documentation/R/statistic-viper.R)
+        for design from scratch or wrapper, respectively.  
+*   Inside
+    [utils-dataset-converters.R](https://github.com/saezlab/decoupleR/blob/documentation/R/utils-dataset-converters.R)
+    define `convert_to_foo(dataset, .source, .target, ...)`, where `...` indicate
+    any extra *edge attribute* that needs to be mapped into the network.  
+    **Goals:**  
+    *   Transform the data frame that represents
+        the network to a standardized format, so that, in the main function `run_foo()`,
+        we can use and manipulate the columns to our liking without worrying about the mapping.  
+    *   It allows a uniform mapping through the statistics contained in the package.
+        What ensures rapid integration into the DecoupleR statistics ecosystem.  
+      
+    **Template** with the essential structure that the function must have.  
+    ```r
+    # foo ---------------------------------------------------------------------
+
+    #' @rdname convert_to_
+    #'
+    #' @inheritParams run_foo
+    #'
+    #' @export
+    #' @family convert_to_ variants
+    convert_to_foo <- function(dataset, .source, .target) {
+      .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    
+      dataset %>%
+        convert_f_defaults(
+          tf = {{ .source }},
+          target = {{ .target }}
+        )
+        # If extra conversion is needed add it here...
+    }
+    ```
+*   Add the unit test for `run_foo()` only, once they pass incorporate `run_foo()`
+    inside of the main `decouple()` and add it also to the `decouple()` unit testing.
+*   If all goes well, you are ready. Start the pull request process.
 
 ## Code of Conduct
 

@@ -2,6 +2,7 @@
 % Please edit documentation in R/utils-decoupler-formats.R
 \name{.decoupler_mat_format}
 \alias{.decoupler_mat_format}
+\alias{mat_format}
 \title{DecoupleR mat format}
 \arguments{
 \item{mat}{Matrix to evaluate (e.g. expression matrix).
@@ -12,4 +13,9 @@ in \code{network} \code{.target} column.}
 \description{
 DecoupleR mat format
 }
+\seealso{
+Other decoupleR formats: 
+\code{\link{.decoupler_network_format}}
+}
+\concept{decoupleR formats}
 \keyword{internal}

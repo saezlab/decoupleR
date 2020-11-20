@@ -19,107 +19,125 @@ coverage](https://codecov.io/gh/saezlab/decoupleR/branch/master/graph/badge.svg)
 **Under development** - decoupleR aims to combine various gene sets
 resources with a variety of statistics for functional genomics analyses.
 
-## How to contribute?
-
-### How to add a new statistic
-
-  - Open an [issue](https://github.com/saezlab/decoupleR/issues) stating
-    which statistic you would like to add. Assign it to yourself and
-    label it with the badge `enhancement`. Please check before if not
-    someone else is already working on implementing this statistic.
-
-  - Don’t work on the `master branch`. Either create a new `branch` with
-    a meaningful name or make a `fork`. When the function is implemented
-    and tested (\!) we will use `pull requests` to integrate the new
-    feature in the `master branch`.
-
-  - Assuming you would like to implement `GSEA`. You will need to define
-    the following set of functions:
-    
-      - All following functions will be written in the script
-        `R/gsea.R`.
-      - `run_gsea(emat, genesets, list=options(), gs_resource, tidy)`.
-        Please check the function
-        [run\_viper](https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L30)
-        to understand the arguments.
-      - `make_gsea_genesets(genesets)`. First define a standardized
-        input for gene sets in *tibble/dataframe* format for your
-        statistic. Then this function should convert this table in the
-        required input for the underlying function (in this case list of
-        gene sets for the function `fgsea()`). Check an example
-        [here](https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L68).
-        In the roxygen comments of the function you define which columns
-        must be available in the standardized format.
-      - In parallel you need to define helper functions that convert
-        every available gene set (e.g. progeny and dorothea gene sets)
-        to your defined standardized input (e.g. `progeny2gsea()`).
-        Check an example
-        [here](https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L90)
-      - **All functions must be documented following the roxygen2
-        standard.**
-
-  - We will use unit tests for the `run_x()` functions to ensure that
-    our functions work properly.
-    [Here](https://github.com/saezlab/decoupleR/blob/master/tests/testthat/test-viper.R)
-    are examples for the `run_viper` function.
-
-  - *Optional*: For a consistent coding style and efficient
-    implementation we will mainly use `tidyverse`.
-
-### How to add a new gene set resource
-
-  - Open an [issue](https://github.com/saezlab/decoupleR/issues) stating
-    which gene set resource you would like to add. Assign it to yourself
-    and label it with the badge `enhancement`. Please check before if
-    not someone else is already working on implementing this gene set
-    resource.
-
-  - Don’t work on the `master branch`. Either create a new `branch` with
-    a meaningful name or make a `fork`. When the function is implemented
-    and tested (\!) we will use `pull requests` to integrate the new
-    feature in the `master branch`.
-
-  - Define helper functions for each available statistics that convert
-    your gene sets to the standardized format of the respective
-    statistic (e.g. `your_genesets2viper()`).
-
-  - Deposit a representative selection of gene sets in the directory
-    `inst/testdata` and implement unit tests for all available
-    statistics coupled with your new gene sets.
-
-### How to integrate your changes in the master branch
-
-Before you push your changes to your development branch please first
-make sure that `devtools::check()` runs without any problems on your
-local machine (warning(s) might be acceptable, but will be decided on a
-case-by-case basis). After you pushed then to your development branch
-[travis](https://travis-ci.com/github/saezlab/decoupleR) will also build
-(`R CMD build`) and check (`R CMD check`) the package. This might take
-up to 15 minutes so better be sure it passes at the first try. **Your
-changes will only be integrated in the master branch when the package
-passes all checks on travis.**
-
-If all requirements are fulfilled (passed `R CMD check` on your local
-machine and travis, implemented unit tests, proper documentation), add a
-brief and concise summary of the implemented features in the
-[NEWS.md](https://github.com/saezlab/decoupleR/blob/master/NEWS.md) file
-and bump the version in the
-[DESCRIPTION](https://github.com/saezlab/decoupleR/blob/master/DESCRIPTION)
-file. In addition list you as contributor (ctr) and/or author (aut) also
-in the
-[DESCRIPTION](https://github.com/saezlab/decoupleR/blob/master/DESCRIPTION)
-file.
-
-After you open a pull request please refer in the commit message to the
-related issue, e.g. `Closes #5`. This message automatically closes issue
-5, after successful integration. Also request review from someone else
-to double check your code. **Do not accept your own pull request without
-someone else having checked your code**.
-
 ## Installation
 
 ``` r
 # install the development version from GitHub
-# install.packages("remotes")
-remotes::install_github("saezlab/decoupleR")
+# install.packages("devtools")
+devtools::install_github("saezlab/decoupleR")
+devtools::install_github("saezlab/decoupleR@devel-jesus")
 ```
+
+## Usage
+
+### Load packaga and data
+
+``` r
+library(decoupleR)
+
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+
+mat <- file.path(inputs_dir, "input-expr_matrix.rds") %>% 
+  readRDS() %>% 
+  dplyr::glimpse()
+#>  num [1:18490, 1:4] 3.251 0.283 -2.253 0.782 -4.575 ...
+#>  - attr(*, "dimnames")=List of 2
+#>   ..$ : chr [1:18490] "A1BG" "A1CF" "A2M" "A2ML1" ...
+#>   ..$ : chr [1:4] "GSM2753335" "GSM2753336" "GSM2753337" "GSM2753338"
+
+network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>% 
+  readRDS() %>%
+  dplyr::glimpse()
+#> Rows: 151
+#> Columns: 5
+#> $ tf         <chr> "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOX…
+#> $ confidence <chr> "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A"…
+#> $ target     <chr> "BCL2L11", "BCL6", "CDKN1A", "CDKN1B", "G6PC", "GADD45A", …
+#> $ mor        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+#> $ likelihood <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+```
+
+### Decouple wrapper
+
+`decouple()` allows access to all **decoupleR** available statistics in
+one place. Statistic functions inside **decoupleR** always return a tidy
+tibble that can be easily processed with the tools provide by the
+[tidyverse ecosystem](https://www.tidyverse.org/).
+
+``` r
+decouple(
+  mat = mat,
+  network = network,
+  .source = "tf",
+  .target = "target",
+  statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+  .options = list(
+    gsva = list(verbose = FALSE),
+    mean = list(.mor = "mor", .likelihood = "likelihood"),
+    pscira = list(.mor = "mor"),
+    scira = list(.mor = "mor"),
+    viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
+  )
+)
+#> # A tibble: 112 x 7
+#>    run_id statistic tf    condition    score statistic_time p_value
+#>    <chr>  <chr>     <chr> <chr>        <dbl> <drtn>           <dbl>
+#>  1 1      gsva      FOXO4 GSM2753335 -0.380  5.547872 secs       NA
+#>  2 1      gsva      FOXO4 GSM2753336 -0.300  5.547872 secs       NA
+#>  3 1      gsva      FOXO4 GSM2753337  0.239  5.547872 secs       NA
+#>  4 1      gsva      FOXO4 GSM2753338  0.0907 5.547872 secs       NA
+#>  5 1      gsva      NFIC  GSM2753335 -0.0845 5.547872 secs       NA
+#>  6 1      gsva      NFIC  GSM2753336  0.0778 5.547872 secs       NA
+#>  7 1      gsva      NFIC  GSM2753337 -0.260  5.547872 secs       NA
+#>  8 1      gsva      NFIC  GSM2753338  0.281  5.547872 secs       NA
+#>  9 1      gsva      RFXAP GSM2753335 -0.810  5.547872 secs       NA
+#> 10 1      gsva      RFXAP GSM2753336 -0.472  5.547872 secs       NA
+#> # … with 102 more rows
+```
+
+### Individual parts
+
+In turn, we recognize that the use of individual statistics may be of
+interest. Therefore, these are also exported and ready for use. All
+statistics follow the same design pattern and arguments, so moving
+between statistics could be very comfortable.
+
+``` r
+# viper call is equivalent to the one made by decouple() above.
+run_viper(
+  mat = mat,
+  network = network,
+  .source = "tf",
+  .target = "target",
+  .likelihood = "likelihood",
+  verbose = FALSE
+)
+#> # A tibble: 12 x 5
+#>    statistic tf     condition    score statistic_time 
+#>    <chr>     <chr>  <chr>        <dbl> <drtn>         
+#>  1 viper     NFIC   GSM2753335  0.0696 0.02312183 secs
+#>  2 viper     NFIC   GSM2753336 -0.0265 0.02312183 secs
+#>  3 viper     NFIC   GSM2753337 -0.516  0.02312183 secs
+#>  4 viper     NFIC   GSM2753338 -0.543  0.02312183 secs
+#>  5 viper     SMAD3  GSM2753335  0.176  0.02312183 secs
+#>  6 viper     SMAD3  GSM2753336  0.0426 0.02312183 secs
+#>  7 viper     SMAD3  GSM2753337  0.219  0.02312183 secs
+#>  8 viper     SMAD3  GSM2753338  0.142  0.02312183 secs
+#>  9 viper     TFAP2A GSM2753335  0.722  0.02312183 secs
+#> 10 viper     TFAP2A GSM2753336  0.582  0.02312183 secs
+#> 11 viper     TFAP2A GSM2753337  0.462  0.02312183 secs
+#> 12 viper     TFAP2A GSM2753338  0.330  0.02312183 secs
+```
+
+## Contributing to decoupleR
+
+Are you interested in adding a new statistical method or collaborating
+in the development of internal tools that allow the extension of the
+package? Please check out our [contribution
+guide](https://saezlab.github.io/decoupleR/CONTRIBUTING.html).
+
+-----
+
+Please note that this project is released with a [Contributor Code of
+Conduct](https://saezlab.github.io/decoupleR/CODE_OF_CONDUCT). By
+participating in this project you agree to abide by its terms.

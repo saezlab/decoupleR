@@ -25,15 +25,15 @@ This will allow swapping of columns.}
 \value{
 An object of the same type as .data. The output has the following properties:
 \itemize{
-  \item Rows are not affected.
-  \item Column names are changed.
-  \item Column order is the same as that of the function call.
+\item Rows are not affected.
+\item Column names are changed.
+\item Column order is the same as that of the function call.
 }
 }
 \description{
-\code{rename_defaults} combine the \code{\link[dplyr]{rename}} way of
-working and with the \code{\link[tibble]{add_column}} to add columns
-with default values in case they don't exist after renaming the dataset.
+\code{rename_defaults} combine the \code{\link[dplyr:rename]{dplyr::rename()}} way of
+working and with the \code{\link[tibble:add_column]{tibble::add_column()}} to add columns
+with default values in case they don't exist after renaming data.
 }
 \details{
 The objective of using .use_dots is to be able to swap columns which, by default,

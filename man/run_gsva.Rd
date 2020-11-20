@@ -4,13 +4,7 @@
 \alias{run_gsva}
 \title{GSVA wrapper}
 \usage{
-run_gsva(
-  mat,
-  network,
-  .source = .data$tf,
-  .target = .data$target,
-  options = list()
-)
+run_gsva(mat, network, .source = .data$tf, .target = .data$target, ...)
 }
 \arguments{
 \item{mat}{Matrix to evaluate (e.g. expression matrix).
@@ -24,21 +18,31 @@ in \code{network} \code{.target} column.}
 
 \item{.target}{Column with target nodes.}
 
-\item{options}{A list of named options to pass to
-\code{\link[=gsva]{GSVA::gsva()}}..
-These options should not \code{include}, \code{expr} or \code{gset.idx.list}.}
+\item{...}{
+  Arguments passed on to \code{\link[GSVA:gsva]{GSVA::gsva}}
+  \describe{
+    \item{\code{}}{}
+  }}
 }
 \value{
 A long format tibble of the enrichment scores for each tf
- across the conditions. Resulting tibble contains the following columns:
- \enumerate{
-   \item{\code{statistic}}: {Indicates which method is associated with which score.}
-   \item{\code{tf}}: {Source nodes of \code{network}.}
-   \item{\code{condition}}: {Condition representing each column of \code{mat}.}
-   \item{\code{score}}: {Regulatory activity (enrichment score).}
- }
+across the conditions. Resulting tibble contains the following columns:
+\enumerate{
+\item \code{statistic}: Indicates which method is associated with which score.
+\item \code{tf}: Source nodes of \code{network}.
+\item \code{condition}: Condition representing each column of \code{mat}.
+\item \code{score}: Regulatory activity (enrichment score).
+\item \code{statistic_time}: Internal execution time indicator.
+}
 }
 \description{
-This function is a convenient wrapper for the
-\code{\link[=gsva]{GSVA::gsva()}} function.
+This function is a convenient wrapper for the \code{\link[GSVA:gsva]{GSVA::gsva()}} function.
 }
+\seealso{
+Other decoupleR statistic: 
+\code{\link{run_mean}()},
+\code{\link{run_pscira}()},
+\code{\link{run_scira}()},
+\code{\link{run_viper}()}
+}
+\concept{decoupleR statistic}

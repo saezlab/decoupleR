@@ -69,11 +69,11 @@ decouple(
   .target = "target",
   statistics = c("gsva", "mean", "pscira", "scira", "viper"),
   .options = list(
-    gsva = list(options = list(verbose = FALSE)),
+    gsva = list(verbose = FALSE),
     mean = list(.mor = "mor", .likelihood = "likelihood"),
     pscira = list(.mor = "mor"),
     scira = list(.mor = "mor"),
-    viper = list(options = list(verbose = FALSE))
+    viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
   )
 )
 ```
@@ -92,7 +92,7 @@ run_viper(
   .source = "tf",
   .target = "target",
   .likelihood = "likelihood",
-  options = list(verbose = FALSE)
+  verbose = FALSE
 )
 ```
 

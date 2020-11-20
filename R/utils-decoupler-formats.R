@@ -14,7 +14,9 @@
 #'  in `network` `.target` column.
 #'
 #' @keywords internal
+#' @family decoupleR formats
 #' @name .decoupler_mat_format
+#' @aliases mat_format
 NULL
 
 # network -----------------------------------------------------------------
@@ -31,6 +33,17 @@ NULL
 #' @param .target Column with target nodes.
 #' @param .mor Column with edge mode of regulation (i.e. mor).
 #' @param .likelihood Column with edge likelihood.
+#'
+#' @details
+#' * All the attributes to be mapped are prefixed by `.`
+#' * The idea of using this type of mapping is to provide flexibility to
+#'   different types of networks, be they regulatory, metabolic, or of any
+#'   other type. This way, you should only consider having your network or
+#'   networks in a long format and these can easily be manipulated by functions
+#'   within the [tidyverse ecosystem](https://www.tidyverse.org/).
+#'
 #' @keywords internal
+#' @family decoupleR formats
 #' @name .decoupler_network_format
+#' @aliases network_format
 NULL

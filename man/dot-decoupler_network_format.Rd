@@ -2,6 +2,7 @@
 % Please edit documentation in R/utils-decoupler-formats.R
 \name{.decoupler_network_format}
 \alias{.decoupler_network_format}
+\alias{network_format}
 \title{DecoupleR network format}
 \arguments{
 \item{network}{Tibble or dataframe with edges and it's associated metadata.}
@@ -19,4 +20,19 @@ A network passed to any \code{run_} method in the package must contain at
 least two attributes: \code{.source} and \code{.target}. In addition,
 the methods must map their corresponding metadata associated with their edges.
 }
+\details{
+\itemize{
+\item All the attributes to be mapped are prefixed by \code{.}
+\item The idea of using this type of mapping is to provide flexibility to
+different types of networks, be they regulatory, metabolic, or of any
+other type. This way, you should only consider having your network or
+networks in a long format and these can easily be manipulated by functions
+within the \href{https://www.tidyverse.org/}{tidyverse ecosystem}.
+}
+}
+\seealso{
+Other decoupleR formats: 
+\code{\link{.decoupler_mat_format}}
+}
+\concept{decoupleR formats}
 \keyword{internal}

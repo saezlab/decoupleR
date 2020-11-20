@@ -17,14 +17,15 @@
 #' @param fast Logical value indicating if the lineal model must be calculated
 #' with [speedglm::speedlm.fit()] or with base [stats::lm()].
 #'
-#' @return A long format tibble of the enrichment scores for each tf
-#'  across the conditions. Resulting tibble contains the following columns:
+#' @return
+#'  A long format tibble of the enrichment scores for each tf across the conditions.
+#'  Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
 #'  2. `tf`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #'  5. `statistic_time`: Internal execution time indicator.
-#' @family decoupleR statistic
+#' @family decoupleR statistics
 #' @export
 #'
 #' @import dplyr

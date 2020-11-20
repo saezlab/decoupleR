@@ -34,8 +34,8 @@ in \code{network} \code{.target} column.}
 with \code{\link[speedglm:speedlm]{speedglm::speedlm.fit()}} or with base \code{\link[stats:lm]{stats::lm()}}.}
 }
 \value{
-A long format tibble of the enrichment scores for each tf
-across the conditions. Resulting tibble contains the following columns:
+A long format tibble of the enrichment scores for each tf across the conditions.
+Resulting tibble contains the following columns:
 \enumerate{
 \item \code{statistic}: Indicates which method is associated with which score.
 \item \code{tf}: Source nodes of \code{network}.
@@ -56,10 +56,10 @@ a member of the TF regulon. TF activity is then defined as the t-statistic of
 this linear regression.
 }
 \seealso{
-Other decoupleR statistic: 
+Other decoupleR statistics: 
 \code{\link{run_gsva}()},
 \code{\link{run_mean}()},
 \code{\link{run_pscira}()},
 \code{\link{run_viper}()}
 }
-\concept{decoupleR statistic}
+\concept{decoupleR statistics}

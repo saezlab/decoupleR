@@ -69,10 +69,10 @@ which will contain two values for each call to \code{run_mean()}; \strong{mean} 
 \strong{normalized_mean}.
 }
 \seealso{
-Other decoupleR statistic: 
+Other decoupleR statistics: 
 \code{\link{run_gsva}()},
 \code{\link{run_pscira}()},
 \code{\link{run_scira}()},
 \code{\link{run_viper}()}
 }
-\concept{decoupleR statistic}
+\concept{decoupleR statistics}

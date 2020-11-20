@@ -25,8 +25,8 @@ in \code{network} \code{.target} column.}
   }}
 }
 \value{
-A long format tibble of the enrichment scores for each tf
-across the conditions. Resulting tibble contains the following columns:
+A long format tibble of the enrichment scores for each tf across the conditions.
+Resulting tibble contains the following columns:
 \enumerate{
 \item \code{statistic}: Indicates which method is associated with which score.
 \item \code{tf}: Source nodes of \code{network}.
@@ -39,10 +39,10 @@ across the conditions. Resulting tibble contains the following columns:
 This function is a convenient wrapper for the \code{\link[GSVA:gsva]{GSVA::gsva()}} function.
 }
 \seealso{
-Other decoupleR statistic: 
+Other decoupleR statistics: 
 \code{\link{run_mean}()},
 \code{\link{run_pscira}()},
 \code{\link{run_scira}()},
 \code{\link{run_viper}()}
 }
-\concept{decoupleR statistic}
+\concept{decoupleR statistics}

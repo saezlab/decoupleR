@@ -65,6 +65,7 @@ Read carefully the instructions dedicated to the pull request section above and 
     6. **...**: If the algorithm requires it, add the generated metadata columns. For instance, p-value.
       
     **Notes:**
+    *   All statistics must contain the tag `@family decoupleR statistics` in their roxygen2 documentation.
     *   Check
         [utils-decoupler-formats.R](https://github.com/saezlab/decoupleR/blob/documentation/R/utils-decoupler-formats.R)
         to understand the arguments and specific conventions.

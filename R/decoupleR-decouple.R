@@ -10,6 +10,7 @@
 #'  The default argument, list(NULL), will be recycled to the same length as `statistics`,
 #'  and will call each function with no arguments (apart from `mat`,
 #'  `network`, `.source` and, `.target`).
+#' @param verbose The call of each statistician must be informed?
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the samples. Resulting tibble contains the following columns:
@@ -26,18 +27,17 @@ decouple <- function(mat,
                      .source,
                      .target,
                      statistics,
-                     .options = list(NULL)) {
+                     .options = list(NULL),
+                     verbose = FALSE) {
 
   # Match statistics to couple ----------------------------------------------
 
-  # TODO this probably has to be changed to call the corresponding internal
-  # functions of each statistic.
   available_statistics <- list(
-    mean = run_mean,
-    scira = run_scira,
-    pscira = run_pscira,
-    viper = run_viper,
-    gsva = run_gsva
+    mean = expr(run_mean),
+    scira = expr(run_scira),
+    pscira = expr(run_pscira),
+    viper = expr(run_viper),
+    gsva = expr(run_gsva)
   )
 
   statistics <- statistics %>%
@@ -49,13 +49,15 @@ decouple <- function(mat,
 
   # For the moment this will only ensure that the parameters passed
   # to decoupleR are the same when invoking the functions.
-  invoke_map_dfr(
-    .f = statistics,
-    .x = .options,
+  map2_dfr(
+    .x = statistics,
+    .y = .options,
+    .f = .decouple_statistic_invoke,
     mat = mat,
     network = network,
-    .source = enquo(.source),
-    .target = enquo(.target),
+    .source = {{ .source }},
+    .target = {{ .target }},
+    verbose = verbose,
     .id = "run_id"
   ) %>%
     select(
@@ -70,3 +72,27 @@ decouple <- function(mat,
 }
 
 # Helpers -----------------------------------------------------------------
+#' Construct an expression to evaluate a decoupleR statistic.
+#'
+#' @inheritParams decouple
+#' @param fn Expression containing the name of the function to execute.
+#' @param args Extra arguments to pass to the statistician under evaluation.
+#'
+#' @keywords internal
+#' @noRd
+.decouple_statistic_invoke <- function(fn, args, mat, network, .source, .target, verbose = FALSE) {
+  .call <- expr(
+    (!!fn)(
+      mat = mat,
+      network = network,
+      .source = {{ .source }},
+      .target = {{ .target }},
+      !!!args)
+  )
+
+  if(verbose) {
+    rlang::inform(rlang::qq_show(!!.call))
+  }
+
+  eval(.call)
+}

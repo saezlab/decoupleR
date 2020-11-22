@@ -31,7 +31,7 @@ An object of the same type as .data. The output has the following properties:
 }
 }
 \description{
-\code{rename_defaults} combine the \code{\link[dplyr:rename]{dplyr::rename()}} way of
+\code{convert_f_defaults()} combine the \code{\link[dplyr:rename]{dplyr::rename()}} way of
 working and with the \code{\link[tibble:add_column]{tibble::add_column()}} to add columns
 with default values in case they don't exist after renaming data.
 }

@@ -92,8 +92,8 @@ Read carefully the instructions dedicated to the pull request section above and 
     #'
     #' @inheritParams run_foo
     #'
-    #' @export
     #' @family convert_to_ variants
+    #' @export
     convert_to_foo <- function(network, .source, .target) {
       .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
     

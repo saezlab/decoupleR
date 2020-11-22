@@ -94,10 +94,10 @@ Read carefully the instructions dedicated to the pull request section above and 
     #'
     #' @export
     #' @family convert_to_ variants
-    convert_to_foo <- function(dataset, .source, .target) {
+    convert_to_foo <- function(network, .source, .target) {
       .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
     
-      dataset %>%
+      network %>%
         convert_f_defaults(
           tf = {{ .source }},
           target = {{ .target }}

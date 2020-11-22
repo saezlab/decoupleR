@@ -31,8 +31,8 @@ convert_to_ <- function(network) invisible(network)
 #'
 #' @inheritParams run_scira
 #'
-#' @export
 #' @family convert_to_ variants
+#' @export
 convert_to_scira <- function(network, .source, .target, .mor = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
@@ -50,8 +50,8 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL) {
 #'
 #' @inheritParams run_pscira
 #'
-#' @export
 #' @family convert_to_ variants
+#' @export
 convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
@@ -71,8 +71,8 @@ convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
 #'
 #' @inheritParams run_mean
 #'
-#' @export
 #' @family convert_to_ variants
+#' @export
 convert_to_mean <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
@@ -93,8 +93,8 @@ convert_to_mean <- function(network, .source, .target, .mor = NULL, .likelihood 
 #'
 #' @inheritParams run_viper
 #'
-#' @export
 #' @family convert_to_ variants
+#' @export
 convert_to_viper <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
@@ -122,8 +122,8 @@ convert_to_viper <- function(network, .source, .target, .mor = NULL, .likelihood
 #'
 #' @inheritParams run_gsva
 #'
-#' @export
 #' @family convert_to_ variants
+#' @export
 convert_to_gsva <- function(network, .source, .target) {
   .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 

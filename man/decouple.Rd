@@ -10,8 +10,8 @@ decouple(
   .source,
   .target,
   statistics,
-  .options = list(NULL),
-  verbose = FALSE
+  args = list(NULL),
+  show_call = FALSE
 )
 }
 \arguments{
@@ -28,12 +28,12 @@ in \code{network} \code{.target} column.}
 
 \item{statistics}{Statistical methods to be coupled.}
 
-\item{.options}{A list of argument-lists the same length as \code{statistics} (or length 1).
+\item{args}{A list of argument-lists the same length as \code{statistics} (or length 1).
 The default argument, list(NULL), will be recycled to the same length as \code{statistics},
 and will call each function with no arguments (apart from \code{mat},
 \code{network}, \code{.source} and, \code{.target}).}
 
-\item{verbose}{The call of each statistician must be informed?}
+\item{show_call}{The call of each statistician must be informed?}
 }
 \value{
 A long format tibble of the enrichment scores for each tf

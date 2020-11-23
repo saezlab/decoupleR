@@ -6,11 +6,11 @@
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
 #' @param statistics Statistical methods to be coupled.
-#' @param .options A list of argument-lists the same length as `statistics` (or length 1).
+#' @param args A list of argument-lists the same length as `statistics` (or length 1).
 #'  The default argument, list(NULL), will be recycled to the same length as `statistics`,
 #'  and will call each function with no arguments (apart from `mat`,
 #'  `network`, `.source` and, `.target`).
-#' @param verbose The call of each statistician must be informed?
+#' @param show_call The call of each statistic must be informed?
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the samples. Resulting tibble contains the following columns:
@@ -27,8 +27,8 @@ decouple <- function(mat,
                      .source,
                      .target,
                      statistics,
-                     .options = list(NULL),
-                     verbose = FALSE) {
+                     args = list(NULL),
+                     show_call = FALSE) {
 
   # Match statistics to couple ----------------------------------------------
 
@@ -51,13 +51,13 @@ decouple <- function(mat,
   # to decoupleR are the same when invoking the functions.
   map2_dfr(
     .x = statistics,
-    .y = .options,
-    .f = .decouple_statistic_invoke,
+    .y = args,
+    .f = .invoke_statistic,
     mat = mat,
     network = network,
     .source = {{ .source }},
     .target = {{ .target }},
-    verbose = verbose,
+    show_call = show_call,
     .id = "run_id"
   ) %>%
     select(
@@ -74,13 +74,23 @@ decouple <- function(mat,
 # Helpers -----------------------------------------------------------------
 #' Construct an expression to evaluate a decoupleR statistic.
 #'
+#' @details
+#' `.invoke_statistic()` was designed because [purrr::invoke_map_dfr()] is retired.
+#' The alternative proposed by the developers by purrr is to use [rlang::exec()] in
+#' combination with [purrr::map2()], however, the function is not a quoting function,
+#' so the parameters that require the `curly-curly` (`{{}}`) operator require a
+#' special pre-processing. In practical terms, creating an expression of zero allows
+#' us to have better control over the function call as suggested in the [rlang::exec()]
+#' documentation. For instance, we can see how the function itself is being called.
+#' Therefore, if an error occurs in one of the statistics, we will have a direct
+#' traceback to the problematic call, as opposed to what happens directly using [rlang::exec()].
+#'
 #' @inheritParams decouple
 #' @param fn Expression containing the name of the function to execute.
 #' @param args Extra arguments to pass to the statistician under evaluation.
 #'
 #' @keywords internal
-#' @noRd
-.decouple_statistic_invoke <- function(fn, args, mat, network, .source, .target, verbose = FALSE) {
+.invoke_statistic <- function(fn, args, mat, network, .source, .target, show_call = FALSE) {
   .call <- expr(
     (!!fn)(
       mat = mat,
@@ -90,7 +100,7 @@ decouple <- function(mat,
       !!!args)
   )
 
-  if(verbose) {
+  if(show_call) {
     rlang::inform(rlang::qq_show(!!.call))
   }
 

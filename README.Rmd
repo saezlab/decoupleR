@@ -68,7 +68,7 @@ decouple(
   .source = "tf",
   .target = "target",
   statistics = c("gsva", "mean", "pscira", "scira", "viper"),
-  .options = list(
+  args = list(
     gsva = list(verbose = FALSE),
     mean = list(.mor = "mor", .likelihood = "likelihood"),
     pscira = list(.mor = "mor"),

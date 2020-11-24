@@ -4,7 +4,15 @@
 \alias{decouple}
 \title{decouple}
 \usage{
-decouple(mat, network, .source, .target, statistics, .options = list(NULL))
+decouple(
+  mat,
+  network,
+  .source,
+  .target,
+  statistics,
+  args = list(NULL),
+  show_toy_call = FALSE
+)
 }
 \arguments{
 \item{mat}{Matrix to evaluate (e.g. expression matrix).
@@ -20,10 +28,12 @@ in \code{network} \code{.target} column.}
 
 \item{statistics}{Statistical methods to be coupled.}
 
-\item{.options}{A list of argument-lists the same length as \code{statistics} (or length 1).
+\item{args}{A list of argument-lists the same length as \code{statistics} (or length 1).
 The default argument, list(NULL), will be recycled to the same length as \code{statistics},
 and will call each function with no arguments (apart from \code{mat},
 \code{network}, \code{.source} and, \code{.target}).}
+
+\item{show_toy_call}{The call of each statistic must be informed?}
 }
 \value{
 A long format tibble of the enrichment scores for each tf

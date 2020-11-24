@@ -36,7 +36,7 @@ test_that("decouple same results as independent functions", {
     .source = tf,
     .target = target,
     statistics = statistics,
-    .options = list(
+    args = list(
       scira = list(),
       pscira = list(),
       mean = list(.likelihood = NULL),

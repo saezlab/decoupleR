@@ -6,10 +6,11 @@
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
 #' @param statistics Statistical methods to be coupled.
-#' @param .options A list of argument-lists the same length as `statistics` (or length 1).
+#' @param args A list of argument-lists the same length as `statistics` (or length 1).
 #'  The default argument, list(NULL), will be recycled to the same length as `statistics`,
 #'  and will call each function with no arguments (apart from `mat`,
 #'  `network`, `.source` and, `.target`).
+#' @param show_toy_call The call of each statistic must be informed?
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the samples. Resulting tibble contains the following columns:
@@ -26,18 +27,17 @@ decouple <- function(mat,
                      .source,
                      .target,
                      statistics,
-                     .options = list(NULL)) {
+                     args = list(NULL),
+                     show_toy_call = FALSE) {
 
   # Match statistics to couple ----------------------------------------------
 
-  # TODO this probably has to be changed to call the corresponding internal
-  # functions of each statistic.
   available_statistics <- list(
-    mean = run_mean,
-    scira = run_scira,
-    pscira = run_pscira,
-    viper = run_viper,
-    gsva = run_gsva
+    mean = expr(run_mean),
+    scira = expr(run_scira),
+    pscira = expr(run_pscira),
+    viper = expr(run_viper),
+    gsva = expr(run_gsva)
   )
 
   statistics <- statistics %>%
@@ -47,15 +47,22 @@ decouple <- function(mat,
 
   # Evaluate statistics -----------------------------------------------------
 
+  mat_symbol <- .label_expr({{ mat }})
+  network_symbol <- .label_expr({{ network }})
+
   # For the moment this will only ensure that the parameters passed
   # to decoupleR are the same when invoking the functions.
-  invoke_map_dfr(
-    .f = statistics,
-    .x = .options,
+  map2_dfr(
+    .x = statistics,
+    .y = args,
+    .f = .invoke_statistic,
     mat = mat,
     network = network,
-    .source = enquo(.source),
-    .target = enquo(.target),
+    .source = {{ .source }},
+    .target = {{ .target }},
+    mat_symbol = {{ mat_symbol }},
+    network_symbol = {{ network_symbol }},
+    show_toy_call = show_toy_call,
     .id = "run_id"
   ) %>%
     select(
@@ -70,3 +77,62 @@ decouple <- function(mat,
 }
 
 # Helpers -----------------------------------------------------------------
+#' Construct an expression to evaluate a decoupleR statistic.
+#'
+#' @details
+#' `.invoke_statistic()` was designed because [purrr::invoke_map_dfr()] is retired.
+#' The alternative proposed by the developers by purrr is to use [rlang::exec()] in
+#' combination with [purrr::map2()], however, the function is not a quoting function,
+#' so the parameters that require the `curly-curly` (`{{}}`) operator require a
+#' special pre-processing. In practical terms, creating an expression of zero allows
+#' us to have better control over the function call as suggested in the [rlang::exec()]
+#' documentation. For instance, we can see how the function itself is being called.
+#' Therefore, if an error occurs in one of the statistics, we will have a direct
+#' traceback to the problematic call, as opposed to what happens directly using [rlang::exec()].
+#'
+#' @inheritParams decouple
+#' @param fn Expression containing the name of the function to execute.
+#' @param args Extra arguments to pass to the statistician under evaluation.
+#'
+#' @keywords internal
+.invoke_statistic <- function(fn,
+                              args,
+                              mat,
+                              network,
+                              .source,
+                              .target,
+                              mat_symbol,
+                              network_symbol,
+                              show_toy_call) {
+  .toy_call <- expr(
+    (!!fn)(
+      mat = {{ mat_symbol }},
+      network = {{ network_symbol }},
+      .source = {{ .source }},
+      .target = {{ .target }},
+      !!!args)
+  )
+
+  if (show_toy_call) {
+    rlang::inform(rlang::qq_show(!!.toy_call))
+  }
+
+  .call <- expr(
+    (!!fn)(
+      mat = mat,
+      network = network,
+      .source = {{ .source }},
+      .target = {{ .target }},
+      !!!args)
+  )
+
+  eval(.call)
+}
+
+#' Convert object to symbol expression
+#'
+#' @param x An object or expression to convert to symbol
+#'
+#' @keywords internal
+#' @noRd
+.label_expr <- function(x) rlang::get_expr(enquo(x))

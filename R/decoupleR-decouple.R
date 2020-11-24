@@ -10,7 +10,7 @@
 #'  The default argument, list(NULL), will be recycled to the same length as `statistics`,
 #'  and will call each function with no arguments (apart from `mat`,
 #'  `network`, `.source` and, `.target`).
-#' @param show_call The call of each statistic must be informed?
+#' @param show_toy_call The call of each statistic must be informed?
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the samples. Resulting tibble contains the following columns:
@@ -28,7 +28,7 @@ decouple <- function(mat,
                      .target,
                      statistics,
                      args = list(NULL),
-                     show_call = FALSE) {
+                     show_toy_call = FALSE) {
 
   # Match statistics to couple ----------------------------------------------
 
@@ -47,6 +47,9 @@ decouple <- function(mat,
 
   # Evaluate statistics -----------------------------------------------------
 
+  mat_symbol <- .label_expr({{ mat }})
+  network_symbol <- .label_expr({{ network }})
+
   # For the moment this will only ensure that the parameters passed
   # to decoupleR are the same when invoking the functions.
   map2_dfr(
@@ -57,7 +60,9 @@ decouple <- function(mat,
     network = network,
     .source = {{ .source }},
     .target = {{ .target }},
-    show_call = show_call,
+    mat_symbol = {{ mat_symbol }},
+    network_symbol = {{ network_symbol }},
+    show_toy_call = show_toy_call,
     .id = "run_id"
   ) %>%
     select(
@@ -90,7 +95,28 @@ decouple <- function(mat,
 #' @param args Extra arguments to pass to the statistician under evaluation.
 #'
 #' @keywords internal
-.invoke_statistic <- function(fn, args, mat, network, .source, .target, show_call = FALSE) {
+.invoke_statistic <- function(fn,
+                              args,
+                              mat,
+                              network,
+                              .source,
+                              .target,
+                              mat_symbol,
+                              network_symbol,
+                              show_toy_call) {
+  .toy_call <- expr(
+    (!!fn)(
+      mat = {{ mat_symbol }},
+      network = {{ network_symbol }},
+      .source = {{ .source }},
+      .target = {{ .target }},
+      !!!args)
+  )
+
+  if (show_toy_call) {
+    rlang::inform(rlang::qq_show(!!.toy_call))
+  }
+
   .call <- expr(
     (!!fn)(
       mat = mat,
@@ -100,9 +126,13 @@ decouple <- function(mat,
       !!!args)
   )
 
-  if(show_call) {
-    rlang::inform(rlang::qq_show(!!.call))
-  }
-
   eval(.call)
 }
+
+#' Convert object to symbol expression
+#'
+#' @param x An object or expression to convert to symbol
+#'
+#' @keywords internal
+#' @noRd
+.label_expr <- function(x) rlang::get_expr(enquo(x))

@@ -11,7 +11,7 @@ decouple(
   .target,
   statistics,
   args = list(NULL),
-  show_call = FALSE
+  show_toy_call = FALSE
 )
 }
 \arguments{
@@ -33,7 +33,7 @@ The default argument, list(NULL), will be recycled to the same length as \code{s
 and will call each function with no arguments (apart from \code{mat},
 \code{network}, \code{.source} and, \code{.target}).}
 
-\item{show_call}{The call of each statistician must be informed?}
+\item{show_toy_call}{The call of each statistic must be informed?}
 }
 \value{
 A long format tibble of the enrichment scores for each tf

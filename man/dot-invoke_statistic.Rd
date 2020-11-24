@@ -4,7 +4,17 @@
 \alias{.invoke_statistic}
 \title{Construct an expression to evaluate a decoupleR statistic.}
 \usage{
-.invoke_statistic(fn, args, mat, network, .source, .target, show_call = FALSE)
+.invoke_statistic(
+  fn,
+  args,
+  mat,
+  network,
+  .source,
+  .target,
+  mat_symbol,
+  network_symbol,
+  show_toy_call
+)
 }
 \arguments{
 \item{fn}{Expression containing the name of the function to execute.}
@@ -22,7 +32,7 @@ in \code{network} \code{.target} column.}
 
 \item{.target}{Column with target nodes.}
 
-\item{show_call}{The call of each statistician must be informed?}
+\item{show_toy_call}{The call of each statistic must be informed?}
 }
 \description{
 Construct an expression to evaluate a decoupleR statistic.

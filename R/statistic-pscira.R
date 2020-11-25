@@ -20,49 +20,50 @@
 #' @import tibble
 #' @import tidyr
 #' @importFrom stats sd
-run_pscira <- function(mat,
-                       network,
-                       .source = .data$tf,
-                       .target = .data$target,
-                       .mor = .data$mor,
-                       sparse = TRUE,
-                       times = 10,
-                       seed = 42) {
+run_pscira <- function(
+    mat,
+    network,
+    .source = .data$tf,
+    .target = .data$target,
+    .mor = .data$mor,
+    sparse = TRUE,
+    times = 10,
+    seed = 42) {
 
-  # Before to start ---------------------------------------------------------
-  .start_time <- Sys.time()
+    # Before to start ---------------------------------------------------------
+    .start_time <- Sys.time()
 
-  if (times < 2) {
-    stop(str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
-  }
+    if (times < 2) {
+        stop(str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
+    }
 
-  # Preprocessing -----------------------------------------------------------
+    # Preprocessing -----------------------------------------------------------
 
-  # Convert to standard tibble: tf-target-mor.
-  network <- network %>%
-    convert_to_pscira({{ .source }}, {{ .target }}, {{ .mor }})
+    # Convert to standard tibble: tf-target-mor.
+    network <- network %>%
+        convert_to_pscira({{ .source }}, {{ .target }}, {{ .mor }})
 
-  # Extract labels that will map to the expression and profile matrices
-  tfs <- network %>%
-    pull(.data$tf) %>%
-    unique()
+    # Extract labels that will map to the expression and profile matrices
+    tfs <- network %>%
+        pull(.data$tf) %>%
+        unique()
 
-  # Ensures column matching, expands the target profile to encompass all targets
-  # in the expression matrix for each source, and converts the result to a matrix.
-  mor_mat <- network %>%
-    get_profile_of(
-      sources = list(tf = tfs, target = rownames(mat)),
-      values_fill = list(mor = 0)
-    ) %>%
-    pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = sparse)
+    # Ensures column matching, expands the target profile to encompass all targets
+    # in the expression matrix for each source, and converts the result to a matrix.
+    mor_mat <- network %>%
+        get_profile_of(
+            sources = list(tf = tfs, target = rownames(mat)),
+            values_fill = list(mor = 0)
+        ) %>%
+        pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = sparse)
 
-  # Convert to matrix to ensure that matrix multiplication works
-  # in case mat is a labelled dataframe.
-  mat <- as.matrix(mat)
+    # Convert to matrix to ensure that matrix multiplication works
+    # in case mat is a labelled dataframe.
+    mat <- as.matrix(mat)
 
-  # Evaluate model ----------------------------------------------------------
-  .pscira_analysis(mat, mor_mat, times, seed) %>%
-    mutate(statistic_time = difftime(Sys.time(), .start_time))
+    # Evaluate model ----------------------------------------------------------
+    .pscira_analysis(mat, mor_mat, times, seed) %>%
+        mutate(statistic_time = difftime(Sys.time(), .start_time))
 }
 
 # Helper functions --------------------------------------------------------
@@ -77,22 +78,22 @@ run_pscira <- function(mat,
 #' @keywords intern
 #' @noRd
 .pscira_analysis <- function(mat, mor_mat, times, seed) {
-  pscira_run <- partial(
-    .f = .pscira_run,
-    mat = mat,
-    mor_mat = mor_mat
-  )
+    pscira_run <- partial(
+        .f = .pscira_run,
+        mat = mat,
+        mor_mat = mor_mat
+    )
 
-  set.seed(seed)
-  map_dfr(1:times, ~ pscira_run(random = TRUE)) %>%
-    group_by(.data$tf, .data$condition) %>%
-    summarise(.mean = mean(.data$value), .sd = sd(.data$value), .groups = "drop") %>%
-    left_join(pscira_run(random = FALSE), by = c("tf", "condition")) %>%
-    mutate(
-      score = (.data$value - .data$.mean) / .data$.sd,
-      score = replace_na(.data$score, 0)
-    ) %>%
-    transmute(statistic = "pscira", .data$tf, .data$condition, .data$score)
+    set.seed(seed)
+    map_dfr(1:times, ~ pscira_run(random = TRUE)) %>%
+        group_by(.data$tf, .data$condition) %>%
+        summarise(.mean = mean(.data$value), .sd = sd(.data$value), .groups = "drop") %>%
+        left_join(pscira_run(random = FALSE), by = c("tf", "condition")) %>%
+        mutate(
+            score = (.data$value - .data$.mean) / .data$.sd,
+            score = replace_na(.data$score, 0)
+        ) %>%
+        transmute(statistic = "pscira", .data$tf, .data$condition, .data$score)
 }
 
 #'  Wrapper to perform mat %*% mor_mat
@@ -105,8 +106,8 @@ run_pscira <- function(mat,
 #' @keywords internal
 #' @noRd
 .pscira_run <- function(mat, mor_mat, random) {
-  .pscira_map_model_data(mat, random) %>%
-    .pscira_evaluate_model(mor_mat)
+    .pscira_map_model_data(mat, random) %>%
+        .pscira_evaluate_model(mor_mat)
 }
 
 #' Map model data
@@ -119,11 +120,11 @@ run_pscira <- function(mat,
 #' @keywords internal
 #' @noRd
 .pscira_map_model_data <- function(mat, random = FALSE) {
-  if (random) {
-    return(mat[sample(nrow(mat)), ])
-  } else {
-    mat
-  }
+    if (random) {
+        return(mat[sample(nrow(mat)), ])
+    } else {
+        mat
+    }
 }
 
 #' Evaluate model
@@ -137,9 +138,9 @@ run_pscira <- function(mat,
 #' @keywords internal
 #' @noRd
 .pscira_evaluate_model <- function(mat, mor_mat) {
-  (mor_mat %*% mat) %>%
-    as.matrix() %>%
-    as.data.frame() %>%
-    rownames_to_column("tf") %>%
-    pivot_longer(-.data$tf, names_to = "condition")
+    (mor_mat %*% mat) %>%
+        as.matrix() %>%
+        as.data.frame() %>%
+        rownames_to_column("tf") %>%
+        pivot_longer(-.data$tf, names_to = "condition")
 }

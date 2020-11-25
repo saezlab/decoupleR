@@ -22,30 +22,31 @@
 #' @import purrr
 #' @import tidyr
 #' @import viper
-run_viper <- function(mat,
-                      network,
-                      .source = .data$tf,
-                      .target = .data$target,
-                      .mor = .data$mor,
-                      .likelihood = .data$likelihood,
-                      ...) {
+run_viper <- function(
+    mat,
+    network,
+    .source = .data$tf,
+    .target = .data$target,
+    .mor = .data$mor,
+    .likelihood = .data$likelihood,
+    ...) {
 
-  # Before to start ---------------------------------------------------------
-  .start_time <- Sys.time()
+    # Before to start ---------------------------------------------------------
+    .start_time <- Sys.time()
 
-  network <- network %>%
-    convert_to_viper({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    network <- network %>%
+        convert_to_viper({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
-  # Analysis ----------------------------------------------------------------
-  exec(
-    .fn = viper::viper,
-    eset = mat,
-    regulon = network,
-    !!!list(...)
-  ) %>%
-    as.data.frame() %>%
-    rownames_to_column("tf") %>%
-    pivot_longer(-.data$tf, names_to = "condition", values_to = "score") %>%
-    add_column(statistic = "viper", .before = 1) %>%
-    mutate(statistic_time = difftime(Sys.time(), .start_time))
+    # Analysis ----------------------------------------------------------------
+    exec(
+        .fn = viper::viper,
+        eset = mat,
+        regulon = network,
+        !!!list(...)
+    ) %>%
+        as.data.frame() %>%
+        rownames_to_column("tf") %>%
+        pivot_longer(-.data$tf, names_to = "condition", values_to = "score") %>%
+        add_column(statistic = "viper", .before = 1) %>%
+        mutate(statistic_time = difftime(Sys.time(), .start_time))
 }

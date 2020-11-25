@@ -34,38 +34,39 @@
 #' @import tidyr
 #' @importFrom stats coef lm summary.lm
 #' @importFrom speedglm speedlm.fit
-run_scira <- function(mat,
-                      network,
-                      .source = .data$tf,
-                      .target = .data$target,
-                      .mor = .data$mor,
-                      sparse = FALSE,
-                      fast = TRUE) {
+run_scira <- function(
+    mat,
+    network,
+    .source = .data$tf,
+    .target = .data$target,
+    .mor = .data$mor,
+    sparse = FALSE,
+    fast = TRUE) {
 
-  # Preprocessing -----------------------------------------------------------
-  .start_time <- Sys.time()
+    # Preprocessing -----------------------------------------------------------
+    .start_time <- Sys.time()
 
-  # Convert to standard tibble: tf-target-mor.
-  network <- network %>%
-    convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }})
+    # Convert to standard tibble: tf-target-mor.
+    network <- network %>%
+        convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }})
 
-  # Extract labels that will map to the expression and profile matrices
-  tfs <- network %>%
-    pull(.data$tf) %>%
-    unique()
+    # Extract labels that will map to the expression and profile matrices
+    tfs <- network %>%
+        pull(.data$tf) %>%
+        unique()
 
-  # Ensures column matching, expands the target profile to encompass all targets
-  # in the expression matrix for each source, and converts the result to a matrix.
-  mor_mat <- network %>%
-    get_profile_of(
-      sources = list(tf = tfs, target = rownames(mat)),
-      values_fill = list(mor = 0)
-    ) %>%
-    pivot_wider_profile(.data$target, .data$tf, .data$mor, to_matrix = TRUE, to_sparse = sparse)
+    # Ensures column matching, expands the target profile to encompass all targets
+    # in the expression matrix for each source, and converts the result to a matrix.
+    mor_mat <- network %>%
+        get_profile_of(
+            sources = list(tf = tfs, target = rownames(mat)),
+            values_fill = list(mor = 0)
+        ) %>%
+        pivot_wider_profile(.data$target, .data$tf, .data$mor, to_matrix = TRUE, to_sparse = sparse)
 
-  # Model evaluation --------------------------------------------------------
-  .scira_analysis(mat, mor_mat, fast) %>%
-    mutate(statistic_time = difftime(Sys.time(), .start_time))
+    # Model evaluation --------------------------------------------------------
+    .scira_analysis(mat, mor_mat, fast) %>%
+        mutate(statistic_time = difftime(Sys.time(), .start_time))
 }
 
 # Helper functions ------------------------------------------------------
@@ -81,22 +82,22 @@ run_scira <- function(mat,
 #' @keywords intern
 #' @noRd
 .scira_analysis <- function(mat, mor_mat, fast) {
-  scira_evaluate_model <- partial(
-    .f = .scira_evaluate_model,
-    mat = mat,
-    mor_mat = mor_mat,
-    fast = fast
-  )
+    scira_evaluate_model <- partial(
+        .f = .scira_evaluate_model,
+        mat = mat,
+        mor_mat = mor_mat,
+        fast = fast
+    )
 
-  # Allocate the space for all combinations of sources and conditions
-  # and evaluate the proposed model.
-  lift_dl(expand_grid)(list(tf = colnames(mor_mat), condition = colnames(mat))) %>%
-    rowwise(.data$tf, .data$condition) %>%
-    summarise(
-      score = scira_evaluate_model(.data$tf, .data$condition),
-      .groups = "drop"
-    ) %>%
-    transmute(statistic = "scira", .data$tf, .data$condition, .data$score)
+    # Allocate the space for all combinations of sources and conditions
+    # and evaluate the proposed model.
+    lift_dl(expand_grid)(list(tf = colnames(mor_mat), condition = colnames(mat))) %>%
+        rowwise(.data$tf, .data$condition) %>%
+        summarise(
+            score = scira_evaluate_model(.data$tf, .data$condition),
+            .groups = "drop"
+        ) %>%
+        transmute(statistic = "scira", .data$tf, .data$condition, .data$score)
 }
 
 #' Wrapper to run scira one tf (source) per sample (condition) at time
@@ -104,19 +105,19 @@ run_scira <- function(mat,
 #' @keywords internal
 #' @noRd
 .scira_evaluate_model <- function(source, condition, mat, mor_mat, fast) {
-  if (fast) {
-    speedlm.fit(
-      y = mat[, condition],
-      X = cbind(1, mor_mat[, source])
-    ) %>%
-      summary() %>%
-      pluck("coefficients", "t", 2, .default = NA)
-  } else {
-    coefficients_values <- lm(mat[, condition] ~ mor_mat[, source]) %>%
-      summary() %>%
-      coef()
+    if (fast) {
+        speedlm.fit(
+            y = mat[, condition],
+            X = cbind(1, mor_mat[, source])
+        ) %>%
+            summary() %>%
+            pluck("coefficients", "t", 2, .default = NA)
+    } else {
+        coefficients_values <- lm(mat[, condition] ~ mor_mat[, source]) %>%
+            summary() %>%
+            coef()
 
-    t_values <- coefficients_values[, "t value"]
-    pluck(t_values, 2, .default = NA)
-  }
+        t_values <- coefficients_values[, "t value"]
+        pluck(t_values, 2, .default = NA)
+    }
 }

@@ -11,33 +11,33 @@ expected_dir <- system.file("testdata", "outputs", "viper", package = "decoupleR
 # Data to run -------------------------------------------------------------
 
 emat <- file.path(input_dir, "input-expr_matrix.rds") %>%
-  readRDS()
+    readRDS()
 
 dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
-  readRDS()
+    readRDS()
 
 
 # test for run_viper() ----------------------------------------------------
 
 test_that("test run_viper with dorothea gene sets", {
-  res_1 <- run_viper(emat, dorothea_genesets, verbose = FALSE) %>%
-    select(-statistic_time)
-  exp_1 <- file.path(expected_dir, "output-viper_dorothea_default.rds") %>%
-    readRDS()
+    res_1 <- run_viper(emat, dorothea_genesets, verbose = FALSE) %>%
+        select(-statistic_time)
+    exp_1 <- file.path(expected_dir, "output-viper_dorothea_default.rds") %>%
+        readRDS()
 
-  res_2 <- run_viper(emat, dorothea_genesets, tf, target, mor, likelihood, verbose = FALSE) %>%
-    select(-statistic_time)
-  exp_2 <- file.path(expected_dir, "output-viper_dorothea_tidy-evaluation.rds") %>%
-    readRDS()
+    res_2 <- run_viper(emat, dorothea_genesets, tf, target, mor, likelihood, verbose = FALSE) %>%
+        select(-statistic_time)
+    exp_2 <- file.path(expected_dir, "output-viper_dorothea_tidy-evaluation.rds") %>%
+        readRDS()
 
-  res_3 <- run_viper(emat, dorothea_genesets, verbose = FALSE, minsize = 4) %>%
-    select(-statistic_time)
-  exp_3 <- file.path(expected_dir, "output-viper_dorothea_minsize4.rds") %>%
-    readRDS()
+    res_3 <- run_viper(emat, dorothea_genesets, verbose = FALSE, minsize = 4) %>%
+        select(-statistic_time)
+    exp_3 <- file.path(expected_dir, "output-viper_dorothea_minsize4.rds") %>%
+        readRDS()
 
-  expect_equal(res_1, exp_1)
-  expect_equal(res_2, exp_2)
-  expect_equal(res_3, exp_3)
+    expect_equal(res_1, exp_1)
+    expect_equal(res_2, exp_2)
+    expect_equal(res_3, exp_3)
 })
 
 

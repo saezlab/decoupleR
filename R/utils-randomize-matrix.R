@@ -7,11 +7,11 @@
 #' @export
 #'
 randomize_matrix <- function(mat, randomize_type = c("rows", "cols_independently")) {
-  randomize_type <- match.arg(randomize_type)
+    randomize_type <- match.arg(randomize_type)
 
-  switch(randomize_type,
-    rows = mat[sample(nrow(mat)), ],
-    cols_independently = apply(mat, 2, sample)
-  ) %>%
-    `row.names<-`(rownames(mat))
+    switch(randomize_type,
+        rows = mat[sample(nrow(mat)), ],
+        cols_independently = apply(mat, 2, sample)
+    ) %>%
+        `row.names<-`(rownames(mat))
 }

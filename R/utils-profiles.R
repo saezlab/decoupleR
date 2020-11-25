@@ -13,11 +13,11 @@
 #' @examples
 #' library(dplyr, warn.conflicts = FALSE)
 #' df <- tibble(
-#'   group = c(1:2, 1),
-#'   item_id = c(1:2, 2),
-#'   item_name = c("a", "b", "b"),
-#'   value1 = 1:3,
-#'   value2 = 4:6
+#'     group = c(1:2, 1),
+#'     item_id = c(1:2, 2),
+#'     item_name = c("a", "b", "b"),
+#'     value1 = 1:3,
+#'     value2 = 4:6
 #' )
 #'
 #' to_get_profile <- list(group = c(1, 2, 3), item_id = c(1, 2))
@@ -38,25 +38,25 @@
 #' @import purrr
 #' @import tidyr
 get_profile_of <- function(data, sources, values_fill = NA) {
-  # The function only allows to reduce or extend the length of the profile,
-  # not to add metadata
-  stopifnot(all(names(sources) %in% colnames(data)))
+    # The function only allows to reduce or extend the length of the profile,
+    # not to add metadata
+    stopifnot(all(names(sources) %in% colnames(data)))
 
-  # Drop duplicated entries
-  sources <- map(sources, unique)
+    # Drop duplicated entries
+    sources <- map(sources, unique)
 
-  # Get combinations of the data and join them to the original data set
-  new_data <- lift_dl(expand_grid)(sources) %>%
-    left_join(data, by = names(sources))
+    # Get combinations of the data and join them to the original data set
+    new_data <- lift_dl(expand_grid)(sources) %>%
+        left_join(data, by = names(sources))
 
-  if (is_list(values_fill)) {
-    replace_na(new_data, replace = values_fill)
-  } else if (!is.na(values_fill) && length(values_fill) == 1) {
-    new_data %>%
-      mutate(across(everything(), ~ replace_na(.x, replace = values_fill)))
-  } else {
-    new_data
-  }
+    if (is_list(values_fill)) {
+        replace_na(new_data, replace = values_fill)
+    } else if (!is.na(values_fill) && length(values_fill) == 1) {
+        new_data %>%
+            mutate(across(everything(), ~ replace_na(.x, replace = values_fill)))
+    } else {
+        new_data
+    }
 }
 
 #' Pivot a data frame to wider and convert it to matrix
@@ -80,31 +80,31 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 #' @import tidyr
 #' @importFrom Matrix Matrix
 pivot_wider_profile <- function(data,
-                                id_cols,
-                                names_from,
-                                values_from,
-                                values_fill = NA,
-                                to_matrix = FALSE,
-                                to_sparse = FALSE,
-                                ...) {
-  wider_profile <- data %>%
-    select({{ id_cols }}, {{ names_from }}, {{ values_from }}) %>%
-    pivot_wider(
-      id_cols = {{ id_cols }},
-      names_from = {{ names_from }},
-      values_from = {{ values_from }},
-      values_fill = values_fill,
-      ...
-    ) %>%
-    rename(id = {{ id_cols }}) %>%
-    column_to_rownames(var = "id")
+    id_cols,
+    names_from,
+    values_from,
+    values_fill = NA,
+    to_matrix = FALSE,
+    to_sparse = FALSE,
+    ...) {
+    wider_profile <- data %>%
+        select({{ id_cols }}, {{ names_from }}, {{ values_from }}) %>%
+        pivot_wider(
+            id_cols = {{ id_cols }},
+            names_from = {{ names_from }},
+            values_from = {{ values_from }},
+            values_fill = values_fill,
+            ...
+        ) %>%
+        rename(id = {{ id_cols }}) %>%
+        column_to_rownames(var = "id")
 
-  if (to_matrix == TRUE || to_sparse == TRUE) {
-    if (to_sparse == TRUE) {
-      return(Matrix(data = as.matrix(wider_profile), sparse = TRUE))
-    } else {
-      return(as.matrix(wider_profile))
+    if (to_matrix == TRUE || to_sparse == TRUE) {
+        if (to_sparse == TRUE) {
+            return(Matrix(data = as.matrix(wider_profile), sparse = TRUE))
+        } else {
+            return(as.matrix(wider_profile))
+        }
     }
-  }
-  wider_profile
+    wider_profile
 }

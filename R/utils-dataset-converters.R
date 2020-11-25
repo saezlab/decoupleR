@@ -34,16 +34,16 @@ convert_to_ <- function(network) invisible(network)
 #' @family convert_to_ variants
 #' @export
 convert_to_scira <- function(network, .source, .target, .mor = NULL) {
-  .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  network %>%
-    convert_f_defaults(
-      tf = {{ .source }},
-      target = {{ .target }},
-      mor = {{ .mor }},
-      .def_col_val = c(mor = 0)
-    ) %>%
-    mutate(mor = sign(.data$mor))
+    network %>%
+        convert_f_defaults(
+            tf = {{ .source }},
+            target = {{ .target }},
+            mor = {{ .mor }},
+            .def_col_val = c(mor = 0)
+        ) %>%
+        mutate(mor = sign(.data$mor))
 }
 
 #' @rdname convert_to_
@@ -53,16 +53,16 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL) {
 #' @family convert_to_ variants
 #' @export
 convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
-  .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  network %>%
-    convert_f_defaults(
-      tf = {{ .source }},
-      target = {{ .target }},
-      mor = {{ .mor }},
-      .def_col_val = c(mor = 0)
-    ) %>%
-    mutate(mor = sign(.data$mor))
+    network %>%
+        convert_f_defaults(
+            tf = {{ .source }},
+            target = {{ .target }},
+            mor = {{ .mor }},
+            .def_col_val = c(mor = 0)
+        ) %>%
+        mutate(mor = sign(.data$mor))
 }
 
 # mean --------------------------------------------------------------------
@@ -74,17 +74,17 @@ convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
 #' @family convert_to_ variants
 #' @export
 convert_to_mean <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
-  .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  network %>%
-    convert_f_defaults(
-      tf = {{ .source }},
-      target = {{ .target }},
-      mor = {{ .mor }},
-      likelihood = {{ .likelihood }},
-      .def_col_val = c(mor = 0, likelihood = 1)
-    ) %>%
-    mutate(mor = sign(.data$mor))
+    network %>%
+        convert_f_defaults(
+            tf = {{ .source }},
+            target = {{ .target }},
+            mor = {{ .mor }},
+            likelihood = {{ .likelihood }},
+            .def_col_val = c(mor = 0, likelihood = 1)
+        ) %>%
+        mutate(mor = sign(.data$mor))
 }
 
 # viper -------------------------------------------------------------------
@@ -96,24 +96,24 @@ convert_to_mean <- function(network, .source, .target, .mor = NULL, .likelihood 
 #' @family convert_to_ variants
 #' @export
 convert_to_viper <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
-  .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  network %>%
-    convert_f_defaults(
-      tf = {{ .source }},
-      target = {{ .target }},
-      mor = {{ .mor }},
-      likelihood = {{ .likelihood }},
-      .def_col_val = c(mor = 0, likelihood = 1)
-    ) %>%
-    mutate(mor = sign(.data$mor)) %>%
-    split(.$tf) %>%
-    map(~ {
-      list(
-        tfmode = set_names(.x$mor, .x$target),
-        likelihood = .x$likelihood
-      )
-    })
+    network %>%
+        convert_f_defaults(
+            tf = {{ .source }},
+            target = {{ .target }},
+            mor = {{ .mor }},
+            likelihood = {{ .likelihood }},
+            .def_col_val = c(mor = 0, likelihood = 1)
+        ) %>%
+        mutate(mor = sign(.data$mor)) %>%
+        split(.$tf) %>%
+        map(~ {
+            list(
+                tfmode = set_names(.x$mor, .x$target),
+                likelihood = .x$likelihood
+            )
+        })
 }
 
 # gsva --------------------------------------------------------------------
@@ -125,19 +125,19 @@ convert_to_viper <- function(network, .source, .target, .mor = NULL, .likelihood
 #' @family convert_to_ variants
 #' @export
 convert_to_gsva <- function(network, .source, .target) {
-  .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
 
-  network %>%
-    convert_f_defaults(
-      tf = {{ .source }},
-      target = {{ .target }}
-    ) %>%
-    group_by(.data$tf) %>%
-    summarise(
-      regulons = set_names(list(.data$target), .data$tf[1]),
-      .groups = "drop"
-    ) %>%
-    pull(.data$regulons)
+    network %>%
+        convert_f_defaults(
+            tf = {{ .source }},
+            target = {{ .target }}
+        ) %>%
+        group_by(.data$tf) %>%
+        summarise(
+            regulons = set_names(list(.data$target), .data$tf[1]),
+            .groups = "drop"
+        ) %>%
+        pull(.data$regulons)
 }
 
 # Helper functions --------------------------------------------------------
@@ -151,22 +151,22 @@ convert_to_gsva <- function(network, .source, .target) {
 #' @noRd
 # TODO be able to use name of dots as name of quo.
 .check_quos_status <- function(..., .dots_names) {
-  dots <- enquos(...)
+    dots <- enquos(...)
 
-  walk2(.x = dots, .y = .dots_names, function(.dot, .name) {
-    if (quo_is_missing(.dot)) {
-      abort(
-        message = str_glue('Quo "{.name}" is missing, with no default.'),
-        class = "quo_missing_error"
-      )
-    }
-    if (quo_is_null(.dot)) {
-      abort(
-        message = str_glue('Quo "{.name}" can not be NULL.'),
-        class = "quo_null_error"
-      )
-    }
-  })
+    walk2(.x = dots, .y = .dots_names, function(.dot, .name) {
+        if (quo_is_missing(.dot)) {
+            abort(
+                message = str_glue('Quo "{.name}" is missing, with no default.'),
+                class = "quo_missing_error"
+            )
+        }
+        if (quo_is_null(.dot)) {
+            abort(
+                message = str_glue('Quo "{.name}" can not be NULL.'),
+                class = "quo_null_error"
+            )
+        }
+    })
 }
 
 #' Rename columns and add defaults values if column not present
@@ -199,57 +199,57 @@ convert_to_gsva <- function(network, .source, .target) {
 #' @export
 #' @importFrom tidyselect eval_rename
 convert_f_defaults <- function(.data,
-                               ...,
-                               .def_col_val = c(),
-                               .use_dots = TRUE) {
-  out_cols <- match.call(expand.dots = FALSE)$... %>%
-    names() %>%
-    unique()
+    ...,
+    .def_col_val = c(),
+    .use_dots = TRUE) {
+    out_cols <- match.call(expand.dots = FALSE)$... %>%
+        names() %>%
+        unique()
 
-  .expr <- expr(c(...))
-  if (.use_dots) .expr <- expr(c(. = !!.expr))
+    .expr <- expr(c(...))
+    if (.use_dots) .expr <- expr(c(. = !!.expr))
 
-  # Return rename changes with dot prefix variables.
-  loc <- eval_rename(.expr, data = .data)
+    # Return rename changes with dot prefix variables.
+    loc <- eval_rename(.expr, data = .data)
 
-  .data <- .data %>%
-    select(all_of(loc)) %>%
-    {
-      # Remove prefix dots generated by eval_rename()
-      if (.use_dots) {
-        rename_with(., ~ str_remove(.x, "...."))
-      } else {
-        .
-      }
-    } %>%
-    add_column(., !!!.def_col_val[!names(.def_col_val) %in% names(.)])
+    .data <- .data %>%
+        select(all_of(loc)) %>%
+        {
+            # Remove prefix dots generated by eval_rename()
+            if (.use_dots) {
+                rename_with(., ~ str_remove(.x, "...."))
+            } else {
+                .
+            }
+        } %>%
+        add_column(., !!!.def_col_val[!names(.def_col_val) %in% names(.)])
 
-  # Check output data columns
-  data_cols <- names(.data)
+    # Check output data columns
+    data_cols <- names(.data)
 
-  # Calculate symmetric difference
-  diff_cols <- setdiff(
-    x = union(out_cols, data_cols),
-    y = intersect(out_cols, data_cols)
-  )
-
-  # Abort execution if there is an inconsistency in the output results
-  if (!is_empty(diff_cols)) {
-    extra_cols <- setdiff(diff_cols, out_cols) %>%
-      paste(collapse = ", ")
-    removed_cols <- intersect(out_cols, diff_cols) %>%
-      paste(collapse = ", ")
-    out_cols <- paste(out_cols, collapse = ", ")
-
-    out_message <- str_glue(
-      "Output columns are different than expected.\n",
-      "Expected: {out_cols}\n",
-      "Extra: {extra_cols}\n",
-      "Removed: {removed_cols}"
+    # Calculate symmetric difference
+    diff_cols <- setdiff(
+        x = union(out_cols, data_cols),
+        y = intersect(out_cols, data_cols)
     )
 
-    abort(message = out_message, class = "different_set_columns")
-  }
+    # Abort execution if there is an inconsistency in the output results
+    if (!is_empty(diff_cols)) {
+        extra_cols <- setdiff(diff_cols, out_cols) %>%
+            paste(collapse = ", ")
+        removed_cols <- intersect(out_cols, diff_cols) %>%
+            paste(collapse = ", ")
+        out_cols <- paste(out_cols, collapse = ", ")
 
-  .data
+        out_message <- str_glue(
+            "Output columns are different than expected.\n",
+            "Expected: {out_cols}\n",
+            "Extra: {extra_cols}\n",
+            "Removed: {removed_cols}"
+        )
+
+        abort(message = out_message, class = "different_set_columns")
+    }
+
+    .data
 }

@@ -23,6 +23,16 @@
 #'
 #' @seealso [convert_f_defaults()]
 #' @export
+#' @examples
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#'
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#'
+#' convert_to_gsva(network, tf, target)
+#' convert_to_mean(network, tf, target, mor, likelihood)
+#' convert_to_pscira(network, tf, target, mor)
+#' convert_to_scira(network, tf, target, mor)
+#' convert_to_viper(network, tf, target, mor, likelihood)
 convert_to_ <- function(network) invisible(network)
 
 # scira and pscira ------------------------------------------------------

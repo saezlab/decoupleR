@@ -46,6 +46,17 @@ Convert a long-format network to the suggested standard for the specified \verb{
 If the default parameters are not modified, then the function sets its own
 null values for those columns.
 }
+\examples{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+
+convert_to_gsva(network, tf, target)
+convert_to_mean(network, tf, target, mor, likelihood)
+convert_to_pscira(network, tf, target, mor)
+convert_to_scira(network, tf, target, mor)
+convert_to_viper(network, tf, target, mor, likelihood)
+}
 \seealso{
 \code{\link[=convert_f_defaults]{convert_f_defaults()}}
 }

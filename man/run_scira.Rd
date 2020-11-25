@@ -55,6 +55,14 @@ a -1 for inhibitory activations and, finally, a 0 for all genes that are not
 a member of the TF regulon. TF activity is then defined as the t-statistic of
 this linear regression.
 }
+\examples{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+
+mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+
+run_scira(mat, network, tf, target, mor)
+}
 \seealso{
 Other decoupleR statistics: 
 \code{\link{run_gsva}()},

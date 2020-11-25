@@ -38,6 +38,14 @@ Resulting tibble contains the following columns:
 \description{
 This function is a convenient wrapper for the \code{\link[GSVA:gsva]{GSVA::gsva()}} function.
 }
+\examples{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+
+mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+
+run_gsva(mat, network, tf, target)
+}
 \seealso{
 Other decoupleR statistics: 
 \code{\link{run_mean}()},

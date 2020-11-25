@@ -35,6 +35,13 @@
 #' @import tibble
 #' @import tidyr
 #' @importFrom stats sd
+#' @examples
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#'
+#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#'
+#' run_mean(mat, network, tf, target, mor, likelihood)
 run_mean <- function(
     mat,
     network,

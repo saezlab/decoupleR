@@ -30,11 +30,11 @@ useful for completing missing combinations of data.
 \examples{
 library(dplyr, warn.conflicts = FALSE)
 df <- tibble(
-  group = c(1:2, 1),
-  item_id = c(1:2, 2),
-  item_name = c("a", "b", "b"),
-  value1 = 1:3,
-  value2 = 4:6
+    group = c(1:2, 1),
+    item_id = c(1:2, 2),
+    item_name = c("a", "b", "b"),
+    value1 = 1:3,
+    value2 = 4:6
 )
 
 to_get_profile <- list(group = c(1, 2, 3), item_id = c(1, 2))

@@ -15,7 +15,6 @@ Usually functional genomics tools consist of a
 Useful links:
 \itemize{
   \item \url{https://saezlab.github.io/decoupleR/}
-  \item \url{https://github.com/saezlab/decoupleR}
   \item Report bugs at \url{https://github.com/saezlab/decoupleR/issues}
 }
 

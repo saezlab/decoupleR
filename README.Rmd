@@ -6,10 +6,10 @@ output: github_document
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+    collapse = TRUE,
+    comment = "#>",
+    fig.path = "man/figures/README-",
+    out.width = "100%"
 )
 ```
 
@@ -46,13 +46,13 @@ library(decoupleR)
 
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 
-mat <- file.path(inputs_dir, "input-expr_matrix.rds") %>% 
-  readRDS() %>% 
-  dplyr::glimpse()
+mat <- file.path(inputs_dir, "input-expr_matrix.rds") %>%
+    readRDS() %>%
+    dplyr::glimpse()
 
-network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>% 
-  readRDS() %>%
-  dplyr::glimpse()
+network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
+    readRDS() %>%
+    dplyr::glimpse()
 ```
 
 ### Decouple wrapper
@@ -63,18 +63,18 @@ easily processed with the tools provide by the [tidyverse ecosystem](https://www
 
 ```{r usage-decouple_function, message=FALSE}
 decouple(
-  mat = mat,
-  network = network,
-  .source = "tf",
-  .target = "target",
-  statistics = c("gsva", "mean", "pscira", "scira", "viper"),
-  args = list(
-    gsva = list(verbose = FALSE),
-    mean = list(.mor = "mor", .likelihood = "likelihood"),
-    pscira = list(.mor = "mor"),
-    scira = list(.mor = "mor"),
-    viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
-  )
+    mat = mat,
+    network = network,
+    .source = "tf",
+    .target = "target",
+    statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+    args = list(
+        gsva = list(verbose = FALSE),
+        mean = list(.mor = "mor", .likelihood = "likelihood"),
+        pscira = list(.mor = "mor"),
+        scira = list(.mor = "mor"),
+        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
+    )
 )
 ```
 
@@ -87,12 +87,12 @@ same design pattern and arguments, so moving between statistics could be very co
 ```{r}
 # viper call is equivalent to the one made by decouple() above.
 run_viper(
-  mat = mat,
-  network = network,
-  .source = "tf",
-  .target = "target",
-  .likelihood = "likelihood",
-  verbose = FALSE
+    mat = mat,
+    network = network,
+    .source = "tf",
+    .target = "target",
+    .likelihood = "likelihood",
+    verbose = FALSE
 )
 ```
 

@@ -79,6 +79,38 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 #' @import tibble
 #' @import tidyr
 #' @importFrom Matrix Matrix
+#' @examples
+#'
+#' df <- tibble::tibble(
+#'     tf = c("tf_1", "tf_1", "tf_2", "tf_2"),
+#'     gene = c("gene_1", "gene_2", "gene_1", "gene_2"),
+#'     mor = c(1, -1, 1, -1)
+#' )
+#'
+#' # Return a tibble
+#' pivot_wider_profile(
+#'     data = df,
+#'     id_cols = tf,
+#'     names_from = gene,
+#'     values_from = mor
+#' )
+#'
+#' # Return a matrix
+#' pivot_wider_profile(
+#'     data = df,
+#'     id_cols = tf,
+#'     names_from = gene,
+#'     values_from = mor,
+#'     to_matrix = TRUE
+#' )
+#' # Return a sparse Matrix of class "dgCMatrix"
+#' pivot_wider_profile(
+#'     data = df,
+#'     id_cols = tf,
+#'     names_from = gene,
+#'     values_from = mor,
+#'     to_sparse = TRUE
+#' )
 pivot_wider_profile <- function(data,
     id_cols,
     names_from,

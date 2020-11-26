@@ -44,4 +44,8 @@
 #' @importFrom rlang expr enquo enquos sym syms .data := as_name as_label quo_is_null quo_is_missing abort exec
 #' @aliases expr enquo enquos sym syms .data := as_name as_label quo_is_null quo_is_missing abort exec
 #' @export expr enquo enquos sym syms .data := as_name as_label quo_is_null quo_is_missing abort exec
+#' @examples
+#' \donttest{
+#' help("nse-defuse", package = "rlang")
+#' }
 NULL

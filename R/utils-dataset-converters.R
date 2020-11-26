@@ -3,19 +3,24 @@
 #' Convert a network to run under the method of interest.
 #'
 #' @description
-#' Convert a long-format network to the suggested standard for the specified `run_{statistic}()`.
-#' If the default parameters are not modified, then the function sets its own
-#' null values for those columns.
+#' Convert a long-format network to the suggested standard for the
+#' specified `run_{statistic}()`. If the default parameters are not modified,
+#' then the function sets its own null values for those columns.
 #'
 #' @inheritParams .decoupler_network_format
 #'
 #' @return
 #'
-#' * `convert_to_gsva()` Return a list of regulons suitable for [GSVA::gsva()].
-#' * `convert_to_mean()` Return a tibble with four columns: `tf`, `target`, `mor` and `likelihood`.
-#' * `convert_to_pcira()` Returns a tibble with three columns: `tf`, `target` and `mor`.
-#' * `convert_to_scira()` Returns a tibble with three columns: `tf`, `target` and `mor`.
-#' * `convert_to_viper()` Return a list of regulons suitable for [viper::viper()]
+#' * `convert_to_gsva()`
+#'    Return a list of regulons suitable for [GSVA::gsva()].
+#' * `convert_to_mean()`
+#'    Return a tibble with four columns: `tf`, `target`, `mor` and `likelihood`.
+#' * `convert_to_pcira()`
+#'    Returns a tibble with three columns: `tf`, `target` and `mor`.
+#' * `convert_to_scira()`
+#'    Returns a tibble with three columns: `tf`, `target` and `mor`.
+#' * `convert_to_viper()`
+#'    Return a list of regulons suitable for [viper::viper()]
 #'
 #' @name convert_to_
 #' @rdname convert_to_
@@ -193,22 +198,36 @@ convert_to_gsva <- function(network, .source, .target) {
 #' This will allow swapping of columns.
 #'
 #' @details
-#' The objective of using .use_dots is to be able to swap columns which, by default,
-#' is not allowed by the "rename" function. The same behavior can be replicated
-#' by simply using the "select" function, however, the select evaluation allows
-#' much more flexibility so that unexpected results could be obtained.
-#' Despite this, a future implementation will consider this form of execution
-#' to allow renaming the same column to multiple ones (i.e. extend dataframe extension).
+#' The objective of using .use_dots is to be able to swap columns which,
+#' by default, is not allowed by the [dplyr::rename()] function.
+#' The same behavior can be replicated by simply using the [dplyr::select()],
+#' however, the select evaluation allows much more flexibility so that
+#' unexpected results could be obtained. Despite this, a future implementation
+#' will consider this form of execution to allow renaming the same
+#' column to multiple ones (i.e. extend dataframe extension).
 #'
-#' @return An object of the same type as .data. The output has the following properties:
-#' \itemize{
-#'   \item Rows are not affected.
-#'   \item Column names are changed.
-#'   \item Column order is the same as that of the function call.
-#' }
+#' @return
+#' An object of the same type as .data. The output has the following properties:
+#' - Rows are not affected.
+#' - Column names are changed.
+#' - Column order is the same as that of the function call.
 #' @export
 #' @importFrom tidyselect eval_rename
-convert_f_defaults <- function(.data,
+#' @examples
+#'
+#' df <- tibble::tibble(x = 1, y = 2, z = 3)
+#'
+#' # Rename columns
+#' df <- tibble::tibble(x = 1, y = 2)
+#' convert_f_defaults(
+#'     .data = df,
+#'     new_x = x,
+#'     new_y = y,
+#'     new_z = NULL,
+#'     .def_col_val = c(new_z = 3)
+#' )
+convert_f_defaults <- function(
+    .data,
     ...,
     .def_col_val = c(),
     .use_dots = TRUE) {

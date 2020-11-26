@@ -36,10 +36,25 @@ working and with the \code{\link[tibble:add_column]{tibble::add_column()}} to ad
 with default values in case they don't exist after renaming data.
 }
 \details{
-The objective of using .use_dots is to be able to swap columns which, by default,
-is not allowed by the "rename" function. The same behavior can be replicated
-by simply using the "select" function, however, the select evaluation allows
-much more flexibility so that unexpected results could be obtained.
-Despite this, a future implementation will consider this form of execution
-to allow renaming the same column to multiple ones (i.e. extend dataframe extension).
+The objective of using .use_dots is to be able to swap columns which,
+by default, is not allowed by the \code{\link[dplyr:rename]{dplyr::rename()}} function.
+The same behavior can be replicated by simply using the \code{\link[dplyr:select]{dplyr::select()}},
+however, the select evaluation allows much more flexibility so that
+unexpected results could be obtained. Despite this, a future implementation
+will consider this form of execution to allow renaming the same
+column to multiple ones (i.e. extend dataframe extension).
+}
+\examples{
+
+df <- tibble::tibble(x = 1, y = 2, z = 3)
+
+# Rename columns
+df <- tibble::tibble(x = 1, y = 2)
+convert_f_defaults(
+    .data = df,
+    new_x = x,
+    new_y = y,
+    new_z = NULL,
+    .def_col_val = c(new_z = 3)
+)
 }

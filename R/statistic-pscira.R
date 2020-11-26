@@ -55,14 +55,21 @@ run_pscira <- function(
         pull(.data$tf) %>%
         unique()
 
-    # Ensures column matching, expands the target profile to encompass all targets
-    # in the expression matrix for each source, and converts the result to a matrix.
+    # Ensures column matching, expands the target profile to encompass
+    # all targets in the expression matrix for each source, and converts
+    # the result to a matrix.
     mor_mat <- network %>%
         get_profile_of(
             sources = list(tf = tfs, target = rownames(mat)),
             values_fill = list(mor = 0)
         ) %>%
-        pivot_wider_profile(.data$tf, .data$target, .data$mor, to_matrix = TRUE, to_sparse = sparse)
+        pivot_wider_profile(
+            id_cols = .data$tf,
+            names_from = .data$target,
+            values_from = .data$mor,
+            to_matrix = TRUE,
+            to_sparse = sparse
+        )
 
     # Convert to matrix to ensure that matrix multiplication works
     # in case mat is a labelled dataframe.
@@ -92,9 +99,13 @@ run_pscira <- function(
     )
 
     set.seed(seed)
-    map_dfr(1:times, ~ pscira_run(random = TRUE)) %>%
+    map_dfr(seq_len(times), ~ pscira_run(random = TRUE)) %>%
         group_by(.data$tf, .data$condition) %>%
-        summarise(.mean = mean(.data$value), .sd = sd(.data$value), .groups = "drop") %>%
+        summarise(
+            .mean = mean(.data$value),
+            .sd = sd(.data$value),
+            .groups = "drop"
+        ) %>%
         left_join(pscira_run(random = FALSE), by = c("tf", "condition")) %>%
         mutate(
             score = (.data$value - .data$.mean) / .data$.sd,

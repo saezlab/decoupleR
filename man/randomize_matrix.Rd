@@ -15,5 +15,15 @@ randomize_matrix(mat, randomize_type = c("rows", "cols_independently"))
 Randomized matrix
 }
 \description{
-Randomize matrix
+Utility function used in functions that require permutations of the
+expression matrix
+}
+\examples{
+mat <- matrix(seq_len(9), ncol = 3)
+
+set.seed(42)
+randomize_matrix(mat, randomize_type = "rows")
+
+set.seed(42)
+randomize_matrix(mat, randomize_type = "cols_independently")
 }

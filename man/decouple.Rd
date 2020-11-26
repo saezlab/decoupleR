@@ -52,7 +52,7 @@ Calculate the TF activity per sample out of a gene expression matrix by
 coupling a regulon network with a variety of statistics.
 }
 \examples{
-\dontrun{
+\donttest{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))

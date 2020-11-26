@@ -23,7 +23,7 @@
 #' @export
 #' @import purrr
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))

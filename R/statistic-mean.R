@@ -137,7 +137,7 @@ run_mean <- function(
     # Set a seed to ensure reproducible results
     set.seed(seed)
     # Run model for random data
-    map_dfr(1:times, ~ mean_run(random = TRUE)) %>%
+    map_dfr(seq_len(times), ~ mean_run(random = TRUE)) %>%
         group_by(.data$tf, .data$condition) %>%
         summarise(
             null_distribution = list(.data$value),

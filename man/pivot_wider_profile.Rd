@@ -61,3 +61,36 @@ the columns from \code{names_from} and the values from \code{values_from}.
 In the current state of the function, to ensure its operation,
 the \code{id_cols} parameter is a single selector.
 }
+\examples{
+
+df <- tibble::tibble(
+    tf = c("tf_1", "tf_1", "tf_2", "tf_2"),
+    gene = c("gene_1", "gene_2", "gene_1", "gene_2"),
+    mor = c(1, -1, 1, -1)
+)
+
+# Return a tibble
+pivot_wider_profile(
+    data = df,
+    id_cols = tf,
+    names_from = gene,
+    values_from = mor
+)
+
+# Return a matrix
+pivot_wider_profile(
+    data = df,
+    id_cols = tf,
+    names_from = gene,
+    values_from = mor,
+    to_matrix = TRUE
+)
+# Return a sparse Matrix of class "dgCMatrix"
+pivot_wider_profile(
+    data = df,
+    id_cols = tf,
+    names_from = gene,
+    values_from = mor,
+    to_sparse = TRUE
+)
+}

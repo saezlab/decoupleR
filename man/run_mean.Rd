@@ -68,6 +68,14 @@ normalized activity score. This is represented in the \code{statistic} column
 which will contain two values for each call to \code{run_mean()}; \strong{mean} and
 \strong{normalized_mean}.
 }
+\examples{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+
+mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+
+run_mean(mat, network, tf, target, mor, likelihood)
+}
 \seealso{
 Other decoupleR statistics: 
 \code{\link{run_gsva}()},

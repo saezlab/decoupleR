@@ -51,3 +51,26 @@ across the samples. Resulting tibble contains the following columns:
 Calculate the TF activity per sample out of a gene expression matrix by
 coupling a regulon network with a variety of statistics.
 }
+\examples{
+\donttest{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+
+mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+
+decouple(
+    mat = mat,
+    network = network,
+    .source = "tf",
+    .target = "target",
+    statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+    args = list(
+        gsva = list(verbose = FALSE),
+        mean = list(.mor = "mor", .likelihood = "likelihood"),
+        pscira = list(.mor = "mor"),
+        scira = list(.mor = "mor"),
+        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
+    )
+)
+}
+}

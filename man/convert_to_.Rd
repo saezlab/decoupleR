@@ -34,17 +34,33 @@ convert_to_gsva(network, .source, .target)
 }
 \value{
 \itemize{
-\item \code{convert_to_gsva()} Return a list of regulons suitable for \code{\link[GSVA:gsva]{GSVA::gsva()}}.
-\item \code{convert_to_mean()} Return a tibble with four columns: \code{tf}, \code{target}, \code{mor} and \code{likelihood}.
-\item \code{convert_to_pcira()} Returns a tibble with three columns: \code{tf}, \code{target} and \code{mor}.
-\item \code{convert_to_scira()} Returns a tibble with three columns: \code{tf}, \code{target} and \code{mor}.
-\item \code{convert_to_viper()} Return a list of regulons suitable for \code{\link[viper:viper]{viper::viper()}}
+\item \code{convert_to_gsva()}
+Return a list of regulons suitable for \code{\link[GSVA:gsva]{GSVA::gsva()}}.
+\item \code{convert_to_mean()}
+Return a tibble with four columns: \code{tf}, \code{target}, \code{mor} and \code{likelihood}.
+\item \code{convert_to_pcira()}
+Returns a tibble with three columns: \code{tf}, \code{target} and \code{mor}.
+\item \code{convert_to_scira()}
+Returns a tibble with three columns: \code{tf}, \code{target} and \code{mor}.
+\item \code{convert_to_viper()}
+Return a list of regulons suitable for \code{\link[viper:viper]{viper::viper()}}
 }
 }
 \description{
-Convert a long-format network to the suggested standard for the specified \verb{run_\{statistic\}()}.
-If the default parameters are not modified, then the function sets its own
-null values for those columns.
+Convert a long-format network to the suggested standard for the
+specified \verb{run_\{statistic\}()}. If the default parameters are not modified,
+then the function sets its own null values for those columns.
+}
+\examples{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+
+convert_to_gsva(network, tf, target)
+convert_to_mean(network, tf, target, mor, likelihood)
+convert_to_pscira(network, tf, target, mor)
+convert_to_scira(network, tf, target, mor)
+convert_to_viper(network, tf, target, mor, likelihood)
 }
 \seealso{
 \code{\link[=convert_f_defaults]{convert_f_defaults()}}

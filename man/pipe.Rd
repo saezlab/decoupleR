@@ -9,4 +9,7 @@ lhs \%>\% rhs
 \description{
 See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
 }
+\examples{
+c(1, 2, 3) \%>\% sum()
+}
 \keyword{internal}

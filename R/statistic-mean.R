@@ -35,6 +35,13 @@
 #' @import tibble
 #' @import tidyr
 #' @importFrom stats sd
+#' @examples
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#'
+#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#'
+#' run_mean(mat, network, tf, target, mor, likelihood)
 run_mean <- function(
     mat,
     network,
@@ -130,7 +137,7 @@ run_mean <- function(
     # Set a seed to ensure reproducible results
     set.seed(seed)
     # Run model for random data
-    map_dfr(1:times, ~ mean_run(random = TRUE)) %>%
+    map_dfr(seq_len(times), ~ mean_run(random = TRUE)) %>%
         group_by(.data$tf, .data$condition) %>%
         summarise(
             null_distribution = list(.data$value),

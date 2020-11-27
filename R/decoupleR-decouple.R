@@ -54,19 +54,7 @@ decouple <- function(
     show_toy_call = FALSE) {
 
     # Match statistics to couple ----------------------------------------------
-
-    available_statistics <- list(
-        mean = expr(run_mean),
-        scira = expr(run_scira),
-        pscira = expr(run_pscira),
-        viper = expr(run_viper),
-        gsva = expr(run_gsva)
-    )
-
-    statistics <- statistics %>%
-        match.arg(names(available_statistics), several.ok = TRUE) %>%
-        available_statistics[.] %>%
-        unname()
+    statistics <- .select_statistics(statistics)
 
     # Evaluate statistics -----------------------------------------------------
 
@@ -100,6 +88,35 @@ decouple <- function(
 }
 
 # Helpers -----------------------------------------------------------------
+#' Choose statistics to run
+#'
+#' It allows the user to select multiple statistics to run,
+#' no matter if they are repeated or not.
+#'
+#' @details
+#' From the user perspective, this could be useful since any traceback
+#' would look something like decoupleR::run_{statistic}().
+#'
+#' @inheritParams decouple
+#'
+#' @return list of expressions of statistics to run.
+#' @keywords internal
+#' @noRd
+.select_statistics <- function(statistics) {
+    available_statistics <- list(
+        mean = expr(run_mean),
+        scira = expr(run_scira),
+        pscira = expr(run_pscira),
+        viper = expr(run_viper),
+        gsva = expr(run_gsva)
+    )
+
+    statistics %>%
+        match.arg(names(available_statistics), several.ok = TRUE) %>%
+        available_statistics[.] %>%
+        unname()
+}
+
 #' Construct an expression to evaluate a decoupleR statistic.
 #'
 #' @details

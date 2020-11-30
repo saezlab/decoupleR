@@ -188,7 +188,7 @@
 <li><p>Open an <a href="https://github.com/saezlab/decoupleR/issues">issue</a> stating which statistic you would like to add. Assign it to yourself and label it with the badge <code>enhancement</code>; check before if not someone else is already working on implementing this statistic.</p></li>
 <li><p>Define the name of the statistic, for now, assume you want to define the statistic <code>foo</code>.</p></li>
 <li>
-<p>Create a file called <code>R/statistic-foo.R</code> and define <code>run_foo(mat, network, .source, .target, ...)</code> or <code>run_foo(mat, network, .source, .target, ..., options = list())</code>, depending if the statistic is designed from zero or is a wrapper, respectively; where <code>...</code> denote any extra arguments needed for the statistic. If the algorithm requires helper functions, add them here too.<br><strong>Return</strong> of any function of the <code>run_</code> family must always be a tidy tibble with the following columns:</p>
+<p>Create a file called <code>R/statistic-foo.R</code> and define <code>run_foo(mat, network, .source, .target, ...)</code>; where <code>...</code> denote any extra arguments needed for the statistic. If the algorithm requires helper functions, add them here too.<br><strong>Return</strong> of any function of the <code>run_</code> family must always be a tidy tibble with the following columns:</p>
 <ol>
 <li>
 <strong>statistic</strong>: Indicates which methods is associated with which score.</li>
@@ -206,13 +206,13 @@
 <p><strong>Notes:</strong></p>
 <ul>
 <li>All statistics must contain the tag <code>@family decoupleR statistics</code> in their roxygen2 documentation.</li>
-<li>Check <a href="https://github.com/saezlab/decoupleR/blob/documentation/R/utils-decoupler-formats.R">utils-decoupler-formats.R</a> to understand the arguments and specific conventions.</li>
-<li>For examples of implementations, please check <a href="https://github.com/saezlab/decoupleR/blob/documentation/R/statistic-scira.R">statistic-scira.R</a> or <a href="https://github.com/saezlab/decoupleR/blob/documentation/R/statistic-viper.R">statistic-viper.R</a> for design from scratch or wrapper, respectively.<br>
+<li>Check <a href="https://github.com/saezlab/decoupleR/blob/devel-jesus/R/utils-decoupler-formats.R">utils-decoupler-formats.R</a> to understand the arguments and specific conventions.</li>
+<li>For examples of implementations, please check <a href="https://github.com/saezlab/decoupleR/blob/devel-jesus/R/statistic-scira.R">statistic-scira.R</a> or <a href="https://github.com/saezlab/decoupleR/blob/devel-jesus/R/statistic-viper.R">statistic-viper.R</a> for design from scratch or wrapper, respectively.<br>
 </li>
 </ul>
 </li>
 <li>
-<p>Inside <a href="https://github.com/saezlab/decoupleR/blob/documentation/R/utils-dataset-converters.R">utils-dataset-converters.R</a> define <code>convert_to_foo(dataset, .source, .target, ...)</code>, where <code>...</code> indicate any extra <em>edge attribute</em> that needs to be mapped into the network.<br><strong>Goals:</strong></p>
+<p>Inside <a href="https://github.com/saezlab/decoupleR/blob/devel-jesus/R/utils-dataset-converters.R">utils-dataset-converters.R</a> define <code>convert_to_foo(dataset, .source, .target, ...)</code>, where <code>...</code> indicate any extra <em>edge attribute</em> that needs to be mapped into the network.<br><strong>Goals:</strong></p>
 <ul>
 <li>Transform the data frame that represents the network to a standardized format, so that, in the main function <code>run_foo()</code>, we can use and manipulate the columns to our liking without worrying about the mapping.<br>
 </li>
@@ -242,6 +242,11 @@
 <li><p>Add the unit test for <code>run_foo()</code> only, once they pass incorporate <code>run_foo()</code> inside of the main <code><a href="reference/decouple.html">decouple()</a></code> and add it also to the <code><a href="reference/decouple.html">decouple()</a></code> unit testing.</p></li>
 <li><p>If all goes well, you are ready. Start the pull request process.</p></li>
 </ul>
+</div>
+<div id="add-a-new-gene-set-resource" class="section level2">
+<h2 class="hasAnchor">
+<a href="#add-a-new-gene-set-resource" class="anchor"></a>Add a new gene set resource</h2>
+<p>At the moment, decoupleR infrastructure supports a <code>tibble</code> or <code>data.frame</code> to which the network data will be mapped. Mapping can be carried out by selection by position, string or symbol. Therefore, as long as your network is in a long format, you should have no problem adapting the call to the function, so it is not necessary to integrate your resource into the package.</p>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">

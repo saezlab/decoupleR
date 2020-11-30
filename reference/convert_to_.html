@@ -199,6 +199,10 @@ then the function sets its own null values for those columns.</p>
 
     
 <ul>
+<li><p><code>convert_to_</code>
+Return same as input.</p></li>
+</ul>
+<ul>
 <li><p><code>convert_to_gsva()</code>
 Return a list of regulons suitable for <code><a href='https://rdrr.io/pkg/GSVA/man/gsva.html'>GSVA::gsva()</a></code>.</p></li>
 <li><p><code>convert_to_mean()</code>
@@ -220,6 +224,7 @@ Return a list of regulons suitable for <code><a href='https://rdrr.io/pkg/viper/
 
 <span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
 
+<span class='fu'>convert_to_</span><span class='op'>(</span><span class='va'>network</span><span class='op'>)</span>
 <span class='fu'>convert_to_gsva</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $FOXO4
 #&gt;  [1] "BCL2L11"  "BCL6"     "CDKN1A"   "CDKN1B"   "G6PC"     "GADD45A" 
@@ -300,20 +305,82 @@ Return a list of regulons suitable for <code><a href='https://rdrr.io/pkg/viper/
 #&gt; </span><span style='color: #555555;'> 9</span><span> FOXO4 PPARGC1A     1
 #&gt; </span><span style='color: #555555;'>10</span><span> FOXO4 RBL2         1
 #&gt; </span><span style='color: #555555;'># … with 141 more rows</span><span></div><div class='input'><span class='fu'>convert_to_viper</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 151 x 4</span><span>
-#&gt;    geneset gene       mor likelihood
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> FOXO4   BCL2L11      1          1
-#&gt; </span><span style='color: #555555;'> 2</span><span> FOXO4   BCL6         1          1
-#&gt; </span><span style='color: #555555;'> 3</span><span> FOXO4   CDKN1A       1          1
-#&gt; </span><span style='color: #555555;'> 4</span><span> FOXO4   CDKN1B       1          1
-#&gt; </span><span style='color: #555555;'> 5</span><span> FOXO4   G6PC         1          1
-#&gt; </span><span style='color: #555555;'> 6</span><span> FOXO4   GADD45A      1          1
-#&gt; </span><span style='color: #555555;'> 7</span><span> FOXO4   IGFBP1       1          1
-#&gt; </span><span style='color: #555555;'> 8</span><span> FOXO4   PCK2         1          1
-#&gt; </span><span style='color: #555555;'> 9</span><span> FOXO4   PPARGC1A     1          1
-#&gt; </span><span style='color: #555555;'>10</span><span> FOXO4   RBL2         1          1
-#&gt; </span><span style='color: #555555;'># … with 141 more rows</span><span></div></span></pre>
+</div><div class='output co'>#&gt; $FOXO4
+#&gt; $FOXO4$tfmode
+#&gt;  BCL2L11     BCL6   CDKN1A   CDKN1B     G6PC  GADD45A   IGFBP1     PCK2 
+#&gt;        1        1        1        1        1        1        1        1 
+#&gt; PPARGC1A     RBL2     SCP2     SOD2    SPRY2  TNFSF10 
+#&gt;        1        1        1        1        1        1 
+#&gt; 
+#&gt; $FOXO4$likelihood
+#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+#&gt; 
+#&gt; 
+#&gt; $NFIC
+#&gt; $NFIC$tfmode
+#&gt;   ALAS1   C4BPB COL18A1  COL1A1    CSH1 CYP17A1  CYP1A1   FABP7    GFAP  GTF3C1 
+#&gt;       1       1       1       1       1       1      -1       1       1       1 
+#&gt;  GTF3C2 GUCY1B3   HMGB1 HSD11B2   ITGA5     JUN   MATN1     MYC   POLD2   POLE2 
+#&gt;       1       1       1       1      -1       1      -1       1       1       1 
+#&gt;    PROC  SLC2A4 SLC34A2   SMUG1  TFAP2A   TFPI2    TP53     VWF 
+#&gt;       1       1       1       1       1       1       1       1 
+#&gt; 
+#&gt; $NFIC$likelihood
+#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+#&gt; 
+#&gt; 
+#&gt; $RFXAP
+#&gt; $RFXAP$tfmode
+#&gt;  HLA-DMA  HLA-DMB  HLA-DOA  HLA-DOB HLA-DPA1 HLA-DPB1 HLA-DQA1 HLA-DQA2 
+#&gt;        1        1        1        1        1        1        1        1 
+#&gt; HLA-DQB1  HLA-DRA HLA-DRB1 HLA-DRB3 HLA-DRB4 HLA-DRB5 
+#&gt;        1        1        1        1        1        1 
+#&gt; 
+#&gt; $RFXAP$likelihood
+#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+#&gt; 
+#&gt; 
+#&gt; $SMAD3
+#&gt; $SMAD3$tfmode
+#&gt;      AHR   ANKRD1    APOC3    BAMBI    BGLAP    CCND2   CDKN1A   COL1A1 
+#&gt;        1        1        1        1        1        1        1        1 
+#&gt;   COL3A1   COL6A1   COL6A3   COL7A1  CYP17A1     EDN1      EPO    FOXP3 
+#&gt;        1        1        1        1       -1        1        1        1 
+#&gt;    FSTL3     GLI2   ITGA11      JUN      MET     MMP9      MYC      POR 
+#&gt;        1        1        1        1        1        1        1        1 
+#&gt;    PTHLH SERPINE1    SMAD7     TERT    TGFB1    TIMP1      TNC    VEGFA 
+#&gt;        1        1        1       -1       -1        1        1        1 
+#&gt;    ZFP36 
+#&gt;        1 
+#&gt; 
+#&gt; $SMAD3$likelihood
+#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+#&gt; 
+#&gt; 
+#&gt; $TFAP2A
+#&gt; $TFAP2A$tfmode
+#&gt;     ACHE      ADM   ADRA1A   ADRA2B      APP    BACE1     BCL2    CCNB1 
+#&gt;       -1        1        1        1        1        1       -1        1 
+#&gt;     CDH1   CDKN1A     CFTR      CGA   CRABP2      CRX     CSH1  CYP11A1 
+#&gt;        1        1        1        1        1        1        1        1 
+#&gt;      DBH     EGFR    ERBB2     ETS1      F2R      FAS     FMR1    FOXA1 
+#&gt;        1        1        1        1        1        1        1        1 
+#&gt;   GALNT3     GAST     GPX4     GUSB      HGF     HIP1    HMOX1    HOXA4 
+#&gt;        1        1        1        1       -1        1        1       -1 
+#&gt;  HSD17B1      HTT   IGFBP5      KIT     KRT5    L1CAM      MIP     MMP2 
+#&gt;       -1        1        1        1        1        1        1        1 
+#&gt;      MPG      MYC     NME3    NR3C1      OAT     PENK    PLAUR    POLD2 
+#&gt;        1        1        1        1        1        1        1        1 
+#&gt;    PRKCA    PTGS2      PVR    S100B SERPINE1  SLC19A1    SMPD1   SNAP91 
+#&gt;        1        1        1        1        1        1        1        1 
+#&gt;      SP1    SPRY2     TAF7       TH    TIMP2    VEGFA 
+#&gt;        1        1        1        1        1        1 
+#&gt; 
+#&gt; $TFAP2A$likelihood
+#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+#&gt; [39] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+#&gt; 
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

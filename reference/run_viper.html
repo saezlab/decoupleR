@@ -239,23 +239,22 @@ Resulting tibble contains the following columns:</p><ol>
 <span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-expr_matrix.rds"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>run_viper</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Computing the association scores</span></div><div class='output co'>#&gt; <span class='message'>Computing regulons enrichment with aREA</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 12 x 4</span><span>
-#&gt;    statistic tf     condition    score
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> viper     NFIC   GSM2753335  0.069</span><span style='text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> viper     NFIC   GSM2753336 -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>5</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> viper     NFIC   GSM2753337 -</span><span style='color: #BB0000;'>0.516</span><span> 
-#&gt; </span><span style='color: #555555;'> 4</span><span> viper     NFIC   GSM2753338 -</span><span style='color: #BB0000;'>0.543</span><span> 
-#&gt; </span><span style='color: #555555;'> 5</span><span> viper     SMAD3  GSM2753335  0.176 
-#&gt; </span><span style='color: #555555;'> 6</span><span> viper     SMAD3  GSM2753336  0.042</span><span style='text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> viper     SMAD3  GSM2753337  0.219 
-#&gt; </span><span style='color: #555555;'> 8</span><span> viper     SMAD3  GSM2753338  0.142 
-#&gt; </span><span style='color: #555555;'> 9</span><span> viper     TFAP2A GSM2753335  0.722 
-#&gt; </span><span style='color: #555555;'>10</span><span> viper     TFAP2A GSM2753336  0.582 
-#&gt; </span><span style='color: #555555;'>11</span><span> viper     TFAP2A GSM2753337  0.462 
-#&gt; </span><span style='color: #555555;'>12</span><span> viper     TFAP2A GSM2753338  0.330 </div></span></pre>
+<span class='fu'>run_viper</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 12 x 5</span><span>
+#&gt;    statistic tf     condition    score statistic_time 
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;drtn&gt;</span><span>         
+#&gt; </span><span style='color: #555555;'> 1</span><span> viper     NFIC   GSM2753335  0.069</span><span style='text-decoration: underline;'>6</span><span> 0.01596212 secs
+#&gt; </span><span style='color: #555555;'> 2</span><span> viper     NFIC   GSM2753336 -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>5</span><span> 0.01596212 secs
+#&gt; </span><span style='color: #555555;'> 3</span><span> viper     NFIC   GSM2753337 -</span><span style='color: #BB0000;'>0.516</span><span>  0.01596212 secs
+#&gt; </span><span style='color: #555555;'> 4</span><span> viper     NFIC   GSM2753338 -</span><span style='color: #BB0000;'>0.543</span><span>  0.01596212 secs
+#&gt; </span><span style='color: #555555;'> 5</span><span> viper     SMAD3  GSM2753335  0.176  0.01596212 secs
+#&gt; </span><span style='color: #555555;'> 6</span><span> viper     SMAD3  GSM2753336  0.042</span><span style='text-decoration: underline;'>6</span><span> 0.01596212 secs
+#&gt; </span><span style='color: #555555;'> 7</span><span> viper     SMAD3  GSM2753337  0.219  0.01596212 secs
+#&gt; </span><span style='color: #555555;'> 8</span><span> viper     SMAD3  GSM2753338  0.142  0.01596212 secs
+#&gt; </span><span style='color: #555555;'> 9</span><span> viper     TFAP2A GSM2753335  0.722  0.01596212 secs
+#&gt; </span><span style='color: #555555;'>10</span><span> viper     TFAP2A GSM2753336  0.582  0.01596212 secs
+#&gt; </span><span style='color: #555555;'>11</span><span> viper     TFAP2A GSM2753337  0.462  0.01596212 secs
+#&gt; </span><span style='color: #555555;'>12</span><span> viper     TFAP2A GSM2753338  0.330  0.01596212 secs</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

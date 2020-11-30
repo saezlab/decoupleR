@@ -28,7 +28,7 @@ Imports:
     magrittr,
     Matrix,
     purrr,
-    rlang (>= 0.4.7),
+    rlang,
     speedglm,
     stats,
     stringr,
@@ -45,7 +45,7 @@ Suggests:
     testthat
 VignetteBuilder: 
     knitr
-biocViews: Software, StatisticMethod
+biocViews: Software, StatisticalMethod, FunctionalGenomics
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

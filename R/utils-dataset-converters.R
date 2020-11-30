@@ -11,6 +11,8 @@
 #'
 #' @return
 #'
+#' + `convert_to_`
+#'    Return same as input.
 #' * `convert_to_gsva()`
 #'    Return a list of regulons suitable for [GSVA::gsva()].
 #' * `convert_to_mean()`
@@ -33,6 +35,7 @@
 #'
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
+#' convert_to_(network)
 #' convert_to_gsva(network, tf, target)
 #' convert_to_mean(network, tf, target, mor, likelihood)
 #' convert_to_pscira(network, tf, target, mor)

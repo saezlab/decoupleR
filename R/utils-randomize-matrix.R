@@ -10,6 +10,7 @@
 #' @export
 #' @examples
 #' mat <- matrix(seq_len(9), ncol = 3)
+#' mat
 #'
 #' set.seed(42)
 #' randomize_matrix(mat, randomize_type = "rows")

@@ -44,7 +44,7 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_gsva(mat, network, tf, target)
+run_gsva(mat, network, tf, target, verbose = FALSE)
 }
 \seealso{
 Other decoupleR statistics: 

@@ -52,7 +52,6 @@ Calculate the TF activity per sample out of a gene expression matrix by
 coupling a regulon network with a variety of statistics.
 }
 \examples{
-\donttest{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
@@ -72,5 +71,4 @@ decouple(
         viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
     )
 )
-}
 }

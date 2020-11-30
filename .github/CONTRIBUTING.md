@@ -51,30 +51,31 @@ Read carefully the instructions dedicated to the pull request section above and 
 *   Define the name of the statistic, for now, assume you want to define the statistic `foo`.
     
 *   Create a file called `R/statistic-foo.R` and define
-    `run_foo(mat, network, .source, .target, ...)` or
-    `run_foo(mat, network, .source, .target, ..., options = list())`,
-    depending if the statistic is designed from zero or is a wrapper, respectively;
-    where `...` denote any extra arguments needed for the statistic.
+    `run_foo(mat, network, .source, .target, ...)`; where `...` denote any
+    extra arguments needed for the statistic.
     If the algorithm requires helper functions, add them here too.  
-    **Return** of any function of the `run_` family must always be a tidy tibble with the following columns:  
+    **Return** of any function of the `run_` family must always be a tidy tibble
+    with the following columns:  
     1. **statistic**: Indicates which methods is associated with which score.
     2. **tf**: Source nodes of `network`.
     3. **condition**: Conditions representing each column of `mat`.
     4. **score**: Regulatory activity (enrichment score).
     5. **statistic_time**: Internal execution time indicator.
-    6. **...**: If the algorithm requires it, add the generated metadata columns. For instance, p-value.
+    6. **...**: If the algorithm requires it, add the generated metadata
+       columns. For instance, p-value.
       
     **Notes:**
-    *   All statistics must contain the tag `@family decoupleR statistics` in their roxygen2 documentation.
+    *   All statistics must contain the tag `@family decoupleR statistics`
+        in their roxygen2 documentation.
     *   Check
-        [utils-decoupler-formats.R](https://github.com/saezlab/decoupleR/blob/documentation/R/utils-decoupler-formats.R)
+        [utils-decoupler-formats.R](https://github.com/saezlab/decoupleR/blob/devel-jesus/R/utils-decoupler-formats.R)
         to understand the arguments and specific conventions.
     *   For examples of implementations, please check
-        [statistic-scira.R](https://github.com/saezlab/decoupleR/blob/documentation/R/statistic-scira.R) or
-        [statistic-viper.R](https://github.com/saezlab/decoupleR/blob/documentation/R/statistic-viper.R)
+        [statistic-scira.R](https://github.com/saezlab/decoupleR/blob/devel-jesus/R/statistic-scira.R) or
+        [statistic-viper.R](https://github.com/saezlab/decoupleR/blob/devel-jesus/R/statistic-viper.R)
         for design from scratch or wrapper, respectively.  
 *   Inside
-    [utils-dataset-converters.R](https://github.com/saezlab/decoupleR/blob/documentation/R/utils-dataset-converters.R)
+    [utils-dataset-converters.R](https://github.com/saezlab/decoupleR/blob/devel-jesus/R/utils-dataset-converters.R)
     define `convert_to_foo(dataset, .source, .target, ...)`, where `...` indicate
     any extra *edge attribute* that needs to be mapped into the network.  
     **Goals:**  
@@ -108,6 +109,14 @@ Read carefully the instructions dedicated to the pull request section above and 
 *   Add the unit test for `run_foo()` only, once they pass incorporate `run_foo()`
     inside of the main `decouple()` and add it also to the `decouple()` unit testing.
 *   If all goes well, you are ready. Start the pull request process.
+
+## Add a new gene set resource
+
+At the moment, decoupleR infrastructure supports a `tibble` or `data.frame` to
+which the network data will be mapped. Mapping can be carried out by selection
+by position, string or symbol. Therefore, as long as your network is in a long
+format, you should have no problem adapting the call to the function, so it is 
+not necessary to integrate your resource into the package.
 
 ## Code of Conduct
 

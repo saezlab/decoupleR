@@ -34,6 +34,10 @@ convert_to_gsva(network, .source, .target)
 }
 \value{
 \itemize{
+\item \code{convert_to_}
+Return same as input.
+}
+\itemize{
 \item \code{convert_to_gsva()}
 Return a list of regulons suitable for \code{\link[GSVA:gsva]{GSVA::gsva()}}.
 \item \code{convert_to_mean()}
@@ -56,6 +60,7 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
+convert_to_(network)
 convert_to_gsva(network, tf, target)
 convert_to_mean(network, tf, target, mor, likelihood)
 convert_to_pscira(network, tf, target, mor)

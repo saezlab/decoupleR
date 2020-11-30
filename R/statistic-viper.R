@@ -28,7 +28,7 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_viper(mat, network, tf, target, mor, likelihood)
+#' run_viper(mat, network, tf, target, mor, likelihood, verbose = FALSE)
 run_viper <- function(
     mat,
     network,

@@ -16,9 +16,10 @@ knitr::opts_chunk$set(
 # decoupleR
 
 <!-- badges: start -->
-[![Build Status](https://travis-ci.com/saezlab/decoupleR.svg?token=PagY1pyvMyyL3AJHRy5V&branch=master)](https://travis-ci.com/saezlab/decoupleR)
 [![Lifecycle:experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Codecov test coverage](https://codecov.io/gh/saezlab/decoupleR/branch/master/graph/badge.svg)](https://codecov.io/gh/saezlab/decoupleR?branch=master)
+[![R build status](https://github.com/saezlab/decoupleR/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/saezlab/decoupleR/actions)
+[![Codecov test coverage](https://codecov.io/gh/saezlab/decoupleR/branch/devel-jesus/graph/badge.svg)](https://codecov.io/gh/devel-jesus/decoupleR?branch=devel-jesus)
+[![GitHub issues](https://img.shields.io/github/issues/saezlab/decoupleR)](https://github.com/saezlab/decoupleR/issues)
 <!-- badges: end -->
 
 > a community effort by [saezlab](http://saezlab.org) members

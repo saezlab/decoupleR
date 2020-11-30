@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tidy eval helpers — tidyeval • decoupleR</title>
+<title>Rename columns and add defaults values if column not present — convert_f_defaults • decoupleR</title>
 
 
 <!-- jquery -->
@@ -39,39 +39,10 @@
 
 
 
-<meta property="og:title" content="Tidy eval helpers — tidyeval" />
-<meta property="og:description" content="
-
-rlang::sym() creates a symbol from a string and
-syms() creates a list of symbols from a
-character vector.
-enquo() and
-enquos() delay the execution of one or
-several function arguments. enquo() returns a single quoted
-expression, which is like a blueprint for the delayed computation.
-enquos() returns a list of such quoted expressions.
-expr() quotes a new expression locally. It
-is mostly useful to build new expressions around arguments
-captured with enquo() or enquos():
-expr(mean(!!enquo(arg), na.rm = TRUE)).
-rlang::as_name() transforms a quoted variable name
-into a string. Supplying something else than a quoted variable
-name is an error.
-That's unlike rlang::as_label() which also returns
-a single string but supports any kind of R object as input,
-including quoted function calls and vectors. Its purpose is to
-summarise that object into a single label. That label is often
-suitable as a default name.
-If you don't know what a quoted expression contains (for instance
-expressions captured with enquo() could be a variable
-name, a call to a function, or an unquoted constant), then use
-as_label(). If you know you have quoted a simple variable
-name, or would like to enforce this, use as_name().
-
-
-To learn more about tidy eval and how to use these tools, visit
-https://tidyeval.tidyverse.org and the
-Metaprogramming section of Advanced R." />
+<meta property="og:title" content="Rename columns and add defaults values if column not present — convert_f_defaults" />
+<meta property="og:description" content="convert_f_defaults() combine the dplyr::rename() way of
+working and with the tibble::add_column() to add columns
+with default values in case they don't exist after renaming data." />
 
 
 
@@ -176,54 +147,81 @@ Metaprogramming section of Advanced R." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tidy eval helpers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/utils-tidy-eval.R'><code>R/utils-tidy-eval.R</code></a></small>
-    <div class="hidden name"><code>tidyeval.Rd</code></div>
+    <h1>Rename columns and add defaults values if column not present</h1>
+    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/utils-dataset-converters.R'><code>R/utils-dataset-converters.R</code></a></small>
+    <div class="hidden name"><code>convert_f_defaults.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-<ul>
-<li><p><code><a href='https://rlang.r-lib.org/reference/sym.html'>rlang::sym()</a></code> creates a symbol from a string and
-<code><a href='https://rlang.r-lib.org/reference/sym.html'>syms()</a></code> creates a list of symbols from a
-character vector.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquo()</a></code> and
-<code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquos()</a></code> delay the execution of one or
-several function arguments. <code>enquo()</code> returns a single quoted
-expression, which is like a blueprint for the delayed computation.
-<code>enquos()</code> returns a list of such quoted expressions.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>expr()</a></code> quotes a new expression <em>locally</em>. It
-is mostly useful to build new expressions around arguments
-captured with <code>enquo()</code> or <code>enquos()</code>:
-<code>expr(mean(!!enquo(arg), na.rm = TRUE))</code>.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/as_name.html'>rlang::as_name()</a></code> transforms a quoted variable name
-into a string. Supplying something else than a quoted variable
-name is an error.</p>
-<p>That's unlike <code><a href='https://rlang.r-lib.org/reference/as_label.html'>rlang::as_label()</a></code> which also returns
-a single string but supports any kind of R object as input,
-including quoted function calls and vectors. Its purpose is to
-summarise that object into a single label. That label is often
-suitable as a default name.</p>
-<p>If you don't know what a quoted expression contains (for instance
-expressions captured with <code>enquo()</code> could be a variable
-name, a call to a function, or an unquoted constant), then use
-<code>as_label()</code>. If you know you have quoted a simple variable
-name, or would like to enforce this, use <code>as_name()</code>.</p></li>
-</ul>
-
-<p>To learn more about tidy eval and how to use these tools, visit
-<a href='https://tidyeval.tidyverse.org'>https://tidyeval.tidyverse.org</a> and the
-<a href='https://adv-r.hadley.nz/metaprogramming.html'>Metaprogramming section</a> of <a href='https://adv-r.hadley.nz'>Advanced R</a>.</p>
+    <p><code>convert_f_defaults()</code> combine the <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>dplyr::rename()</a></code> way of
+working and with the <code><a href='https://tibble.tidyverse.org/reference/add_column.html'>tibble::add_column()</a></code> to add columns
+with default values in case they don't exist after renaming data.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>convert_f_defaults</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .def_col_val <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>, .use_dots <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
+more details.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>For <code>rename()</code>: &lt;<code><a href='https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html'>tidy-select</a></code>&gt; Use
+<code>new_name = old_name</code> to rename selected variables.</p>
+<p>For <code>rename_with()</code>: additional arguments passed onto <code>.fn</code>.</p></td>
+    </tr>
+    <tr>
+      <th>.def_col_val</th>
+      <td><p>Named vector with columns with default values
+if none exist after rename.</p></td>
+    </tr>
+    <tr>
+      <th>.use_dots</th>
+      <td><p>Should a dot prefix be added to renamed variables?
+This will allow swapping of columns.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An object of the same type as .data. The output has the following properties:</p><ul>
+<li><p>Rows are not affected.</p></li>
+<li><p>Column names are changed.</p></li>
+<li><p>Column order is the same as that of the function call.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The objective of using .use_dots is to be able to swap columns which,
+by default, is not allowed by the <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>dplyr::rename()</a></code> function.
+The same behavior can be replicated by simply using the <code><a href='https://dplyr.tidyverse.org/reference/select.html'>dplyr::select()</a></code>,
+however, the select evaluation allows much more flexibility so that
+unexpected results could be obtained. Despite this, a future implementation
+will consider this form of execution to allow renaming the same
+column to multiple ones (i.e. extend dataframe extension).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span><span class='op'>(</span><span class='st'>"nse-defuse"</span>, package <span class='op'>=</span> <span class='st'>"rlang"</span><span class='op'>)</span>
-<span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><div class='input'>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, y <span class='op'>=</span> <span class='fl'>2</span>, z <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+
+<span class='co'># Rename columns</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, y <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'>convert_f_defaults</span><span class='op'>(</span>
+    .data <span class='op'>=</span> <span class='va'>df</span>,
+    new_x <span class='op'>=</span> <span class='va'>x</span>,
+    new_y <span class='op'>=</span> <span class='va'>y</span>,
+    new_z <span class='op'>=</span> <span class='cn'>NULL</span>,
+    .def_col_val <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>new_z <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt;   new_x new_y new_z
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     2     3</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

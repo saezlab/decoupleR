@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tidy eval helpers — tidyeval • decoupleR</title>
+<title>Randomize matrix — randomize_matrix • decoupleR</title>
 
 
 <!-- jquery -->
@@ -39,39 +39,9 @@
 
 
 
-<meta property="og:title" content="Tidy eval helpers — tidyeval" />
-<meta property="og:description" content="
-
-rlang::sym() creates a symbol from a string and
-syms() creates a list of symbols from a
-character vector.
-enquo() and
-enquos() delay the execution of one or
-several function arguments. enquo() returns a single quoted
-expression, which is like a blueprint for the delayed computation.
-enquos() returns a list of such quoted expressions.
-expr() quotes a new expression locally. It
-is mostly useful to build new expressions around arguments
-captured with enquo() or enquos():
-expr(mean(!!enquo(arg), na.rm = TRUE)).
-rlang::as_name() transforms a quoted variable name
-into a string. Supplying something else than a quoted variable
-name is an error.
-That's unlike rlang::as_label() which also returns
-a single string but supports any kind of R object as input,
-including quoted function calls and vectors. Its purpose is to
-summarise that object into a single label. That label is often
-suitable as a default name.
-If you don't know what a quoted expression contains (for instance
-expressions captured with enquo() could be a variable
-name, a call to a function, or an unquoted constant), then use
-as_label(). If you know you have quoted a simple variable
-name, or would like to enforce this, use as_name().
-
-
-To learn more about tidy eval and how to use these tools, visit
-https://tidyeval.tidyverse.org and the
-Metaprogramming section of Advanced R." />
+<meta property="og:title" content="Randomize matrix — randomize_matrix" />
+<meta property="og:description" content="Utility function used in functions that require permutations of the
+expression matrix" />
 
 
 
@@ -176,54 +146,50 @@ Metaprogramming section of Advanced R." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tidy eval helpers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/utils-tidy-eval.R'><code>R/utils-tidy-eval.R</code></a></small>
-    <div class="hidden name"><code>tidyeval.Rd</code></div>
+    <h1>Randomize matrix</h1>
+    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/utils-randomize-matrix.R'><code>R/utils-randomize-matrix.R</code></a></small>
+    <div class="hidden name"><code>randomize_matrix.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-<ul>
-<li><p><code><a href='https://rlang.r-lib.org/reference/sym.html'>rlang::sym()</a></code> creates a symbol from a string and
-<code><a href='https://rlang.r-lib.org/reference/sym.html'>syms()</a></code> creates a list of symbols from a
-character vector.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquo()</a></code> and
-<code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquos()</a></code> delay the execution of one or
-several function arguments. <code>enquo()</code> returns a single quoted
-expression, which is like a blueprint for the delayed computation.
-<code>enquos()</code> returns a list of such quoted expressions.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>expr()</a></code> quotes a new expression <em>locally</em>. It
-is mostly useful to build new expressions around arguments
-captured with <code>enquo()</code> or <code>enquos()</code>:
-<code>expr(mean(!!enquo(arg), na.rm = TRUE))</code>.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/as_name.html'>rlang::as_name()</a></code> transforms a quoted variable name
-into a string. Supplying something else than a quoted variable
-name is an error.</p>
-<p>That's unlike <code><a href='https://rlang.r-lib.org/reference/as_label.html'>rlang::as_label()</a></code> which also returns
-a single string but supports any kind of R object as input,
-including quoted function calls and vectors. Its purpose is to
-summarise that object into a single label. That label is often
-suitable as a default name.</p>
-<p>If you don't know what a quoted expression contains (for instance
-expressions captured with <code>enquo()</code> could be a variable
-name, a call to a function, or an unquoted constant), then use
-<code>as_label()</code>. If you know you have quoted a simple variable
-name, or would like to enforce this, use <code>as_name()</code>.</p></li>
-</ul>
-
-<p>To learn more about tidy eval and how to use these tools, visit
-<a href='https://tidyeval.tidyverse.org'>https://tidyeval.tidyverse.org</a> and the
-<a href='https://adv-r.hadley.nz/metaprogramming.html'>Metaprogramming section</a> of <a href='https://adv-r.hadley.nz'>Advanced R</a>.</p>
+    <p>Utility function used in functions that require permutations of the
+expression matrix</p>
     </div>
 
+    <pre class="usage"><span class='fu'>randomize_matrix</span><span class='op'>(</span><span class='va'>mat</span>, randomize_type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"rows"</span>, <span class='st'>"cols_independently"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>mat</th>
+      <td><p>Matrix to randomize.</p></td>
+    </tr>
+    <tr>
+      <th>randomize_type</th>
+      <td><p>How to randomize.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Randomized matrix</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span><span class='op'>(</span><span class='st'>"nse-defuse"</span>, package <span class='op'>=</span> <span class='st'>"rlang"</span><span class='op'>)</span>
-<span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fl'>9</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>42</span><span class='op'>)</span>
+<span class='fu'>randomize_matrix</span><span class='op'>(</span><span class='va'>mat</span>, randomize_type <span class='op'>=</span> <span class='st'>"rows"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    4    7
+#&gt; [2,]    3    6    9
+#&gt; [3,]    2    5    8</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>42</span><span class='op'>)</span>
+<span class='fu'>randomize_matrix</span><span class='op'>(</span><span class='va'>mat</span>, randomize_type <span class='op'>=</span> <span class='st'>"cols_independently"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    4    8
+#&gt; [2,]    3    5    9
+#&gt; [3,]    2    6    7</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

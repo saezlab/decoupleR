@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">decoupleR</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
       </span>
     </div>
 
@@ -115,57 +115,116 @@
 <a href="#overview" class="anchor"></a>Overview</h2>
 <p><strong>Under development</strong> - decoupleR aims to combine various gene sets resources with a variety of statistics for functional genomics analyses.</p>
 </div>
-<div id="how-to-contribute" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-to-contribute" class="anchor"></a>How to contribute?</h2>
-<div id="how-to-add-a-new-statistic" class="section level3">
-<h3 class="hasAnchor">
-<a href="#how-to-add-a-new-statistic" class="anchor"></a>How to add a new statistic</h3>
-<ul>
-<li><p>Open an <a href="https://github.com/saezlab/decoupleR/issues">issue</a> stating which statistic you would like to add. Assign it to yourself and label it with the badge <code>enhancement</code>. Please check before if not someone else is already working on implementing this statistic.</p></li>
-<li><p>Don’t work on the <code>master branch</code>. Either create a new <code>branch</code> with a meaningful name or make a <code>fork</code>. When the function is implemented and tested (!) we will use <code>pull requests</code> to integrate the new feature in the <code>master branch</code>.</p></li>
-<li>
-<p>Assuming you would like to implement <code>GSEA</code>. You will need to define the following set of functions:</p>
-<ul>
-<li>All following functions will be written in the script <code>R/gsea.R</code>.</li>
-<li>
-<code>run_gsea(emat, genesets, list=options(), gs_resource, tidy)</code>. Please check the function <a href="https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L30">run_viper</a> to understand the arguments.</li>
-<li>
-<code>make_gsea_genesets(genesets)</code>. First define a standardized input for gene sets in <em>tibble/dataframe</em> format for your statistic. Then this function should convert this table in the required input for the underlying function (in this case list of gene sets for the function <code>fgsea()</code>). Check an example <a href="https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L68">here</a>. In the roxygen comments of the function you define which columns must be available in the standardized format.</li>
-<li>In parallel you need to define helper functions that convert every available gene set (e.g. progeny and dorothea gene sets) to your defined standardized input (e.g. <code>progeny2gsea()</code>). Check an example <a href="https://github.com/saezlab/decoupleR/blob/master/R/viper.R#L90">here</a>
-</li>
-<li><strong>All functions must be documented following the roxygen2 standard.</strong></li>
-</ul>
-</li>
-<li><p>We will use unit tests for the <code>run_x()</code> functions to ensure that our functions work properly. <a href="https://github.com/saezlab/decoupleR/blob/master/tests/testthat/test-viper.R">Here</a> are examples for the <code>run_viper</code> function.</p></li>
-<li><p><em>Optional</em>: For a consistent coding style and efficient implementation we will mainly use <code>tidyverse</code>.</p></li>
-</ul>
-</div>
-<div id="how-to-add-a-new-gene-set-resource" class="section level3">
-<h3 class="hasAnchor">
-<a href="#how-to-add-a-new-gene-set-resource" class="anchor"></a>How to add a new gene set resource</h3>
-<ul>
-<li><p>Open an <a href="https://github.com/saezlab/decoupleR/issues">issue</a> stating which gene set resource you would like to add. Assign it to yourself and label it with the badge <code>enhancement</code>. Please check before if not someone else is already working on implementing this gene set resource.</p></li>
-<li><p>Don’t work on the <code>master branch</code>. Either create a new <code>branch</code> with a meaningful name or make a <code>fork</code>. When the function is implemented and tested (!) we will use <code>pull requests</code> to integrate the new feature in the <code>master branch</code>.</p></li>
-<li><p>Define helper functions for each available statistics that convert your gene sets to the standardized format of the respective statistic (e.g. <code>your_genesets2viper()</code>).</p></li>
-<li><p>Deposit a representative selection of gene sets in the directory <code>inst/testdata</code> and implement unit tests for all available statistics coupled with your new gene sets.</p></li>
-</ul>
-</div>
-<div id="how-to-integrate-your-changes-in-the-master-branch" class="section level3">
-<h3 class="hasAnchor">
-<a href="#how-to-integrate-your-changes-in-the-master-branch" class="anchor"></a>How to integrate your changes in the master branch</h3>
-<p>Before you push your changes to your development branch please first make sure that <code>devtools::check()</code> runs without any problems on your local machine (warning(s) might be acceptable, but will be decided on a case-by-case basis). After you pushed then to your development branch <a href="https://travis-ci.com/github/saezlab/decoupleR">travis</a> will also build (<code>R CMD build</code>) and check (<code>R CMD check</code>) the package. This might take up to 15 minutes so better be sure it passes at the first try. <strong>Your changes will only be integrated in the master branch when the package passes all checks on travis.</strong></p>
-<p>If all requirements are fulfilled (passed <code>R CMD check</code> on your local machine and travis, implemented unit tests, proper documentation), add a brief and concise summary of the implemented features in the <a href="https://github.com/saezlab/decoupleR/blob/master/NEWS.md">NEWS.md</a> file and bump the version in the <a href="https://github.com/saezlab/decoupleR/blob/master/DESCRIPTION">DESCRIPTION</a> file. In addition list you as contributor (ctr) and/or author (aut) also in the <a href="https://github.com/saezlab/decoupleR/blob/master/DESCRIPTION">DESCRIPTION</a> file.</p>
-<p>After you open a pull request please refer in the commit message to the related issue, e.g. <code>Closes #5</code>. This message automatically closes issue 5, after successful integration. Also request review from someone else to double check your code. <strong>Do not accept your own pull request without someone else having checked your code</strong>.</p>
-</div>
-</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="co"># install the development version from GitHub</span>
-<span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"saezlab/decoupleR"</span><span class="op">)</span></pre></div>
+<span class="co"># install.packages("devtools")</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"saezlab/decoupleR"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"saezlab/decoupleR@devel-jesus"</span><span class="op">)</span></pre></div>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<div id="load-packaga-and-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#load-packaga-and-data" class="anchor"></a>Load packaga and data</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://saezlab.github.io/decoupleR/">decoupleR</a></span><span class="op">)</span>
+
+<span class="va">inputs_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"testdata"</span>, <span class="st">"inputs"</span>, package <span class="op">=</span> <span class="st">"decoupleR"</span><span class="op">)</span>
+
+<span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-expr_matrix.rds"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt;  num [1:18490, 1:4] 3.251 0.283 -2.253 0.782 -4.575 ...</span>
+<span class="co">#&gt;  - attr(*, "dimnames")=List of 2</span>
+<span class="co">#&gt;   ..$ : chr [1:18490] "A1BG" "A1CF" "A2M" "A2ML1" ...</span>
+<span class="co">#&gt;   ..$ : chr [1:4] "GSM2753335" "GSM2753336" "GSM2753337" "GSM2753338"</span>
+
+<span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-dorothea_genesets.rds"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Rows: 151</span>
+<span class="co">#&gt; Columns: 5</span>
+<span class="co">#&gt; $ tf         &lt;chr&gt; "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOX…</span>
+<span class="co">#&gt; $ confidence &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A"…</span>
+<span class="co">#&gt; $ target     &lt;chr&gt; "BCL2L11", "BCL6", "CDKN1A", "CDKN1B", "G6PC", "GADD45A", …</span>
+<span class="co">#&gt; $ mor        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span>
+<span class="co">#&gt; $ likelihood &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></pre></div>
+</div>
+<div id="decouple-wrapper" class="section level3">
+<h3 class="hasAnchor">
+<a href="#decouple-wrapper" class="anchor"></a>Decouple wrapper</h3>
+<p><code><a href="reference/decouple.html">decouple()</a></code> allows access to all <strong>decoupleR</strong> available statistics in one place. Statistic functions inside <strong>decoupleR</strong> always return a tidy tibble that can be easily processed with the tools provide by the <a href="https://www.tidyverse.org/">tidyverse ecosystem</a>.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="reference/decouple.html">decouple</a></span><span class="op">(</span>
+    mat <span class="op">=</span> <span class="va">mat</span>,
+    network <span class="op">=</span> <span class="va">network</span>,
+    .source <span class="op">=</span> <span class="st">"tf"</span>,
+    .target <span class="op">=</span> <span class="st">"target"</span>,
+    statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gsva"</span>, <span class="st">"mean"</span>, <span class="st">"pscira"</span>, <span class="st">"scira"</span>, <span class="st">"viper"</span><span class="op">)</span>,
+    args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+        gsva <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,
+        mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>.mor <span class="op">=</span> <span class="st">"mor"</span>, .likelihood <span class="op">=</span> <span class="st">"likelihood"</span><span class="op">)</span>,
+        pscira <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>.mor <span class="op">=</span> <span class="st">"mor"</span><span class="op">)</span>,
+        scira <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>.mor <span class="op">=</span> <span class="st">"mor"</span><span class="op">)</span>,
+        viper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>.mor <span class="op">=</span> <span class="st">"mor"</span>, .likelihood <span class="op">=</span> <span class="st">"likelihood"</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+    <span class="op">)</span>
+<span class="op">)</span>
+<span class="co">#&gt; # A tibble: 112 x 7</span>
+<span class="co">#&gt;    run_id statistic tf    condition    score statistic_time p_value</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;drtn&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 1      gsva      FOXO4 GSM2753335 -0.380  5.056018 secs       NA</span>
+<span class="co">#&gt;  2 1      gsva      FOXO4 GSM2753336 -0.300  5.056018 secs       NA</span>
+<span class="co">#&gt;  3 1      gsva      FOXO4 GSM2753337  0.239  5.056018 secs       NA</span>
+<span class="co">#&gt;  4 1      gsva      FOXO4 GSM2753338  0.0907 5.056018 secs       NA</span>
+<span class="co">#&gt;  5 1      gsva      NFIC  GSM2753335 -0.0845 5.056018 secs       NA</span>
+<span class="co">#&gt;  6 1      gsva      NFIC  GSM2753336  0.0778 5.056018 secs       NA</span>
+<span class="co">#&gt;  7 1      gsva      NFIC  GSM2753337 -0.260  5.056018 secs       NA</span>
+<span class="co">#&gt;  8 1      gsva      NFIC  GSM2753338  0.281  5.056018 secs       NA</span>
+<span class="co">#&gt;  9 1      gsva      RFXAP GSM2753335 -0.810  5.056018 secs       NA</span>
+<span class="co">#&gt; 10 1      gsva      RFXAP GSM2753336 -0.472  5.056018 secs       NA</span>
+<span class="co">#&gt; # … with 102 more rows</span></pre></div>
+</div>
+<div id="individual-parts" class="section level3">
+<h3 class="hasAnchor">
+<a href="#individual-parts" class="anchor"></a>Individual parts</h3>
+<p>In turn, we recognize that the use of individual statistics may be of interest. Therefore, these are also exported and ready for use. All statistics follow the same design pattern and arguments, so moving between statistics could be very comfortable.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="co"># viper call is equivalent to the one made by decouple() above.</span>
+<span class="fu"><a href="reference/run_viper.html">run_viper</a></span><span class="op">(</span>
+    mat <span class="op">=</span> <span class="va">mat</span>,
+    network <span class="op">=</span> <span class="va">network</span>,
+    .source <span class="op">=</span> <span class="st">"tf"</span>,
+    .target <span class="op">=</span> <span class="st">"target"</span>,
+    .likelihood <span class="op">=</span> <span class="st">"likelihood"</span>,
+    verbose <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span>
+<span class="co">#&gt; # A tibble: 12 x 5</span>
+<span class="co">#&gt;    statistic tf     condition    score statistic_time </span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;        &lt;dbl&gt; &lt;drtn&gt;         </span>
+<span class="co">#&gt;  1 viper     NFIC   GSM2753335  0.0696 0.01773071 secs</span>
+<span class="co">#&gt;  2 viper     NFIC   GSM2753336 -0.0265 0.01773071 secs</span>
+<span class="co">#&gt;  3 viper     NFIC   GSM2753337 -0.516  0.01773071 secs</span>
+<span class="co">#&gt;  4 viper     NFIC   GSM2753338 -0.543  0.01773071 secs</span>
+<span class="co">#&gt;  5 viper     SMAD3  GSM2753335  0.176  0.01773071 secs</span>
+<span class="co">#&gt;  6 viper     SMAD3  GSM2753336  0.0426 0.01773071 secs</span>
+<span class="co">#&gt;  7 viper     SMAD3  GSM2753337  0.219  0.01773071 secs</span>
+<span class="co">#&gt;  8 viper     SMAD3  GSM2753338  0.142  0.01773071 secs</span>
+<span class="co">#&gt;  9 viper     TFAP2A GSM2753335  0.722  0.01773071 secs</span>
+<span class="co">#&gt; 10 viper     TFAP2A GSM2753336  0.582  0.01773071 secs</span>
+<span class="co">#&gt; 11 viper     TFAP2A GSM2753337  0.462  0.01773071 secs</span>
+<span class="co">#&gt; 12 viper     TFAP2A GSM2753338  0.330  0.01773071 secs</span></pre></div>
+</div>
+</div>
+<div id="contributing-to-decoupler" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contributing-to-decoupler" class="anchor"></a>Contributing to decoupleR</h2>
+<p>Are you interested in adding a new statistical method or collaborating in the development of internal tools that allow the extension of the package? Please check out our <a href="https://saezlab.github.io/decoupleR/CONTRIBUTING.html">contribution guide</a>.</p>
+<hr>
+<p>Please note that this project is released with a <a href="https://saezlab.github.io/decoupleR/CODE_OF_CONDUCT">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
 </div>
   </div>
@@ -192,6 +251,7 @@
 <h2>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
 <div class="developers">

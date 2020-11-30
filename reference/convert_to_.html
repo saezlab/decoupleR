@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert data sets to run under the method of interest. — convert_to_ • decoupleR</title>
+<title>Convert a network to run under the method of interest. — convert_to_ • decoupleR</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,10 @@
 
 
 
-<meta property="og:title" content="Convert data sets to run under the method of interest. — convert_to_" />
-<meta property="og:description" content="Convert the data set to the suggested standard for the specified function.
-If the default parameters are not modified, then the function sets its own
-null values for those columns." />
+<meta property="og:title" content="Convert a network to run under the method of interest. — convert_to_" />
+<meta property="og:description" content="Convert a long-format network to the suggested standard for the
+specified run_{statistic}(). If the default parameters are not modified,
+then the function sets its own null values for those columns." />
 
 
 
@@ -84,7 +84,7 @@ null values for those columns." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">decoupleR</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
       </span>
     </div>
 
@@ -147,66 +147,173 @@ null values for those columns." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert data sets to run under the method of interest.</h1>
+    <h1>Convert a network to run under the method of interest.</h1>
     <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/utils-dataset-converters.R'><code>R/utils-dataset-converters.R</code></a></small>
     <div class="hidden name"><code>convert_to_.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Convert the data set to the suggested standard for the specified function.
-If the default parameters are not modified, then the function sets its own
-null values for those columns.</p>
+    <p>Convert a long-format network to the suggested standard for the
+specified <code>run_{statistic}()</code>. If the default parameters are not modified,
+then the function sets its own null values for those columns.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convert_to_</span><span class='op'>(</span><span class='va'>dataset</span>, <span class='va'>clean</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>convert_to_</span><span class='op'>(</span><span class='va'>network</span><span class='op'>)</span>
 
-<span class='fu'>convert_to_scira</span><span class='op'>(</span>
-  <span class='va'>dataset</span>,
-  <span class='va'>.source</span>,
-  <span class='va'>.target</span>,
-  .target_profile <span class='op'>=</span> <span class='cn'>NULL</span>,
-  clean <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
+<span class='fu'>convert_to_scira</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>.source</span>, <span class='va'>.target</span>, .mor <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>convert_to_pscira</span><span class='op'>(</span>
-  <span class='va'>dataset</span>,
-  <span class='va'>.source</span>,
-  <span class='va'>.target</span>,
-  .target_profile <span class='op'>=</span> <span class='cn'>NULL</span>,
-  clean <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+<span class='fu'>convert_to_pscira</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>.source</span>, <span class='va'>.target</span>, .mor <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>convert_to_mean</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>.source</span>, <span class='va'>.target</span>, .mor <span class='op'>=</span> <span class='cn'>NULL</span>, .likelihood <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>convert_to_viper</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>.source</span>, <span class='va'>.target</span>, .mor <span class='op'>=</span> <span class='cn'>NULL</span>, .likelihood <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>convert_to_gsva</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>.source</span>, <span class='va'>.target</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataset</th>
-      <td><p>A data frame or data frame extension (e.g. a tibble) to convert.</p></td>
-    </tr>
-    <tr>
-      <th>clean</th>
-      <td><p>Logical value that indicates whether to keep only the columns
-necessary to run the function <code>convert_to_[fun]</code>.</p></td>
+      <th>network</th>
+      <td><p>Tibble or dataframe with edges and it's associated metadata.</p></td>
     </tr>
     <tr>
       <th>.source</th>
-      <td><p>Column name in regulons with the factors to calculate the enrichment scores.</p></td>
+      <td><p>Column with source nodes.</p></td>
     </tr>
     <tr>
       <th>.target</th>
-      <td><p>Column name in regulons that relates the labels of the rows in the expression matrix.</p></td>
+      <td><p>Column with target nodes.</p></td>
     </tr>
     <tr>
-      <th>.target_profile</th>
-      <td><p>Column name in regulons that contains the target profile. E.g. MoR.</p></td>
+      <th>.mor</th>
+      <td><p>Column with edge mode of regulation (i.e. mor).</p></td>
+    </tr>
+    <tr>
+      <th>.likelihood</th>
+      <td><p>Column with edge likelihood.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a tibble with the necessary columns to evaluate the method
- to which the dataset is being converted.</p>
+    
+<ul>
+<li><p><code>convert_to_gsva()</code>
+Return a list of regulons suitable for <code><a href='https://rdrr.io/pkg/GSVA/man/gsva.html'>GSVA::gsva()</a></code>.</p></li>
+<li><p><code>convert_to_mean()</code>
+Return a tibble with four columns: <code>tf</code>, <code>target</code>, <code>mor</code> and <code>likelihood</code>.</p></li>
+<li><p><code>convert_to_pcira()</code>
+Returns a tibble with three columns: <code>tf</code>, <code>target</code> and <code>mor</code>.</p></li>
+<li><p><code>convert_to_scira()</code>
+Returns a tibble with three columns: <code>tf</code>, <code>target</code> and <code>mor</code>.</p></li>
+<li><p><code>convert_to_viper()</code>
+Return a list of regulons suitable for <code><a href='https://rdrr.io/pkg/viper/man/viper.html'>viper::viper()</a></code></p></li>
+</ul>
 
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='convert_f_defaults.html'>convert_f_defaults()</a></code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>inputs_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, <span class='st'>"inputs"</span>, package <span class='op'>=</span> <span class='st'>"decoupleR"</span><span class='op'>)</span>
+
+<span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='fu'>convert_to_gsva</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $FOXO4
+#&gt;  [1] "BCL2L11"  "BCL6"     "CDKN1A"   "CDKN1B"   "G6PC"     "GADD45A" 
+#&gt;  [7] "IGFBP1"   "PCK2"     "PPARGC1A" "RBL2"     "SCP2"     "SOD2"    
+#&gt; [13] "SPRY2"    "TNFSF10" 
+#&gt; 
+#&gt; $NFIC
+#&gt;  [1] "ALAS1"   "C4BPB"   "COL18A1" "COL1A1"  "CSH1"    "CYP17A1" "CYP1A1" 
+#&gt;  [8] "FABP7"   "GFAP"    "GTF3C1"  "GTF3C2"  "GUCY1B3" "HMGB1"   "HSD11B2"
+#&gt; [15] "ITGA5"   "JUN"     "MATN1"   "MYC"     "POLD2"   "POLE2"   "PROC"   
+#&gt; [22] "SLC2A4"  "SLC34A2" "SMUG1"   "TFAP2A"  "TFPI2"   "TP53"    "VWF"    
+#&gt; 
+#&gt; $RFXAP
+#&gt;  [1] "HLA-DMA"  "HLA-DMB"  "HLA-DOA"  "HLA-DOB"  "HLA-DPA1" "HLA-DPB1"
+#&gt;  [7] "HLA-DQA1" "HLA-DQA2" "HLA-DQB1" "HLA-DRA"  "HLA-DRB1" "HLA-DRB3"
+#&gt; [13] "HLA-DRB4" "HLA-DRB5"
+#&gt; 
+#&gt; $SMAD3
+#&gt;  [1] "AHR"      "ANKRD1"   "APOC3"    "BAMBI"    "BGLAP"    "CCND2"   
+#&gt;  [7] "CDKN1A"   "COL1A1"   "COL3A1"   "COL6A1"   "COL6A3"   "COL7A1"  
+#&gt; [13] "CYP17A1"  "EDN1"     "EPO"      "FOXP3"    "FSTL3"    "GLI2"    
+#&gt; [19] "ITGA11"   "JUN"      "MET"      "MMP9"     "MYC"      "POR"     
+#&gt; [25] "PTHLH"    "SERPINE1" "SMAD7"    "TERT"     "TGFB1"    "TIMP1"   
+#&gt; [31] "TNC"      "VEGFA"    "ZFP36"   
+#&gt; 
+#&gt; $TFAP2A
+#&gt;  [1] "ACHE"     "ADM"      "ADRA1A"   "ADRA2B"   "APP"      "BACE1"   
+#&gt;  [7] "BCL2"     "CCNB1"    "CDH1"     "CDKN1A"   "CFTR"     "CGA"     
+#&gt; [13] "CRABP2"   "CRX"      "CSH1"     "CYP11A1"  "DBH"      "EGFR"    
+#&gt; [19] "ERBB2"    "ETS1"     "F2R"      "FAS"      "FMR1"     "FOXA1"   
+#&gt; [25] "GALNT3"   "GAST"     "GPX4"     "GUSB"     "HGF"      "HIP1"    
+#&gt; [31] "HMOX1"    "HOXA4"    "HSD17B1"  "HTT"      "IGFBP5"   "KIT"     
+#&gt; [37] "KRT5"     "L1CAM"    "MIP"      "MMP2"     "MPG"      "MYC"     
+#&gt; [43] "NME3"     "NR3C1"    "OAT"      "PENK"     "PLAUR"    "POLD2"   
+#&gt; [49] "PRKCA"    "PTGS2"    "PVR"      "S100B"    "SERPINE1" "SLC19A1" 
+#&gt; [55] "SMPD1"    "SNAP91"   "SP1"      "SPRY2"    "TAF7"     "TH"      
+#&gt; [61] "TIMP2"    "VEGFA"   
+#&gt; </div><div class='input'><span class='fu'>convert_to_mean</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 151 x 4</span><span>
+#&gt;    tf    target     mor likelihood
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> FOXO4 BCL2L11      1          1
+#&gt; </span><span style='color: #555555;'> 2</span><span> FOXO4 BCL6         1          1
+#&gt; </span><span style='color: #555555;'> 3</span><span> FOXO4 CDKN1A       1          1
+#&gt; </span><span style='color: #555555;'> 4</span><span> FOXO4 CDKN1B       1          1
+#&gt; </span><span style='color: #555555;'> 5</span><span> FOXO4 G6PC         1          1
+#&gt; </span><span style='color: #555555;'> 6</span><span> FOXO4 GADD45A      1          1
+#&gt; </span><span style='color: #555555;'> 7</span><span> FOXO4 IGFBP1       1          1
+#&gt; </span><span style='color: #555555;'> 8</span><span> FOXO4 PCK2         1          1
+#&gt; </span><span style='color: #555555;'> 9</span><span> FOXO4 PPARGC1A     1          1
+#&gt; </span><span style='color: #555555;'>10</span><span> FOXO4 RBL2         1          1
+#&gt; </span><span style='color: #555555;'># … with 141 more rows</span><span></div><div class='input'><span class='fu'>convert_to_pscira</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 151 x 3</span><span>
+#&gt;    tf    target     mor
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> FOXO4 BCL2L11      1
+#&gt; </span><span style='color: #555555;'> 2</span><span> FOXO4 BCL6         1
+#&gt; </span><span style='color: #555555;'> 3</span><span> FOXO4 CDKN1A       1
+#&gt; </span><span style='color: #555555;'> 4</span><span> FOXO4 CDKN1B       1
+#&gt; </span><span style='color: #555555;'> 5</span><span> FOXO4 G6PC         1
+#&gt; </span><span style='color: #555555;'> 6</span><span> FOXO4 GADD45A      1
+#&gt; </span><span style='color: #555555;'> 7</span><span> FOXO4 IGFBP1       1
+#&gt; </span><span style='color: #555555;'> 8</span><span> FOXO4 PCK2         1
+#&gt; </span><span style='color: #555555;'> 9</span><span> FOXO4 PPARGC1A     1
+#&gt; </span><span style='color: #555555;'>10</span><span> FOXO4 RBL2         1
+#&gt; </span><span style='color: #555555;'># … with 141 more rows</span><span></div><div class='input'><span class='fu'>convert_to_scira</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 151 x 3</span><span>
+#&gt;    tf    target     mor
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> FOXO4 BCL2L11      1
+#&gt; </span><span style='color: #555555;'> 2</span><span> FOXO4 BCL6         1
+#&gt; </span><span style='color: #555555;'> 3</span><span> FOXO4 CDKN1A       1
+#&gt; </span><span style='color: #555555;'> 4</span><span> FOXO4 CDKN1B       1
+#&gt; </span><span style='color: #555555;'> 5</span><span> FOXO4 G6PC         1
+#&gt; </span><span style='color: #555555;'> 6</span><span> FOXO4 GADD45A      1
+#&gt; </span><span style='color: #555555;'> 7</span><span> FOXO4 IGFBP1       1
+#&gt; </span><span style='color: #555555;'> 8</span><span> FOXO4 PCK2         1
+#&gt; </span><span style='color: #555555;'> 9</span><span> FOXO4 PPARGC1A     1
+#&gt; </span><span style='color: #555555;'>10</span><span> FOXO4 RBL2         1
+#&gt; </span><span style='color: #555555;'># … with 141 more rows</span><span></div><div class='input'><span class='fu'>convert_to_viper</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 151 x 4</span><span>
+#&gt;    geneset gene       mor likelihood
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> FOXO4   BCL2L11      1          1
+#&gt; </span><span style='color: #555555;'> 2</span><span> FOXO4   BCL6         1          1
+#&gt; </span><span style='color: #555555;'> 3</span><span> FOXO4   CDKN1A       1          1
+#&gt; </span><span style='color: #555555;'> 4</span><span> FOXO4   CDKN1B       1          1
+#&gt; </span><span style='color: #555555;'> 5</span><span> FOXO4   G6PC         1          1
+#&gt; </span><span style='color: #555555;'> 6</span><span> FOXO4   GADD45A      1          1
+#&gt; </span><span style='color: #555555;'> 7</span><span> FOXO4   IGFBP1       1          1
+#&gt; </span><span style='color: #555555;'> 8</span><span> FOXO4   PCK2         1          1
+#&gt; </span><span style='color: #555555;'> 9</span><span> FOXO4   PPARGC1A     1          1
+#&gt; </span><span style='color: #555555;'>10</span><span> FOXO4   RBL2         1          1
+#&gt; </span><span style='color: #555555;'># … with 141 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

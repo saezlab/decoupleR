@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tidy eval helpers — tidyeval • decoupleR</title>
+<title>Getting help with decoupleR • decoupleR</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script>
+<link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,45 +33,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script>
+<link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Tidy eval helpers — tidyeval" />
-<meta property="og:description" content="
-
-rlang::sym() creates a symbol from a string and
-syms() creates a list of symbols from a
-character vector.
-enquo() and
-enquos() delay the execution of one or
-several function arguments. enquo() returns a single quoted
-expression, which is like a blueprint for the delayed computation.
-enquos() returns a list of such quoted expressions.
-expr() quotes a new expression locally. It
-is mostly useful to build new expressions around arguments
-captured with enquo() or enquos():
-expr(mean(!!enquo(arg), na.rm = TRUE)).
-rlang::as_name() transforms a quoted variable name
-into a string. Supplying something else than a quoted variable
-name is an error.
-That's unlike rlang::as_label() which also returns
-a single string but supports any kind of R object as input,
-including quoted function calls and vectors. Its purpose is to
-summarise that object into a single label. That label is often
-suitable as a default name.
-If you don't know what a quoted expression contains (for instance
-expressions captured with enquo() could be a variable
-name, a call to a function, or an unquoted constant), then use
-as_label(). If you know you have quoted a simple variable
-name, or would like to enforce this, use as_name().
-
-
-To learn more about tidy eval and how to use these tools, visit
-https://tidyeval.tidyverse.org and the
-Metaprogramming section of Advanced R." />
+<meta property="og:title" content="Getting help with decoupleR" />
 
 
 
@@ -100,7 +68,7 @@ Metaprogramming section of Advanced R." />
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -112,7 +80,7 @@ Metaprogramming section of Advanced R." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">decoupleR</a>
+        <a class="navbar-link" href="index.html">decoupleR</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
       </span>
     </div>
@@ -120,13 +88,13 @@ Metaprogramming section of Advanced R." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="index.html">
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -136,12 +104,12 @@ Metaprogramming section of Advanced R." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/how-to.html">How to decouple?</a>
+      <a href="articles/how-to.html">How to decouple?</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -174,63 +142,47 @@ Metaprogramming section of Advanced R." />
       </header>
 
 <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-9">
     <div class="page-header">
-    <h1>Tidy eval helpers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/utils-tidy-eval.R'><code>R/utils-tidy-eval.R</code></a></small>
-    <div class="hidden name"><code>tidyeval.Rd</code></div>
+      <h1>Getting help with decoupleR</h1>
     </div>
 
-    <div class="ref-description">
-    
+<div id="getting-help-with-decoupler" class="section level1">
+
+<p>Thanks for using decoupleR! Before filing an issue, there are a few places to explore and pieces to put together to make the process as smooth as possible.</p>
+<div id="make-a-reprex" class="section level2">
+<h2 class="hasAnchor">
+<a href="#make-a-reprex" class="anchor"></a>Make a reprex</h2>
+<p>Start by making a minimal <strong>repr</strong>oducible <strong>ex</strong>ample using the <a href="https://reprex.tidyverse.org/">reprex</a> package. If you haven’t heard of or used reprex before, you’re in for a treat! Seriously, reprex will make all of your R-question-asking endeavors easier (which is a pretty insane ROI for the five to ten minutes it’ll take you to learn what it’s all about). For additional reprex pointers, check out the <a href="https://www.tidyverse.org/help/">Get help!</a> section of the tidyverse site.</p>
+</div>
+<div id="where-to-ask" class="section level2">
+<h2 class="hasAnchor">
+<a href="#where-to-ask" class="anchor"></a>Where to ask?</h2>
+<p>Armed with your reprex, the next step is to figure out <a href="https://www.tidyverse.org/help/#where-to-ask">where to ask</a>.</p>
 <ul>
-<li><p><code><a href='https://rlang.r-lib.org/reference/sym.html'>rlang::sym()</a></code> creates a symbol from a string and
-<code><a href='https://rlang.r-lib.org/reference/sym.html'>syms()</a></code> creates a list of symbols from a
-character vector.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquo()</a></code> and
-<code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquos()</a></code> delay the execution of one or
-several function arguments. <code>enquo()</code> returns a single quoted
-expression, which is like a blueprint for the delayed computation.
-<code>enquos()</code> returns a list of such quoted expressions.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>expr()</a></code> quotes a new expression <em>locally</em>. It
-is mostly useful to build new expressions around arguments
-captured with <code>enquo()</code> or <code>enquos()</code>:
-<code>expr(mean(!!enquo(arg), na.rm = TRUE))</code>.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/as_name.html'>rlang::as_name()</a></code> transforms a quoted variable name
-into a string. Supplying something else than a quoted variable
-name is an error.</p>
-<p>That's unlike <code><a href='https://rlang.r-lib.org/reference/as_label.html'>rlang::as_label()</a></code> which also returns
-a single string but supports any kind of R object as input,
-including quoted function calls and vectors. Its purpose is to
-summarise that object into a single label. That label is often
-suitable as a default name.</p>
-<p>If you don't know what a quoted expression contains (for instance
-expressions captured with <code>enquo()</code> could be a variable
-name, a call to a function, or an unquoted constant), then use
-<code>as_label()</code>. If you know you have quoted a simple variable
-name, or would like to enforce this, use <code>as_name()</code>.</p></li>
+<li><p>If it’s a question: start with <a href="https://community.rstudio.com/">community.rstudio.com</a>, and/or StackOverflow. There are more people there to answer questions.</p></li>
+<li><p>If it’s a bug: you’re in the right place, <a href="https://github.com/saezlab/decoupleR/issues/new">file an issue</a>.</p></li>
+<li><p>If you’re not sure: let the community help you figure it out! If your problem <em>is</em> a bug or a feature request, you can easily return here and report it.</p></li>
 </ul>
+<p>Before opening a new issue, be sure to <a href="https://github.com/saezlab/decoupleR/issues">search issues and pull requests</a> to make sure the bug hasn’t been reported and/or already fixed in the development version. By default, the search will be pre-populated with <code>is:issue is:open</code>. You can <a href="https://help.github.com/articles/searching-issues-and-pull-requests/">edit the qualifiers</a> (e.g. <code>is:pr</code>, <code>is:closed</code>) as needed. For example, you’d simply remove <code>is:open</code> to search <em>all</em> issues in the repo, open or closed.</p>
+</div>
+<div id="what-happens-next" class="section level2">
+<h2 class="hasAnchor">
+<a href="#what-happens-next" class="anchor"></a>What happens next?</h2>
+<p>To be as efficient as possible, development of tidyverse packages tends to be very bursty, so you shouldn’t worry if you don’t get an immediate response. Typically we don’t look at a repo until a sufficient quantity of issues accumulates, then there’s a burst of intense activity as we focus our efforts. That makes development more efficient because it avoids expensive context switching between problems, at the cost of taking longer to get back to you. This process makes a good reprex particularly important because it might be multiple months between your initial report and when we start working on it. If we can’t reproduce the bug, we can’t fix it!</p>
+</div>
+</div>
 
-<p>To learn more about tidy eval and how to use these tools, visit
-<a href='https://tidyeval.tidyverse.org'>https://tidyeval.tidyverse.org</a> and the
-<a href='https://adv-r.hadley.nz/metaprogramming.html'>Metaprogramming section</a> of <a href='https://adv-r.hadley.nz'>Advanced R</a>.</p>
-    </div>
-
-
-
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span><span class='op'>(</span><span class='st'>"nse-defuse"</span>, package <span class='op'>=</span> <span class='st'>"rlang"</span><span class='op'>)</span>
-<span class='co'># }</span>
-</div></pre>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
+
 
 
       <footer>

@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">decoupleR</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
       </span>
     </div>
 
@@ -163,10 +163,10 @@
 <h3 class="hasAnchor">
 <a href="#pull-request-process" class="anchor"></a>Pull request process</h3>
 <ul>
-<li><p>Fork the package and clone onto your computer. If you haven’t done this before, we recommend using <code>usethis::create_from_github("saezlab/decoupleR", fork = TRUE)</code>.</p></li>
-<li>Install all development dependences with <code>devtools::install_dev_deps()</code>, and then make sure the package passes R CMD check by running <code>devtools::check()</code>. If R CMD check doesn’t pass cleanly, it’s a good idea to ask for help before continuing.</li>
-<li><p>Create a Git branch for your pull request (PR). We recommend using <code>usethis::pr_init("brief-description-of-change")</code>.</p></li>
-<li><p>Make your changes, commit to git, and then create a PR by running <code>usethis::pr_push()</code>, and following the prompts in your browser. The title of your PR should briefly describe the change. The body of your PR should contain <code>Fixes #issue-number</code>.</p></li>
+<li><p>Fork the package and clone onto your computer. If you haven’t done this before, we recommend using <code><a href="https://usethis.r-lib.org/reference/create_from_github.html">usethis::create_from_github("saezlab/decoupleR", fork = TRUE)</a></code>.</p></li>
+<li><p>Install all development dependences with <code><a href="https://devtools.r-lib.org//reference/install_deps.html">devtools::install_dev_deps()</a></code>, and then make sure the package passes R CMD check by running <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code>. If R CMD check doesn’t pass cleanly, it’s a good idea to ask for help before continuing.</p></li>
+<li><p>Create a Git branch for your pull request (PR). We recommend using <code><a href="https://usethis.r-lib.org/reference/pr_init.html">usethis::pr_init("brief-description-of-change")</a></code>.</p></li>
+<li><p>Make your changes, commit to git, and then create a PR by running <code><a href="https://usethis.r-lib.org/reference/pr_init.html">usethis::pr_push()</a></code>, and following the prompts in your browser. The title of your PR should briefly describe the change. The body of your PR should contain <code>Fixes #issue-number</code>.</p></li>
 <li><p>For user-facing changes, add a bullet to the top of <code>NEWS.md</code> (i.e. just below the first header). Follow the style described in <a href="https://style.tidyverse.org/news.html" class="uri">https://style.tidyverse.org/news.html</a>.</p></li>
 </ul>
 </div>
@@ -179,6 +179,69 @@
 <li><p>We use <a href="https://cran.r-project.org/package=testthat">testthat</a> for unit tests. Contributions with test cases included are easier to accept.</p></li>
 </ul>
 </div>
+</div>
+<div id="add-a-new-statistic" class="section level2">
+<h2 class="hasAnchor">
+<a href="#add-a-new-statistic" class="anchor"></a>Add a new statistic</h2>
+<p>Read carefully the instructions dedicated to the pull request section above and consider the following specific steps:</p>
+<ul>
+<li><p>Open an <a href="https://github.com/saezlab/decoupleR/issues">issue</a> stating which statistic you would like to add. Assign it to yourself and label it with the badge <code>enhancement</code>; check before if not someone else is already working on implementing this statistic.</p></li>
+<li><p>Define the name of the statistic, for now, assume you want to define the statistic <code>foo</code>.</p></li>
+<li>
+<p>Create a file called <code>R/statistic-foo.R</code> and define <code>run_foo(mat, network, .source, .target, ...)</code> or <code>run_foo(mat, network, .source, .target, ..., options = list())</code>, depending if the statistic is designed from zero or is a wrapper, respectively; where <code>...</code> denote any extra arguments needed for the statistic. If the algorithm requires helper functions, add them here too.<br><strong>Return</strong> of any function of the <code>run_</code> family must always be a tidy tibble with the following columns:</p>
+<ol>
+<li>
+<strong>statistic</strong>: Indicates which methods is associated with which score.</li>
+<li>
+<strong>tf</strong>: Source nodes of <code>network</code>.</li>
+<li>
+<strong>condition</strong>: Conditions representing each column of <code>mat</code>.</li>
+<li>
+<strong>score</strong>: Regulatory activity (enrichment score).</li>
+<li>
+<strong>statistic_time</strong>: Internal execution time indicator.</li>
+<li>
+<strong>…</strong>: If the algorithm requires it, add the generated metadata columns. For instance, p-value.</li>
+</ol>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>All statistics must contain the tag <code>@family decoupleR statistics</code> in their roxygen2 documentation.</li>
+<li>Check <a href="https://github.com/saezlab/decoupleR/blob/documentation/R/utils-decoupler-formats.R">utils-decoupler-formats.R</a> to understand the arguments and specific conventions.</li>
+<li>For examples of implementations, please check <a href="https://github.com/saezlab/decoupleR/blob/documentation/R/statistic-scira.R">statistic-scira.R</a> or <a href="https://github.com/saezlab/decoupleR/blob/documentation/R/statistic-viper.R">statistic-viper.R</a> for design from scratch or wrapper, respectively.<br>
+</li>
+</ul>
+</li>
+<li>
+<p>Inside <a href="https://github.com/saezlab/decoupleR/blob/documentation/R/utils-dataset-converters.R">utils-dataset-converters.R</a> define <code>convert_to_foo(dataset, .source, .target, ...)</code>, where <code>...</code> indicate any extra <em>edge attribute</em> that needs to be mapped into the network.<br><strong>Goals:</strong></p>
+<ul>
+<li>Transform the data frame that represents the network to a standardized format, so that, in the main function <code>run_foo()</code>, we can use and manipulate the columns to our liking without worrying about the mapping.<br>
+</li>
+<li>It allows a uniform mapping through the statistics contained in the package. What ensures rapid integration into the DecoupleR statistics ecosystem.</li>
+</ul>
+<p><strong>Template</strong> with the essential structure that the function must have.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># foo ---------------------------------------------------------------------</span>
+
+<span class="co">#' @rdname convert_to_</span>
+<span class="co">#'</span>
+<span class="co">#' @inheritParams run_foo</span>
+<span class="co">#'</span>
+<span class="co">#' @family convert_to_ variants</span>
+<span class="co">#' @export</span>
+<span class="va">convert_to_foo</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">network</span>, <span class="va">.source</span>, <span class="va">.target</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu">.check_quos_status</span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">.source</span> <span class="op">}</span><span class="op">}</span>, <span class="op">{</span><span class="op">{</span> <span class="va">.target</span> <span class="op">}</span><span class="op">}</span>, .dots_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">".source"</span>, <span class="st">".target"</span><span class="op">)</span><span class="op">)</span>
+
+  <span class="va">network</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="reference/convert_f_defaults.html">convert_f_defaults</a></span><span class="op">(</span>
+      tf <span class="op">=</span> <span class="op">{</span><span class="op">{</span> <span class="va">.source</span> <span class="op">}</span><span class="op">}</span>,
+      target <span class="op">=</span> <span class="op">{</span><span class="op">{</span> <span class="va">.target</span> <span class="op">}</span><span class="op">}</span>
+    <span class="op">)</span>
+    <span class="co"># If extra conversion is needed add it here...</span>
+<span class="op">}</span></pre></div>
+</li>
+<li><p>Add the unit test for <code>run_foo()</code> only, once they pass incorporate <code>run_foo()</code> inside of the main <code><a href="reference/decouple.html">decouple()</a></code> and add it also to the <code><a href="reference/decouple.html">decouple()</a></code> unit testing.</p></li>
+<li><p>If all goes well, you are ready. Start the pull request process.</p></li>
+</ul>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PSCIRA (Permutation Single Cell Inference of Regulatory Activity) — run_pscira • decoupleR</title>
+<title>Mean — run_mean • decoupleR</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,9 @@
 
 
 
-<meta property="og:title" content="PSCIRA (Permutation Single Cell Inference of Regulatory Activity) — run_pscira" />
-<meta property="og:description" content="Calculate the regulatory activity of each tf by multiplying the expression
-values of its objectives with their corresponding associated profiles for
-each given condition.The result is equal to the z-score of the found value
-compared to its null distribution." />
+<meta property="og:title" content="Mean — run_mean" />
+<meta property="og:description" content="Calculate the activity of all regulons in network through the conditions in
+the mat matrix by calculating the mean over the expression of all genes." />
 
 
 
@@ -148,27 +146,28 @@ compared to its null distribution." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>PSCIRA (Permutation Single Cell Inference of Regulatory Activity)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/statistic-pscira.R'><code>R/statistic-pscira.R</code></a></small>
-    <div class="hidden name"><code>run_pscira.Rd</code></div>
+    <h1>Mean</h1>
+    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/statistic-mean.R'><code>R/statistic-mean.R</code></a></small>
+    <div class="hidden name"><code>run_mean.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate the regulatory activity of each tf by multiplying the expression
-values of its objectives with their corresponding associated profiles for
-each given condition.The result is equal to the z-score of the found value
-compared to its null distribution.</p>
+    <p>Calculate the activity of all regulons in <code>network</code> through the conditions in
+the <code>mat</code> matrix by calculating the mean over the expression of all genes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_pscira</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>run_mean</span><span class='op'>(</span>
   <span class='va'>mat</span>,
   <span class='va'>network</span>,
   .source <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>tf</span>,
   .target <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>target</span>,
   .mor <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>mor</span>,
+  .likelihood <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>likelihood</span>,
+  minsize <span class='op'>=</span> <span class='fl'>1</span>,
+  times <span class='op'>=</span> <span class='fl'>2</span>,
+  seed <span class='op'>=</span> <span class='fl'>42</span>,
   sparse <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  times <span class='op'>=</span> <span class='fl'>10</span>,
-  seed <span class='op'>=</span> <span class='fl'>42</span>
+  randomize_type <span class='op'>=</span> <span class='st'>"rows"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -198,16 +197,29 @@ in <code>network</code> <code>.target</code> column.</p></td>
       <td><p>Column with edge mode of regulation (i.e. mor).</p></td>
     </tr>
     <tr>
-      <th>sparse</th>
-      <td><p>Logical value indicating if the generated profile matrix should be sparse.</p></td>
+      <th>.likelihood</th>
+      <td><p>Column with edge likelihood.</p></td>
+    </tr>
+    <tr>
+      <th>minsize</th>
+      <td><p>How many output edges a source node must have to be included
+in the analysis?</p></td>
     </tr>
     <tr>
       <th>times</th>
-      <td><p>Number of replications.</p></td>
+      <td><p>How many permutations to do?</p></td>
     </tr>
     <tr>
       <th>seed</th>
-      <td><p>A single value, interpreted as an integer, or NULL.</p></td>
+      <td><p>A single value, interpreted as an integer, or NULL for random number generation.</p></td>
+    </tr>
+    <tr>
+      <th>sparse</th>
+      <td><p>Should the matrices used for the calculation be sparse?</p></td>
+    </tr>
+    <tr>
+      <th>randomize_type</th>
+      <td><p>How to randomize the expression matrix.</p></td>
     </tr>
     </table>
 
@@ -220,21 +232,21 @@ Resulting tibble contains the following columns:</p><ol>
 <li><p><code>condition</code>: Condition representing each column of <code>mat</code>.</p></li>
 <li><p><code>score</code>: Regulatory activity (enrichment score).</p></li>
 <li><p><code>statistic_time</code>: Internal execution time indicator.</p></li>
+<li><p><code>p_value</code>: p-value for the score of mean method.</p></li>
 </ol>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Estimation of regulatory activity: A linear regression of the expression profile
-is performed against the "target profile" of the given TF, where in the target
-profile, any member of the regulon will be assigned a +1 for activated actions,
-a -1 for inhibitory activations and, finally, a 0 for all genes that are not
-a member of the TF regulon. TF activity is then defined as the t-statistic of
-this linear regression.</p>
+    <p><code>run_mean()</code> calculates the activity score, but in addition, it takes advantage
+of the permutations used to calculate the <code>p-value</code>, to provide the
+normalized activity score. This is represented in the <code>statistic</code> column
+which will contain two values for each call to <code>run_mean()</code>; <strong>mean</strong> and
+<strong>normalized_mean</strong>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other decoupleR statistics: 
 <code><a href='run_gsva.html'>run_gsva</a>()</code>,
-<code><a href='run_mean.html'>run_mean</a>()</code>,
+<code><a href='run_pscira.html'>run_pscira</a>()</code>,
 <code><a href='run_scira.html'>run_scira</a>()</code>,
 <code><a href='run_viper.html'>run_viper</a>()</code></p></div>
 
@@ -244,30 +256,21 @@ this linear regression.</p>
 <span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-expr_matrix.rds"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>run_pscira</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 20 x 4</span><span>
-#&gt;    statistic tf     condition  score
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> pscira    FOXO4  GSM2753335 2.50 
-#&gt; </span><span style='color: #555555;'> 2</span><span> pscira    FOXO4  GSM2753336 2.57 
-#&gt; </span><span style='color: #555555;'> 3</span><span> pscira    FOXO4  GSM2753337 3.05 
-#&gt; </span><span style='color: #555555;'> 4</span><span> pscira    FOXO4  GSM2753338 2.80 
-#&gt; </span><span style='color: #555555;'> 5</span><span> pscira    NFIC   GSM2753335 0.711
-#&gt; </span><span style='color: #555555;'> 6</span><span> pscira    NFIC   GSM2753336 0.791
-#&gt; </span><span style='color: #555555;'> 7</span><span> pscira    NFIC   GSM2753337 0.584
-#&gt; </span><span style='color: #555555;'> 8</span><span> pscira    NFIC   GSM2753338 0.650
-#&gt; </span><span style='color: #555555;'> 9</span><span> pscira    RFXAP  GSM2753335 1.19 
-#&gt; </span><span style='color: #555555;'>10</span><span> pscira    RFXAP  GSM2753336 1.79 
-#&gt; </span><span style='color: #555555;'>11</span><span> pscira    RFXAP  GSM2753337 2.42 
-#&gt; </span><span style='color: #555555;'>12</span><span> pscira    RFXAP  GSM2753338 2.44 
-#&gt; </span><span style='color: #555555;'>13</span><span> pscira    SMAD3  GSM2753335 0.353
-#&gt; </span><span style='color: #555555;'>14</span><span> pscira    SMAD3  GSM2753336 0.557
-#&gt; </span><span style='color: #555555;'>15</span><span> pscira    SMAD3  GSM2753337 1.04 
-#&gt; </span><span style='color: #555555;'>16</span><span> pscira    SMAD3  GSM2753338 1.08 
-#&gt; </span><span style='color: #555555;'>17</span><span> pscira    TFAP2A GSM2753335 1.42 
-#&gt; </span><span style='color: #555555;'>18</span><span> pscira    TFAP2A GSM2753336 1.58 
-#&gt; </span><span style='color: #555555;'>19</span><span> pscira    TFAP2A GSM2753337 1.88 
-#&gt; </span><span style='color: #555555;'>20</span><span> pscira    TFAP2A GSM2753338 2.07 </div></span></pre>
+<span class='fu'>run_mean</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 40 x 5</span><span>
+#&gt;    statistic tf    condition  score p_value
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> mean      FOXO4 GSM2753335  4.56     0  
+#&gt; </span><span style='color: #555555;'> 2</span><span> mean      FOXO4 GSM2753336  4.59     0  
+#&gt; </span><span style='color: #555555;'> 3</span><span> mean      FOXO4 GSM2753337  4.89     0  
+#&gt; </span><span style='color: #555555;'> 4</span><span> mean      FOXO4 GSM2753338  4.92     0  
+#&gt; </span><span style='color: #555555;'> 5</span><span> mean      NFIC  GSM2753335  2.48     0  
+#&gt; </span><span style='color: #555555;'> 6</span><span> mean      NFIC  GSM2753336  2.64     0  
+#&gt; </span><span style='color: #555555;'> 7</span><span> mean      NFIC  GSM2753337  2.17     0.5
+#&gt; </span><span style='color: #555555;'> 8</span><span> mean      NFIC  GSM2753338  2.30     0  
+#&gt; </span><span style='color: #555555;'> 9</span><span> mean      RFXAP GSM2753335  3.76     0  
+#&gt; </span><span style='color: #555555;'>10</span><span> mean      RFXAP GSM2753336  4.65     0  
+#&gt; </span><span style='color: #555555;'># … with 30 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

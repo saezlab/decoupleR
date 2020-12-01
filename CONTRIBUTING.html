@@ -219,8 +219,8 @@
 <li>It allows a uniform mapping through the statistics contained in the package. What ensures rapid integration into the DecoupleR statistics ecosystem.</li>
 </ul>
 <p><strong>Template</strong> with the essential structure that the function must have.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># foo ---------------------------------------------------------------------</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># foo ---------------------------------------------------------------------</span>
 
 <span class="co">#' @rdname convert_to_</span>
 <span class="co">#'</span>
@@ -237,7 +237,7 @@
       target <span class="op">=</span> <span class="op">{</span><span class="op">{</span> <span class="va">.target</span> <span class="op">}</span><span class="op">}</span>
     <span class="op">)</span>
     <span class="co"># If extra conversion is needed add it here...</span>
-<span class="op">}</span></pre></div>
+<span class="op">}</span></code></pre></div>
 </li>
 <li><p>Add the unit test for <code>run_foo()</code> only, once they pass incorporate <code>run_foo()</code> inside of the main <code><a href="reference/decouple.html">decouple()</a></code> and add it also to the <code><a href="reference/decouple.html">decouple()</a></code> unit testing.</p></li>
 <li><p>If all goes well, you are ready. Start the pull request process.</p></li>

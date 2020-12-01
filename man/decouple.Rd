@@ -72,3 +72,12 @@ decouple(
     )
 )
 }
+\seealso{
+Other decoupleR statistics: 
+\code{\link{run_gsva}()},
+\code{\link{run_mean}()},
+\code{\link{run_pscira}()},
+\code{\link{run_scira}()},
+\code{\link{run_viper}()}
+}
+\concept{decoupleR statistics}

@@ -10,7 +10,7 @@ Authors@R:
              comment = c(ORCID = "0000-0002-3060-5786")),
       person(given = "Jesús",
              family = "Vélez",
-             role = "ctr",
+             role = "aut",
              email = "jvelez@lcg.unam.mx",
              comment = c(ORCID = "0000-0001-5128-3838")))
 Description: Usually functional genomics tools consist of a

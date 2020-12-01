@@ -2,7 +2,7 @@
 title: "How to decouple?"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{test}
+  %\VignetteIndexEntry{How to decouple?}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

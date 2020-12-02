@@ -154,7 +154,9 @@ decouple <- function(
     )
 
     if (show_toy_call) {
-        rlang::inform(rlang::qq_show(!!.toy_call))
+        capture.output(rlang::qq_show(!!.toy_call)) %>%
+            str_replace_all(pattern = "= \\^", "= ") %>%
+            message()
     }
 
     .call <- expr(

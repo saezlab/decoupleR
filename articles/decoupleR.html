@@ -201,12 +201,9 @@
 <span class="co">#&gt; $ mor        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span>
 <span class="co">#&gt; $ likelihood &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></code></pre></div>
 </div>
-<div id="decoupling" class="section level2">
+<div id="how-to-decouple" class="section level2">
 <h2 class="hasAnchor">
-<a href="#decoupling" class="anchor"></a>Decoupling</h2>
-<div id="how-to-decouple" class="section level3">
-<h3 class="hasAnchor">
-<a href="#how-to-decouple" class="anchor"></a>How to decouple?</h3>
+<a href="#how-to-decouple" class="anchor"></a>How to decouple?</h2>
 <p>Once the data is loaded, you are one step away from achieving decoupling. This step corresponds to specifying which statistics you want to run. For more information about the defined statistics and their parameters, you can execute <code>?decouple()</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/decouple.html">decouple</a></span><span class="op">(</span>
@@ -238,7 +235,6 @@
 <span class="co">#&gt; $ score     &lt;dbl&gt; -0.38043080, -0.29999174, 0.23887789, 0.09071077, -0.084521…</span>
 <span class="co">#&gt; $ p_value   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</span></code></pre></div>
 <p>Ready, you have applied different statistics to the same data set, now you can analyze them at your convenience, for example, by performing a <a href="">benchmark</a>.</p>
-</div>
 </div>
 <div id="how-it-works" class="section level2">
 <h2 class="hasAnchor">
@@ -334,9 +330,58 @@
 </div>
 </div>
 </div>
-<div id="session-information" class="section level1">
+<div id="reproducibility" class="section level1">
 <h1 class="hasAnchor">
-<a href="#session-information" class="anchor"></a>Session information</h1>
+<a href="#reproducibility" class="anchor"></a>Reproducibility</h1>
+<div id="special-thanks" class="section level2">
+<h2 class="hasAnchor">
+<a href="#special-thanks" class="anchor"></a>Special thanks</h2>
+<p>The <em><a href="https://bioconductor.org/packages/3.12/decouopleR">decouopleR</a></em> package <a id="cite-saezlab_2020"></a>(<a href="http://www.bioconductor.org/packages/decoupleR">saezlab, 2020</a>) was made possible thanks to:</p>
+<ul>
+<li>R <a id="cite-R_Core_Team_2020"></a>(<a href="https://www.R-project.org/">R Core Team, 2020</a>)</li>
+<li>
+<em><a href="https://bioconductor.org/packages/3.12/BiocStyle">BiocStyle</a></em> <a id="cite-Oles_2020"></a>(<a href="https://github.com/Bioconductor/BiocStyle">Oleś, Morgan, and Huber, 2020</a>)</li>
+<li>
+<em><a href="https://CRAN.R-project.org/package=knitcitations">knitcitations</a></em> <a id="cite-Boettiger_2020"></a>(<a href="https://github.com/cboettig/knitcitations">Boettiger, 2020</a>)</li>
+<li>
+<em><a href="https://CRAN.R-project.org/package=knitr">knitr</a></em> <a id="cite-Xie_2020"></a>(<a href="https://yihui.org/knitr/">Xie, 2020</a>)</li>
+<li>
+<em><a href="https://CRAN.R-project.org/package=rmarkdown">rmarkdown</a></em> <a id="cite-Allaire_2020"></a>(<a href="https://github.com/rstudio/rmarkdown">Allaire, Xie, McPherson, Luraschi, et al., 2020</a>)</li>
+<li>
+<em><a href="https://CRAN.R-project.org/package=sessioninfo">sessioninfo</a></em> <a id="cite-Csardi_2018"></a>(<a href="https://github.com/r-lib/sessioninfo#readme">Csárdi, core, Wickham, Chang, et al., 2018</a>)</li>
+<li>
+<em><a href="https://CRAN.R-project.org/package=testthat">testthat</a></em> <a id="cite-Wickham_2011"></a>(<a href="https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf">Wickham, 2011</a>)</li>
+<li>
+<em><a href="https://bioconductor.org/packages/3.12/GSVA">GSVA</a></em> <a id="cite-Hanzelmann_2013"></a>(<a href="http://www.biomedcentral.com/1471-2105/14/7">H{ä}nzelmann, Castelo, and Guinney, 2013</a>)</li>
+<li>
+<em><a href="https://bioconductor.org/packages/3.12/viper">viper</a></em> <a id="cite-Alvarez_2016"></a>(<a href="#bib-Alvarez_2016">Alvarez, Shen, Giorgi, Lachmann, et al., 2016</a>)</li>
+</ul>
+<p>This package was developed using <em><a href="https://github.com/lcolladotor/biocthis">biocthis</a></em>.</p>
+</div>
+<div id="vignette" class="section level2">
+<h2 class="hasAnchor">
+<a href="#vignette" class="anchor"></a>Vignette</h2>
+<div id="create" class="section level3">
+<h3 class="hasAnchor">
+<a href="#create" class="anchor"></a>Create</h3>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Create the vignette</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/rmarkdown">rmarkdown</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/rmarkdown/man/render.html">render</a></span><span class="op">(</span><span class="st">"decoupleR.Rmd"</span>, <span class="st">"BiocStyle::html_document"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Extract the R code</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html">knit</a></span><span class="op">(</span><span class="st">"decoupleR.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="wallclock-time-spent-generating-the-vignette" class="section level3">
+<h3 class="hasAnchor">
+<a href="#wallclock-time-spent-generating-the-vignette" class="anchor"></a>wallclock time spent generating the vignette</h3>
+<pre><code>#&gt; Time difference of 13.282 secs</code></pre>
+</div>
+</div>
+<div id="session-information" class="section level2">
+<h2 class="hasAnchor">
+<a href="#session-information" class="anchor"></a>Session information</h2>
 <pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  setting  value                       
 #&gt;  version  R version 4.0.3 (2020-10-10)
@@ -350,97 +395,120 @@
 #&gt;  date     2020-12-08                  
 #&gt; 
 #&gt; ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────
-#&gt;  package              * version  date       lib source        
-#&gt;  annotate               1.68.0   2020-10-27 [1] Bioconductor  
-#&gt;  AnnotationDbi          1.52.0   2020-10-27 [1] Bioconductor  
-#&gt;  assertthat             0.2.1    2019-03-21 [2] RSPM (R 4.0.0)
-#&gt;  Biobase                2.50.0   2020-10-27 [1] Bioconductor  
-#&gt;  BiocGenerics           0.36.0   2020-10-27 [1] Bioconductor  
-#&gt;  BiocManager            1.30.10  2019-11-16 [2] CRAN (R 4.0.3)
-#&gt;  BiocParallel           1.24.1   2020-11-06 [1] Bioconductor  
-#&gt;  BiocStyle            * 2.18.1   2020-11-24 [1] Bioconductor  
-#&gt;  bit                    4.0.4    2020-08-04 [1] RSPM (R 4.0.2)
-#&gt;  bit64                  4.0.5    2020-08-30 [1] RSPM (R 4.0.2)
-#&gt;  bitops                 1.0-6    2013-08-17 [1] RSPM (R 4.0.0)
-#&gt;  blob                   1.2.1    2020-01-20 [1] RSPM (R 4.0.0)
-#&gt;  bookdown               0.21     2020-10-13 [1] RSPM (R 4.0.2)
-#&gt;  class                  7.3-17   2020-04-26 [3] CRAN (R 4.0.3)
-#&gt;  cli                    2.2.0    2020-11-20 [2] RSPM (R 4.0.3)
-#&gt;  crayon                 1.3.4    2017-09-16 [2] RSPM (R 4.0.0)
-#&gt;  DBI                    1.1.0    2019-12-15 [1] RSPM (R 4.0.0)
-#&gt;  decoupleR            * 0.99.0   2020-12-08 [1] Bioconductor  
-#&gt;  DelayedArray           0.16.0   2020-10-27 [1] Bioconductor  
-#&gt;  desc                   1.2.0    2018-05-01 [2] RSPM (R 4.0.0)
-#&gt;  digest                 0.6.27   2020-10-24 [2] RSPM (R 4.0.3)
-#&gt;  dplyr                * 1.0.2    2020-08-18 [1] RSPM (R 4.0.2)
-#&gt;  e1071                  1.7-4    2020-10-14 [1] RSPM (R 4.0.2)
-#&gt;  ellipsis               0.3.1    2020-05-15 [2] RSPM (R 4.0.0)
-#&gt;  evaluate               0.14     2019-05-28 [2] RSPM (R 4.0.0)
-#&gt;  fansi                  0.4.1    2020-01-08 [2] RSPM (R 4.0.0)
-#&gt;  fastmatch              1.1-0    2017-01-28 [1] RSPM (R 4.0.0)
-#&gt;  fs                     1.5.0    2020-07-31 [2] RSPM (R 4.0.2)
-#&gt;  generics               0.1.0    2020-10-31 [1] RSPM (R 4.0.3)
-#&gt;  GenomeInfoDb           1.26.1   2020-11-20 [1] Bioconductor  
-#&gt;  GenomeInfoDbData       1.2.4    2020-11-27 [1] Bioconductor  
-#&gt;  GenomicRanges          1.42.0   2020-10-27 [1] Bioconductor  
-#&gt;  glue                   1.4.2    2020-08-27 [2] RSPM (R 4.0.2)
-#&gt;  graph                  1.68.0   2020-10-27 [1] Bioconductor  
-#&gt;  GSEABase               1.52.0   2020-10-27 [1] Bioconductor  
-#&gt;  GSVA                   1.38.0   2020-10-27 [1] Bioconductor  
-#&gt;  htmltools              0.5.0    2020-06-16 [2] RSPM (R 4.0.1)
-#&gt;  httr                   1.4.2    2020-07-20 [2] RSPM (R 4.0.2)
-#&gt;  IRanges                2.24.0   2020-10-27 [1] Bioconductor  
-#&gt;  kernlab                0.9-29   2019-11-12 [1] RSPM (R 4.0.0)
-#&gt;  KernSmooth             2.23-18  2020-10-29 [3] RSPM (R 4.0.3)
-#&gt;  knitr                  1.30     2020-09-22 [2] RSPM (R 4.0.2)
-#&gt;  lattice                0.20-41  2020-04-02 [3] CRAN (R 4.0.3)
-#&gt;  lifecycle              0.2.0    2020-03-06 [2] RSPM (R 4.0.0)
-#&gt;  magrittr               2.0.1    2020-11-17 [2] RSPM (R 4.0.3)
-#&gt;  MASS                   7.3-53   2020-09-09 [3] CRAN (R 4.0.3)
-#&gt;  Matrix                 1.2-18   2019-11-27 [3] CRAN (R 4.0.3)
-#&gt;  MatrixGenerics         1.2.0    2020-10-27 [1] Bioconductor  
-#&gt;  matrixStats            0.57.0   2020-09-25 [1] RSPM (R 4.0.2)
-#&gt;  memoise                1.1.0    2017-04-21 [2] RSPM (R 4.0.0)
-#&gt;  mixtools               1.2.0    2020-02-07 [1] RSPM (R 4.0.0)
-#&gt;  pillar                 1.4.7    2020-11-20 [2] RSPM (R 4.0.3)
-#&gt;  pkgconfig              2.0.3    2019-09-22 [2] RSPM (R 4.0.0)
-#&gt;  pkgdown                1.6.1    2020-09-12 [1] RSPM (R 4.0.2)
-#&gt;  purrr                  0.3.4    2020-04-17 [2] RSPM (R 4.0.0)
-#&gt;  R6                     2.5.0    2020-10-28 [2] RSPM (R 4.0.3)
-#&gt;  ragg                   0.4.0    2020-10-05 [1] RSPM (R 4.0.3)
-#&gt;  Rcpp                   1.0.5    2020-07-06 [2] RSPM (R 4.0.2)
-#&gt;  RCurl                  1.98-1.2 2020-04-18 [1] RSPM (R 4.0.0)
-#&gt;  rlang                  0.4.9    2020-11-26 [2] RSPM (R 4.0.3)
-#&gt;  rmarkdown              2.5      2020-10-21 [1] RSPM (R 4.0.3)
-#&gt;  rprojroot              2.0.2    2020-11-15 [2] RSPM (R 4.0.3)
-#&gt;  RSQLite                2.2.1    2020-09-30 [1] RSPM (R 4.0.2)
-#&gt;  S4Vectors              0.28.0   2020-10-27 [1] Bioconductor  
-#&gt;  segmented              1.3-0    2020-10-27 [1] RSPM (R 4.0.3)
-#&gt;  sessioninfo            1.1.1    2018-11-05 [2] RSPM (R 4.0.0)
-#&gt;  speedglm               0.3-2    2017-01-09 [1] RSPM (R 4.0.0)
-#&gt;  stringi                1.5.3    2020-09-09 [2] RSPM (R 4.0.2)
-#&gt;  stringr                1.4.0    2019-02-10 [2] RSPM (R 4.0.0)
-#&gt;  SummarizedExperiment   1.20.0   2020-10-27 [1] Bioconductor  
-#&gt;  survival               3.2-7    2020-09-28 [3] CRAN (R 4.0.3)
-#&gt;  systemfonts            0.3.2    2020-09-29 [1] RSPM (R 4.0.3)
-#&gt;  textshaping            0.2.1    2020-11-13 [1] RSPM (R 4.0.3)
-#&gt;  tibble                 3.0.4    2020-10-12 [2] RSPM (R 4.0.2)
-#&gt;  tidyr                  1.1.2    2020-08-27 [1] RSPM (R 4.0.3)
-#&gt;  tidyselect             1.1.0    2020-05-11 [1] RSPM (R 4.0.0)
-#&gt;  utf8                   1.1.4    2018-05-24 [2] RSPM (R 4.0.0)
-#&gt;  vctrs                  0.3.5    2020-11-17 [2] RSPM (R 4.0.3)
-#&gt;  viper                  1.24.0   2020-10-27 [1] Bioconductor  
-#&gt;  withr                  2.3.0    2020-09-22 [2] RSPM (R 4.0.2)
-#&gt;  xfun                   0.19     2020-10-30 [2] RSPM (R 4.0.3)
-#&gt;  XML                    3.99-0.5 2020-07-23 [1] RSPM (R 4.0.2)
-#&gt;  xtable                 1.8-4    2019-04-21 [1] RSPM (R 4.0.0)
-#&gt;  XVector                0.30.0   2020-10-27 [1] Bioconductor  
-#&gt;  yaml                   2.2.1    2020-02-01 [2] RSPM (R 4.0.0)
-#&gt;  zlibbioc               1.36.0   2020-10-27 [1] Bioconductor  
+#&gt;  package              * version  date       lib source                                 
+#&gt;  annotate               1.68.0   2020-10-27 [1] Bioconductor                           
+#&gt;  AnnotationDbi          1.52.0   2020-10-27 [1] Bioconductor                           
+#&gt;  assertthat             0.2.1    2019-03-21 [2] RSPM (R 4.0.0)                         
+#&gt;  Biobase                2.50.0   2020-10-27 [1] Bioconductor                           
+#&gt;  BiocGenerics           0.36.0   2020-10-27 [1] Bioconductor                           
+#&gt;  BiocManager            1.30.10  2019-11-16 [2] CRAN (R 4.0.3)                         
+#&gt;  BiocParallel           1.24.1   2020-11-06 [1] Bioconductor                           
+#&gt;  BiocStyle            * 2.18.1   2020-11-24 [1] Bioconductor                           
+#&gt;  bit                    4.0.4    2020-08-04 [1] RSPM (R 4.0.2)                         
+#&gt;  bit64                  4.0.5    2020-08-30 [1] RSPM (R 4.0.2)                         
+#&gt;  bitops                 1.0-6    2013-08-17 [1] RSPM (R 4.0.0)                         
+#&gt;  blob                   1.2.1    2020-01-20 [1] RSPM (R 4.0.0)                         
+#&gt;  bookdown               0.21     2020-10-13 [1] RSPM (R 4.0.2)                         
+#&gt;  class                  7.3-17   2020-04-26 [3] CRAN (R 4.0.3)                         
+#&gt;  cli                    2.2.0    2020-11-20 [2] RSPM (R 4.0.3)                         
+#&gt;  crayon                 1.3.4    2017-09-16 [2] RSPM (R 4.0.0)                         
+#&gt;  DBI                    1.1.0    2019-12-15 [1] RSPM (R 4.0.0)                         
+#&gt;  decoupleR            * 0.99.0   2020-12-08 [1] Bioconductor                           
+#&gt;  DelayedArray           0.16.0   2020-10-27 [1] Bioconductor                           
+#&gt;  desc                   1.2.0    2018-05-01 [2] RSPM (R 4.0.0)                         
+#&gt;  digest                 0.6.27   2020-10-24 [2] RSPM (R 4.0.3)                         
+#&gt;  dplyr                * 1.0.2    2020-08-18 [1] RSPM (R 4.0.2)                         
+#&gt;  e1071                  1.7-4    2020-10-14 [1] RSPM (R 4.0.2)                         
+#&gt;  ellipsis               0.3.1    2020-05-15 [2] RSPM (R 4.0.0)                         
+#&gt;  evaluate               0.14     2019-05-28 [2] RSPM (R 4.0.0)                         
+#&gt;  fansi                  0.4.1    2020-01-08 [2] RSPM (R 4.0.0)                         
+#&gt;  fastmatch              1.1-0    2017-01-28 [1] RSPM (R 4.0.0)                         
+#&gt;  fs                     1.5.0    2020-07-31 [2] RSPM (R 4.0.2)                         
+#&gt;  generics               0.1.0    2020-10-31 [1] RSPM (R 4.0.3)                         
+#&gt;  GenomeInfoDb           1.26.1   2020-11-20 [1] Bioconductor                           
+#&gt;  GenomeInfoDbData       1.2.4    2020-11-27 [1] Bioconductor                           
+#&gt;  GenomicRanges          1.42.0   2020-10-27 [1] Bioconductor                           
+#&gt;  glue                   1.4.2    2020-08-27 [2] RSPM (R 4.0.2)                         
+#&gt;  graph                  1.68.0   2020-10-27 [1] Bioconductor                           
+#&gt;  GSEABase               1.52.0   2020-10-27 [1] Bioconductor                           
+#&gt;  GSVA                   1.38.0   2020-10-27 [1] Bioconductor                           
+#&gt;  htmltools              0.5.0    2020-06-16 [2] RSPM (R 4.0.1)                         
+#&gt;  httr                   1.4.2    2020-07-20 [2] RSPM (R 4.0.2)                         
+#&gt;  IRanges                2.24.0   2020-10-27 [1] Bioconductor                           
+#&gt;  jsonlite               1.7.1    2020-09-07 [2] RSPM (R 4.0.2)                         
+#&gt;  kernlab                0.9-29   2019-11-12 [1] RSPM (R 4.0.0)                         
+#&gt;  KernSmooth             2.23-18  2020-10-29 [3] RSPM (R 4.0.3)                         
+#&gt;  knitcitations        * 1.0.11   2020-11-27 [1] Github (cboettig/knitcitations@23750d5)
+#&gt;  knitr                  1.30     2020-09-22 [2] RSPM (R 4.0.2)                         
+#&gt;  lattice                0.20-41  2020-04-02 [3] CRAN (R 4.0.3)                         
+#&gt;  lifecycle              0.2.0    2020-03-06 [2] RSPM (R 4.0.0)                         
+#&gt;  lubridate              1.7.9.2  2020-11-13 [1] RSPM (R 4.0.3)                         
+#&gt;  magrittr               2.0.1    2020-11-17 [2] RSPM (R 4.0.3)                         
+#&gt;  MASS                   7.3-53   2020-09-09 [3] CRAN (R 4.0.3)                         
+#&gt;  Matrix                 1.2-18   2019-11-27 [3] CRAN (R 4.0.3)                         
+#&gt;  MatrixGenerics         1.2.0    2020-10-27 [1] Bioconductor                           
+#&gt;  matrixStats            0.57.0   2020-09-25 [1] RSPM (R 4.0.2)                         
+#&gt;  memoise                1.1.0    2017-04-21 [2] RSPM (R 4.0.0)                         
+#&gt;  mixtools               1.2.0    2020-02-07 [1] RSPM (R 4.0.0)                         
+#&gt;  pillar                 1.4.7    2020-11-20 [2] RSPM (R 4.0.3)                         
+#&gt;  pkgconfig              2.0.3    2019-09-22 [2] RSPM (R 4.0.0)                         
+#&gt;  pkgdown                1.6.1    2020-09-12 [1] RSPM (R 4.0.2)                         
+#&gt;  plyr                   1.8.6    2020-03-03 [1] RSPM (R 4.0.2)                         
+#&gt;  purrr                  0.3.4    2020-04-17 [2] RSPM (R 4.0.0)                         
+#&gt;  R6                     2.5.0    2020-10-28 [2] RSPM (R 4.0.3)                         
+#&gt;  ragg                   0.4.0    2020-10-05 [1] RSPM (R 4.0.3)                         
+#&gt;  Rcpp                   1.0.5    2020-07-06 [2] RSPM (R 4.0.2)                         
+#&gt;  RCurl                  1.98-1.2 2020-04-18 [1] RSPM (R 4.0.0)                         
+#&gt;  RefManageR             1.3.0    2020-11-27 [1] Github (ropensci/RefManageR@ab8fe60)   
+#&gt;  rlang                  0.4.9    2020-11-26 [2] RSPM (R 4.0.3)                         
+#&gt;  rmarkdown              2.5      2020-10-21 [1] RSPM (R 4.0.3)                         
+#&gt;  rprojroot              2.0.2    2020-11-15 [2] RSPM (R 4.0.3)                         
+#&gt;  RSQLite                2.2.1    2020-09-30 [1] RSPM (R 4.0.2)                         
+#&gt;  S4Vectors              0.28.0   2020-10-27 [1] Bioconductor                           
+#&gt;  segmented              1.3-0    2020-10-27 [1] RSPM (R 4.0.3)                         
+#&gt;  sessioninfo            1.1.1    2018-11-05 [2] RSPM (R 4.0.0)                         
+#&gt;  speedglm               0.3-2    2017-01-09 [1] RSPM (R 4.0.0)                         
+#&gt;  stringi                1.5.3    2020-09-09 [2] RSPM (R 4.0.2)                         
+#&gt;  stringr                1.4.0    2019-02-10 [2] RSPM (R 4.0.0)                         
+#&gt;  SummarizedExperiment   1.20.0   2020-10-27 [1] Bioconductor                           
+#&gt;  survival               3.2-7    2020-09-28 [3] CRAN (R 4.0.3)                         
+#&gt;  systemfonts            0.3.2    2020-09-29 [1] RSPM (R 4.0.3)                         
+#&gt;  textshaping            0.2.1    2020-11-13 [1] RSPM (R 4.0.3)                         
+#&gt;  tibble                 3.0.4    2020-10-12 [2] RSPM (R 4.0.2)                         
+#&gt;  tidyr                  1.1.2    2020-08-27 [1] RSPM (R 4.0.3)                         
+#&gt;  tidyselect             1.1.0    2020-05-11 [1] RSPM (R 4.0.0)                         
+#&gt;  utf8                   1.1.4    2018-05-24 [2] RSPM (R 4.0.0)                         
+#&gt;  vctrs                  0.3.5    2020-11-17 [2] RSPM (R 4.0.3)                         
+#&gt;  viper                  1.24.0   2020-10-27 [1] Bioconductor                           
+#&gt;  withr                  2.3.0    2020-09-22 [2] RSPM (R 4.0.2)                         
+#&gt;  xfun                   0.19     2020-10-30 [2] RSPM (R 4.0.3)                         
+#&gt;  XML                    3.99-0.5 2020-07-23 [1] RSPM (R 4.0.2)                         
+#&gt;  xml2                   1.3.2    2020-04-23 [2] RSPM (R 4.0.0)                         
+#&gt;  xtable                 1.8-4    2019-04-21 [1] RSPM (R 4.0.0)                         
+#&gt;  XVector                0.30.0   2020-10-27 [1] Bioconductor                           
+#&gt;  yaml                   2.2.1    2020-02-01 [2] RSPM (R 4.0.0)                         
+#&gt;  zlibbioc               1.36.0   2020-10-27 [1] Bioconductor                           
 #&gt; 
 #&gt; [1] /__w/_temp/Library
 #&gt; [2] /usr/local/lib/R/site-library
 #&gt; [3] /usr/local/lib/R/library</code></pre>
+</div>
+</div>
+<div id="bibliography" class="section level1">
+<h1 class="hasAnchor">
+<a href="#bibliography" class="anchor"></a>Bibliography</h1>
+<p>This vignette was generated using <em><a href="https://bioconductor.org/packages/3.12/BiocStyle">BiocStyle</a></em> (<a href="https://github.com/Bioconductor/BiocStyle">Oleś, Morgan, and Huber, 2020</a>) with <em><a href="https://CRAN.R-project.org/package=knitr">knitr</a></em> (<a href="https://yihui.org/knitr/">Xie, 2020</a>) and <em><a href="https://CRAN.R-project.org/package=rmarkdown">rmarkdown</a></em> (<a href="https://github.com/rstudio/rmarkdown">Allaire, Xie, McPherson, Luraschi, et al., 2020</a>) running behind the scenes.</p>
+<p>Citations made with <em><a href="https://CRAN.R-project.org/package=knitcitations">knitcitations</a></em> (<a href="https://github.com/cboettig/knitcitations">Boettiger, 2020</a>).</p>
+<p>[1] J. Allaire, Y. Xie, J. McPherson, J. Luraschi, et al. <em>rmarkdown: Dynamic Documents for R</em>. R package version 2.5. 2020. &lt;URL: <a href="https://github.com/rstudio/rmarkdown" class="uri">https://github.com/rstudio/rmarkdown</a>&gt;.</p>
+<p>[2] M. J. Alvarez, Y. Shen, F. M. Giorgi, A. Lachmann, et al. “Functional characterization of somatic mutations in cancer using network-based inference of protein activity”. In: <em>Nature genetics</em> 48.8 (2016), pp. 838-47.</p>
+<p>[3] C. Boettiger. <em>knitcitations: Citations for ‘Knitr’ Markdown Files</em>. R package version 1.0.11. 2020. &lt;URL: <a href="https://github.com/cboettig/knitcitations" class="uri">https://github.com/cboettig/knitcitations</a>&gt;.</p>
+<p>[4] G. Csárdi, R. core, H. Wickham, W. Chang, et al. <em>sessioninfo: R Session Information</em>. R package version 1.1.1. 2018. &lt;URL: <a href="https://github.com/r-lib/sessioninfo#readme" class="uri">https://github.com/r-lib/sessioninfo#readme</a>&gt;.</p>
+<p>[5] S. Hänzelmann, R. Castelo, and J. Guinney. “GSVA: gene set variation analysis for microarray and RNA-Seq data”. In: <em>BMC Bioinformatics</em> 14 (2013), p. 7. DOI: 10.1186/1471-2105-14-7. &lt;URL: <a href="http://www.biomedcentral.com/1471-2105/14/7" class="uri">http://www.biomedcentral.com/1471-2105/14/7</a>&gt;.</p>
+<p>[6] A. Oleś, M. Morgan, and W. Huber. <em>BiocStyle: Standard styles for vignettes and other Bioconductor documents</em>. R package version 2.18.1. 2020. &lt;URL: <a href="https://github.com/Bioconductor/BiocStyle" class="uri">https://github.com/Bioconductor/BiocStyle</a>&gt;.</p>
+<p>[7] R Core Team. <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing. Vienna, Austria, 2020. &lt;URL: <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a>&gt;.</p>
+<p>[8] saezlab. <em>Package to decouple gene sets from statistics</em>. <a href="https://github.com/saezlab/decoupleR" class="uri">https://github.com/saezlab/decoupleR</a> - R package version 0.99.0. 2020. DOI: 10.18129/B9.bioc.decoupleR. &lt;URL: <a href="http://www.bioconductor.org/packages/decoupleR" class="uri">http://www.bioconductor.org/packages/decoupleR</a>&gt;.</p>
+<p>[9] H. Wickham. “testthat: Get Started with Testing”. In: <em>The R Journal</em> 3 (2011), pp. 5-10. &lt;URL: <a href="https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf" class="uri">https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf</a>&gt;.</p>
+<p>[10] Y. Xie. <em>knitr: A General-Purpose Package for Dynamic Report Generation in R</em>. R package version 1.30. 2020. &lt;URL: <a href="https://yihui.org/knitr/" class="uri">https://yihui.org/knitr/</a>&gt;.</p>
 </div>
   </div>
 

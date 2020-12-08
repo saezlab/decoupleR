@@ -42,7 +42,9 @@ Suggests:
     pkgdown,
     rmarkdown,
     roxygen2,
-    testthat
+    testthat,
+    sessioninfo,
+    BiocStyle
 VignetteBuilder: 
     knitr
 biocViews: Software, StatisticalMethod, FunctionalGenomics

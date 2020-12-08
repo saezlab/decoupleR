@@ -134,7 +134,7 @@ jobs:
           brew install harfbuzz fribidi
 
           ## Helps compile RCurl from source
-          brew uninstall curl
+          brew uninstall --ignore-dependencies curl
 
       - name: Install Windows system dependencies
         if: runner.os == 'Windows'

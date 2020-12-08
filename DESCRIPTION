@@ -37,20 +37,20 @@ Imports:
     tidyselect,
     viper
 Suggests: 
+    BiocStyle,
     covr,
+    knitcitations,
     knitr,
     pkgdown,
     rmarkdown,
     roxygen2,
-    testthat,
     sessioninfo,
-    BiocStyle,
-    knitcitations
+    testthat
 VignetteBuilder: 
     knitr
 biocViews: Software, StatisticalMethod, FunctionalGenomics
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1

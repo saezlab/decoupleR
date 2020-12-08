@@ -342,7 +342,7 @@ library(knitr)
 knit("decoupleR.Rmd", tangle = TRUE)
 ```
 
-### wallclock time spent generating the vignette
+### Wallclock time spent generating the vignette
 
 ```{r reproduce_time, echo=FALSE}
 # Processing time in seconds

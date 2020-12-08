@@ -97,6 +97,7 @@ citation("decoupleR")
 
 ```{r load_library, message=FALSE}
 library(decoupleR)
+library(dplyr)
 ```
 
 ```{r read_example_data}
@@ -104,11 +105,11 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 
 mat <- file.path(inputs_dir, "input-expr_matrix.rds") %>%
     readRDS() %>%
-    dplyr::glimpse()
+    glimpse()
 
 network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
     readRDS() %>%
-    dplyr::glimpse()
+    glimpse()
 ```
 
 ```{r usage-decouple_function, message=FALSE}
@@ -119,11 +120,15 @@ decouple(
     .target = "target",
     statistics = c("gsva", "mean", "pscira", "scira", "viper"),
     args = list(
-        gsva = list(verbose = FALSE),
-        mean = list(.mor = "mor", .likelihood = "likelihood"),
-        pscira = list(.mor = "mor"),
-        scira = list(.mor = "mor"),
-        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
+      gsva = list(verbose = FALSE),
+      mean = list(.mor = "mor", .likelihood = "likelihood"),
+      pscira = list(.mor = "mor"),
+      scira = list(.mor = "mor"),
+      viper = list(
+        .mor = "mor",
+        .likelihood = "likelihood",
+        verbose = FALSE
+      )
     )
 )
 ```

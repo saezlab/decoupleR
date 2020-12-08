@@ -2,6 +2,6 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  how-to: how-to.html
-last_built: 2020-12-08T02:49Z
+  decoupleR: decoupleR.html
+last_built: 2020-12-08T20:11Z
 

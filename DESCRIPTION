@@ -44,7 +44,8 @@ Suggests:
     roxygen2,
     testthat,
     sessioninfo,
-    BiocStyle
+    BiocStyle,
+    knitcitations
 VignetteBuilder: 
     knitr
 biocViews: Software, StatisticalMethod, FunctionalGenomics

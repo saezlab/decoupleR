@@ -21,10 +21,22 @@ issues](https://img.shields.io/github/issues/saezlab/decoupleR)](https://github.
 **Under development** - decoupleR aims to combine various gene sets
 resources with a variety of statistics for functional genomics analyses.
 
-## Installation
+## Installation instructions
+
+Get the latest stable `R` release from
+[CRAN](http://cran.r-project.org/). Then install `decoupleR` using from
+[Bioconductor](http://bioconductor.org/) the following code:
 
 ``` r
-# install the development version from GitHub
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+BiocManager::install("decoupleR")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
 # install.packages("devtools")
 devtools::install_github("saezlab/decoupleR")
 devtools::install_github("saezlab/decoupleR@devel-jesus")
@@ -84,16 +96,16 @@ decouple(
 #> # A tibble: 112 x 7
 #>    run_id statistic tf    condition    score statistic_time p_value
 #>    <chr>  <chr>     <chr> <chr>        <dbl> <drtn>           <dbl>
-#>  1 1      gsva      FOXO4 GSM2753335 -0.380  5.778173 secs       NA
-#>  2 1      gsva      FOXO4 GSM2753336 -0.300  5.778173 secs       NA
-#>  3 1      gsva      FOXO4 GSM2753337  0.239  5.778173 secs       NA
-#>  4 1      gsva      FOXO4 GSM2753338  0.0907 5.778173 secs       NA
-#>  5 1      gsva      NFIC  GSM2753335 -0.0845 5.778173 secs       NA
-#>  6 1      gsva      NFIC  GSM2753336  0.0778 5.778173 secs       NA
-#>  7 1      gsva      NFIC  GSM2753337 -0.260  5.778173 secs       NA
-#>  8 1      gsva      NFIC  GSM2753338  0.281  5.778173 secs       NA
-#>  9 1      gsva      RFXAP GSM2753335 -0.810  5.778173 secs       NA
-#> 10 1      gsva      RFXAP GSM2753336 -0.472  5.778173 secs       NA
+#>  1 1      gsva      FOXO4 GSM2753335 -0.380  5.746545 secs       NA
+#>  2 1      gsva      FOXO4 GSM2753336 -0.300  5.746545 secs       NA
+#>  3 1      gsva      FOXO4 GSM2753337  0.239  5.746545 secs       NA
+#>  4 1      gsva      FOXO4 GSM2753338  0.0907 5.746545 secs       NA
+#>  5 1      gsva      NFIC  GSM2753335 -0.0845 5.746545 secs       NA
+#>  6 1      gsva      NFIC  GSM2753336  0.0778 5.746545 secs       NA
+#>  7 1      gsva      NFIC  GSM2753337 -0.260  5.746545 secs       NA
+#>  8 1      gsva      NFIC  GSM2753338  0.281  5.746545 secs       NA
+#>  9 1      gsva      RFXAP GSM2753335 -0.810  5.746545 secs       NA
+#> 10 1      gsva      RFXAP GSM2753336 -0.472  5.746545 secs       NA
 #> # … with 102 more rows
 ```
 
@@ -117,19 +129,65 @@ run_viper(
 #> # A tibble: 12 x 5
 #>    statistic tf     condition    score statistic_time 
 #>    <chr>     <chr>  <chr>        <dbl> <drtn>         
-#>  1 viper     NFIC   GSM2753335  0.0696 0.02421117 secs
-#>  2 viper     NFIC   GSM2753336 -0.0265 0.02421117 secs
-#>  3 viper     NFIC   GSM2753337 -0.516  0.02421117 secs
-#>  4 viper     NFIC   GSM2753338 -0.543  0.02421117 secs
-#>  5 viper     SMAD3  GSM2753335  0.176  0.02421117 secs
-#>  6 viper     SMAD3  GSM2753336  0.0426 0.02421117 secs
-#>  7 viper     SMAD3  GSM2753337  0.219  0.02421117 secs
-#>  8 viper     SMAD3  GSM2753338  0.142  0.02421117 secs
-#>  9 viper     TFAP2A GSM2753335  0.722  0.02421117 secs
-#> 10 viper     TFAP2A GSM2753336  0.582  0.02421117 secs
-#> 11 viper     TFAP2A GSM2753337  0.462  0.02421117 secs
-#> 12 viper     TFAP2A GSM2753338  0.330  0.02421117 secs
+#>  1 viper     NFIC   GSM2753335  0.0696 0.01785207 secs
+#>  2 viper     NFIC   GSM2753336 -0.0265 0.01785207 secs
+#>  3 viper     NFIC   GSM2753337 -0.516  0.01785207 secs
+#>  4 viper     NFIC   GSM2753338 -0.543  0.01785207 secs
+#>  5 viper     SMAD3  GSM2753335  0.176  0.01785207 secs
+#>  6 viper     SMAD3  GSM2753336  0.0426 0.01785207 secs
+#>  7 viper     SMAD3  GSM2753337  0.219  0.01785207 secs
+#>  8 viper     SMAD3  GSM2753338  0.142  0.01785207 secs
+#>  9 viper     TFAP2A GSM2753335  0.722  0.01785207 secs
+#> 10 viper     TFAP2A GSM2753336  0.582  0.01785207 secs
+#> 11 viper     TFAP2A GSM2753337  0.462  0.01785207 secs
+#> 12 viper     TFAP2A GSM2753338  0.330  0.01785207 secs
 ```
+
+## Citation
+
+Below is the citation output from using `citation('decoupleR')` in R.
+Please run this yourself to check for any updates on how to cite
+**decoupleR**.
+
+``` r
+print(citation("decoupleR"), bibtex = TRUE)
+#> 
+#> saezlab (2020). _Package to decouple gene sets from statistics_. doi:
+#> 10.18129/B9.bioc.decoupleR (URL:
+#> https://doi.org/10.18129/B9.bioc.decoupleR),
+#> https://github.com/saezlab/decoupleR - R package version 0.99.0, <URL:
+#> http://www.bioconductor.org/packages/decoupleR>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {Package to decouple gene sets from statistics},
+#>     author = {{saezlab}},
+#>     year = {2020},
+#>     url = {http://www.bioconductor.org/packages/decoupleR},
+#>     note = {https://github.com/saezlab/decoupleR - R package version 0.99.0},
+#>     doi = {10.18129/B9.bioc.decoupleR},
+#>   }
+#> 
+#> saezlab (2020). "Package to decouple gene sets from statistics."
+#> _bioRxiv_. doi: 10.1101/TODO (URL: https://doi.org/10.1101/TODO), <URL:
+#> https://www.biorxiv.org/content/10.1101/TODO>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Article{,
+#>     title = {Package to decouple gene sets from statistics},
+#>     author = {{saezlab}},
+#>     year = {2020},
+#>     journal = {bioRxiv},
+#>     doi = {10.1101/TODO},
+#>     url = {https://www.biorxiv.org/content/10.1101/TODO},
+#>   }
+```
+
+Please note that the `decoupleR` was only made possible thanks to many
+other R and bioinformatics software authors, which are cited either in
+the vignettes and/or the paper(s) describing this package.
 
 ## Contributing to decoupleR
 

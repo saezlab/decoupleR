@@ -19,11 +19,39 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
+```{r chunk_setup, include = FALSE}
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>"
 )
+```
+
+```{r vignette_setup, echo=FALSE, message=FALSE, warning = FALSE}
+# Track time spent on making the vignette.
+start_time <- Sys.time()
+
+# Bib setup.
+library(knitcitations)
+
+# Load knitcitations with a clean bibliography.
+cleanbib()
+cite_options(hyperlink = "to.doc", citation_format = "text", style = "html")
+
+# Write bibliography information
+bib <- c(
+    R = citation(),
+    BiocStyle = citation("BiocStyle")[1],
+    knitcitations = citation("knitcitations")[1],
+    knitr = citation("knitr")[1],
+    rmarkdown = citation("rmarkdown")[1],
+    sessioninfo = citation("sessioninfo")[1],
+    testthat = citation("testthat")[1],
+    tidyverse = citation("tidyverse")[1],
+    decoupleR = citation("decoupleR")[1],
+    GSVA = citation("GSVA")[1],
+    viper = citation("viper")[1]
+)
+write.bibtex(bib, file = "decoupleR.bib")
 ```
 
 # Basics
@@ -134,9 +162,7 @@ network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
     glimpse()
 ```
 
-## Decoupling
-
-### How to decouple?
+## How to decouple?
 
 Once the data is loaded, you are one step away from achieving decoupling.
 This step corresponds to specifying which statistics you want to run.
@@ -279,9 +305,71 @@ viper_res <- decouple(
 )
 ```
 
-# Session information
+# Reproducibility
+
+## Special thanks
+
+The `r Biocpkg("decouopleR")` package `r citep(bib[["decoupleR"]])` was made
+possible thanks to:
+
+* R `r citep(bib[["R"]])`
+* `r Biocpkg("BiocStyle")` `r citep(bib[["BiocStyle"]])`
+* `r CRANpkg("knitcitations")` `r citep(bib[["knitcitations"]])`
+* `r CRANpkg("knitr")` `r citep(bib[["knitr"]])`
+* `r CRANpkg("rmarkdown")` `r citep(bib[["rmarkdown"]])`
+* `r CRANpkg("sessioninfo")` `r citep(bib[["sessioninfo"]])`
+* `r CRANpkg("testthat")` `r citep(bib[["testthat"]])`
+* `r CRANpkg("tidyverse")` `r citep(bib[["tidyverse"]])`
+* `r Biocpkg("GSVA")` `r citep(bib[["GSVA"]])`
+* `r Biocpkg("viper")` `r citep(bib[["viper"]])`
+
+This package was developed using
+`r BiocStyle::Githubpkg("lcolladotor/biocthis")`.
+
+```{r clean, include=FALSE}
+file.remove("decoupleR.bib")
+```
+
+## Vignette
+
+### Create
+
+```{r create_vignette, eval=FALSE}
+# Create the vignette
+library(rmarkdown)
+system.time(render("decoupleR.Rmd", "BiocStyle::html_document"))
+
+# Extract the R code
+library(knitr)
+knit("decoupleR.Rmd", tangle = TRUE)
+```
+
+### wallclock time spent generating the vignette
+
+```{r reproduce_time, echo=FALSE}
+# Processing time in seconds
+total_time <- diff(c(start_time, Sys.time()))
+round(total_time, digits = 3)
+```
+
+## Session information
 
 ```{r session_info, echo=FALSE}
 options(width = 120)
 sessioninfo::session_info()
+```
+
+# Bibliography
+
+This vignette was generated using `r Biocpkg("BiocStyle")`
+`r citep(bib[["BiocStyle"]])` with `r CRANpkg("knitr")` 
+`r citep(bib[["knitr"]])` and `r CRANpkg("rmarkdown")`
+`r citep(bib[["rmarkdown"]])` running behind the scenes.
+
+Citations made with
+`r CRANpkg("knitcitations")`
+`r citep(bib[["knitcitations"]])`.
+
+```{r vignette_biblio, results = "asis", echo = FALSE, warning = FALSE, message = FALSE}
+bibliography()
 ```

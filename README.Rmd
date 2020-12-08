@@ -29,10 +29,22 @@ knitr::opts_chunk$set(
 **Under development** - decoupleR aims to combine various gene sets 
 resources with a variety of statistics for functional genomics analyses. 
 
-## Installation
+## Installation instructions
 
-```{r installation, eval = FALSE}
-# install the development version from GitHub
+Get the latest stable `R` release from
+[CRAN](http://cran.r-project.org/). Then install `decoupleR` using from
+[Bioconductor](http://bioconductor.org/) the following code:
+
+```{r bioconductor_install, eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+BiocManager::install("decoupleR")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+```{r github_installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("saezlab/decoupleR")
 devtools::install_github("saezlab/decoupleR@devel-jesus")
@@ -96,6 +108,19 @@ run_viper(
     verbose = FALSE
 )
 ```
+
+## Citation
+
+Below is the citation output from using `citation('decoupleR')` in R. Please
+run this yourself to check for any updates on how to cite __decoupleR__.
+
+```{r 'citation', eval = requireNamespace('decoupleR')}
+print(citation("decoupleR"), bibtex = TRUE)
+```
+
+Please note that the `decoupleR` was only made possible thanks to many other R
+and bioinformatics software authors, which are cited either in the vignettes
+and/or the paper(s) describing this package.
 
 ## Contributing to decoupleR
 

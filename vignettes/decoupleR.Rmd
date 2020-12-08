@@ -46,7 +46,6 @@ bib <- c(
     rmarkdown = citation("rmarkdown")[1],
     sessioninfo = citation("sessioninfo")[1],
     testthat = citation("testthat")[1],
-    tidyverse = citation("tidyverse")[1],
     decoupleR = citation("decoupleR")[1],
     GSVA = citation("GSVA")[1],
     viper = citation("viper")[1]
@@ -319,7 +318,6 @@ possible thanks to:
 * `r CRANpkg("rmarkdown")` `r citep(bib[["rmarkdown"]])`
 * `r CRANpkg("sessioninfo")` `r citep(bib[["sessioninfo"]])`
 * `r CRANpkg("testthat")` `r citep(bib[["testthat"]])`
-* `r CRANpkg("tidyverse")` `r citep(bib[["tidyverse"]])`
 * `r Biocpkg("GSVA")` `r citep(bib[["GSVA"]])`
 * `r Biocpkg("viper")` `r citep(bib[["viper"]])`
 

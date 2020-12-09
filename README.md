@@ -14,12 +14,29 @@ coverage](https://codecov.io/gh/saezlab/decoupleR/branch/devel-jesus/graph/badge
 issues](https://img.shields.io/github/issues/saezlab/decoupleR)](https://github.com/saezlab/decoupleR/issues)
 <!-- badges: end -->
 
-> a community effort by [saezlab](http://saezlab.org) members
+> A community effort by [saezlab](http://saezlab.org) members.
 
 ## Overview
 
-**Under development** - decoupleR aims to combine various gene sets
-resources with a variety of statistics for functional genomics analyses.
+Transcriptome profiling followed by differential gene expression
+analysis often leads to lists of genes that are hard to analyze and
+interpret. Downstream analysis tools can be used to summarize
+deregulation events into a smaller set of biologically interpretable
+features. In particular, methods that estimate the activity of
+transcription factors (TFs) from gene expression are commonly used. It
+has been shown that the transcriptional targets of a TF yield a much
+more robust estimation of the TF activity than observing the expression
+of the TF itself. Consequently, for the estimation of transcription
+factor activities, a network of transcriptional regulation is required
+in combination with a statistical algorithm that summarizes the
+expression of the target genes into a single activity score. Over the
+years, many different regulatory networks and statistical algorithms
+have been developed, mostly in a fixed combination of one network and
+one algorithm. To systematically evaluate both networks and algorithms,
+we developed `decoupleR`, an R package that allows users to apply
+efficiently any combination provided. With `decoupleR`, we lay the
+foundation for a crowdsourced systematic assessment of transcription
+factor activity estimation from transcriptomics data.
 
 ## Installation instructions
 
@@ -96,16 +113,16 @@ decouple(
 #> # A tibble: 112 x 7
 #>    run_id statistic tf    condition    score statistic_time p_value
 #>    <chr>  <chr>     <chr> <chr>        <dbl> <drtn>           <dbl>
-#>  1 1      gsva      FOXO4 GSM2753335 -0.380  5.746545 secs       NA
-#>  2 1      gsva      FOXO4 GSM2753336 -0.300  5.746545 secs       NA
-#>  3 1      gsva      FOXO4 GSM2753337  0.239  5.746545 secs       NA
-#>  4 1      gsva      FOXO4 GSM2753338  0.0907 5.746545 secs       NA
-#>  5 1      gsva      NFIC  GSM2753335 -0.0845 5.746545 secs       NA
-#>  6 1      gsva      NFIC  GSM2753336  0.0778 5.746545 secs       NA
-#>  7 1      gsva      NFIC  GSM2753337 -0.260  5.746545 secs       NA
-#>  8 1      gsva      NFIC  GSM2753338  0.281  5.746545 secs       NA
-#>  9 1      gsva      RFXAP GSM2753335 -0.810  5.746545 secs       NA
-#> 10 1      gsva      RFXAP GSM2753336 -0.472  5.746545 secs       NA
+#>  1 1      gsva      FOXO4 GSM2753335 -0.380  5.293052 secs       NA
+#>  2 1      gsva      FOXO4 GSM2753336 -0.300  5.293052 secs       NA
+#>  3 1      gsva      FOXO4 GSM2753337  0.239  5.293052 secs       NA
+#>  4 1      gsva      FOXO4 GSM2753338  0.0907 5.293052 secs       NA
+#>  5 1      gsva      NFIC  GSM2753335 -0.0845 5.293052 secs       NA
+#>  6 1      gsva      NFIC  GSM2753336  0.0778 5.293052 secs       NA
+#>  7 1      gsva      NFIC  GSM2753337 -0.260  5.293052 secs       NA
+#>  8 1      gsva      NFIC  GSM2753338  0.281  5.293052 secs       NA
+#>  9 1      gsva      RFXAP GSM2753335 -0.810  5.293052 secs       NA
+#> 10 1      gsva      RFXAP GSM2753336 -0.472  5.293052 secs       NA
 #> # … with 102 more rows
 ```
 
@@ -129,18 +146,18 @@ run_viper(
 #> # A tibble: 12 x 5
 #>    statistic tf     condition    score statistic_time 
 #>    <chr>     <chr>  <chr>        <dbl> <drtn>         
-#>  1 viper     NFIC   GSM2753335  0.0696 0.01785207 secs
-#>  2 viper     NFIC   GSM2753336 -0.0265 0.01785207 secs
-#>  3 viper     NFIC   GSM2753337 -0.516  0.01785207 secs
-#>  4 viper     NFIC   GSM2753338 -0.543  0.01785207 secs
-#>  5 viper     SMAD3  GSM2753335  0.176  0.01785207 secs
-#>  6 viper     SMAD3  GSM2753336  0.0426 0.01785207 secs
-#>  7 viper     SMAD3  GSM2753337  0.219  0.01785207 secs
-#>  8 viper     SMAD3  GSM2753338  0.142  0.01785207 secs
-#>  9 viper     TFAP2A GSM2753335  0.722  0.01785207 secs
-#> 10 viper     TFAP2A GSM2753336  0.582  0.01785207 secs
-#> 11 viper     TFAP2A GSM2753337  0.462  0.01785207 secs
-#> 12 viper     TFAP2A GSM2753338  0.330  0.01785207 secs
+#>  1 viper     NFIC   GSM2753335  0.0696 0.01868582 secs
+#>  2 viper     NFIC   GSM2753336 -0.0265 0.01868582 secs
+#>  3 viper     NFIC   GSM2753337 -0.516  0.01868582 secs
+#>  4 viper     NFIC   GSM2753338 -0.543  0.01868582 secs
+#>  5 viper     SMAD3  GSM2753335  0.176  0.01868582 secs
+#>  6 viper     SMAD3  GSM2753336  0.0426 0.01868582 secs
+#>  7 viper     SMAD3  GSM2753337  0.219  0.01868582 secs
+#>  8 viper     SMAD3  GSM2753338  0.142  0.01868582 secs
+#>  9 viper     TFAP2A GSM2753335  0.722  0.01868582 secs
+#> 10 viper     TFAP2A GSM2753336  0.582  0.01868582 secs
+#> 11 viper     TFAP2A GSM2753337  0.462  0.01868582 secs
+#> 12 viper     TFAP2A GSM2753338  0.330  0.01868582 secs
 ```
 
 ## Citation

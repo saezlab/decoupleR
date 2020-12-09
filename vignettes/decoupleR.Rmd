@@ -87,7 +87,7 @@ devtools::install_github("saezlab/decoupleR@devel-jesus")
 
 `r Biocpkg("decoupleR")` is based on many other packages and in particular in 
 those that have implemented the infrastructure needed for dealing with
-functional enrichment analysis. That is, packages like `r Biocpkg("viper")` or 
+functional genomic analysis. That is, packages like `r Biocpkg("viper")` or 
 `r Biocpkg("GSVA")`, among others. This in order to have a centralized place
 from which to apply different statistics to the same data set without the need
 and work that would require testing in isolation. Opening the possibility of

@@ -113,7 +113,7 @@
 <h2 class="hasAnchor">
 <a href="#install-decoupler" class="anchor"></a>Install <code>decoupleR</code>
 </h2>
-<p><code>R</code> is an open-source statistical environment which can be easily modified to enhance its functionality via packages. <em><a href="https://bioconductor.org/packages/3.12/decoupleR">decoupleR</a></em> is a <code>R</code> package available via the <a href="http://bioconductor.org">Bioconductor</a> repository for packages. <code>R</code> can be installed on any operating system from <a href="https://cran.r-project.org/">CRAN</a> after which you can install <em><a href="https://bioconductor.org/packages/3.12/decoupleR">decoupleR</a></em> by using the following commands in your <code>R</code> session:</p>
+<p><code>R</code> is an open-source statistical environment which can be easily modified to enhance its functionality via packages. <em><a href="https://bioconductor.org/packages/3.12/decoupleR">decoupleR</a></em> is an <code>R</code> package available via the <a href="http://bioconductor.org">Bioconductor</a> repository for packages. <code>R</code> can be installed on any operating system from <a href="https://cran.r-project.org/">CRAN</a> after which you can install <em><a href="https://bioconductor.org/packages/3.12/decoupleR">decoupleR</a></em> by using the following commands in your <code>R</code> session:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
     <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
@@ -132,7 +132,7 @@
 <div id="required-knowledge" class="section level2">
 <h2 class="hasAnchor">
 <a href="#required-knowledge" class="anchor"></a>Required knowledge</h2>
-<p><em><a href="https://bioconductor.org/packages/3.12/decoupleR">decoupleR</a></em> is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with functional genomic analysis. That is, packages like <em><a href="https://bioconductor.org/packages/3.12/viper">viper</a></em> or <em><a href="https://bioconductor.org/packages/3.12/GSVA">GSVA</a></em>, among others. This in order to have a centralized place from which to apply different statistics to the same data set without the need and work that would require testing in isolation. Opening the possibility of make benchmarks with easy extension.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/decoupleR">decoupleR</a></em> is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with functional genomic analysis. That is, packages like <em><a href="https://bioconductor.org/packages/3.12/viper">viper</a></em> or <em><a href="https://bioconductor.org/packages/3.12/GSVA">GSVA</a></em>, among others. This in order to have a centralized place from which to apply different statistics to the same data set without the need and work that would require testing in isolation. Opening the possibility of developing benchmarks that can grow easily.</p>
 </div>
 <div id="asking-for-help" class="section level2">
 <h2 class="hasAnchor">
@@ -170,7 +170,7 @@
 <h2 class="hasAnchor">
 <a href="#libraries" class="anchor"></a>Libraries</h2>
 <p><em><a href="https://bioconductor.org/packages/3.12/decoupleR">decoupleR</a></em> provides different statistics to calculate the regulatory activity given an expression <code>matrix</code> and a <code>network</code>. It incorporates pre-existing methods to avoid recreating the wheel while implementing its own methods under an evaluation standard. Therefore, it provides flexibility when evaluating a data set with different statistics.</p>
-<p>Since inputs and outputs are always tibbles (i.e. special data frames), incorporating <em><a href="https://github.com/tidyverse/dplyr">dplyr</a></em> into your workflow can be useful for manipulating results, but is not necessary.</p>
+<p>Since inputs and outputs are always tibbles (i.e. special data frames), incorporating <em><a href="https://github.com/tidyverse/dplyr">dplyr</a></em> into your workflow can be useful for manipulating results, but it is not necessary.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://saezlab.github.io/decoupleR/">decoupleR</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></code></pre></div>
@@ -234,7 +234,7 @@
 <span class="co">#&gt; $ condition &lt;chr&gt; "GSM2753335", "GSM2753336", "GSM2753337", "GSM2753338", "GS…</span>
 <span class="co">#&gt; $ score     &lt;dbl&gt; -0.38043080, -0.29999174, 0.23887789, 0.09071077, -0.084521…</span>
 <span class="co">#&gt; $ p_value   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</span></code></pre></div>
-<p>Ready, you have applied different statistics to the same data set, now you can analyze them at your convenience, for example, by performing a <a href="">benchmark</a>.</p>
+<p>Done, you have applied different statistics to the same data set, now you can analyze them at your convenience, for example, by performing a <a href="">benchmark</a>.</p>
 </div>
 <div id="how-it-works" class="section level2">
 <h2 class="hasAnchor">
@@ -375,7 +375,7 @@
 <div id="wallclock-time-spent-generating-the-vignette" class="section level3">
 <h3 class="hasAnchor">
 <a href="#wallclock-time-spent-generating-the-vignette" class="anchor"></a>Wallclock time spent generating the vignette</h3>
-<pre><code>#&gt; Time difference of 13.177 secs</code></pre>
+<pre><code>#&gt; Time difference of 11.53 secs</code></pre>
 </div>
 </div>
 <div id="session-information" class="section level2">

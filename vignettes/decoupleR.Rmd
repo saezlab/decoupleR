@@ -219,7 +219,6 @@ them independently, obtaining the same results as if you were executing
 See internal gsva calls and save results.
 
 ```{r see gsvas individual calls}
-
 gsvas_res <- decouple(
     mat = head(mat, 5000),
     network = network,

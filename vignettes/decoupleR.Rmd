@@ -58,7 +58,7 @@ write.bibtex(bib, file = "decoupleR.bib")
 ## Install `decoupleR`
 
 `R` is an open-source statistical environment which can be easily modified to
-enhance its functionality via packages. `r Biocpkg("decoupleR")` is a `R`
+enhance its functionality via packages. `r Biocpkg("decoupleR")` is an `R`
 package available via the [Bioconductor](http://bioconductor.org) repository 
 for packages. `R` can be installed on any operating system from
 [CRAN](https://cran.r-project.org/) after which you can install
@@ -91,7 +91,7 @@ functional genomic analysis. That is, packages like `r Biocpkg("viper")` or
 `r Biocpkg("GSVA")`, among others. This in order to have a centralized place
 from which to apply different statistics to the same data set without the need
 and work that would require testing in isolation. Opening the possibility of
-make benchmarks with easy extension.
+developing benchmarks that can grow easily.
 
 ## Asking for help
 
@@ -133,7 +133,7 @@ statistics.
   
 Since inputs and outputs are always tibbles (i.e. special data frames),
 incorporating `r Githubpkg("tidyverse/dplyr","dplyr")` into your workflow can
-be useful for manipulating results, but is not necessary.
+be useful for manipulating results, but it is not necessary.
 
 ```{r load_library, message=FALSE}
 library(decoupleR)
@@ -191,7 +191,7 @@ decouple(
     glimpse()
 ```
 
-Ready, you have applied different statistics to the same data set, now you can
+Done, you have applied different statistics to the same data set, now you can
 analyze them at your convenience, for example, by performing a [benchmark]().
 
 ## How it works?

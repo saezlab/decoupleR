@@ -18,10 +18,8 @@
 #' @export
 #' @import dplyr
 #' @import tibble
-#' @import stringr
 #' @import purrr
 #' @import tidyr
-#' @import viper
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'

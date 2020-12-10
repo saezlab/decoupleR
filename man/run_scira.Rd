@@ -45,15 +45,17 @@ Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculates TF activity according to \href{https://www.biorxiv.org/content/10.1101/553040v1.full.pdf}{SCIRA}.
+Calculates TF activity according to
+\href{https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13}{Improved detection of tumor suppressor events in single-cell RNA-Seq data}
+.
 }
 \details{
-Estimation of regulatory activity: A linear regression of the expression profile
-is performed against the "target profile" of the given TF, where in the target
-profile, any member of the regulon will be assigned a +1 for activated actions,
-a -1 for inhibitory activations and, finally, a 0 for all genes that are not
-a member of the TF regulon. TF activity is then defined as the t-statistic of
-this linear regression.
+Estimation of regulatory activity: A linear regression of the expression
+profile is performed against the "target profile" of the given TF, where
+in the target profile, any member of the regulon will be assigned a +1
+for activated actions, a -1 for inhibitory activations and, finally, a 0
+for all genes that are not a member of the TF regulon. TF activity is then
+defined as the t-statistic of this linear regression.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-mean.R
 \name{run_mean}
 \alias{run_mean}
-\title{Mean}
+\title{Weighted mean}
 \usage{
 run_mean(
   mat,
@@ -39,7 +39,8 @@ in the analysis?}
 
 \item{times}{How many permutations to do?}
 
-\item{seed}{A single value, interpreted as an integer, or NULL for random number generation.}
+\item{seed}{A single value, interpreted as an integer, or NULL for random
+number generation.}
 
 \item{sparse}{Should the matrices used for the calculation be sparse?}
 
@@ -62,9 +63,9 @@ Calculate the activity of all regulons in \code{network} through the conditions 
 the \code{mat} matrix by calculating the mean over the expression of all genes.
 }
 \details{
-\code{run_mean()} calculates the activity score, but in addition, it takes advantage
-of the permutations used to calculate the \code{p-value}, to provide the
-normalized activity score. This is represented in the \code{statistic} column
+\code{run_mean()} calculates the activity score, but in addition, it takes
+advantage of the permutations used to calculate the \code{p-value}, to provide
+the normalized activity score. This is represented in the \code{statistic} column
 which will contain two values for each call to \code{run_mean()}; \strong{mean} and
 \strong{normalized_mean}.
 }

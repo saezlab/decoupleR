@@ -28,10 +28,10 @@ in \code{network} \code{.target} column.}
 
 \item{statistics}{Statistical methods to be coupled.}
 
-\item{args}{A list of argument-lists the same length as \code{statistics} (or length 1).
-The default argument, list(NULL), will be recycled to the same length as \code{statistics},
-and will call each function with no arguments (apart from \code{mat},
-\code{network}, \code{.source} and, \code{.target}).}
+\item{args}{A list of argument-lists the same length as \code{statistics}
+(or length 1). The default argument, list(NULL), will be recycled to the
+same length as \code{statistics}, and will call each function with no arguments
+(apart from \code{mat}, \code{network}, \code{.source} and, \code{.target}).}
 
 \item{show_toy_call}{The call of each statistic must be informed?}
 }
@@ -68,7 +68,11 @@ decouple(
         mean = list(.mor = "mor", .likelihood = "likelihood"),
         pscira = list(.mor = "mor"),
         scira = list(.mor = "mor"),
-        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
+        viper = list(
+            .mor = "mor",
+            .likelihood = "likelihood",
+            verbose = FALSE
+       )
     )
 )
 }

@@ -40,9 +40,7 @@ into a single activity score. Over the years, many different regulatory
 networks and statistical algorithms have been developed, mostly in a fixed
 combination of one network and one algorithm. To systematically evaluate both
 networks and algorithms, we developed `decoupleR`, an R package that allows
-users to apply efficiently any combination provided. With `decoupleR`,
-we lay the foundation for a crowdsourced systematic assessment of transcription
-factor activity estimation from transcriptomics data. 
+users to apply efficiently any combination provided.
 
 ## Installation instructions
 

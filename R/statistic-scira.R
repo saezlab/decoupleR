@@ -1,15 +1,18 @@
 #' SCIRA (Single Cell Inference of Regulatory Activity)
 #'
 #' @description
-#' Calculates TF activity according to [SCIRA](https://www.biorxiv.org/content/10.1101/553040v1.full.pdf).
+#' Calculates TF activity according to
+#' [Improved detection of tumor suppressor events in single-cell RNA-Seq data](
+#' https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13)
+#' .
 #'
 #' @details
-#' Estimation of regulatory activity: A linear regression of the expression profile
-#' is performed against the "target profile" of the given TF, where in the target
-#' profile, any member of the regulon will be assigned a +1 for activated actions,
-#' a -1 for inhibitory activations and, finally, a 0 for all genes that are not
-#' a member of the TF regulon. TF activity is then defined as the t-statistic of
-#' this linear regression.
+#' Estimation of regulatory activity: A linear regression of the expression
+#' profile is performed against the "target profile" of the given TF, where
+#' in the target profile, any member of the regulon will be assigned a +1
+#' for activated actions, a -1 for inhibitory activations and, finally, a 0
+#' for all genes that are not a member of the TF regulon. TF activity is then
+#' defined as the t-statistic of this linear regression.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -69,7 +72,13 @@ run_scira <- function(
             sources = list(tf = tfs, target = rownames(mat)),
             values_fill = list(mor = 0)
         ) %>%
-        pivot_wider_profile(.data$target, .data$tf, .data$mor, to_matrix = TRUE, to_sparse = sparse)
+        pivot_wider_profile(
+            id_cols = .data$target,
+            names_from = .data$tf,
+            values_from = .data$mor,
+            to_matrix = TRUE,
+            to_sparse = sparse
+        )
 
     # Model evaluation --------------------------------------------------------
     .scira_analysis(mat, mor_mat, fast) %>%
@@ -98,7 +107,10 @@ run_scira <- function(
 
     # Allocate the space for all combinations of sources and conditions
     # and evaluate the proposed model.
-    lift_dl(expand_grid)(list(tf = colnames(mor_mat), condition = colnames(mat))) %>%
+    expand_grid(
+        tf = colnames(mor_mat),
+        condition = colnames(mat)
+    ) %>%
         rowwise(.data$tf, .data$condition) %>%
         summarise(
             score = scira_evaluate_model(.data$tf, .data$condition),

@@ -1,12 +1,12 @@
-#' Mean
+#' Weighted mean
 #'
 #' Calculate the activity of all regulons in `network` through the conditions in
 #' the `mat` matrix by calculating the mean over the expression of all genes.
 #'
 #' @details
-#'  `run_mean()` calculates the activity score, but in addition, it takes advantage
-#'  of the permutations used to calculate the `p-value`, to provide the
-#'  normalized activity score. This is represented in the `statistic` column
+#'  `run_mean()` calculates the activity score, but in addition, it takes
+#'  advantage of the permutations used to calculate the `p-value`, to provide
+#'  the normalized activity score. This is represented in the `statistic` column
 #'  which will contain two values for each call to `run_mean()`; __mean__ and
 #'  __normalized_mean__.
 #'
@@ -15,7 +15,8 @@
 #' @param minsize How many output edges a source node must have to be included
 #'  in the analysis?
 #' @param times How many permutations to do?
-#' @param seed A single value, interpreted as an integer, or NULL for random number generation.
+#' @param seed A single value, interpreted as an integer, or NULL for random
+#'  number generation.
 #' @param sparse Should the matrices used for the calculation be sparse?
 #' @param randomize_type How to randomize the expression matrix.
 #'
@@ -59,7 +60,7 @@ run_mean <- function(
     .start_time <- Sys.time()
 
     if (times < 2) {
-        stop(str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
+        stop(stringr::str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
     }
 
     network <- network %>%
@@ -91,9 +92,9 @@ run_mean <- function(
     # Extract matrix of weights
     weight_mat <- network %>%
         pivot_wider_profile(
-            .data$tf,
-            .data$target,
-            .data$weight,
+            id_cols = .data$tf,
+            names_from = .data$target,
+            values_from = .data$weight,
             to_matrix = TRUE,
             to_sparse = sparse,
             values_fill = 0

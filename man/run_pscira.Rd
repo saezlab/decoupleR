@@ -53,12 +53,12 @@ each given condition.The result is equal to the z-score of the found value
 compared to its null distribution.
 }
 \details{
-Estimation of regulatory activity: A linear regression of the expression profile
-is performed against the "target profile" of the given TF, where in the target
-profile, any member of the regulon will be assigned a +1 for activated actions,
-a -1 for inhibitory activations and, finally, a 0 for all genes that are not
-a member of the TF regulon. TF activity is then defined as the t-statistic of
-this linear regression.
+Estimation of regulatory activity: A linear regression of the expression
+profile is performed against the "target profile" of the given TF, where
+in the target profile, any member of the regulon will be assigned a +1
+for activated actions, a -1 for inhibitory activations and, finally, a 0
+for all genes that are not a member of the TF regulon. TF activity is then
+defined as the t-statistic of this linear regression.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

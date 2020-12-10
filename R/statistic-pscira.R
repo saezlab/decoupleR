@@ -41,7 +41,7 @@ run_pscira <- function(
     .start_time <- Sys.time()
 
     if (times < 2) {
-        stop(str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
+        stop(stringr::str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
     }
 
     # Preprocessing -----------------------------------------------------------

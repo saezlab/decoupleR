@@ -6,10 +6,10 @@
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
 #' @param statistics Statistical methods to be coupled.
-#' @param args A list of argument-lists the same length as `statistics` (or length 1).
-#'  The default argument, list(NULL), will be recycled to the same length as `statistics`,
-#'  and will call each function with no arguments (apart from `mat`,
-#'  `network`, `.source` and, `.target`).
+#' @param args A list of argument-lists the same length as `statistics`
+#'  (or length 1). The default argument, list(NULL), will be recycled to the
+#'  same length as `statistics`, and will call each function with no arguments
+#'   (apart from `mat`, `network`, `.source` and, `.target`).
 #' @param show_toy_call The call of each statistic must be informed?
 #'
 #' @return A long format tibble of the enrichment scores for each tf
@@ -40,7 +40,11 @@
 #'         mean = list(.mor = "mor", .likelihood = "likelihood"),
 #'         pscira = list(.mor = "mor"),
 #'         scira = list(.mor = "mor"),
-#'         viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
+#'         viper = list(
+#'             .mor = "mor",
+#'             .likelihood = "likelihood",
+#'             verbose = FALSE
+#'        )
 #'     )
 #' )
 decouple <- function(
@@ -155,7 +159,7 @@ decouple <- function(
 
     if (show_toy_call) {
         utils::capture.output(rlang::qq_show(!!.toy_call)) %>%
-            str_replace_all(pattern = "= \\^", "= ") %>%
+            stringr::str_replace_all(pattern = "= \\^", "= ") %>%
             message()
     }
 

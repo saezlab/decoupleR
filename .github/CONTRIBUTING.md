@@ -68,14 +68,14 @@ Read carefully the instructions dedicated to the pull request section above and 
     *   All statistics must contain the tag `@family decoupleR statistics`
         in their roxygen2 documentation.
     *   Check
-        [utils-decoupler-formats.R](https://github.com/saezlab/decoupleR/blob/devel-jesus/R/utils-decoupler-formats.R)
+        [utils-decoupler-formats.R](https://github.com/saezlab/decoupleR/blob/master/R/utils-decoupler-formats.R)
         to understand the arguments and specific conventions.
     *   For examples of implementations, please check
-        [statistic-scira.R](https://github.com/saezlab/decoupleR/blob/devel-jesus/R/statistic-scira.R) or
-        [statistic-viper.R](https://github.com/saezlab/decoupleR/blob/devel-jesus/R/statistic-viper.R)
+        [statistic-scira.R](https://github.com/saezlab/decoupleR/blob/master/R/statistic-scira.R) or
+        [statistic-viper.R](https://github.com/saezlab/decoupleR/blob/master/R/statistic-viper.R)
         for design from scratch or wrapper, respectively.  
 *   Inside
-    [utils-dataset-converters.R](https://github.com/saezlab/decoupleR/blob/devel-jesus/R/utils-dataset-converters.R)
+    [utils-dataset-converters.R](https://github.com/saezlab/decoupleR/blob/master/R/utils-dataset-converters.R)
     define `convert_to_foo(dataset, .source, .target, ...)`, where `...` indicate
     any extra *edge attribute* that needs to be mapped into the network.  
     **Goals:**  

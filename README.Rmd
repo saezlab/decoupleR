@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Lifecycle:experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![R build status](https://github.com/saezlab/decoupleR/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/saezlab/decoupleR/actions)
-[![Codecov test coverage](https://codecov.io/gh/saezlab/decoupleR/branch/devel-jesus/graph/badge.svg)](https://codecov.io/gh/devel-jesus/decoupleR?branch=devel-jesus)
+[![Codecov test coverage](https://codecov.io/gh/saezlab/decoupleR/branch/master/graph/badge.svg)](https://codecov.io/gh/master/decoupleR?branch=master)
 [![GitHub issues](https://img.shields.io/github/issues/saezlab/decoupleR)](https://github.com/saezlab/decoupleR/issues)
 <!-- badges: end -->
 
@@ -60,7 +60,6 @@ And the development version from [GitHub](https://github.com/) with:
 ```{r github_installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("saezlab/decoupleR")
-devtools::install_github("saezlab/decoupleR@devel-jesus")
 ```
 
 ## Usage

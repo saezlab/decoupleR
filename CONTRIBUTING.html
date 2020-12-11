@@ -197,13 +197,13 @@
 <p><strong>Notes:</strong></p>
 <ul>
 <li>All statistics must contain the tag <code>@family decoupleR statistics</code> in their roxygen2 documentation.</li>
-<li>Check <a href="https://github.com/saezlab/decoupleR/blob/devel-jesus/R/utils-decoupler-formats.R">utils-decoupler-formats.R</a> to understand the arguments and specific conventions.</li>
-<li>For examples of implementations, please check <a href="https://github.com/saezlab/decoupleR/blob/devel-jesus/R/statistic-scira.R">statistic-scira.R</a> or <a href="https://github.com/saezlab/decoupleR/blob/devel-jesus/R/statistic-viper.R">statistic-viper.R</a> for design from scratch or wrapper, respectively.<br>
+<li>Check <a href="https://github.com/saezlab/decoupleR/blob/master/R/utils-decoupler-formats.R">utils-decoupler-formats.R</a> to understand the arguments and specific conventions.</li>
+<li>For examples of implementations, please check <a href="https://github.com/saezlab/decoupleR/blob/master/R/statistic-scira.R">statistic-scira.R</a> or <a href="https://github.com/saezlab/decoupleR/blob/master/R/statistic-viper.R">statistic-viper.R</a> for design from scratch or wrapper, respectively.<br>
 </li>
 </ul>
 </li>
 <li>
-<p>Inside <a href="https://github.com/saezlab/decoupleR/blob/devel-jesus/R/utils-dataset-converters.R">utils-dataset-converters.R</a> define <code>convert_to_foo(dataset, .source, .target, ...)</code>, where <code>...</code> indicate any extra <em>edge attribute</em> that needs to be mapped into the network.<br><strong>Goals:</strong></p>
+<p>Inside <a href="https://github.com/saezlab/decoupleR/blob/master/R/utils-dataset-converters.R">utils-dataset-converters.R</a> define <code>convert_to_foo(dataset, .source, .target, ...)</code>, where <code>...</code> indicate any extra <em>edge attribute</em> that needs to be mapped into the network.<br><strong>Goals:</strong></p>
 <ul>
 <li>Transform the data frame that represents the network to a standardized format, so that, in the main function <code>run_foo()</code>, we can use and manipulate the columns to our liking without worrying about the mapping.<br>
 </li>

@@ -1,5 +1,5 @@
-Type: Package
 Package: decoupleR
+Type: Package
 Title: Package to decouple gene sets from statistics
 Version: 0.99.0
 Authors@R: 
@@ -20,8 +20,10 @@ Description: Usually functional genomics tools consist of a
 License: GPL-3 + file LICENSE
 URL: https://saezlab.github.io/decoupleR/
 BugReports: https://github.com/saezlab/decoupleR/issues
-Depends: 
-    R (>= 4.0)
+Depends: R (>= 4.0)
+License: GPL-3 + file LICENSE
+Encoding: UTF-8
+LazyData: true
 Imports:
     dplyr,
     GSVA,
@@ -54,3 +56,4 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr

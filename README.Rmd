@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![GitHub issues](https://img.shields.io/github/issues/saezlab/decoupleR)](https://github.com/saezlab/decoupleR/issues)
 <!-- badges: end -->
 
-> A community effort by [saezlab](http://saezlab.org) members.
+<!-- > A community effort by [saezlab](http://saezlab.org) members. -->
 
 ## Overview
 
@@ -52,24 +52,28 @@ And the following TF activity inference methods:
 
 * mean: Weighted mean that allows the use of directions and contribution weights.
 
-* normalized_mean: Similar as above, however the final score is corrected based on a null (random) model   We benchmarked an initial set of 84 combinations, comprising 7 methods and 13 networks. 
+* normalized_mean: Similar as above, however the final score is corrected based on a null (random) model
+
+
+We benchmarked an initial set of 84 combinations, comprising 7 methods and 13 networks. 
 
 We evaluated the precision of different combinations in recovering perturbed TFs from different collections of gene expression datasets. Additionally, we tested the effects of combining multiple sources and estimations. We set up the package in a modular way which makes it easy and intuitive to extend it with further statistics or networks. We invite the community to participate by implementing their own statistics or integrating their gene regulatory network. With the decoupleR package, we lay the foundation for a crowdsourced systematic assessment of transcription factor activity estimation from transcriptomics data.
 
 ## Installation instructions
 
 Get the latest stable `R` release from
-[CRAN](http://cran.r-project.org/). Then install `decoupleR` using from
-[Bioconductor](http://bioconductor.org/) the following code:
+[CRAN](http://cran.r-project.org/). 
 
-```{r bioconductor_install, eval = FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager")
-}
-BiocManager::install("decoupleR")
-```
+<!-- Then install `decoupleR` using from [Bioconductor](http://bioconductor.org/) the following code: -->
 
-And the development version from [GitHub](https://github.com/) with:
+<!-- ```{r bioconductor_install, eval = FALSE} -->
+<!-- if (!requireNamespace("BiocManager", quietly = TRUE)) { -->
+<!--     install.packages("BiocManager") -->
+<!-- } -->
+<!-- BiocManager::install("decoupleR") -->
+<!-- ``` -->
+
+Then install development version from [GitHub](https://github.com/) with:
 
 ```{r github_installation, eval = FALSE}
 # install.packages("devtools")
@@ -135,18 +139,18 @@ run_viper(
 )
 ```
 
-## Citation
+<!-- ## Citation -->
 
-Below is the citation output from using `citation('decoupleR')` in R. Please
-run this yourself to check for any updates on how to cite __decoupleR__.
+<!-- Below is the citation output from using `citation('decoupleR')` in R. Please -->
+<!-- run this yourself to check for any updates on how to cite __decoupleR__. -->
 
-```{r 'citation', eval = requireNamespace('decoupleR')}
-print(citation("decoupleR"), bibtex = TRUE)
-```
+<!-- ```{r 'citation', eval = requireNamespace('decoupleR')} -->
+<!-- print(citation("decoupleR"), bibtex = TRUE) -->
+<!-- ``` -->
 
-Please note that the `decoupleR` was only made possible thanks to many other R
-and bioinformatics software authors, which are cited either in the vignettes
-and/or the paper(s) describing this package.
+<!-- Please note that the `decoupleR` was only made possible thanks to many other R -->
+<!-- and bioinformatics software authors, which are cited either in the vignettes -->
+<!-- and/or the paper(s) describing this package. -->
 
 ## Contributing to decoupleR
 

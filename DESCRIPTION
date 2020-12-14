@@ -12,7 +12,12 @@ Authors@R:
              family = "Vélez",
              role = "aut",
              email = "jvelez@lcg.unam.mx",
-             comment = c(ORCID = "0000-0001-5128-3838")))
+             comment = c(ORCID = "0000-0001-5128-3838")),
+      person(given = "Daniel",
+             family = "Dimitrov",
+             role = "aut",
+             email = "daniel.dimitrov@uni-heidelberg.de",
+             comment = c(ORCID = "0000-0002-5197-2112")))
 Description: Usually functional genomics tools consist of a
     fixed combination of gene sets and statistical approach. To overcome
     this limitation this package allows to combine a variety of gene sets
@@ -35,13 +40,15 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
-    viper
+    viper,
+    yardstick,
+    ggplot2,
+    pheatmap,
+    methods
 Suggests: 
     BiocStyle,
     covr,
-    knitcitations,
     knitr,
-    pkgdown,
     rmarkdown,
     roxygen2,
     sessioninfo,

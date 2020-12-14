@@ -6,9 +6,10 @@
 \alias{decoupleR-package}
 \title{decoupleR: Package to decouple gene sets from statistics}
 \description{
-Usually functional genomics tools consist of a fixed combination of
-    gene sets and statistical approach. To overcome this limitation this package 
-    allows to combine a variety of gene sets with a variety of statistics.
+Usually functional genomics tools consist of a
+    fixed combination of gene sets and statistical approach. To overcome
+    this limitation this package allows to combine a variety of gene sets
+    with a variety of statistics.
 }
 \seealso{
 Useful links:
@@ -24,6 +25,7 @@ Useful links:
 Authors:
 \itemize{
   \item Jesús Vélez \email{jvelez@lcg.unam.mx} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
+  \item Daniel Dimitrov \email{daniel.dimitrov@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-5197-2112}{ORCID})
 }
 
 }

@@ -6,7 +6,6 @@
 #' and precision-recall area under the curve heatmap
 #' @slot design The input design tibble used to generate the benchmark results
 #'
-#' @name BenchResult
 #' @exportClass BenchResult
 setClass("BenchResult",
          slots=list(bench_res="tbl_df",

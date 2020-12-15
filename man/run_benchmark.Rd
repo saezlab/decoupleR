@@ -7,12 +7,13 @@
 run_benchmark(
   .design,
   .minsize = 10,
-  .form = T,
-  .perform = T,
-  .silent = T,
-  .downsample_pr = T,
-  .downsample_roc = F,
-  .downsample_times = 1000
+  .form = TRUE,
+  .perform = TRUE,
+  .silent = TRUE,
+  .downsample_pr = FALSE,
+  .downsample_roc = FALSE,
+  .downsample_times = 100,
+  url_bool = FALSE
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ benchmark run}
 \item{.downsample_roc}{whether to downsample ROC true negatives}
 
 \item{.downsample_times}{downsampling iterattions}
+
+\item{url_bool}{whether prerequisites are loaded from an url}
 }
 \value{
 An S4 object of class BenchResult  \link{BenchResult}

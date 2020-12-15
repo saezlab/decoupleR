@@ -42,13 +42,15 @@ check_preced <- function(vector_loc){
 #' @param target_col name of the column with the targets for the set source
 #' @param filter_col name of the column by which we wish to filter
 #'
+#' @import stringr
 #' @return returns a formatted set source - fit for \link{decouple}
 #' @keywords internal
-check_prereq <- function(source_loc, target_col, source_col, filter_col){
+check_prereq <- function(source_loc, target_col, source_col,
+                         filter_col, url_bool){
   expected_cols <- c(target_col, source_col, filter_col,
                      "mor", "likelihood")
 
-  set_source <- readRDS(source_loc)
+  set_source <- readRDS_helper(source_loc, url_bool)
 
   missing_cols <- setdiff(expected_cols, names(set_source))
 
@@ -78,6 +80,9 @@ check_prereq <- function(source_loc, target_col, source_col, filter_col){
 #' @param filter_crit criteria by which we wish to filter (e.g. confidence)
 #' @param .minsize minimum size of each set
 #' @param silent bool whether to silence wanring messages
+#'
+#' @importFrom stringr str_glue
+#'
 #' @return returns a filtered and formatted set source
 filter_sets <- function(set_source, source_col,
                         filter_col, filter_crit,
@@ -86,7 +91,7 @@ filter_sets <- function(set_source, source_col,
 
   gs_filtered <- set_source %>%
     dplyr::filter(.data[[filter_col]] %in% filter_crit) %>%
-    distinct_at(vars(-.data[[filter_col]]), .keep_all = F) %>%
+    distinct_at(vars(-.data[[filter_col]]), .keep_all = FALSE) %>%
     group_by(.data[[source_col]]) %>%
     add_count() %>%
     filter(n >= .minsize) %>%
@@ -98,4 +103,18 @@ filter_sets <- function(set_source, source_col,
                      "remain after filtering."))
   }
   return(gs_filtered)
+}
+
+
+#' readRDS helper function
+#' @inheritParams base::readRDS
+#' @inheritDotParams base::readRDS
+#' @param url_bool bool whether the location is a url or not
+#' @export
+readRDS_helper <- function(file, url_bool=FALSE, ...){
+  if(url_bool){
+    readRDS(url(file, "rb", ...))
+  } else{
+    readRDS(file, ...)
+  }
 }

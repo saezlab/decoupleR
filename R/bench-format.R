@@ -4,6 +4,7 @@
 #' @param silent bool whether to silence warnings or not
 #' @returns formatted benchmarking results
 #' @importFrom rlang .data
+#' @importFrom stringr str_glue_data
 bench_format <- function(bench_res, silent) {
   res_format <- bench_res %>%
     unnest(activity) %>%

@@ -1,0 +1,219 @@
+---
+title: "Benchmarking with decoupleR Tutorial"
+author:
+  - name: "Daniel Dimitrov"
+    affiliation:
+    - Saezlab
+    email: daniel.dimitrov@uni-heidelberg.de
+output: 
+  BiocStyle::html_document:
+    self_contained: true
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+package: "`r pkg_ver('decoupleR')`"
+vignette: >
+  %\VignetteIndexEntry{Benchmarking with decoupleR Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r chunk_setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+    )
+```
+
+
+# Prerequsites
+This benchmark setting builds on `decoupleR`, and more specifically the `decouple` wrapper function.
+As such, it requires the decoupleR package to be installed and it is recommended that the user is familiar with the [basics of decoupleR](https://saezlab.github.io/decoupleR/articles/decoupleR.html#basics-1).
+
+The benchmark pipeline requires an input tibble with user-specified settings, benchmark data in the form of a count table and a corresponding metadata table with a priori knowledge of the perturbation experiments or conditions.
+
+The prerequisites used in this tutorial and information about them can be found [here](https://drive.google.com/drive/folders/1p6_9XXuCvArCREakkecSMa5E72aH3wAD).
+
+
+```{r load_decoupler, include = TRUE}
+# load dependencies
+library(decoupleR)
+library(tibble)
+library(dplyr, verbose = FALSE)
+library(ggplot2)
+library(pheatmap)
+
+# We load the files directly from Zenodo
+bexpr_loc = "https://zenodo.org/record/4322914/files/dorothea_bench_example.rds?download=1"
+bmeta_loc = "https://zenodo.org/record/4322914/files/dorothea_bench_meta.rds?download=1"
+source_loc = "https://zenodo.org/record/4322914/files/dorothea_filtered.rds?download=1"
+```
+
+## Input tibble
+The input tibble serves as the description for each benchmark run and each of its rows corresponds to a separate call of the `decouple` wrapper. This enables the user to specify any number of 'benchmark experiments' or combinations of benchmark data, networks (or any other type of gene sets), and statistical methods that they wish to explore.
+
+The ease of use and flexibility of this approach is demonstrated here - e.g. to run the pipeline with a network resource filtered for a given condition only requires the filtering criteria to be changed. This also applies to the statistical methods and their settings, different set sources/networks, and benchmark data sets.
+
+Note that here we use only an example of the DoRoThEA benchmarking set (Holland et al., 2020 - ref), to change this to the full benchmark data set, you only need to change `bexpr_loc` to point to its location.
+
+```{r input_example}
+design_row <-
+  tibble(
+    set_name="dorothea", # name of the set resource
+    bench_name="dbd", # name of the benchmark data
+    stats_list=list( # a list of the stats to call
+     c("mean",
+       "pscira",
+       "scira",
+       "viper",
+       "gsva"
+       )),
+    opts_list=list(list( # list of options for each stat method
+      scira = list(),
+      pscira = list(),
+      mean = list(),
+      viper = list(verbose = FALSE, minsize=0),
+      gsva = list(verbose = FALSE, method = "gsva")
+       )),
+    bexpr_loc = bexpr_loc, # benchmark data location (url or path)
+    bmeta_loc = bmeta_loc, # metadata location (url or path)
+    source_loc = source_loc, # set source location (url or path)
+    source_col="tf", # source name of the gene set source
+    target_col="target", # target name of the set source
+    filter_col="confidence", # column by which we wish to filter
+    filter_crit=list(c("A")) # criteria by which we wish to filter
+    ) 
+
+# input tibble where each run/row filters according to different confidence
+# level combinations from dorothea.
+input_tibble <- bind_rows(design_row,
+                design_row %>%
+                  mutate(filter_crit=list(c("A","B","C"))),
+                design_row %>%
+                  mutate(filter_crit=list(c("A","B","C","D","E"))))
+
+input_tibble %>%
+  rmarkdown::paged_table()
+```
+
+## Benchmark data and metadata
+The benchmark data should be in the form of a tibble with count data (e.g. gene expression table) with the ID of each perturbation experiment as column names and gene IDs as rows.
+```{r bexpr_example}
+readRDS_helper(bexpr_loc, T) %>%
+  # show only first 10 genes of first 3 experiments
+  slice_head(n=10) %>%
+  select(1:3)
+```
+
+The benchmark metadata should also be in the form of a tibble containing the 'meta' information with rows corresponding to each perturbation experiment or condition, with columns containing information about perturbation target, cell line, etc.
+```{r bmeta_example}
+readRDS_helper(bmeta_loc, T) %>%
+  slice_head(n=10) %>%
+  # select to show only most relevant columns
+  select(id, target, platform, sign)
+```
+Note that the Experiment ID is used as the key to join the benchmark data and metadata.
+
+## Set Source
+Here, we define a 'Set Source' as any resource containing information about sets of sources and targets, where a `source` (e.g. Transcription factors (TFs) or Kinases in regulatory networks or GO terms in Gene Ontologies) is linked to its `targets` (e.g. the Genes or Phosphosites composing the set of targets for a given source).
+
+Please note that even though many resources would only contain `source` and `target` columns (e.g. GO term:Gene, or TF:target (in this example)), the decouple wrapper requires `mor` and `likelihood` columns. As such, depending on the source set, arbitrary columns with these names should be provided. The `likelihood` column can be used to provide weights to each of the source:target interactions. Also, note that "tf", "target", and "confidence" can take any user-defined name (defined in the input tibble), where "confidence" is the column by which we wish to filter.
+
+In this tutorial, we will use [DoRothEA](https://github.com/saezlab/dorothea) - a gene set resource containing signed TF-target interactions.
+```{r source_example}
+readRDS_helper(source_loc, T) %>%
+  slice_head(n=10) # show only first 10 rows
+```
+
+# Benchmark run
+Now that we have checked the prerequisites and we are confident that they are formatted appropriately, we can proceed with running the decoupleR benchmark pipeline.
+
+## Benchmark Settings and Assumptions
+Here we run the benchmark pipeline with DoRoThEA using the default settings.
+
+Note that the benchmark pipeline currently evaluates precision and that here we define the 'Condition positive' as the perturbed targets for each condition/experiment.
+Then we make the assumption that 'True positives (TPs)' would get a 'score' from each statistical method that would rank them within the top `n` scores, where `n` = the number of experiments covered by the set resource. On the other hand, a 'True Negative (TN)' is defined as a TF not perturbed and not ranked within the top `n` of TFs.
+'Condition Negatives' are defined in two ways depending whether downsampling is performed. 
+By defult, Condition Negatives are defined as the set of any TF regulon not perturbed in the current experiment. As such, each of these non-perturbed TF sets is appended and considered a Condition negative. This results in Condition Negatives vastly outnumbering  (equal to the number of non-perturbed TFs for all of the experiments) of Condition positives (equal to the number of truly perturbed target in each experiment).
+When downsampling is performed, the number of Condition Negatives is set to be the same as the number of Condition Positives (i.e. number of experiments covered by the gene set).
+
+In some cases, assuming that the perturbed target (in this case a TF) in a given experiment would be the most deregulated one (i.e. the one with highest `score`) is a flawed assumption due to the nature of regulation in biology. For example, a TF correlated or downstream of the perturbed target might be more perturbed than the experiment target itself. However, at this stage, we believe that this is likely our best choice. Nonetheless, we are open to suggestions and implementations of alternative source set performance methods.
+
+```{r bench_run, cache=TRUE, eval=TRUE, echo=T, results='hide', warning=FALSE}
+dor_run <- run_benchmark(
+  .design = input_tibble, # provide input tibble
+  .minsize = 10, # filter gene sets with size < 10
+  .form = T, # format the benchmark results
+  .perform = T, # evaluate benchmarking performance
+  .silent = T, # silently run the pipeline
+  .downsample_pr = F, # downsample TNs for precision-recall curve
+  .downsample_roc = F, # downsample TNs for ROC
+  .downsample_times = 100, # downsampling iterations
+  url_bool = T # whether to load from url
+  )
+```
+
+## Pipeline Output
+The output of the pipeline is a pre-defined object with benchmark results, results summary and plots, and the input tibble.
+
+### Benchmarking results
+The benchmarking results provides meta information about the run: set_name (name of the set source), bench_name (name of the benchmark dataset), filter_crit (filter criteria), and statistic (statistical method).
+`Activity` contains tibbles returned from each call of the decouple wrapper.
+`roc` contains Reciever Operator Curve calculations for each decouple run.
+`prc` contains Precision-Recall Curve calculations for each decouple run.
+```{r bench_results}
+dor_run@bench_res %>%
+  rmarkdown::paged_table()
+```
+
+### Benchmarking Summary
+First, we explore the `Summary table`.
+It is a rather lengthy, yet highly informative table, containing informations such as:
+meta information for each run, AUROC (auc), Precission-Recall Curve AUC (pr_auc), source_cov (number of TFs), condition_cov (number of experiments), statistic_time (Computational time for the statistical method), regulon_time (combined time for each of the statistics for each network/set_source).
+
+```{r bench_summary}
+dor_run@summary$summary_table  %>%
+  rmarkdown::paged_table()
+```
+
+### Benchmark Plots
+Now we look at the different plots:
+
+*ROC plot*
+```{r bench_roc}
+dor_run@summary$roc_plot
+```
+
+
+*Precision-Recall Curve*
+```{r bench_prc}
+dor_run@summary$pr_plot
+```
+
+*AUROC heatmap*
+```{r bench_auroc}
+dor_run@summary$auroc_heat
+```
+
+
+*PR AUC heatmap*
+```{r bench_prauc}
+dor_run@summary$pr_heat
+```
+
+Please note that each of these plots is a ggplot2 object and is thus customisable.
+
+
+# Contributing to decoupleR
+We are committed to the further development of decoupleR and we hope that with the help of the community, it would become the go-to place for benchmarking any combination of set sources and statistical methods. As such, we invite the community to share or implement any ideas, statistical methods, network or gene resources, and benchmark data sets.
+
+Are you interested in adding a new statistical method or in extending the benchmark environment of decoupleR? Please check out our [contribution guide](https://saezlab.github.io/decoupleR/CONTRIBUTING.html) and do not hesitate to contact me!
+
+
+# Session Info
+```{r sessionInfo}
+sessionInfo()
+```
+
+

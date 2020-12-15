@@ -8,6 +8,8 @@
 #' @param .downsample_pr whether to downsample precision recall curve TNs
 #' @param .downsample_roc whether to downsample ROC true negatives
 #' @param .downsample_times downsampling iterattions
+#' @param url_bool whether prerequisites are loaded from an url
+#'
 #' @export
 #' @importFrom rlang .data
 #' @importFrom methods new
@@ -17,12 +19,13 @@
 #' @return An S4 object of class BenchResult  \link{BenchResult}
 run_benchmark <- function(.design,
                           .minsize = 10,
-                          .form = T,
-                          .perform = T,
-                          .silent = T,
-                          .downsample_pr = T,
-                          .downsample_roc = F,
-                          .downsample_times = 1000
+                          .form = TRUE,
+                          .perform = TRUE,
+                          .silent = TRUE,
+                          .downsample_pr = FALSE,
+                          .downsample_roc = FALSE,
+                          .downsample_times = 100,
+                          url_bool = FALSE
                           ){
   res <- .design %>%
     format_design() %>%
@@ -36,14 +39,16 @@ run_benchmark <- function(.design,
 
       # Check_prereq
        if(!.expr_bln){
-         .GlobalEnv$gene_expression <- readRDS(bexpr_loc) %>% as.matrix()
+         .GlobalEnv$gene_expression <- readRDS_helper(bexpr_loc, url_bool) %>%
+           as.matrix()
        }
        if(!.meta_bln){
-         .GlobalEnv$meta_data <- readRDS(bmeta_loc)
+         .GlobalEnv$meta_data <- readRDS_helper(bmeta_loc, url_bool)
        }
        if(!.source_bln){
-         .GlobalEnv$set_source <- check_prereq(source_loc, target_col,
-                                               source_col, filter_col)
+         .GlobalEnv$set_source <- check_prereq(source_loc, all_of(target_col),
+                                               source_col, filter_col,
+                                               url_bool)
        }
 
       # Filter set_source/network
@@ -61,12 +66,12 @@ run_benchmark <- function(.design,
 
       # Obtain Activity with decouple and format
       decouple(mat = gene_expression, network = ss_filtered,
-               .source = source_col, .target = target_col,
+               .source = source_col, .target = all_of(target_col),
                statistics = stats_list,
                args = opts_list)  %>%
         dplyr::rename(id=condition) %>%
         inner_join(meta_data, by="id")  %>%
-        group_split(statistic, .keep=T) %>%
+        group_split(statistic, .keep=TRUE) %>%
         as.list()
       })) %>% {
       if(.form & !.perform) bench_format(., silent=.silent)

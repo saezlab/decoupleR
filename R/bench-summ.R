@@ -11,18 +11,14 @@
 get_bench_summary <- function(.res_tibble) {
   # get roc results
   roc <- format_roc(.res_tibble, "roc")
-  print("roc")
-  print(roc)
-
 
   # get PR roc results
   pr <- format_roc(.res_tibble, "prc")
-  print("pr")
-  print(pr)
-
 
   # Plot ROC
-  roc_plot <- ggplot(roc, aes(x = 1-specificity, y = sensitivity, colour = run_key)) +
+  roc_plot <- ggplot(roc, aes(x = 1-specificity,
+                              y = sensitivity,
+                              colour = run_key)) +
     geom_line() +
     geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
     xlab("FPR (1-specificity)") +
@@ -41,13 +37,10 @@ get_bench_summary <- function(.res_tibble) {
     select(set_name, bench_name, filter_crit, statistic, auc) %>%
     distinct()
 
-  print("auroc_tibble")
-  print(auroc_tibble)
-
-
   # Plot AUROC
   auroc_plot <- auroc_tibble %>%
-    unite("run_key", set_name, bench_name, statistic, filter_crit, remove = F) %>%
+    unite("run_key", set_name, bench_name,
+          statistic, filter_crit, remove = F) %>%
     ggplot(., aes(x = reorder(run_key, auc),
                   y = auc,
                   fill = run_key)) +
@@ -66,10 +59,6 @@ get_bench_summary <- function(.res_tibble) {
     select(set_name, bench_name, filter_crit, statistic, auc) %>%
     distinct()
 
-  print("prauc_tibble")
-  print(prauc_tibble)
-
-
   # AU PR Heatmap
   pr_heat <- prauc_tibble %>% get_auroc_heat()
 
@@ -85,11 +74,8 @@ get_bench_summary <- function(.res_tibble) {
     # calculate regulon size
     group_by(set_name, bench_name, filter_crit) %>%
     mutate(regulon_time = sum(statistic_time)) %>%
-    select(set_name, bench_name, statistic, filter_crit, statistic_time, regulon_time)
-
-  print("comp_time")
-  print(comp_time)
-
+    select(set_name, bench_name, statistic,
+           filter_crit, statistic_time, regulon_time)
 
   # Join AUROC, PRAUC, Coverage, and Comp time
   summary_table <- auroc_tibble %>%
@@ -106,8 +92,7 @@ get_bench_summary <- function(.res_tibble) {
                     ungroup() %>%
                     separate(col="name_lvl",
                              into=c("set_name", "bench_name", "filter_crit"),
-                             sep="\\.") %>%
-                    print()),
+                             sep="\\.")),
                by = c("set_name", "bench_name", "filter_crit")) %>%
     distinct() %>%
     inner_join(x=.,
@@ -140,8 +125,10 @@ format_roc <- function(.res_tibble, roc_column){
              bench_name = df$bench_name,
              filter_crit = df$filter_crit,
              statistic = df$statistic) %>%
-      unite("name_lvl", set_name, bench_name, filter_crit, remove = F, sep = ".") %>%
-      unite("run_key", set_name, bench_name, statistic, filter_crit, remove = F)
+      unite("name_lvl", set_name, bench_name,
+            filter_crit, remove = F, sep = ".") %>%
+      unite("run_key", set_name, bench_name,
+            statistic, filter_crit, remove = F)
   }) %>%
     do.call(rbind, .)
 }

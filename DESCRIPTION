@@ -49,6 +49,8 @@ Suggests:
     BiocStyle,
     covr,
     knitr,
+    knitcitations,
+    pkgdown,
     rmarkdown,
     roxygen2,
     sessioninfo,

@@ -5,7 +5,7 @@
 \title{Helper Function that checks if the source_set/network set is appropriately
 formatted}
 \usage{
-check_prereq(source_loc, target_col, source_col, filter_col)
+check_prereq(source_loc, target_col, source_col, filter_col, url_bool)
 }
 \arguments{
 \item{source_loc}{set source (e.g. network resource, gene ontology sets,

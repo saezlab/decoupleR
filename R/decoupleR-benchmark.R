@@ -11,12 +11,11 @@
 #'
 #' @export
 #' @importFrom rlang .data
-#' @importFrom methods new
 #' @importFrom stats reorder setNames
 #' @import tibble tidyr dplyr tidyselect
 #' @seealso See \link{input_tibble} for a description of the params/column
 #' of .design (i.e. input tibble).
-#' @return An S4 object of class BenchResult  \link{BenchResult}
+#' @return An S4 object of \link{BenchResult-class}
 run_benchmark <- function(.design,
                           .form = TRUE,
                           .perform = TRUE,

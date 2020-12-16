@@ -37,7 +37,7 @@ benchmark run}
 \item{.url_bool}{bool whether the location is a url or not}
 }
 \value{
-An S4 object of class BenchResult  \link{BenchResult}
+An S4 object of \link{BenchResult-class}
 }
 \description{
 Benchmark pipeline built on the statistical method wrapper decouple.

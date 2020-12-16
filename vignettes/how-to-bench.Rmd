@@ -150,7 +150,7 @@ dor_run <- run_benchmark(
   .downsample_pr = F, # downsample TNs for precision-recall curve
   .downsample_roc = F, # downsample TNs for ROC
   .downsample_times = 100, # downsampling iterations
-  url_bool = T # whether to load from url
+  .url_bool = T # whether to load from url
   )
 ```
 
@@ -158,7 +158,7 @@ dor_run <- run_benchmark(
 The output of the pipeline is a pre-defined object with benchmark results, results summary and plots, and the input tibble.
 
 ### Benchmarking results
-The benchmarking results provides meta information about the run: set_name (name of the set source), bench_name (name of the benchmark dataset), filter_crit (filter criteria), and statistic (statistical method).
+The benchmarking results provide meta information about the run: set_name (name of the set source), bench_name (name of the benchmark dataset), filter_crit (filter criteria), and statistic (statistical method).
 `Activity` contains tibbles returned from each call of the decouple wrapper.
 `roc` contains Reciever Operator Curve calculations for each decouple run.
 `prc` contains Precision-Recall Curve calculations for each decouple run.
@@ -169,8 +169,8 @@ dor_run@bench_res %>%
 
 ### Benchmarking Summary
 First, we explore the `Summary table`.
-It is a rather lengthy, yet highly informative table, containing informations such as:
-meta information for each run, AUROC (auc), Precission-Recall Curve AUC (pr_auc), source_cov (number of TFs), condition_cov (number of experiments), statistic_time (Computational time for the statistical method), regulon_time (combined time for each of the statistics for each network/set_source).
+It is a rather lengthy, yet highly informative table, containing information such as:
+meta information for each run, AUROC (auc), Precision-Recall Curve AUC (pr_auc), source_cov (number of TFs), condition_cov (number of experiments), statistic_time (Computational time for the statistical method), regulon_time (combined time for each of the statistics for each network/set_source).
 
 ```{r bench_summary}
 dor_run@summary$summary_table  %>%

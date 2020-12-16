@@ -5,8 +5,7 @@
 #' prc column: Precision-Recall Curve Results (calculated with yardstick)
 #' @return A summary list with TF coverage, ROC, AUROC, PRAUC, Run time,
 #' ROC plots, and Heatmap plots
-#' @import ggplot2
-#' @import pheatmap
+#' @import ggplot2 pheatmap
 #' @importFrom rlang .data
 get_bench_summary <- function(.res_tibble) {
   # get roc results
@@ -137,7 +136,7 @@ format_roc <- function(.res_tibble, roc_column){
 #' Helper function to produce AUROC heatmap
 #' @param auroc_tibble Tibble with calculated AUROC
 #' @return returns an AUROC or Precision-Recall AUC heatmap
-#' @import ggplot2
+#' @import pheatmap ggplot2
 get_auroc_heat <- function(auroc_tibble){
   auroc_tibble %>%
     select(statistic, auc, filter_crit, set_name, bench_name) %>%

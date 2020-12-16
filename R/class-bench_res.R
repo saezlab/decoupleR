@@ -1,4 +1,5 @@
 #'  S4 Class used to format benchmark output.
+#' @name BenchResult-class
 #'
 #' @field bench_res Formatted or non-formatted Benchmark output
 #' @field summary Summary returned by the bench_sumplot functions - it contains

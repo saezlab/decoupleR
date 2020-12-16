@@ -86,7 +86,20 @@ get_bench_summary <- function(.res_tibble) {
                y=(roc %>%
                     group_by(name_lvl) %>%
                     summarise(source_cov = coverage,
-                              condition_cov = n) %>%
+                              condition_cov = n,
+                              roc_neg=tn) %>%
+                    distinct() %>%
+                    ungroup() %>%
+                    separate(col="name_lvl",
+                             into=c("set_name", "bench_name", "filter_crit"),
+                             sep="\\.")),
+               by = c("set_name", "bench_name", "filter_crit")) %>%
+    distinct() %>%
+    inner_join(x=.,
+               y=(pr %>%
+                    group_by(name_lvl) %>%
+                    summarise(
+                              pr_neg=tn) %>%
                     distinct() %>%
                     ungroup() %>%
                     separate(col="name_lvl",

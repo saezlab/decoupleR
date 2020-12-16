@@ -76,7 +76,8 @@ calc_curve = function(df, downsampling = T,
 
     })
     # Get Average AUC
-    res$auc <- sum(unique(res$auc))/length(unique(res$auc))
+    res$auc <- sum(res$auc)/length(res$auc)
+    res$tn <- nrow(tp)
 
   } else {
     r = df %>%

@@ -55,7 +55,7 @@ run_benchmark <- function(.design,
                                  filter_col, filter_crit,
                                  .minsize, .silent)
 
-      # Print Current Row/Run
+      # Show Current Row/Run
       if(!.silent){
         .curr_row <- paste(set_name, bench_name,
                            paste0(unlist(filter_crit), collapse=""),

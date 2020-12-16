@@ -37,16 +37,16 @@ input_tibble <- tibble(
     )
 
 ulr_tibble <- input_tibble %>%
-    mutate(bexpr_loc = bexpr_url,
+    mutate(filter_crit=list(c("A")),
+        bexpr_loc = bexpr_url,
            bmeta_loc = bmeta_url,
            source_loc = source_url,
-           stats_list=list(c("mean","viper")),
-           opts_list=list(list(mean=list(),
+           stats_list=list(c("pscira","viper")),
+           opts_list=list(list(scira=list(),
                                viper = list(verbose = FALSE, minsize=0))))
 
-
 # Test run_benchmark function --------------------------------------------------
-test_that("test benchmark base format function and activity column", {
+test_that("test run_benchmark stages (format, call to decouple, roc)", {
     res_1 <- run_benchmark(input_tibble, .perform = FALSE) %>%
         pluck(., "bench_res")
     exp_1 <- readRDS(file.path(expected_dir,
@@ -70,7 +70,6 @@ test_that("test benchmark base format function and activity column", {
 
     # check the format of only the first activity tibble
     expect_equal(res_2, exp_2)
-
 
     # check performance summary from url load
     expect_equal(res_3, exp_3)

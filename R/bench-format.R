@@ -1,11 +1,11 @@
 #' Function to format benchmarking results
 #'
 #' @param bench_res benchmarking results
-#' @param silent bool whether to silence warnings or not
+#' @param .silent bool whether to silence warnings or not
 #' @returns formatted benchmarking results
 #' @importFrom rlang .data
 #' @importFrom stringr str_glue_data
-bench_format <- function(bench_res, silent) {
+bench_format <- function(bench_res, .silent) {
   res_format <- bench_res %>%
     unnest(activity) %>%
     # convert filter_criteria from character to string
@@ -42,7 +42,7 @@ bench_format <- function(bench_res, silent) {
                      vars(score), ~ replace(., is.infinite(.), 0)
                    )))
 
-    if (!silent)
+    if (!.silent)
       warning(
         inf_sums %>%
           filter(value > 0) %>%

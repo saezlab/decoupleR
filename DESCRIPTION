@@ -43,8 +43,7 @@ Imports:
     viper,
     yardstick,
     ggplot2,
-    pheatmap,
-    methods
+    pheatmap
 Suggests: 
     BiocStyle,
     covr,

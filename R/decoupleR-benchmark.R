@@ -1,14 +1,13 @@
 #' Benchmark pipeline built on the statistical method wrapper decouple.
 #'
 #' @inheritParams format_design
-#' @param .minsize regulon/gene set minimum number of targets/members
 #' @param .form bool whether to format or not
 #' @param .perform bool whether to calculate roc and performance summary
-#' @param .silent bool whether to silence messages and warnings
+#' @inheritParams filter_sets
 #' @param .downsample_pr whether to downsample precision recall curve TNs
 #' @param .downsample_roc whether to downsample ROC true negatives
 #' @param .downsample_times downsampling iterattions
-#' @param url_bool whether prerequisites are loaded from an url
+#' @inheritParams readRDS_helper
 #'
 #' @export
 #' @importFrom rlang .data
@@ -18,14 +17,14 @@
 #' of .design (i.e. input tibble).
 #' @return An S4 object of class BenchResult  \link{BenchResult}
 run_benchmark <- function(.design,
-                          .minsize = 10,
                           .form = TRUE,
                           .perform = TRUE,
+                          .minsize = 10,
                           .silent = TRUE,
                           .downsample_pr = FALSE,
                           .downsample_roc = FALSE,
                           .downsample_times = 100,
-                          url_bool = FALSE
+                          .url_bool = FALSE
                           ){
   res <- .design %>%
     format_design() %>%
@@ -39,16 +38,16 @@ run_benchmark <- function(.design,
 
       # Check_prereq
        if(!.expr_bln){
-         .GlobalEnv$gene_expression <- readRDS_helper(bexpr_loc, url_bool) %>%
+         .GlobalEnv$gene_expression <- readRDS_helper(bexpr_loc, .url_bool) %>%
            as.matrix()
        }
        if(!.meta_bln){
-         .GlobalEnv$meta_data <- readRDS_helper(bmeta_loc, url_bool)
+         .GlobalEnv$meta_data <- readRDS_helper(bmeta_loc, .url_bool)
        }
        if(!.source_bln){
          .GlobalEnv$set_source <- check_prereq(source_loc, all_of(target_col),
                                                source_col, filter_col,
-                                               url_bool)
+                                               .url_bool)
        }
 
       # Filter set_source/network
@@ -74,8 +73,8 @@ run_benchmark <- function(.design,
         group_split(statistic, .keep=TRUE) %>%
         as.list()
       })) %>% {
-      if(.form & !.perform) bench_format(., silent=.silent)
-      else if(.form & .perform) bench_format(., silent=.silent) %>%
+      if(.form & !.perform) bench_format(., .silent)
+      else if(.form & .perform) bench_format(., .silent) %>%
         mutate(roc = activity %>%
                  map(~calc_curve(df=.x,
                                     downsampling=.downsample_roc,

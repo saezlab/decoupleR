@@ -7,7 +7,7 @@
 \description{
 S4 Class used to format benchmark output.
 }
-\section{Slots}{
+\section{Fields}{
 
 \describe{
 \item{\code{bench_res}}{Formatted or non-formatted Benchmark output}

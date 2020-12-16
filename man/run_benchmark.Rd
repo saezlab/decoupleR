@@ -6,27 +6,27 @@
 \usage{
 run_benchmark(
   .design,
-  .minsize = 10,
   .form = TRUE,
   .perform = TRUE,
+  .minsize = 10,
   .silent = TRUE,
   .downsample_pr = FALSE,
   .downsample_roc = FALSE,
   .downsample_times = 100,
-  url_bool = FALSE
+  .url_bool = FALSE
 )
 }
 \arguments{
 \item{.design}{input tibble used to provide the experimental design for each
 benchmark run}
 
-\item{.minsize}{regulon/gene set minimum number of targets/members}
-
 \item{.form}{bool whether to format or not}
 
 \item{.perform}{bool whether to calculate roc and performance summary}
 
-\item{.silent}{bool whether to silence messages and warnings}
+\item{.minsize}{minimum size of each set}
+
+\item{.silent}{bool whether to silence wanring messages}
 
 \item{.downsample_pr}{whether to downsample precision recall curve TNs}
 
@@ -34,7 +34,7 @@ benchmark run}
 
 \item{.downsample_times}{downsampling iterattions}
 
-\item{url_bool}{whether prerequisites are loaded from an url}
+\item{.url_bool}{bool whether the location is a url or not}
 }
 \value{
 An S4 object of class BenchResult  \link{BenchResult}

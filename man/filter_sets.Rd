@@ -4,7 +4,7 @@
 \alias{filter_sets}
 \title{Helper Function to filter and format the gene set resource}
 \usage{
-filter_sets(set_source, source_col, filter_col, filter_crit, .minsize, silent)
+filter_sets(set_source, source_col, filter_col, filter_crit, .minsize, .silent)
 }
 \arguments{
 \item{set_source}{Set Source (e.g. TF regulon sets, GO:term sets, etc)}
@@ -17,7 +17,7 @@ filter_sets(set_source, source_col, filter_col, filter_crit, .minsize, silent)
 
 \item{.minsize}{minimum size of each set}
 
-\item{silent}{bool whether to silence wanring messages}
+\item{.silent}{bool whether to silence wanring messages}
 }
 \value{
 returns a filtered and formatted set source

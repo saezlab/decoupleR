@@ -4,13 +4,13 @@
 \alias{readRDS_helper}
 \title{readRDS helper function}
 \usage{
-readRDS_helper(file, url_bool = FALSE, ...)
+readRDS_helper(file, .url_bool = FALSE, ...)
 }
 \arguments{
 \item{file}{a \link[base]{connection} or the name of the file where the \R object
     is saved to or read from.}
 
-\item{url_bool}{bool whether the location is a url or not}
+\item{.url_bool}{bool whether the location is a url or not}
 
 \item{...}{
   Arguments passed on to \code{\link[base:readRDS]{base::readRDS}}

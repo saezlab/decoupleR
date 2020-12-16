@@ -38,19 +38,18 @@ check_preced <- function(vector_loc){
 #'
 #' @param source_loc set source (e.g. network resource, gene ontology sets,
 #'  kinase sets, etc.) location (.rds format tibble)
-#' @param source_col name of the column with the source for the set source
-#' @param target_col name of the column with the targets for the set source
-#' @param filter_col name of the column by which we wish to filter
+#' @inheritParams filter_sets
+#' @inheritParams readRDS_helper
 #'
 #' @import stringr
 #' @return returns a formatted set source - fit for \link{decouple}
 #' @keywords internal
 check_prereq <- function(source_loc, target_col, source_col,
-                         filter_col, url_bool){
+                         filter_col, .url_bool){
   expected_cols <- c(target_col, source_col, filter_col,
                      "mor", "likelihood")
 
-  set_source <- readRDS_helper(source_loc, url_bool)
+  set_source <- readRDS_helper(source_loc, .url_bool)
 
   missing_cols <- setdiff(expected_cols, names(set_source))
 
@@ -79,14 +78,13 @@ check_prereq <- function(source_loc, target_col, source_col,
 #' @param filter_col name of the column by which we wish to filter
 #' @param filter_crit criteria by which we wish to filter (e.g. confidence)
 #' @param .minsize minimum size of each set
-#' @param silent bool whether to silence wanring messages
+#' @param .silent bool whether to silence wanring messages
 #'
 #' @importFrom stringr str_glue
-#'
 #' @return returns a filtered and formatted set source
 filter_sets <- function(set_source, source_col,
                         filter_col, filter_crit,
-                        .minsize, silent){
+                        .minsize, .silent){
   n_duprows <- sum(duplicated(set_source))
 
   gs_filtered <- set_source %>%
@@ -97,7 +95,7 @@ filter_sets <- function(set_source, source_col,
     filter(n >= .minsize) %>%
     ungroup()
 
-  if (n_duprows & !silent){
+  if (n_duprows & !.silent){
     warning(str_glue("{n_duprows} rows were duplicated in the set resource! ",
                      "{sum(duplicated(gs_filtered))} duplicated rows ",
                      "remain after filtering."))
@@ -109,10 +107,10 @@ filter_sets <- function(set_source, source_col,
 #' readRDS helper function
 #' @inheritParams base::readRDS
 #' @inheritDotParams base::readRDS
-#' @param url_bool bool whether the location is a url or not
+#' @param .url_bool bool whether the location is a url or not
 #' @export
-readRDS_helper <- function(file, url_bool=FALSE, ...){
-  if(url_bool){
+readRDS_helper <- function(file, .url_bool=FALSE, ...){
+  if(.url_bool){
     readRDS(url(file, "rb", ...))
   } else{
     readRDS(file, ...)

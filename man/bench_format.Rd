@@ -4,12 +4,12 @@
 \alias{bench_format}
 \title{Function to format benchmarking results}
 \usage{
-bench_format(bench_res, silent)
+bench_format(bench_res, .silent)
 }
 \arguments{
 \item{bench_res}{benchmarking results}
 
-\item{silent}{bool whether to silence warnings or not}
+\item{.silent}{bool whether to silence warnings or not}
 }
 \value{
 formatted benchmarking results

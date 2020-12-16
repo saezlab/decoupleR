@@ -9,11 +9,11 @@ filter_sets(set_source, source_col, filter_col, filter_crit, .minsize, .silent)
 \arguments{
 \item{set_source}{Set Source (e.g. TF regulon sets, GO:term sets, etc)}
 
-\item{source_col}{name of the .target column}
+\item{source_col}{name of the column with the source for the set source}
 
 \item{filter_col}{name of the column by which we wish to filter}
 
-\item{filter_crit}{criteria by which we wish to filter (e.g. confidence)}
+\item{filter_crit}{criteria by which we wish to filter the \code{filter_col}}
 
 \item{.minsize}{minimum size of each set}
 

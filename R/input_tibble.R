@@ -16,5 +16,5 @@
 #' @param source_col name of the column with the source for the set source
 #' @param target_col name of the column with the targets for the set source
 #' @param filter_col name of the column by which we wish to filter
-#' @param filter_crit criteria by which we wish to filter the filter column
+#' @param filter_crit criteria by which we wish to filter the `filter_col`
 NULL

@@ -36,17 +36,17 @@ check_preced <- function(vector_loc){
 #' Helper Function that checks if the source_set/network set is appropriately
 #' formatted
 #'
-#' @param source_loc set source (e.g. network resource, gene ontology sets,
-#'  kinase sets, etc.) location (.rds format tibble)
-#' @inheritParams filter_sets
+#' @inheritParams input_tibble
 #' @inheritParams readRDS_helper
 #'
 #' @import stringr
 #' @return returns a formatted set source - fit for \link{decouple}
 #' @keywords internal
-check_prereq <- function(source_loc, target_col, source_col,
-                         filter_col, .url_bool){
-  expected_cols <- c(target_col, source_col, filter_col,
+check_prereq <- function(source_loc, source_col,
+                         filter_col, target_col, .url_bool){
+
+  expected_cols <- c(all_of(target_col),
+                     source_col, filter_col,
                      "mor", "likelihood")
 
   set_source <- readRDS_helper(source_loc, .url_bool)
@@ -74,9 +74,7 @@ check_prereq <- function(source_loc, target_col, source_col,
 #' Helper Function to filter and format the gene set resource
 #'
 #' @param set_source Set Source (e.g. TF regulon sets, GO:term sets, etc)
-#' @param source_col name of the .target column
-#' @param filter_col name of the column by which we wish to filter
-#' @param filter_crit criteria by which we wish to filter (e.g. confidence)
+#' @inheritParams input_tibble
 #' @param .minsize minimum size of each set
 #' @param .silent bool whether to silence wanring messages
 #'

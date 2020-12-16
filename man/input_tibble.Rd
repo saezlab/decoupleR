@@ -26,7 +26,7 @@ kinase sets, etc.) location (.rds format tibble)}
 
 \item{filter_col}{name of the column by which we wish to filter}
 
-\item{filter_crit}{criteria by which we wish to filter the filter column}
+\item{filter_crit}{criteria by which we wish to filter the \code{filter_col}}
 }
 \description{
 Benchmark input tibble containing the (experimental) design for each of the

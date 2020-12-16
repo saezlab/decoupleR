@@ -5,15 +5,17 @@
 \title{Helper Function that checks if the source_set/network set is appropriately
 formatted}
 \usage{
-check_prereq(source_loc, target_col, source_col, filter_col, .url_bool)
+check_prereq(source_loc, source_col, filter_col, target_col, .url_bool)
 }
 \arguments{
 \item{source_loc}{set source (e.g. network resource, gene ontology sets,
 kinase sets, etc.) location (.rds format tibble)}
 
-\item{source_col}{name of the .target column}
+\item{source_col}{name of the column with the source for the set source}
 
 \item{filter_col}{name of the column by which we wish to filter}
+
+\item{target_col}{name of the column with the targets for the set source}
 
 \item{.url_bool}{bool whether the location is a url or not}
 }

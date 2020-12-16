@@ -13,6 +13,7 @@
 #' @importFrom rlang .data
 #' @importFrom methods new
 #' @importFrom stats reorder setNames
+#' @import tibble tidyr dplyr tidyselect
 #' @seealso See \link{input_tibble} for a description of the params/column
 #' of .design (i.e. input tibble).
 #' @return An S4 object of class BenchResult  \link{BenchResult}
@@ -45,8 +46,8 @@ run_benchmark <- function(.design,
          .GlobalEnv$meta_data <- readRDS_helper(bmeta_loc, .url_bool)
        }
        if(!.source_bln){
-         .GlobalEnv$set_source <- check_prereq(source_loc, all_of(target_col),
-                                               source_col, filter_col,
+         .GlobalEnv$set_source <- check_prereq(source_loc, source_col,
+                                               filter_col, target_col,
                                                .url_bool)
        }
 

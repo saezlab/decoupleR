@@ -73,40 +73,42 @@ get_bench_summary <- function(.res_tibble) {
     # calculate regulon size
     group_by(set_name, bench_name, filter_crit) %>%
     mutate(regulon_time = sum(statistic_time)) %>%
+    ungroup %>%
     select(set_name, bench_name, statistic,
            filter_crit, statistic_time, regulon_time)
 
   # Join AUROC, PRAUC, Coverage, and Comp time
+  roc_cov <- roc %>%
+                group_by(name_lvl) %>%
+                summarise(source_cov = coverage,
+                          condition_cov = n,
+                          roc_neg=tn) %>%
+                distinct() %>%
+                ungroup() %>%
+                separate(col="name_lvl",
+                         into=c("set_name", "bench_name", "filter_crit"),
+                         sep="\\.")
+
+  pr_cov <- pr %>%
+               group_by(name_lvl) %>%
+               summarise(pr_neg=tn) %>%
+               distinct() %>%
+               ungroup() %>%
+               separate(col="name_lvl",
+                        into=c("set_name", "bench_name", "filter_crit"),
+                        sep="\\.")
+
+
   summary_table <- auroc_tibble %>%
     inner_join(prauc_tibble %>%
                  rename(pr_auc = auc),
                by = c("set_name", "bench_name", "statistic", "filter_crit")) %>%
-    distinct() %>%
     inner_join(x=.,
-               y=(roc %>%
-                    group_by(name_lvl) %>%
-                    summarise(source_cov = coverage,
-                              condition_cov = n,
-                              roc_neg=tn) %>%
-                    distinct() %>%
-                    ungroup() %>%
-                    separate(col="name_lvl",
-                             into=c("set_name", "bench_name", "filter_crit"),
-                             sep="\\.")),
+               y=roc_cov,
                by = c("set_name", "bench_name", "filter_crit")) %>%
-    distinct() %>%
     inner_join(x=.,
-               y=(pr %>%
-                    group_by(name_lvl) %>%
-                    summarise(
-                              pr_neg=tn) %>%
-                    distinct() %>%
-                    ungroup() %>%
-                    separate(col="name_lvl",
-                             into=c("set_name", "bench_name", "filter_crit"),
-                             sep="\\.")),
+               y=pr_cov,
                by = c("set_name", "bench_name", "filter_crit")) %>%
-    distinct() %>%
     inner_join(x=.,
                y=comp_time,
                by = c("set_name", "bench_name", "filter_crit", "statistic")) %>%
@@ -123,26 +125,18 @@ get_bench_summary <- function(.res_tibble) {
 
 
 
-#' Helper function to format (PR) Receiver Operator Curve results
-#' @param .res_tibble formatted bench result tibble with added auroc column
+#' Helper function to format (Precision-Recall) Receiver Operator Curve results
+#' @param .res_tibble formatted bench result tibble with added AUROC column
 #' @param roc_column PR/ROC column to format
 #' @return returns
 format_roc <- function(.res_tibble, roc_column){
-  apply(.res_tibble, 1, function(df) {
-    df[roc_column] %>%
-      enframe() %>%
-      as_tibble() %>%
-      unnest(value) %>%
-      mutate(set_name = df$set_name,
-             bench_name = df$bench_name,
-             filter_crit = df$filter_crit,
-             statistic = df$statistic) %>%
-      unite("name_lvl", set_name, bench_name,
-            filter_crit, remove = F, sep = ".") %>%
-      unite("run_key", set_name, bench_name,
-            statistic, filter_crit, remove = F)
-  }) %>%
-    do.call(rbind, .)
+  .res_tibble %>%
+    select(set_name, bench_name, filter_crit, statistic, roc_column) %>%
+    unnest(roc_column) %>%
+          unite("name_lvl", set_name, bench_name,
+                filter_crit, remove = FALSE, sep = ".") %>%
+          unite("run_key", set_name, bench_name,
+                statistic, filter_crit, remove = FALSE)
 }
 
 
@@ -157,10 +151,10 @@ get_auroc_heat <- function(auroc_tibble){
     pivot_wider(names_from = name_lvl, values_from = auc) %>%
     column_to_rownames(var = "statistic")  %>%
     pheatmap(.,
-             cluster_rows = F,
+             cluster_rows = FALSE,
              treeheight_col = 0,
              treeheight_row = 0,
-             display_numbers = T,
-             silent = T,
-             cluster_cols=F)
+             display_numbers = TRUE,
+             silent = TRUE,
+             cluster_cols = FALSE)
 }

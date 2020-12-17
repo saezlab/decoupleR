@@ -45,6 +45,10 @@ url_tibble <- input_tibble %>%
            opts_list=list(list(scira=list(),
                                viper = list(verbose = FALSE, minsize=0))))
 
+# xd <- run_benchmark(input_tibble, .url_bool = TRUE)
+
+
+
 # Test run_benchmark function --------------------------------------------------
 test_that("test run_benchmark stages (format, call to decouple, roc)", {
     res_1 <- run_benchmark(input_tibble, .perform = FALSE) %>%

@@ -2,8 +2,10 @@
 % Please edit documentation in R/bench-auroc.R
 \name{prepare_for_roc}
 \alias{prepare_for_roc}
-\alias{source_set_columns}
-\title{This function prepares each \code{activity} element for ROC curve calculation.}
+\title{Helper function is used to preprare \code{activity} elements or \link{decouple}
+output for \link{calc_curve}. This is done by keeping only the the perturbed
+\code{sources} (or tfs) and assigning \code{score} (or stastical method results e.g.
+Normalized Enrichment Score) as the \code{predictor}.}
 \usage{
 prepare_for_roc(df, filter_tn = F, ranked = F)
 }
@@ -22,5 +24,8 @@ tidy data frame with meta information for each experiment and the
 response and the predictor value which are required for roc curve analysis
 }
 \description{
-This function prepares each \code{activity} element for ROC curve calculation.
+Helper function is used to preprare \code{activity} elements or \link{decouple}
+output for \link{calc_curve}. This is done by keeping only the the perturbed
+\code{sources} (or tfs) and assigning \code{score} (or stastical method results e.g.
+Normalized Enrichment Score) as the \code{predictor}.
 }

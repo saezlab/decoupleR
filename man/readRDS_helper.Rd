@@ -2,7 +2,7 @@
 % Please edit documentation in R/bench-run-prep.R
 \name{readRDS_helper}
 \alias{readRDS_helper}
-\title{readRDS helper function}
+\title{\code{base::readRDS} helper function that enables loading files from urls}
 \usage{
 readRDS_helper(file, .url_bool = FALSE, ...)
 }
@@ -19,5 +19,5 @@ readRDS_helper(file, .url_bool = FALSE, ...)
   }}
 }
 \description{
-readRDS helper function
+\code{base::readRDS} helper function that enables loading files from urls
 }

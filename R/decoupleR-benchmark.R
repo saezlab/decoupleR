@@ -1,20 +1,20 @@
-#' Benchmark pipeline built on the statistical method wrapper decouple.
+#' Benchmark pipeline built on the statistical method wrapper \link{decouple}.
 #'
 #' @inheritParams format_design
 #' @param .form bool whether to format or not
-#' @param .perform bool whether to calculate roc and performance summary
+#' @param .perform bool whether to calculate ROC and performance summary
 #' @inheritParams filter_sets
 #' @param .downsample_pr whether to downsample precision recall curve TNs
 #' @param .downsample_roc whether to downsample ROC true negatives
-#' @param .downsample_times downsampling iterattions
+#' @param .downsample_times downsampling iterations
 #' @inheritParams readRDS_helper
 #'
 #' @export
 #' @importFrom rlang .data
 #' @importFrom stats reorder setNames
 #' @import tibble tidyr dplyr tidyselect
-#' @seealso See \link{input_tibble} for a description of the params/column
-#' of .design (i.e. input tibble).
+#' @seealso See \link{input_tibble} for a description of the params/columns
+#'   of .design (i.e. input tibble).
 #' @return An S4 object of \link{BenchResult-class}
 run_benchmark <- function(.design,
                           .form = TRUE,

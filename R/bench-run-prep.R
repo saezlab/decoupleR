@@ -1,4 +1,4 @@
-# Helper functions for run_benchmark ----
+# Helper functions for run_benchmark
 
 #' Helper Function to to generate the bools used to check if the current
 #' locations/rds objects are the same as the previous one.
@@ -102,7 +102,7 @@ filter_sets <- function(set_source, source_col,
 }
 
 
-#' readRDS helper function
+#' `base::readRDS` helper function that enables loading files from urls
 #' @inheritParams base::readRDS
 #' @inheritDotParams base::readRDS
 #' @param .url_bool bool whether the location is a url or not

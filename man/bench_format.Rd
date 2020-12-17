@@ -17,3 +17,7 @@ formatted benchmarking results
 \description{
 Function to format benchmarking results
 }
+\details{
+If infinite values are present in the results, this function will
+notify the user.
+}

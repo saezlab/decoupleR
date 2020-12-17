@@ -6,9 +6,15 @@
 precision-recall and ROC curves (depending on \code{curve}).
 The \code{activity} column is populated with the output for each stat method and
 results from the \code{run_benchmark()} function. Each of the elements
-in \code{activity} are the results from runs of the \code{decouple()} wrapper.}
+in \code{activity} are results from runs of the \link{decouple} wrapper.}
 \usage{
-calc_curve(df, downsampling = T, times = 1000, ranked = F, curve = "PR")
+calc_curve(
+  df,
+  downsampling = FALSE,
+  times = 1000,
+  ranked = FALSE,
+  curve = "ROC"
+)
 }
 \arguments{
 \item{df}{run_benchmark roc column provided as input}
@@ -25,11 +31,13 @@ ranking that already took up-/downregulation (sign) into account}
 }
 \value{
 tidy data frame with precision, recall, auc, n, tp, tn and coverage
+in the case of PR curve; or sensitivity and specificity, auc, n, tp, tn and
+coverage in the case of ROC
 }
 \description{
 This function takes the elements of the \code{activity} column and calculates
 precision-recall and ROC curves (depending on \code{curve}).
 The \code{activity} column is populated with the output for each stat method and
 results from the \code{run_benchmark()} function. Each of the elements
-in \code{activity} are the results from runs of the \code{decouple()} wrapper.
+in \code{activity} are results from runs of the \link{decouple} wrapper.
 }

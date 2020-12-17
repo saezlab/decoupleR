@@ -1,8 +1,8 @@
 #' This function takes the elements of the `activity` column and calculates
-#' precision-recall and ROC curves (depending on `curve`).
+#'   precision-recall and ROC curves (depending on `curve`).
 #' The `activity` column is populated with the output for each stat method and
-#' results from the `run_benchmark()` function. Each of the elements
-#' in `activity` are the results from runs of the `decouple()` wrapper.
+#'   results from the `run_benchmark()` function. Each of the elements
+#'   in `activity` are results from runs of the \link{decouple} wrapper.
 #'
 #' @param df run_benchmark roc column provided as input
 #' @param downsampling logical flag indicating if the number of TN should be
@@ -13,12 +13,13 @@
 #' @param curve whether to return a Precision-Recall Curve ("PR") or ROC ("ROC")
 #'
 #' @return tidy data frame with precision, recall, auc, n, tp, tn and coverage
-#'
+#'   in the case of PR curve; or sensitivity and specificity, auc, n, tp, tn
+#'   and coverage in the case of ROC
 #' @import yardstick
-calc_curve = function(df, downsampling = T,
+calc_curve = function(df, downsampling = FALSE,
                          times = 1000,
-                         ranked = F,
-                         curve="PR") {
+                         ranked = FALSE,
+                         curve="ROC") {
 
   if(curve=="PR"){
     res_col_1 <- "precision"
@@ -100,7 +101,10 @@ calc_curve = function(df, downsampling = T,
 }
 
 
-#' This function prepares each `activity` element for ROC curve calculation.
+#' Helper function is used to prepare `activity` elements or \link{decouple}
+#' output for \link{calc_curve}. This is done by keeping only the the perturbed
+#' or predicted `sources` (or TFs) and assigning the `score` (or statistical
+#' method results e.g. Normalized Enrichment Score) as the `predictor`.
 #'
 #' @param df `activity` column elements - i.e. `decouple()` output.
 #' @param filter_tn logical flag indicating if unnecessary true negatives should
@@ -110,9 +114,8 @@ calc_curve = function(df, downsampling = T,
 #'   ranking that already took up-/downregulation (sign) into account
 #'
 #' @return tidy data frame with meta information for each experiment and the
-#'   response and the predictor value which are required for roc curve analysis
-#' @aliases source_set_columns
-#'
+#'   response and the predictor value which are required for ROC and
+#'   PR curve analysis
 prepare_for_roc = function(df, filter_tn = F, ranked = F) {
   res = df %>%
     dplyr::mutate(response = case_when(tf == target ~ 1,
@@ -122,7 +125,6 @@ prepare_for_roc = function(df, filter_tn = F, ranked = F) {
   res$response = factor(res$response, levels = c(1, 0))
 
   if (filter_tn == TRUE) {
-    # Only TF which are perturbed and predicted are considered
     z = intersect(res$tf, res$target)
     res = res %>%
       filter(tf %in% z, target %in% z)

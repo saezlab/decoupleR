@@ -36,7 +36,7 @@ input_tibble <- tibble(
         filter_crit=list(c("A"))
     )
 
-ulr_tibble <- input_tibble %>%
+url_tibble <- input_tibble %>%
     mutate(filter_crit=list(c("A")),
         bexpr_loc = bexpr_url,
            bmeta_loc = bmeta_url,
@@ -56,7 +56,7 @@ test_that("test run_benchmark stages (format, call to decouple, roc)", {
     res_2 <- res_1$activity[[1]] %>% select(tf, id, statistic, score)
     exp_2 <- exp_1$activity[[1]] %>% select(tf, id, statistic, score)
 
-    res_3 <- run_benchmark(ulr_tibble, .url_bool = TRUE) %>%
+    res_3 <- run_benchmark(url_tibble, .url_bool = TRUE) %>%
         pluck(., "summary", "summary_table") %>%
         select(-c(statistic_time, regulon_time))
     exp_3 <- readRDS(file.path(expected_dir,

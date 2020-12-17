@@ -5,6 +5,9 @@
 #' @returns formatted benchmarking results
 #' @importFrom rlang .data
 #' @importFrom stringr str_glue_data
+#'
+#' @details If infinite values are present in the results, this function will
+#'   notify the user.
 bench_format <- function(bench_res, .silent) {
   res_format <- bench_res %>%
     unnest(activity) %>%
@@ -19,20 +22,8 @@ bench_format <- function(bench_res, .silent) {
     unnest(statistic) %>%
     select(set_name, bench_name, filter_crit, statistic, activity)
 
-  # Check and filter infinite values
-  inf_sums <- lapply(res_format$activity,
-                     function(x)
-                       sum(is.infinite(x$score))) %>%
-    setNames(
-      paste(
-        res_format$set_name,
-        res_format$bench_name,
-        res_format$statistic,
-        sep = "_"
-      )
-    ) %>%
-    enframe() %>% unnest(value)
-
+  inf_sums <- res_format$activity %>%
+    map(function(x) sum(is.infinite(x$score)))
   if (sum(inf_sums$value)) {
     res_format <- res_format %>%
       mutate(activity = activity %>%

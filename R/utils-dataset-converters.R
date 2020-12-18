@@ -17,7 +17,7 @@
 #'    Return a list of regulons suitable for [GSVA::gsva()].
 #' * `convert_to_mean()`
 #'    Return a tibble with four columns: `tf`, `target`, `mor` and `likelihood`.
-#' * `convert_to_pcira()`
+#' * `convert_to_pscira()`
 #'    Returns a tibble with three columns: `tf`, `target` and `mor`.
 #' * `convert_to_scira()`
 #'    Returns a tibble with three columns: `tf`, `target` and `mor`.
@@ -52,7 +52,9 @@ convert_to_ <- function(network) invisible(network)
 #' @family convert_to_ variants
 #' @export
 convert_to_scira <- function(network, .source, .target, .mor = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
 
     network %>%
         convert_f_defaults(
@@ -71,7 +73,9 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL) {
 #' @family convert_to_ variants
 #' @export
 convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
 
     network %>%
         convert_f_defaults(
@@ -91,8 +95,15 @@ convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_mean <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+convert_to_mean <- function(
+    network,
+    .source,
+    .target,
+    .mor = NULL,
+    .likelihood = NULL) {
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
 
     network %>%
         convert_f_defaults(
@@ -113,8 +124,15 @@ convert_to_mean <- function(network, .source, .target, .mor = NULL, .likelihood 
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_viper <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+convert_to_viper <- function(
+    network,
+    .source,
+    .target,
+    .mor = NULL,
+    .likelihood = NULL) {
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
 
     network %>%
         convert_f_defaults(
@@ -143,7 +161,9 @@ convert_to_viper <- function(network, .source, .target, .mor = NULL, .likelihood
 #' @family convert_to_ variants
 #' @export
 convert_to_gsva <- function(network, .source, .target) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
 
     network %>%
         convert_f_defaults(

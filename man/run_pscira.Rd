@@ -29,7 +29,8 @@ in \code{network} \code{.target} column.}
 
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
-\item{sparse}{Logical value indicating if the generated profile matrix should be sparse.}
+\item{sparse}{Logical value indicating if the generated profile matrix
+should be sparse.}
 
 \item{times}{Number of replications.}
 

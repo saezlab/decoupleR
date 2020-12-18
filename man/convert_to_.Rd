@@ -42,7 +42,7 @@ Return same as input.
 Return a list of regulons suitable for \code{\link[GSVA:gsva]{GSVA::gsva()}}.
 \item \code{convert_to_mean()}
 Return a tibble with four columns: \code{tf}, \code{target}, \code{mor} and \code{likelihood}.
-\item \code{convert_to_pcira()}
+\item \code{convert_to_pscira()}
 Returns a tibble with three columns: \code{tf}, \code{target} and \code{mor}.
 \item \code{convert_to_scira()}
 Returns a tibble with three columns: \code{tf}, \code{target} and \code{mor}.

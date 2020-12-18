@@ -1,4 +1,4 @@
-#' decouple
+#' Evaluate multiple statistics with same input data
 #'
 #' Calculate the TF activity per sample out of a gene expression matrix by
 #' coupling a regulon network with a variety of statistics.
@@ -24,29 +24,31 @@
 #' @import purrr
 #' @family decoupleR statistics
 #' @examples
-#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#' if (FALSE) {
+#'     inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
-#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
-#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#'     mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+#'     network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' decouple(
-#'     mat = mat,
-#'     network = network,
-#'     .source = "tf",
-#'     .target = "target",
-#'     statistics = c("gsva", "mean", "pscira", "scira", "viper"),
-#'     args = list(
-#'         gsva = list(verbose = FALSE),
-#'         mean = list(.mor = "mor", .likelihood = "likelihood"),
-#'         pscira = list(.mor = "mor"),
-#'         scira = list(.mor = "mor"),
-#'         viper = list(
-#'             .mor = "mor",
-#'             .likelihood = "likelihood",
-#'             verbose = FALSE
-#'        )
+#'     decouple(
+#'         mat = mat,
+#'         network = network,
+#'         .source = "tf",
+#'         .target = "target",
+#'         statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+#'         args = list(
+#'             gsva = list(verbose = FALSE),
+#'             mean = list(.mor = "mor", .likelihood = "likelihood"),
+#'             pscira = list(.mor = "mor"),
+#'             scira = list(.mor = "mor"),
+#'             viper = list(
+#'                 .mor = "mor",
+#'                 .likelihood = "likelihood",
+#'                 verbose = FALSE
+#'             )
+#'         )
 #'     )
-#' )
+#' }
 decouple <- function(
     mat,
     network,
@@ -123,15 +125,17 @@ decouple <- function(
 #' Construct an expression to evaluate a decoupleR statistic.
 #'
 #' @details
-#' `.invoke_statistic()` was designed because [purrr::invoke_map_dfr()] is retired.
-#' The alternative proposed by the developers by purrr is to use [rlang::exec()] in
-#' combination with [purrr::map2()], however, the function is not a quoting function,
-#' so the parameters that require the `curly-curly` (`{{}}`) operator require a
-#' special pre-processing. In practical terms, creating an expression of zero allows
-#' us to have better control over the function call as suggested in the [rlang::exec()]
-#' documentation. For instance, we can see how the function itself is being called.
-#' Therefore, if an error occurs in one of the statistics, we will have a direct
-#' traceback to the problematic call, as opposed to what happens directly using [rlang::exec()].
+#' `.invoke_statistic()` was designed because [purrr::invoke_map_dfr()] is
+#' retired. The alternative proposed by the developers by purrr is to use
+#' [rlang::exec()] in combination with [purrr::map2()], however, the function
+#' is not a quoting function, so the parameters that require the
+#' `curly-curly` (`{{}}`) operator require a special pre-processing.
+#' In practical terms, creating an expression of zero allows us to have better
+#' control over the function call as suggested in the [rlang::exec()]
+#' documentation. For instance, we can see how the function itself is being
+#' called. Therefore, if an error occurs in one of the statistics, we will
+#' have a direct traceback to the problematic call, as opposed to what happens
+#'  directly using [rlang::exec()].
 #'
 #' @inheritParams decouple
 #' @param fn Expression containing the name of the function to execute.

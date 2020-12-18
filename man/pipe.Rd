@@ -6,6 +6,9 @@
 \usage{
 lhs \%>\% rhs
 }
+\value{
+Pipe an object forward into a function or call expression.
+}
 \description{
 See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
 }

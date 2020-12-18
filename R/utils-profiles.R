@@ -4,13 +4,13 @@
 #'
 #' @inheritParams tidyr::complete
 #' @inheritParams tidyr::pivot_wider
-#' @param sources A named vector or list with the values to expand and get profile.
+#' @param sources A named vector or list with the values to expand and get
+#'  profile.
 #'
 #' @return A data frame with the expanded grid of the values passed in
 #'  `sources` and filled as specified in the `fill` argument.
-#' @export
-#'
 #' @examples
+#' \dontrun{
 #' library(dplyr, warn.conflicts = FALSE)
 #' df <- tibble(
 #'     group = c(1:2, 1),
@@ -28,10 +28,15 @@
 #' # You can also choose to fill in missing values
 #'
 #' # This only fill with "Unknown" the NA values of the column item_name
-#' df %>% get_profile_of(sources = to_get_profile, values_fill = list(item_name = "Unknown"))
+#' df %>% get_profile_of(
+#'     sources = to_get_profile,
+#'     values_fill = list(item_name = "Unknown")
+#' )
 #'
 #' # Replace all NAs with "Unkwnon"
 #' df %>% get_profile_of(sources = to_get_profile, values_fill = "Unknown")
+#' }
+#' @keywords internal
 #' @seealso [complete][tidyr::complete] [expand][tidyr::expand]
 #'
 #' @import dplyr
@@ -53,7 +58,10 @@ get_profile_of <- function(data, sources, values_fill = NA) {
         replace_na(new_data, replace = values_fill)
     } else if (!is.na(values_fill) && length(values_fill) == 1) {
         new_data %>%
-            mutate(across(everything(), ~ replace_na(.x, replace = values_fill)))
+            mutate(across(
+                .cols = everything(),
+                .fns = ~ replace_na(.x, replace = values_fill)
+            ))
     } else {
         new_data
     }
@@ -72,7 +80,11 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 #' @inheritParams tidyr::spread
 #' @param to_matrix Logical value indicating if the result should be a matrix.
 #'  Parameter is ignored in case `sparse` is `TRUE`.
-#' @param to_sparse Logical value indicating whether the resulting matrix should be sparse or not.
+#' @param to_sparse Logical value indicating whether the resulting matrix
+#'  should be sparse or not.
+#'
+#' @return "widened" data; it is increasing the number of columns and
+#'  decreasing the number of rows.
 #'
 #' @export
 #' @import dplyr
@@ -80,7 +92,7 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 #' @import tidyr
 #' @importFrom Matrix Matrix
 #' @examples
-#'
+#' \dontrun{
 #' df <- tibble::tibble(
 #'     tf = c("tf_1", "tf_1", "tf_2", "tf_2"),
 #'     gene = c("gene_1", "gene_2", "gene_1", "gene_2"),
@@ -111,6 +123,8 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 #'     values_from = mor,
 #'     to_sparse = TRUE
 #' )
+#' }
+#' @keywords internal
 pivot_wider_profile <- function(data,
     id_cols,
     names_from,

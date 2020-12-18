@@ -8,6 +8,7 @@
 #' @export
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
+#' @return Pipe an object forward into a function or call expression.
 #' @examples
 #' c(1, 2, 3) %>% sum()
 #' @noMd

@@ -2,7 +2,7 @@
 % Please edit documentation in R/decoupleR-decouple.R
 \name{decouple}
 \alias{decouple}
-\title{decouple}
+\title{Evaluate multiple statistics with same input data}
 \usage{
 decouple(
   mat,
@@ -52,29 +52,31 @@ Calculate the TF activity per sample out of a gene expression matrix by
 coupling a regulon network with a variety of statistics.
 }
 \examples{
-inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+if (FALSE) {
+    inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 
-mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
-network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+    mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+    network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-decouple(
-    mat = mat,
-    network = network,
-    .source = "tf",
-    .target = "target",
-    statistics = c("gsva", "mean", "pscira", "scira", "viper"),
-    args = list(
-        gsva = list(verbose = FALSE),
-        mean = list(.mor = "mor", .likelihood = "likelihood"),
-        pscira = list(.mor = "mor"),
-        scira = list(.mor = "mor"),
-        viper = list(
-            .mor = "mor",
-            .likelihood = "likelihood",
-            verbose = FALSE
-       )
+    decouple(
+        mat = mat,
+        network = network,
+        .source = "tf",
+        .target = "target",
+        statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+        args = list(
+            gsva = list(verbose = FALSE),
+            mean = list(.mor = "mor", .likelihood = "likelihood"),
+            pscira = list(.mor = "mor"),
+            scira = list(.mor = "mor"),
+            viper = list(
+                .mor = "mor",
+                .likelihood = "likelihood",
+                verbose = FALSE
+            )
+        )
     )
-)
+}
 }
 \seealso{
 Other decoupleR statistics: 

@@ -28,7 +28,8 @@ in \code{network} \code{.target} column.}
 
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
-\item{sparse}{Logical value indicating if the generated profile matrix should be sparse.}
+\item{sparse}{Logical value indicating if the generated profile matrix
+should be sparse.}
 
 \item{fast}{Logical value indicating if the lineal model must be calculated
 with \code{\link[speedglm:speedlm]{speedglm::speedlm.fit()}} or with base \code{\link[stats:lm]{stats::lm()}}.}

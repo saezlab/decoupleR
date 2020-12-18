@@ -38,11 +38,11 @@ bench_format <- function(.bench_res, .silent) {
   if (sum(inf_sums$value)) {
     res_format <- res_format %>%
       mutate(activity = .data$activity %>%
-               map(function(tib) tib %>%
-                   mutate_at(vars(.data$score),
-                             ~ replace(.data, is.infinite(.data), 0))))
-
-    if (!.silent)
+               map(function(tib)
+                 tib %>%
+                   mutate_at(
+                     vars(.data$score), ~ replace(., is.infinite(.), 0)
+                   )))
       warning(
         inf_sums %>%
           filter(.data$value > 0) %>%

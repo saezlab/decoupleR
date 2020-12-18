@@ -129,9 +129,9 @@ input_tibble %>%
 **Attention** should be paid to the arguments (options) passed to each 
 statistical method. In particular, if the set resource contains columns such
 as weights (=`.likelihood`) or mode of regulation (=`.mor`) then the names of 
-these columns should also be passed as arguments, shown above. 
-In the case when these columns are absent or not provided, arbitrary values
-with no effect will be assigned.
+these columns should also be passed as arguments. 
+In the case when these columns are absent, or not provided, arbitrary values
+will be assigned.
 
 Please refer to the `run_*` functions for more information about
 statistic-specific arguments.
@@ -167,10 +167,10 @@ of sources and targets, where a `source` (e.g.  Transcription factors (TFs) or
 Kinases in regulatory networks or GO terms in Gene Ontologies) is linked to its
 `targets` (e.g. the Genes or Phosphosites  composing the set of targets for a
 given source). 
-It is worth pointing out that similarly to `.mor` and`.likelihood`, 
+It is worth pointing out that similarly to `.mor` and `.likelihood`, 
 `source_col`, `target_col`, and `filter_col` can take any user-specified name.
 The `filter_col` and hence source_set pre-filtering can be omitted by passing
-`NULL` for it's name.
+`NULL` as its name.
 
 In this tutorial, we will use [DoRothEA](https://github.com/saezlab/dorothea) -
 a gene set resource containing signed TF-target interactions.
@@ -214,7 +214,7 @@ than the experiment target itself. However, at this stage, we believe that this
 is likely our best choice. Nonetheless, we are open to suggestions and implementations
 of alternative source set performance methods.
 
-```{r bench_run, cache=T, echo=T, results='hide', message=F, warning=F}
+```{r bench_run, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 dor_run <- run_benchmark(
     .design = input_tibble, # provide input tibble
     .minsize = 10, # filter gene sets with size < 10

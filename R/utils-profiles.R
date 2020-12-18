@@ -86,7 +86,6 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 #' @return "widened" data; it is increasing the number of columns and
 #'  decreasing the number of rows.
 #'
-#' @export
 #' @import dplyr
 #' @import tibble
 #' @import tidyr

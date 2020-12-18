@@ -8,14 +8,7 @@ The \code{activity} column is populated with the output for each stat method and
 results from the \code{run_benchmark()} function. Each of the elements
 in \code{activity} are results from runs of the \link{decouple} wrapper.}
 \usage{
-calc_curve(
-  df,
-  downsampling = FALSE,
-  times = 1000,
-  ranked = FALSE,
-  curve = "ROC",
-  seed = 420
-)
+calc_curve(df, downsampling = FALSE, times = 1000, curve = "ROC", seed = 420)
 }
 \arguments{
 \item{df}{run_benchmark roc column provided as input}
@@ -24,9 +17,6 @@ calc_curve(
 should be downsampled to the number of Positives}
 
 \item{times}{integer showing the number of downsampling}
-
-\item{ranked}{logical flag indicating if input is derived from composite
-ranking that already took up-/downregulation (sign) into account}
 
 \item{curve}{whether to return a Precision-Recall Curve ("PR") or ROC ("ROC")}
 

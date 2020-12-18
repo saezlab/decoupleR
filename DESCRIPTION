@@ -43,7 +43,8 @@ Imports:
     viper,
     yardstick,
     ggplot2,
-    pheatmap
+    pheatmap,
+    methods
 Suggests: 
     BiocStyle,
     covr,
@@ -53,8 +54,7 @@ Suggests:
     rmarkdown,
     roxygen2,
     sessioninfo,
-    testthat,
-    methods
+    testthat
 VignetteBuilder: 
     knitr
 biocViews: Software, StatisticalMethod, FunctionalGenomics

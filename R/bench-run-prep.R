@@ -9,9 +9,9 @@
 #' prerequsites is loaded.
 format_design <- function(.design){
   .design %>%
-    mutate(.source_bln = source_loc %>% check_preced(),
-           .expr_bln = bexpr_loc %>% check_preced(),
-           .meta_bln = bmeta_loc %>% check_preced())
+    mutate(.source_bln = .data$source_loc %>% check_preced(),
+           .expr_bln = .data$bexpr_loc %>% check_preced(),
+           .meta_bln = .data$bmeta_loc %>% check_preced())
 }
 
 
@@ -30,44 +30,6 @@ check_preced <- function(vector_loc){
   pmap_lgl(tib_loc, function(behind, current){
     ifelse(is.na(behind) || behind!=current, FALSE, TRUE)
   })
-}
-
-
-#' Helper Function that checks if the source_set/network set is appropriately
-#' formatted
-#'
-#' @inheritParams input_tibble
-#' @inheritParams readRDS_helper
-#'
-#' @import stringr
-#' @return returns a formatted set source - fit for \link{decouple}
-#' @keywords internal
-check_prereq <- function(source_loc, source_col,
-                         filter_col, target_col, .url_bool){
-
-  expected_cols <- c(all_of(target_col),
-                     source_col, filter_col,
-                     "mor", "likelihood")
-
-  set_source <- readRDS_helper(source_loc, .url_bool)
-
-  missing_cols <- setdiff(expected_cols, names(set_source))
-
-
-  # inform for inconsistencies with expected
-  if(length(missing_cols)){
-    if(!("mor" %in% missing_cols) | !("likelihood" %in% missing_cols)){
-      stop(str_glue("Columns 'mor' or 'likelihood' are missing!
-                    Please assign arbitrary 'mor' and 'likelihood' columns ",
-                    "populated with 1 (as integer) in the network/source set"))
-    } else{
-      stop(missing_cols %>%
-             str_glue_data("{} Not Found! Please make sure that appropriate",
-                           " column names were provided in the design tibble"))
-    }
-  }
-
-  return(set_source)
 }
 
 

@@ -7,6 +7,7 @@
 #' ROC plots, and Heatmap plots
 #' @import ggplot2 pheatmap
 #' @importFrom rlang .data
+#' @export
 get_bench_summary <- function(.res_tibble) {
   # get roc results
   roc <- format_roc(.res_tibble, "roc")
@@ -17,7 +18,7 @@ get_bench_summary <- function(.res_tibble) {
   # Plot ROC
   roc_plot <- ggplot(roc, aes(x = 1-specificity,
                               y = sensitivity,
-                              colour = run_key)) +
+                              colour = .data$run_key)) +
     geom_line() +
     geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
     xlab("FPR (1-specificity)") +
@@ -25,27 +26,28 @@ get_bench_summary <- function(.res_tibble) {
 
   # Plot PR ROC
   # Assign Expected Random PR baseline (C.Positives/P+N)
-  pr_plot <- ggplot(pr, aes(x = recall, y = precision, colour = run_key)) +
+  pr_plot <- ggplot(pr, aes(x = recall, y = precision, colour = .data$run_key)) +
     geom_line() +
-    geom_abline(pr %>% rename("random_baseline"=name_lvl),
-                mapping=aes(intercept = cp/(cn+cp), slope = 0,
-                            linetype = random_baseline)) +
+    geom_abline(pr %>% rename("random_baseline"=.data$name_lvl),
+                mapping=aes(intercept = .data$cp/(.data$cn+.data$cp), slope = 0,
+                            linetype = .data$random_baseline)) +
     xlab("Recall/Sensitivity") +
     ylab("Precision")
 
   # Extract AUROC
   auroc_tibble <- .res_tibble %>%
     unnest(roc) %>%
-    select(set_name, bench_name, filter_crit, statistic, auc) %>%
+    select(.data$set_name, .data$bench_name, .data$filter_crit,
+           .data$statistic, .data$auc) %>%
     distinct()
 
   # Plot AUROC
   auroc_plot <- auroc_tibble %>%
-    unite("run_key", set_name, bench_name,
-          statistic, filter_crit, remove = FALSE) %>%
-    ggplot(., aes(x = reorder(run_key, auc),
-                  y = auc,
-                  fill = run_key)) +
+    unite("run_key", .data$set_name, .data$bench_name,
+          .data$statistic, .data$filter_crit, remove = FALSE) %>%
+    ggplot(., aes(x = reorder(.data$run_key, .data$auc),
+                  y = .data$auc,
+                  fill = .data$run_key)) +
     geom_bar(stat = "identity") +
     xlab("networks") +
     ylab("AUROC") +
@@ -57,8 +59,9 @@ get_bench_summary <- function(.res_tibble) {
 
   # Extract AU PRROC
   prauc_tibble <- .res_tibble %>%
-    unnest(prc) %>%
-    select(set_name, bench_name, filter_crit, statistic, auc) %>%
+    unnest(.data$prc) %>%
+    select(.data$set_name, .data$bench_name, .data$filter_crit,
+           .data$statistic, .data$auc) %>%
     distinct()
 
   # AU PR Heatmap
@@ -67,25 +70,25 @@ get_bench_summary <- function(.res_tibble) {
   # get computational time info
   comp_time <- .res_tibble %>%
     # get statistic time from activity
-    mutate(statistic_time = activity %>%
+    mutate(statistic_time = .data$activity %>%
              map(function(tib)
                tib %>%
-                 select(statistic_time) %>%
+                 select(.data$statistic_time) %>%
                  unique)) %>%
-    unnest(statistic_time) %>%
+    unnest(.data$statistic_time) %>%
     # calculate regulon size
-    group_by(set_name, bench_name, filter_crit) %>%
-    mutate(regulon_time = sum(statistic_time)) %>%
+    group_by(.data$set_name, .data$bench_name, .data$filter_crit) %>%
+    mutate(regulon_time = sum(.data$statistic_time)) %>%
     ungroup %>%
-    select(set_name, bench_name, statistic,
-           filter_crit, statistic_time, regulon_time)
+    select(.data$set_name, .data$bench_name, .data$statistic,
+           .data$filter_crit, .data$statistic_time, .data$regulon_time)
 
   # Join AUROC, PRAUC, Coverage, and Comp time
   roc_cov <- roc %>%
-                group_by(name_lvl) %>%
-                summarise(source_cov = coverage,
+                group_by(.data$name_lvl) %>%
+                summarise(source_cov = .data$coverage,
                           condition_cov = n,
-                          roc_neg=cn) %>%
+                          roc_neg=.data$cn) %>%
                 distinct() %>%
                 ungroup() %>%
                 separate(col="name_lvl",
@@ -93,8 +96,8 @@ get_bench_summary <- function(.res_tibble) {
                          sep="\\.")
 
   pr_cov <- pr %>%
-               group_by(name_lvl) %>%
-               summarise(pr_neg=cn) %>%
+               group_by(.data$name_lvl) %>%
+               summarise(pr_neg=.data$cn) %>%
                distinct() %>%
                ungroup() %>%
                separate(col="name_lvl",
@@ -104,7 +107,7 @@ get_bench_summary <- function(.res_tibble) {
 
   summary_table <- auroc_tibble %>%
     inner_join(prauc_tibble %>%
-                 rename(pr_auc = auc),
+                 rename(pr_auc = .data$auc),
                by = c("set_name", "bench_name", "statistic", "filter_crit")) %>%
     inner_join(x=.,
                y=roc_cov,
@@ -134,13 +137,13 @@ get_bench_summary <- function(.res_tibble) {
 #' @return returns
 format_roc <- function(.res_tibble, roc_column){
   .res_tibble %>%
-    select(set_name, bench_name, filter_crit,
-           statistic, .data[[roc_column]]) %>%
+    select(.data$set_name, .data$bench_name, .data$filter_crit,
+           .data$statistic, .data[[roc_column]]) %>%
     unnest(.data[[roc_column]]) %>%
-          unite("name_lvl", set_name, bench_name,
-                filter_crit, remove = FALSE, sep = ".") %>%
-          unite("run_key", set_name, bench_name,
-                statistic, filter_crit, remove = FALSE)
+          unite("name_lvl", .data$set_name, .data$bench_name,
+                .data$filter_crit, remove = FALSE, sep = ".") %>%
+          unite("run_key", .data$set_name, .data$bench_name,
+                .data$statistic, .data$filter_crit, remove = FALSE)
 }
 
 
@@ -150,15 +153,16 @@ format_roc <- function(.res_tibble, roc_column){
 #' @import pheatmap ggplot2
 get_auroc_heat <- function(auroc_tibble){
   auroc_tibble %>%
-    select(statistic, auc, filter_crit, set_name, bench_name) %>%
-    unite("name_lvl", set_name, bench_name, filter_crit) %>%
-    pivot_wider(names_from = name_lvl, values_from = auc) %>%
+    select(.data$statistic, .data$auc, .data$filter_crit,
+           .data$set_name, .data$bench_name) %>%
+    unite("name_lvl", .data$set_name, .data$bench_name, .data$filter_crit) %>%
+    pivot_wider(names_from = .data$name_lvl, values_from = .data$auc) %>%
     column_to_rownames(var = "statistic")  %>%
     pheatmap(.,
              cluster_rows = FALSE,
+             cluster_cols = FALSE,
              treeheight_col = 0,
              treeheight_row = 0,
              display_numbers = TRUE,
-             silent = TRUE,
-             cluster_cols = FALSE)
+             silent = TRUE)
 }

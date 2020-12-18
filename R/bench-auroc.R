@@ -8,8 +8,6 @@
 #' @param downsampling logical flag indicating if the number of Negatives
 #'   should be downsampled to the number of Positives
 #' @param times integer showing the number of downsampling
-#' @param ranked logical flag indicating if input is derived from composite
-#'   ranking that already took up-/downregulation (sign) into account
 #' @param curve whether to return a Precision-Recall Curve ("PR") or ROC ("ROC")
 #' @param seed An integer to set the RNG state for random number generation. Use
 #'   NULL for random number generation.
@@ -18,6 +16,7 @@
 #'   in the case of PR curve; or sensitivity and specificity, auc, n, cp, cn
 #'   and coverage in the case of ROC.
 #' @import yardstick
+#' @export
 calc_curve = function(df,
                       downsampling = FALSE,
                       times = 1000,
@@ -45,8 +44,8 @@ calc_curve = function(df,
     return(as_tibble(NULL))
   }
 
-  cn = df %>% filter(response == 0)
-  cp = df %>% filter(response == 1)
+  cn = df %>% filter(.data$response == 0)
+  cp = df %>% filter(.data$response == 1)
 
   feature_coverage = length(unique(df$tf))
 
@@ -59,11 +58,11 @@ calc_curve = function(df,
         bind_rows(cp)
 
       r_sub = df_sub %>%
-        curve_fun(response, predictor)
+        curve_fun(.data$response, .data$predictor)
 
       auc = df_sub %>%
-        auc_fun(response, predictor) %>%
-        pull(.estimate)
+        auc_fun(.data$response, .data$predictor) %>%
+        pull(.data$.estimate)
 
       res_sub = tibble({{ res_col_1 }} := r_sub %>% pull(res_col_1),
                        {{ res_col_2 }} := r_sub %>% pull(res_col_2),
@@ -82,9 +81,9 @@ calc_curve = function(df,
 
   } else {
     r = df %>%
-      curve_fun(response, predictor)
+      curve_fun(.data$response, .data$predictor)
     auc = df %>%
-      auc_fun(response, predictor)
+      auc_fun(.data$response, .data$predictor)
 
     res = tibble({{ res_col_1 }} := r %>% pull(res_col_1),
                  {{ res_col_2 }} := r %>% pull(res_col_2),
@@ -109,24 +108,22 @@ calc_curve = function(df,
 #' @param df `activity` column elements - i.e. `decouple()` output.
 #' @param filter_tn logical flag indicating if unnecessary negatives should
 #' be filtered out
-#' @param ranked logical flag indicating if input is derived from composite
-#'   ranking that already took up-/downregulation (sign) into account
 #'
 #' @return tidy data frame with meta information for each experiment and the
 #'   response and the predictor value which are required for ROC and
 #'   PR curve analysis
 prepare_for_roc = function(df, filter_tn = FALSE) {
   res = df %>%
-    dplyr::mutate(response = case_when(tf == target ~ 1,
-                                       tf != target ~ 0),
-                  predictor =  score*sign)
+    dplyr::mutate(response = case_when(.data$tf == .data$target ~ 1,
+                                       .data$tf != .data$target ~ 0),
+                  predictor =  .data$score*sign)
   res$response = factor(res$response, levels = c(1, 0))
 
   if (filter_tn == TRUE) {
     z = intersect(res$tf, res$target)
     res = res %>%
-      filter(tf %in% z, target %in% z)
+      filter(.data$tf %in% z, .data$target %in% z)
   }
   res %>%
-    select(tf, id, response, predictor)
+    select(.data$tf, .data$id, .data$response, .data$predictor)
 }

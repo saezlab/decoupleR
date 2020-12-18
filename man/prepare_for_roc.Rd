@@ -7,16 +7,13 @@ outputs for \link{calc_curve}. This is done by keeping only the the perturbed
 or predicted \code{sources} (or TFs) and assigning the \code{score} (or statistical
 method results e.g. Normalized Enrichment Score) as the \code{predictor}.}
 \usage{
-prepare_for_roc(df, filter_tn = FALSE, ranked = FALSE)
+prepare_for_roc(df, filter_tn = FALSE)
 }
 \arguments{
 \item{df}{\code{activity} column elements - i.e. \code{decouple()} output.}
 
 \item{filter_tn}{logical flag indicating if unnecessary negatives should
 be filtered out}
-
-\item{ranked}{logical flag indicating if input is derived from composite
-ranking that already took up-/downregulation (sign) into account}
 }
 \value{
 tidy data frame with meta information for each experiment and the

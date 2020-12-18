@@ -97,7 +97,7 @@ design_row <-
         opts_list = list(list( # list of options for each stat method
             scira = list(.mor = "mor"),
             pscira = list(.mor = "mor"),
-            mean = list(.mor = "mor", .likelihood = "likelihood"),
+            mean = list(.mor = "mor"),
             viper = list(verbose = FALSE,
                          minsize = 0,
                          .mor = "mor",
@@ -126,10 +126,15 @@ input_tibble <- bind_rows(
 input_tibble %>%
     rmarkdown::paged_table()
 ```
-**Attention** should be paid to the options passed to each statistical method.
-In particular, if the set resource contains columns such as weight
-or mode of regulation (mor) then the names of these columns should also be
-passed as arguments to the appropriate functions.
+**Attention** should be paid to the arguments (options) passed to each 
+statistical method. In particular, if the set resource contains columns such
+as weights (=`.likelihood`) or mode of regulation (=`.mor`) then the names of 
+these columns should also be passed as arguments, shown above. 
+In the case when these columns are absent or not provided, arbitrary values
+with no effect will be assigned.
+
+Please refer to the `run_*` functions for more information about
+statistic-specific arguments.
 
 
 ## Benchmark data and metadata
@@ -157,20 +162,15 @@ Note that the Experiment ID is used as the key to join the benchmark data and
 metadata.
 
 ## Set Source
-Here, we define a 'Set Source' as any resource containing
-information about sets of sources and targets, where a `source` (e.g. 
-Transcription factors (TFs) or Kinases in regulatory networks or GO terms in
-Gene Ontologies) is linked to its `targets` (e.g. the Genes or Phosphosites 
-composing the set of targets for a given source).
-
-Please note that even though many resources would only contain `source` and 
-`target` columns (e.g. GO term:Gene, or TF:target (in this example)), the 
-decouple wrapper requires `mor` and `likelihood` columns. As such, depending on
-the source set, arbitrary columns with these names should be provided. The 
-`likelihood` column can be used to provide weights to each of the source:target
-interactions. Also, note that "tf", "target", and "confidence" can take any 
-user-defined name (defined in the input tibble), where "confidence" is the
-column by which we wish to filter.
+Here, we define a 'Set Source' as any resource containing information about sets
+of sources and targets, where a `source` (e.g.  Transcription factors (TFs) or 
+Kinases in regulatory networks or GO terms in Gene Ontologies) is linked to its
+`targets` (e.g. the Genes or Phosphosites  composing the set of targets for a
+given source). 
+It is worth pointing out that similarly to `.mor` and`.likelihood`, 
+`source_col`, `target_col`, and `filter_col` can take any user-specified name.
+The `filter_col` and hence source_set pre-filtering can be omitted by passing
+`NULL` for it's name.
 
 In this tutorial, we will use [DoRothEA](https://github.com/saezlab/dorothea) -
 a gene set resource containing signed TF-target interactions.
@@ -304,7 +304,7 @@ and do not hesitate to contact me!
 
 
 # Session Info
-```{r sessionInfo, include=FALSE}
+```{r sessionInfo, echo=FALSE}
 options(width = 120)
 sessioninfo::session_info()
 ```

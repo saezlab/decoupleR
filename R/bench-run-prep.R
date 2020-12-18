@@ -42,14 +42,21 @@ check_preced <- function(vector_loc){
 #'
 #' @importFrom stringr str_glue
 #' @return returns a filtered and formatted set source
+#' @details Filtering can be omitted if `filter_col` is `NULL`.
 filter_sets <- function(set_source, source_col,
                         filter_col, filter_crit,
                         .minsize, .silent){
   n_duprows <- sum(duplicated(set_source))
+  null_bool <- is.null(filter_col)
 
   gs_filtered <- set_source %>%
-    dplyr::filter(.data[[filter_col]] %in% filter_crit) %>%
-    distinct_at(vars(-.data[[filter_col]]), .keep_all = FALSE) %>%
+    {
+      if(null_bool){distinct(.)}
+      else if(!null_bool){
+        filter(., .data[[filter_col]] %in% filter_crit) %>%
+          distinct_at(vars(-.data[[filter_col]]), .keep_all = FALSE)
+        }
+      } %>%
     group_by(.data[[source_col]]) %>%
     add_count() %>%
     filter(n >= .minsize) %>%

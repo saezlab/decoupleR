@@ -39,7 +39,7 @@ run_benchmark <- function(.design,
                                        filter_col, filter_crit,
                                        .source_bln, .expr_bln, .meta_bln){
 
-      # Check_prereq
+      # Check prerequisites
        if(!.expr_bln){
          bench_env$gene_expression <- readRDS_helper(bexpr_loc, .url_bool) %>%
            as.matrix()

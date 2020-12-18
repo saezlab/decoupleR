@@ -53,7 +53,8 @@ Suggests:
     rmarkdown,
     roxygen2,
     sessioninfo,
-    testthat
+    testthat,
+    methods
 VignetteBuilder: 
     knitr
 biocViews: Software, StatisticalMethod, FunctionalGenomics

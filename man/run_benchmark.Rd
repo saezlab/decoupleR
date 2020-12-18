@@ -2,7 +2,7 @@
 % Please edit documentation in R/decoupleR-benchmark.R
 \name{run_benchmark}
 \alias{run_benchmark}
-\title{Benchmark pipeline built on the statistical method wrapper decouple.}
+\title{Benchmark pipeline built on the statistical method wrapper \link{decouple}.}
 \usage{
 run_benchmark(
   .design,
@@ -22,7 +22,7 @@ benchmark run}
 
 \item{.form}{bool whether to format or not}
 
-\item{.perform}{bool whether to calculate roc and performance summary}
+\item{.perform}{bool whether to calculate ROC and performance summary}
 
 \item{.minsize}{minimum size of each set}
 
@@ -32,7 +32,7 @@ benchmark run}
 
 \item{.downsample_roc}{whether to downsample ROC true negatives}
 
-\item{.downsample_times}{downsampling iterattions}
+\item{.downsample_times}{downsampling iterations}
 
 \item{.url_bool}{bool whether the location is a url or not}
 }
@@ -40,9 +40,9 @@ benchmark run}
 An S4 object of \link{BenchResult-class}
 }
 \description{
-Benchmark pipeline built on the statistical method wrapper decouple.
+Benchmark pipeline built on the statistical method wrapper \link{decouple}.
 }
 \seealso{
-See \link{input_tibble} for a description of the params/column
+See \link{input_tibble} for a description of the params/columns
 of .design (i.e. input tibble).
 }

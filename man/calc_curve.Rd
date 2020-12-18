@@ -19,8 +19,8 @@ calc_curve(
 \arguments{
 \item{df}{run_benchmark roc column provided as input}
 
-\item{downsampling}{logical flag indicating if the number of TN should be
-downsampled to the number of TP}
+\item{downsampling}{logical flag indicating if the number of Negatives
+should be downsampled to the number of Positives}
 
 \item{times}{integer showing the number of downsampling}
 
@@ -30,9 +30,9 @@ ranking that already took up-/downregulation (sign) into account}
 \item{curve}{whether to return a Precision-Recall Curve ("PR") or ROC ("ROC")}
 }
 \value{
-tidy data frame with precision, recall, auc, n, tp, tn and coverage
-in the case of PR curve; or sensitivity and specificity, auc, n, tp, tn and
-coverage in the case of ROC
+tidy data frame with precision, recall, auc, n, cp, cn and coverage
+in the case of PR curve; or sensitivity and specificity, auc, n, cp, cn
+and coverage in the case of ROC.
 }
 \description{
 This function takes the elements of the \code{activity} column and calculates

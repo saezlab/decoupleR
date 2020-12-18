@@ -2,30 +2,30 @@
 % Please edit documentation in R/bench-auroc.R
 \name{prepare_for_roc}
 \alias{prepare_for_roc}
-\title{Helper function is used to preprare \code{activity} elements or \link{decouple}
-output for \link{calc_curve}. This is done by keeping only the the perturbed
-\code{sources} (or tfs) and assigning \code{score} (or stastical method results e.g.
-Normalized Enrichment Score) as the \code{predictor}.}
+\title{Helper function used to prepare \code{activity} elements or \link{decouple}
+outputs for \link{calc_curve}. This is done by keeping only the the perturbed
+or predicted \code{sources} (or TFs) and assigning the \code{score} (or statistical
+method results e.g. Normalized Enrichment Score) as the \code{predictor}.}
 \usage{
-prepare_for_roc(df, filter_tn = F, ranked = F)
+prepare_for_roc(df, filter_tn = FALSE, ranked = FALSE)
 }
 \arguments{
 \item{df}{\code{activity} column elements - i.e. \code{decouple()} output.}
 
-\item{filter_tn}{logical flag indicating if unnecessary true negatives should
-be filtered out (unnecessary means that there are no true positives for a
-given source)}
+\item{filter_tn}{logical flag indicating if unnecessary negatives should
+be filtered out}
 
 \item{ranked}{logical flag indicating if input is derived from composite
 ranking that already took up-/downregulation (sign) into account}
 }
 \value{
 tidy data frame with meta information for each experiment and the
-response and the predictor value which are required for roc curve analysis
+response and the predictor value which are required for ROC and
+PR curve analysis
 }
 \description{
-Helper function is used to preprare \code{activity} elements or \link{decouple}
-output for \link{calc_curve}. This is done by keeping only the the perturbed
-\code{sources} (or tfs) and assigning \code{score} (or stastical method results e.g.
-Normalized Enrichment Score) as the \code{predictor}.
+Helper function used to prepare \code{activity} elements or \link{decouple}
+outputs for \link{calc_curve}. This is done by keeping only the the perturbed
+or predicted \code{sources} (or TFs) and assigning the \code{score} (or statistical
+method results e.g. Normalized Enrichment Score) as the \code{predictor}.
 }

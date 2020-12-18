@@ -23,15 +23,21 @@ bench_format <- function(bench_res, .silent) {
     select(set_name, bench_name, filter_crit, statistic, activity)
 
   inf_sums <- res_format$activity %>%
-    map(function(x) sum(is.infinite(x$score)))
+    map(function(x) sum(is.infinite(x$score))) %>%
+    setNames(
+      paste(
+        res_format$set_name,
+        res_format$bench_name,
+        res_format$statistic,
+        sep = "_"
+      )) %>%
+    enframe() %>% unnest(value)
+
   if (sum(inf_sums$value)) {
     res_format <- res_format %>%
       mutate(activity = activity %>%
-               map(function(tib)
-                 tib %>%
-                   mutate_at(
-                     vars(score), ~ replace(., is.infinite(.), 0)
-                   )))
+               map(function(tib) tib %>%
+                   mutate_at(vars(score), ~ replace(., is.infinite(.), 0))))
 
     if (!.silent)
       warning(

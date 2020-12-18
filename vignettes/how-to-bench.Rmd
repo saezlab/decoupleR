@@ -47,8 +47,10 @@ library(tibble)
 # We load the files directly from Zenodo urls
 # example expression data
 bexample_url = "https://zenodo.org/record/4322914/files/dorothea_bench_example.rds?download=1"
-# full benchmark expression data
-bexpr_url = "https://zenodo.org/record/4322914/files/dorothea_bench_expr.rds?download=1"
+# full benchmark expression data (not used for the vignette)
+# if you are interested in seeing the results with the whole data sets
+# please uncomment this line and replace bexample_url
+# bexpr_url = "https://zenodo.org/record/4322914/files/dorothea_bench_expr.rds?download=1"
 # benchmark metadata
 bmeta_url = "https://zenodo.org/record/4322914/files/dorothea_bench_meta.rds?download=1"
 # dorothea gene sets
@@ -140,12 +142,12 @@ Here we run the benchmark pipeline with DoRoThEA using the default settings.
 Note that the benchmark pipeline currently evaluates precision and that here we define the 'Condition positive' as the perturbed targets for each condition/experiment.
 Then we make the assumption that 'True positives (TPs)' would get a 'score' from each statistical method that would rank them within the top `n` scores, where `n` = the number of experiments covered by the set resource. On the other hand, a 'True Negative (TN)' is defined as a TF not perturbed and not ranked within the top `n` of TFs.
 'Condition Negatives' are defined in two ways depending whether downsampling is performed. 
-By defult, Condition Negatives are defined as the set of any TF regulon not perturbed in the current experiment. As such, each of these non-perturbed TF sets is appended and considered a Condition negative. This results in Condition Negatives vastly outnumbering  (equal to the number of non-perturbed TFs for all of the experiments) of Condition positives (equal to the number of truly perturbed target in each experiment).
+By default, Condition Negatives are defined as the set of any TF regulon not perturbed in the current experiment. As such, each of these non-perturbed TF sets is appended and considered a Condition negative. This results in Condition Negatives (equal to the number of non-perturbed TFs for all of the experiments) vastly outnumbering the Condition positives (equal to the number of truly perturbed target in each experiment).
 When downsampling is performed, the number of Condition Negatives is set to be the same as the number of Condition Positives (i.e. number of experiments covered by the gene set).
 
 In some cases, assuming that the perturbed target (in this case a TF) in a given experiment would be the most deregulated one (i.e. the one with highest `score`) is a flawed assumption due to the nature of regulation in biology. For example, a TF correlated or downstream of the perturbed target might be more perturbed than the experiment target itself. However, at this stage, we believe that this is likely our best choice. Nonetheless, we are open to suggestions and implementations of alternative source set performance methods.
 
-```{r bench_run, cache=TRUE, eval=TRUE, echo=T, results='hide', warning=FALSE}
+```{r bench_run, cache=T, echo=T, results='hide', message=F, warning=F}
 dor_run <- run_benchmark(
   .design = input_tibble, # provide input tibble
   .minsize = 10, # filter gene sets with size < 10
@@ -154,7 +156,7 @@ dor_run <- run_benchmark(
   .silent = T, # silently run the pipeline
   .downsample_pr = F, # downsample TNs for precision-recall curve
   .downsample_roc = F, # downsample TNs for ROC
-  .downsample_times = 100, # downsampling iterations
+  .downsample_times = 100, # downsampling iterations (not used here)
   .url_bool = T # whether to load from url
   )
 ```
@@ -165,7 +167,7 @@ The output of the pipeline is a pre-defined object with benchmark results, resul
 ### Benchmarking results
 The benchmarking results provide meta information about the run: set_name (name of the set source), bench_name (name of the benchmark dataset), filter_crit (filter criteria), and statistic (statistical method).
 `Activity` contains tibbles returned from each call of the decouple wrapper.
-`roc` contains Reciever Operator Curve calculations for each decouple run.
+`roc` contains Receiver Operator Curve calculations for each decouple run.
 `prc` contains Precision-Recall Curve calculations for each decouple run.
 ```{r bench_results}
 dor_run@bench_res %>%
@@ -195,6 +197,7 @@ dor_run@summary$roc_plot
 ```{r bench_prc}
 dor_run@summary$pr_plot
 ```
+Note that the straight lines represent random baselines for each network variant and are proportional to the number condition positives (i.e. perturbed/predicted experiments) against the total number of instances (positives+negatives). 
 
 
 *AUROC heatmap*
@@ -219,7 +222,8 @@ Are you interested in adding a new statistical method or in extending the benchm
 
 # Session Info
 ```{r sessionInfo}
-sessionInfo()
+options(width = 120)
+sessioninfo::session_info()
 ```
 
 

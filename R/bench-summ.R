@@ -24,9 +24,12 @@ get_bench_summary <- function(.res_tibble) {
     ylab("TPR (sensitivity)")
 
   # Plot PR ROC
-  pr_plot <- ggplot(pr, aes(x = recall, y = precision , colour = run_key)) +
+  # Assign Expected Random PR baseline (C.Positives/P+N)
+  pr_plot <- ggplot(pr, aes(x = recall, y = precision, colour = run_key)) +
     geom_line() +
-    geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
+    geom_abline(pr %>% rename("random_baseline"=name_lvl),
+                mapping=aes(intercept = cp/(cn+cp), slope = 0,
+                            linetype = random_baseline)) +
     xlab("Recall/Sensitivity") +
     ylab("Precision")
 
@@ -39,14 +42,14 @@ get_bench_summary <- function(.res_tibble) {
   # Plot AUROC
   auroc_plot <- auroc_tibble %>%
     unite("run_key", set_name, bench_name,
-          statistic, filter_crit, remove = F) %>%
+          statistic, filter_crit, remove = FALSE) %>%
     ggplot(., aes(x = reorder(run_key, auc),
                   y = auc,
                   fill = run_key)) +
     geom_bar(stat = "identity") +
     xlab("networks") +
     ylab("AUROC") +
-    coord_flip(ylim = c(0.5, 0.8)) +
+    coord_flip() +
     theme(legend.position = "none")
 
   # AUROC Heatmap
@@ -82,7 +85,7 @@ get_bench_summary <- function(.res_tibble) {
                 group_by(name_lvl) %>%
                 summarise(source_cov = coverage,
                           condition_cov = n,
-                          roc_neg=tn) %>%
+                          roc_neg=cn) %>%
                 distinct() %>%
                 ungroup() %>%
                 separate(col="name_lvl",
@@ -91,7 +94,7 @@ get_bench_summary <- function(.res_tibble) {
 
   pr_cov <- pr %>%
                group_by(name_lvl) %>%
-               summarise(pr_neg=tn) %>%
+               summarise(pr_neg=cn) %>%
                distinct() %>%
                ungroup() %>%
                separate(col="name_lvl",
@@ -132,7 +135,7 @@ get_bench_summary <- function(.res_tibble) {
 format_roc <- function(.res_tibble, roc_column){
   .res_tibble %>%
     select(set_name, bench_name, filter_crit, statistic, roc_column) %>%
-    unnest(roc_column) %>%
+    unnest(all_of(roc_column)) %>%
           unite("name_lvl", set_name, bench_name,
                 filter_crit, remove = FALSE, sep = ".") %>%
           unite("run_key", set_name, bench_name,

@@ -2,12 +2,12 @@
 % Please edit documentation in R/bench-summ.R
 \name{format_roc}
 \alias{format_roc}
-\title{Helper function to format (PR) Receiver Operator Curve results}
+\title{Helper function to format (Precision-Recall) Receiver Operator Curve results}
 \usage{
 format_roc(.res_tibble, roc_column)
 }
 \arguments{
-\item{.res_tibble}{formatted bench result tibble with added auroc column}
+\item{.res_tibble}{formatted bench result tibble with added AUROC column}
 
 \item{roc_column}{PR/ROC column to format}
 }
@@ -15,5 +15,5 @@ format_roc(.res_tibble, roc_column)
 returns
 }
 \description{
-Helper function to format (PR) Receiver Operator Curve results
+Helper function to format (Precision-Recall) Receiver Operator Curve results
 }

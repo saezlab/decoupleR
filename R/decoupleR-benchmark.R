@@ -9,12 +9,13 @@
 #' @param .downsample_times downsampling iterations
 #' @inheritParams readRDS_helper
 #'
-#' @export
-#' @importFrom rlang .data
-#' @importFrom stats reorder setNames
 #' @import tibble tidyr dplyr tidyselect
 #' @seealso See \link{input_tibble} for a description of the params/columns
 #'   of .design (i.e. input tibble).
+#' @export
+#' @importFrom methods new
+#' @importFrom rlang .data
+#' @importFrom stats reorder setNames
 #' @return An S4 object of \link{BenchResult-class}
 run_benchmark <- function(.design,
                           .form = TRUE,

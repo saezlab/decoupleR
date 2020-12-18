@@ -36,7 +36,7 @@ calc_curve = function(df,
   }
 
   df = df %>%
-    prepare_for_roc(., filter_tn = T)
+    prepare_for_roc(., filter_tn = TRUE)
 
 
   if (sum(which(df$response == 0)) == nrow(df)){

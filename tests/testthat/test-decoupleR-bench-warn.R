@@ -22,7 +22,7 @@ test_that("test benchmark warnings", {
     exp_infs <- "20 infinite values were filtered"
 
     # check duplicates warning
-    expect_warning(filter_sets(net_dup, "tf", NULL, NULL, 0, F), exp_dups)
+    expect_warning(filter_sets(net_dup, "tf", NULL, NULL, 0, FALSE), exp_dups)
 
     # check Infs warning
     expect_warning(bench_format(res_dup), exp_infs)

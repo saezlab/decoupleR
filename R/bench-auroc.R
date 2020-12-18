@@ -21,7 +21,6 @@
 calc_curve = function(df,
                       downsampling = FALSE,
                       times = 1000,
-                      ranked = FALSE,
                       curve = "ROC",
                       seed = 420){
 
@@ -38,13 +37,9 @@ calc_curve = function(df,
     auc_fun = yardstick::roc_auc
   }
 
+  df = df %>%
+    prepare_for_roc(., filter_tn = T)
 
-  if (ranked == T) {
-    df = df %>% prepare_for_roc(., filter_tn = T, ranked = T)
-  } else {
-    df = df %>%
-      prepare_for_roc(., filter_tn = T, ranked = F)
-  }
 
   if (sum(which(df$response == 0)) == nrow(df)){
     return(as_tibble(NULL))
@@ -120,12 +115,11 @@ calc_curve = function(df,
 #' @return tidy data frame with meta information for each experiment and the
 #'   response and the predictor value which are required for ROC and
 #'   PR curve analysis
-prepare_for_roc = function(df, filter_tn = FALSE, ranked = FALSE) {
+prepare_for_roc = function(df, filter_tn = FALSE) {
   res = df %>%
     dplyr::mutate(response = case_when(tf == target ~ 1,
                                        tf != target ~ 0),
-                  predictor =  case_when(ranked == FALSE ~ score*sign,
-                                         ranked == TRUE ~ score))
+                  predictor =  score*sign)
   res$response = factor(res$response, levels = c(1, 0))
 
   if (filter_tn == TRUE) {

@@ -107,7 +107,7 @@ input_tibble %>%
 ## Benchmark data and metadata
 The benchmark data should be in the form of a tibble with count data (e.g. gene expression table) with the ID of each perturbation experiment as column names and gene IDs as rows.
 ```{r bexpr_example}
-readRDS_helper(bexample_url, T) %>%
+readRDS_helper(bexample_url, TRUE) %>%
   # show only first 10 genes of first 3 experiments
   slice_head(n=10) %>%
   select(1:3)
@@ -115,7 +115,7 @@ readRDS_helper(bexample_url, T) %>%
 
 The benchmark metadata should also be in the form of a tibble containing the 'meta' information with rows corresponding to each perturbation experiment or condition, with columns containing information about perturbation target, cell line, etc.
 ```{r bmeta_example}
-readRDS_helper(bmeta_url, T) %>%
+readRDS_helper(bmeta_url, TRUE) %>%
   slice_head(n=10) %>%
   # select to show only most relevant columns
   select(id, target, platform, sign)
@@ -129,7 +129,7 @@ Please note that even though many resources would only contain `source` and `tar
 
 In this tutorial, we will use [DoRothEA](https://github.com/saezlab/dorothea) - a gene set resource containing signed TF-target interactions.
 ```{r source_example}
-readRDS_helper(source_url, T) %>%
+readRDS_helper(source_url, TRUE) %>%
   slice_head(n=10) # show only first 10 rows
 ```
 
@@ -151,13 +151,13 @@ In some cases, assuming that the perturbed target (in this case a TF) in a given
 dor_run <- run_benchmark(
   .design = input_tibble, # provide input tibble
   .minsize = 10, # filter gene sets with size < 10
-  .form = T, # format the benchmark results
-  .perform = T, # evaluate benchmarking performance
-  .silent = T, # silently run the pipeline
-  .downsample_pr = F, # downsample TNs for precision-recall curve
-  .downsample_roc = F, # downsample TNs for ROC
+  .form = TRUE, # format the benchmark results
+  .perform = TRUE, # evaluate benchmarking performance
+  .silent = TRUE, # silently run the pipeline
+  .downsample_pr = FALSE, # downsample TNs for precision-recall curve
+  .downsample_roc = FALSE, # downsample TNs for ROC
   .downsample_times = 100, # downsampling iterations (not used here)
-  .url_bool = T # whether to load from url
+  .url_bool = TRUE # whether to load from url
   )
 ```
 
@@ -221,7 +221,7 @@ Are you interested in adding a new statistical method or in extending the benchm
 
 
 # Session Info
-```{r sessionInfo}
+```{r sessionInfo, include=FALSE}
 options(width = 120)
 sessioninfo::session_info()
 ```

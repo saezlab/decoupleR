@@ -13,7 +13,8 @@ calc_curve(
   downsampling = FALSE,
   times = 1000,
   ranked = FALSE,
-  curve = "ROC"
+  curve = "ROC",
+  seed = 420
 )
 }
 \arguments{
@@ -28,6 +29,9 @@ should be downsampled to the number of Positives}
 ranking that already took up-/downregulation (sign) into account}
 
 \item{curve}{whether to return a Precision-Recall Curve ("PR") or ROC ("ROC")}
+
+\item{seed}{An integer to set the RNG state for random number generation. Use
+NULL for random number generation.}
 }
 \value{
 tidy data frame with precision, recall, auc, n, cp, cn and coverage

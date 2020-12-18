@@ -134,8 +134,9 @@ get_bench_summary <- function(.res_tibble) {
 #' @return returns
 format_roc <- function(.res_tibble, roc_column){
   .res_tibble %>%
-    select(set_name, bench_name, filter_crit, statistic, roc_column) %>%
-    unnest(all_of(roc_column)) %>%
+    select(set_name, bench_name, filter_crit,
+           statistic, .data[[roc_column]]) %>%
+    unnest(.data[[roc_column]]) %>%
           unite("name_lvl", set_name, bench_name,
                 filter_crit, remove = FALSE, sep = ".") %>%
           unite("run_key", set_name, bench_name,

@@ -1,22 +1,21 @@
 #' This function takes the elements of the `activity` column and calculates
-#'   precision-recall and ROC curves (depending on `curve`).
+#'    precision-recall and ROC curves (depending on `curve`).
 #' The `activity` column is populated with the output for each stat method and
-#'   results from the `run_benchmark()` function. Each of the elements
-#'   in `activity` are results from runs of the \link{decouple} wrapper.
+#'    results from the `run_benchmark()` function. Each of the elements
+#'    in `activity` are results from runs of the \link{decouple} wrapper.
 #'
 #' @param df run_benchmark roc column provided as input
 #' @param downsampling logical flag indicating if the number of Negatives
-#'   should be downsampled to the number of Positives
+#'    should be downsampled to the number of Positives
 #' @param times integer showing the number of downsampling
 #' @param curve whether to return a Precision-Recall Curve ("PR") or ROC ("ROC")
 #' @param seed An integer to set the RNG state for random number generation. Use
-#'   NULL for random number generation.
+#'    NULL for random number generation.
 #'
 #' @return tidy data frame with precision, recall, auc, n, cp, cn and coverage
-#'   in the case of PR curve; or sensitivity and specificity, auc, n, cp, cn
-#'   and coverage in the case of ROC.
+#'    in the case of PR curve; or sensitivity and specificity, auc, n, cp, cn
+#'    and coverage in the case of ROC.
 #' @import yardstick
-#' @export
 calc_curve = function(df,
                       downsampling = FALSE,
                       times = 1000,

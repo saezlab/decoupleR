@@ -6,7 +6,6 @@
 #' @importFrom rlang .data
 #' @importFrom stringr str_glue_data
 #'
-#' @export
 #' @details If infinite values are present in the results, this function will
 #'   notify the user.
 bench_format <- function(.bench_res, .silent) {

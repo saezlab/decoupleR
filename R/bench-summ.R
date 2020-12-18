@@ -7,7 +7,6 @@
 #' ROC plots, and Heatmap plots
 #' @import ggplot2 pheatmap
 #' @importFrom rlang .data
-#' @export
 get_bench_summary <- function(.res_tibble) {
   # get roc results
   roc <- format_roc(.res_tibble, "roc")

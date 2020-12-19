@@ -70,7 +70,7 @@ run_pscira <- function(
         )
 
     # Convert to matrix to ensure that matrix multiplication works
-    # in case mat is a labelled dataframe.
+    # in case mat is a labeled dataframe.
     mat <- as.matrix(mat)
 
     # Evaluate model ----------------------------------------------------------

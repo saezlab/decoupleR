@@ -37,11 +37,11 @@ library(RefManageR)
 bib <- c(
     R = citation(),
     BiocStyle = citation("BiocStyle")[1],
-    knitcitations = citation("knitcitations")[1],
     knitr = citation("knitr")[1],
     rmarkdown = citation("rmarkdown")[1],
     sessioninfo = citation("sessioninfo")[1],
     testthat = citation("testthat")[1],
+    RefManageR = citation("RefManageR")[1],
     decoupleR = citation("decoupleR")[1],
     GSVA = citation("GSVA")[1],
     viper = citation("viper")[1]

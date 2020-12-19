@@ -60,10 +60,12 @@ test_that("decouple same results as independent functions", {
     )
 
     # Choose the same defaults as in the section on generating expected results.
-    res_decouple_defaults <- partial_decouple(show_toy_call = FALSE) %>%
-        dplyr::select(-.data$run_id) %>%
-        dplyr::arrange(.data$statistic, .data$tf, .data$condition) %>%
-        dplyr::select(-.data$statistic_time)
+    res_decouple_defaults <- partial_decouple(
+        show_toy_call = FALSE,
+        include_time = TRUE
+    ) %>%
+        dplyr::select(-.data$run_id, -statistic_time) %>%
+        dplyr::arrange(.data$statistic, .data$tf, .data$condition)
 
     exp_decouple_defaults <- file.path(
         expected_dir,
@@ -79,7 +81,6 @@ test_that("see expected toy call", {
 
     # Choose the same defaults as in the section on generating expected results
     expect_snapshot(
-        x = partial_decouple(show_toy_call = TRUE) %>%
-            dplyr::select(-statistic_time)
+        x = partial_decouple(show_toy_call = TRUE, include_time = FALSE)
     )
 })

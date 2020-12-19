@@ -6,14 +6,12 @@
 #' @inheritParams .decoupler_network_format
 #' @inheritDotParams GSVA::gsva -expr -gset.idx.list
 #'
-#' @return
-#'  A long format tibble of the enrichment scores for each tf across the conditions.
-#'  Resulting tibble contains the following columns:
+#' @return A long format tibble of the enrichment scores for each tf
+#'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
 #'  2. `tf`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
-#'  5. `statistic_time`: Internal execution time indicator.
 #' @family decoupleR statistics
 #' @export
 #' @examples
@@ -30,8 +28,6 @@ run_gsva <- function(
     .target = .data$target,
     ...) {
     # Before to start ---------------------------------------------------------
-    .start_time <- Sys.time()
-
     regulons <- network %>%
         convert_to_gsva({{ .source }}, {{ .target }})
 
@@ -52,6 +48,5 @@ run_gsva <- function(
         transmute(
             statistic = "gsva",
             .data$tf, .data$condition, .data$score
-        ) %>%
-        mutate(statistic_time = difftime(Sys.time(), .start_time))
+        )
 }

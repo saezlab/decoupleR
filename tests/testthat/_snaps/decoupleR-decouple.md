@@ -1,7 +1,7 @@
 # see expected toy call
 
     Code
-      partial_decouple(show_toy_call = TRUE) %>% dplyr::select(-statistic_time)
+      partial_decouple(show_toy_call = TRUE, include_time = FALSE)
     Message <simpleMessage>
       run_scira(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
     Message <simpleMessage>

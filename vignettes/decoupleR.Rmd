@@ -186,7 +186,6 @@ decouple(
         )
     )
 ) %>%
-    select(-statistic_time) %>%
     glimpse()
 ```
 
@@ -229,8 +228,7 @@ gsvas_res <- decouple(
         gsva_minsize = list(verbose = FALSE, min.sz = 20)
     ),
     show_toy_call = TRUE
-) %>%
-    select(-statistic_time)
+)
 ```
 
 Run same calls as provided by setting `show_toy_call = TRUE`.
@@ -253,8 +251,7 @@ gsva_2 <- run_gsva(
     min.sz = 20
 )
 
-gsvas_res_2 <- bind_rows(gsva_1, gsva_2, .id = "run_id") %>%
-    select(-statistic_time)
+gsvas_res_2 <- bind_rows(gsva_1, gsva_2, .id = "run_id")
 ```
 
 Now compare results and see there is not difference.

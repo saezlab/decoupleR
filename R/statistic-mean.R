@@ -20,14 +20,12 @@
 #' @param sparse Should the matrices used for the calculation be sparse?
 #' @param randomize_type How to randomize the expression matrix.
 #'
-#' @return
-#'  A long format tibble of the enrichment scores for each tf across the conditions.
-#'  Resulting tibble contains the following columns:
+#' @return A long format tibble of the enrichment scores for each tf
+#'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
 #'  2. `tf`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
-#'  5. `statistic_time`: Internal execution time indicator.
 #'  6. `p_value`: p-value for the score of mean method.
 #' @family decoupleR statistics
 #' @export
@@ -57,8 +55,6 @@ run_mean <- function(
     randomize_type = "rows") {
 
     # Before to start ---------------------------------------------------------
-    .start_time <- Sys.time()
-
     if (times < 2) {
         stop(stringr::str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
     }
@@ -101,11 +97,7 @@ run_mean <- function(
         )
 
     # Analysis ----------------------------------------------------------------
-    .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type) %>%
-        add_column(
-            statistic_time = difftime(Sys.time(), .start_time),
-            .after = "score"
-        )
+    .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type)
 }
 
 # Helper functions --------------------------------------------------------

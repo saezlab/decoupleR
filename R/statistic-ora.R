@@ -77,7 +77,11 @@ run_ora <- function(
             ...
         ),
         .groups = "drop"
-        )
+        ) %>%
+        select(.data$tf, .data$condition,
+            score = .data$p.value, everything()
+        ) %>%
+        add_column(statistic = "ora", .before = 1)
 }
 
 #' Fisher Exact Test
@@ -112,7 +116,7 @@ run_ora <- function(
     true_negative <- setdiff(observed, expected) %>% length()
     negative_true <- setdiff(expected, observed) %>% length()
     negative_negative <- (n_background -
-                              true_positive - true_negative - negative_true)
+        true_positive - true_negative - negative_true)
 
     c(true_positive, true_negative, negative_true, negative_negative) %>%
         matrix(nrow = 2, ncol = 2, byrow = FALSE)

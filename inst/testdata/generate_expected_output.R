@@ -17,7 +17,8 @@ available_statistics <- c(
     "pscira",
     "scira",
     "viper",
-    "gsva"
+    "gsva",
+    "ora"
 )
 
 out <- available_statistics %>%
@@ -102,6 +103,11 @@ run_gsva(emat, dorothea_genesets, tf, target) %>%
 
 run_gsva(emat, dorothea_genesets, min.sz = 4) %>%
     saveRDS(file.path(out$gsva, "output-gsva_dorothea_minsize4.rds"))
+
+
+#---- run_ora() ---------------------------------------------------------------
+run_ora(emat, dorothea_genesets) %>%
+    saveRDS(out_default$ora)
 
 # decouple() --------------------------------------------------------------
 # This section should be kept at the end of the file

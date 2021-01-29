@@ -17,6 +17,8 @@
 #'    Return a list of regulons suitable for [GSVA::gsva()].
 #' * `convert_to_mean()`
 #'    Return a tibble with four columns: `tf`, `target`, `mor` and `likelihood`.
+#' * `convert_to_ora()`
+#'    Return a list of regulons suitable for [run_ora()].
 #' * `convert_to_pscira()`
 #'    Returns a tibble with three columns: `tf`, `target` and `mor`.
 #' * `convert_to_scira()`
@@ -38,6 +40,7 @@
 #' convert_to_(network)
 #' convert_to_gsva(network, tf, target)
 #' convert_to_mean(network, tf, target, mor, likelihood)
+#' convert_to_ora(network, tf, target)
 #' convert_to_pscira(network, tf, target, mor)
 #' convert_to_scira(network, tf, target, mor)
 #' convert_to_viper(network, tf, target, mor, likelihood)
@@ -163,6 +166,32 @@ convert_to_viper <- function(
 convert_to_gsva <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
+    )
+
+    network %>%
+        convert_f_defaults(
+            tf = {{ .source }},
+            target = {{ .target }}
+        ) %>%
+        group_by(.data$tf) %>%
+        summarise(
+            regulons = set_names(list(.data$target), .data$tf[1]),
+            .groups = "drop"
+        ) %>%
+        pull(.data$regulons)
+}
+
+# ora ---------------------------------------------------------------------
+
+#' @rdname convert_to_
+#'
+#' @inheritParams run_ora
+#'
+#' @family convert_to_ variants
+#' @export
+convert_to_ora <- function(network, .source, .target) {
+    .check_quos_status({{ .source }}, {{ .target }},
+                       .dots_names = c(".source", ".target")
     )
 
     network %>%

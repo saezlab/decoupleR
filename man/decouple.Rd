@@ -85,6 +85,7 @@ if (FALSE) {
 Other decoupleR statistics: 
 \code{\link{run_gsva}()},
 \code{\link{run_mean}()},
+\code{\link{run_ora}()},
 \code{\link{run_pscira}()},
 \code{\link{run_scira}()},
 \code{\link{run_viper}()}

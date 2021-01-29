@@ -80,6 +80,7 @@ run_mean(mat, network, tf, target, mor, likelihood)
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_gsva}()},
+\code{\link{run_ora}()},
 \code{\link{run_pscira}()},
 \code{\link{run_scira}()},
 \code{\link{run_viper}()}

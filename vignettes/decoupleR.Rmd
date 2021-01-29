@@ -168,7 +168,7 @@ decouple(
     network = network,
     .source = "tf",
     .target = "target",
-    statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+    statistics = c("gsva", "mean", "pscira", "scira", "viper", "ora"),
     args = list(
         gsva = list(verbose = FALSE),
         mean = list(.mor = "mor", .likelihood = "likelihood"),
@@ -178,7 +178,8 @@ decouple(
             .mor = "mor",
             .likelihood = "likelihood",
             verbose = FALSE
-        )
+        ),
+        ora = list()
     )
 ) %>%
     glimpse()

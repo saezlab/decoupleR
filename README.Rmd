@@ -110,13 +110,14 @@ decouple(
     network = network,
     .source = "tf",
     .target = "target",
-    statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+    statistics = c("gsva", "mean", "pscira", "scira", "viper", "ora"),
     args = list(
         gsva = list(verbose = FALSE),
         mean = list(.mor = "mor", .likelihood = "likelihood"),
         pscira = list(.mor = "mor"),
         scira = list(.mor = "mor"),
-        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
+        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE),
+        ora = list()
     )
 )
 ```

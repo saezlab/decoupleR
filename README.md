@@ -151,30 +151,31 @@ decouple(
     network = network,
     .source = "tf",
     .target = "target",
-    statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+    statistics = c("gsva", "mean", "pscira", "scira", "viper", "ora"),
     args = list(
         gsva = list(verbose = FALSE),
         mean = list(.mor = "mor", .likelihood = "likelihood"),
         pscira = list(.mor = "mor"),
         scira = list(.mor = "mor"),
-        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
+        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE),
+        ora = list()
     )
 )
 #> Warning: multiple methods tables found for 'rowRanges'
-#> # A tibble: 112 x 6
-#>    run_id statistic tf    condition    score p_value
-#>    <chr>  <chr>     <chr> <chr>        <dbl>   <dbl>
-#>  1 1      gsva      FOXO4 GSM2753335 -0.380       NA
-#>  2 1      gsva      FOXO4 GSM2753336 -0.300       NA
-#>  3 1      gsva      FOXO4 GSM2753337  0.239       NA
-#>  4 1      gsva      FOXO4 GSM2753338  0.0907      NA
-#>  5 1      gsva      NFIC  GSM2753335 -0.0845      NA
-#>  6 1      gsva      NFIC  GSM2753336  0.0778      NA
-#>  7 1      gsva      NFIC  GSM2753337 -0.260       NA
-#>  8 1      gsva      NFIC  GSM2753338  0.281       NA
-#>  9 1      gsva      RFXAP GSM2753335 -0.810       NA
-#> 10 1      gsva      RFXAP GSM2753336 -0.472       NA
-#> # … with 102 more rows
+#> # A tibble: 132 x 11
+#>    run_id statistic tf    condition   score p_value estimate conf.low conf.high
+#>    <chr>  <chr>     <chr> <chr>       <dbl>   <dbl>    <dbl>    <dbl>     <dbl>
+#>  1 1      gsva      FOXO4 GSM27533… -0.380       NA       NA       NA        NA
+#>  2 1      gsva      FOXO4 GSM27533… -0.300       NA       NA       NA        NA
+#>  3 1      gsva      FOXO4 GSM27533…  0.239       NA       NA       NA        NA
+#>  4 1      gsva      FOXO4 GSM27533…  0.0907      NA       NA       NA        NA
+#>  5 1      gsva      NFIC  GSM27533… -0.0845      NA       NA       NA        NA
+#>  6 1      gsva      NFIC  GSM27533…  0.0778      NA       NA       NA        NA
+#>  7 1      gsva      NFIC  GSM27533… -0.260       NA       NA       NA        NA
+#>  8 1      gsva      NFIC  GSM27533…  0.281       NA       NA       NA        NA
+#>  9 1      gsva      RFXAP GSM27533… -0.810       NA       NA       NA        NA
+#> 10 1      gsva      RFXAP GSM27533… -0.472       NA       NA       NA        NA
+#> # … with 122 more rows, and 2 more variables: method <chr>, alternative <chr>
 ```
 
 ### Individual parts

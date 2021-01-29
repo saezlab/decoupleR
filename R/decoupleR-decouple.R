@@ -116,7 +116,8 @@ decouple <- function(
         scira = expr(run_scira),
         pscira = expr(run_pscira),
         viper = expr(run_viper),
-        gsva = expr(run_gsva)
+        gsva = expr(run_gsva),
+        ora = expr(run_ora)
     )
 
     statistics %>%

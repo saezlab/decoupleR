@@ -141,8 +141,7 @@ pivot_wider_profile <- function(data,
             values_fill = values_fill,
             ...
         ) %>%
-        rename(id = {{ id_cols }}) %>%
-        column_to_rownames(var = "id")
+        column_to_rownames(var = as_label(enquo(id_cols)))
 
     if (to_matrix == TRUE || to_sparse == TRUE) {
         if (to_sparse == TRUE) {

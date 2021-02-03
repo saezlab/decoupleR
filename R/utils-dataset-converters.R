@@ -18,7 +18,7 @@
 #' * `convert_to_mean()`
 #'    Return a tibble with four columns: `tf`, `target`, `mor` and `likelihood`.
 #' * `convert_to_ora()`
-#'    Return a list of regulons suitable for [run_ora()].
+#'    Return a named list of regulons; tf with associated targets.
 #' * `convert_to_pscira()`
 #'    Returns a tibble with three columns: `tf`, `target` and `mor`.
 #' * `convert_to_scira()`

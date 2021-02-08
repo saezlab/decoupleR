@@ -4,7 +4,7 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @inheritDotParams viper::viper -eset -regulon
+#' @inheritDotParams viper::viper -eset -regulon -minsize
 #'
 #' @return A long format tibble of the enrichment scores for each tf
 #'  across the samples. Resulting tibble contains the following columns:
@@ -43,6 +43,7 @@ run_viper <- function(
         .fn = viper::viper,
         eset = mat,
         regulon = network,
+        minsize = 0,
         !!!list(...)
     ) %>%
         as.data.frame() %>%

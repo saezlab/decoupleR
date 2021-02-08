@@ -27,12 +27,7 @@ test_that("test run_gsva with dorothea gene sets", {
     exp_2 <- file.path(expected_dir, "output-gsva_dorothea_tidy-evaluation.rds") %>%
         readRDS()
 
-    res_3 <- run_gsva(emat, dorothea_genesets, min.sz = 4, verbose = FALSE)
-    exp_3 <- file.path(expected_dir, "output-gsva_dorothea_minsize4.rds") %>%
-        readRDS()
-
     expect_equal(res_1, exp_1)
     expect_equal(res_2, exp_2)
     expect_equal(res_1, res_2)
-    expect_equal(res_3, exp_3)
 })

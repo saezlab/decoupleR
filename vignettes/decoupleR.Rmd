@@ -220,7 +220,7 @@ gsvas_res <- decouple(
     statistics = c("gsva"),
     args = list(
         gsva_default = list(verbose = FALSE),
-        gsva_minsize = list(verbose = FALSE, min.sz = 20)
+        gsva_minsize = list(verbose = FALSE, ssgsea.norm = FALSE)
     ),
     show_toy_call = TRUE
 )
@@ -243,7 +243,7 @@ gsva_2 <- run_gsva(
     .source = "tf",
     .target = "target",
     verbose = FALSE,
-    min.sz = 20
+    ssgsea.norm = FALSE
 )
 
 gsvas_res_2 <- bind_rows(gsva_1, gsva_2, .id = "run_id")

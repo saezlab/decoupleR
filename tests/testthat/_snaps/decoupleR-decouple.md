@@ -13,7 +13,7 @@
     Message <simpleMessage>
       run_gsva(mat = mat, network = dorothea_genesets, .source = tf, .target = target,  verbose = FALSE)
     Output
-      # A tibble: 112 x 6
+      # A tibble: 120 x 6
          run_id statistic tf    condition  score p_value
          <chr>  <chr>     <chr> <chr>      <dbl>   <dbl>
        1 1      scira     FOXO4 GSM2753335 2.06       NA
@@ -26,5 +26,5 @@
        8 1      scira     NFIC  GSM2753338 0.748      NA
        9 1      scira     SMAD3 GSM2753335 0.548      NA
       10 1      scira     SMAD3 GSM2753336 0.786      NA
-      # ... with 102 more rows
+      # ... with 110 more rows
 

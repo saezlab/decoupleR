@@ -12,8 +12,6 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param minsize How many output edges a source node must have to be included
-#'  in the analysis?
 #' @param times How many permutations to do?
 #' @param seed A single value, interpreted as an integer, or NULL for random
 #'  number generation.
@@ -48,7 +46,6 @@ run_mean <- function(
     .target = .data$target,
     .mor = .data$mor,
     .likelihood = .data$likelihood,
-    minsize = 1,
     times = 2,
     seed = 42,
     sparse = TRUE,
@@ -67,11 +64,12 @@ run_mean <- function(
     # Calculate the weights that will be used for the evaluation of the model
     network <- network %>%
         filter(.data$target %in% rownames(mat)) %>%
-        add_count(.data$tf, name = "out_degree") %>%
-        filter(.data$out_degree >= minsize) %>%
         add_count(.data$tf, wt = .data$likelihood, name = "contribution") %>%
-        mutate(weight = .data$mor * .data$likelihood / .data$contribution) %>%
-        select(-.data$out_degree, -.data$contribution)
+        transmute(
+            .data$tf,
+            .data$target,
+            weight = .data$mor * .data$likelihood / .data$contribution
+        )
 
     # Extract labels that will map to the expression and profile matrices
     tfs <- network %>%

@@ -39,34 +39,34 @@ efficiently any combination provided.
 As an initial set of regulatory networks, we integrated the following
 resources:
 
-  - [DoRothEA](https://github.com/saezlab/dorothea)
-  - [CHEA3](https://amp.pharm.mssm.edu/ChEA3)
-  - [RegNetwork](http://www.regnetworkweb.org/)
+-   [DoRothEA](https://github.com/saezlab/dorothea)
+-   [CHEA3](https://amp.pharm.mssm.edu/ChEA3)
+-   [RegNetwork](http://www.regnetworkweb.org/)
 
 And the following TF activity inference methods:
 
 ### Estimation based on enrichment of sets on rankings
 
-  - [viper](http://bioconductor.org/packages/release/bioc/html/viper.html)
-  - GSEA as implemented in
+-   [viper](http://bioconductor.org/packages/release/bioc/html/viper.html)
+-   GSEA as implemented in
     [fgsea](https://www.bioconductor.org/packages/release/bioc/html/fgsea.html)
-  - [GSVA](https://www.bioconductor.org/packages/release/bioc/html/GSVA.html)
+-   [GSVA](https://www.bioconductor.org/packages/release/bioc/html/GSVA.html)
 
 ### Estimation from linear models
 
-  - SCIRA: Linear models to estimate TF activities from gene expression
+-   SCIRA: Linear models to estimate TF activities from gene expression
     as defined
     [here](https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13)
 
-  - pscira: Linear combination of gene expression based on mode of
+-   pscira: Linear combination of gene expression based on mode of
     regulation followed by a comparison to a random null model.
 
 ### Estimation from statistics
 
-  - mean: Weighted mean that allows the use of directions and
+-   mean: Weighted mean that allows the use of directions and
     contribution weights.
 
-  - normalized\_mean: Similar as above, however the final score is
+-   normalized\_mean: Similar as above, however the final score is
     corrected based on a null (random) model
 
 We benchmarked an initial set of 84 combinations, comprising 7 methods
@@ -88,17 +88,11 @@ Get the latest stable `R` release from
 [CRAN](http://cran.r-project.org/).
 
 <!-- Then install `decoupleR` using from [Bioconductor](http://bioconductor.org/) the following code: -->
-
 <!-- ```{r bioconductor_install, eval = FALSE} -->
-
 <!-- if (!requireNamespace("BiocManager", quietly = TRUE)) { -->
-
 <!--     install.packages("BiocManager") -->
-
 <!-- } -->
-
 <!-- BiocManager::install("decoupleR") -->
-
 <!-- ``` -->
 
 Then install development version from [GitHub](https://github.com/)
@@ -151,30 +145,31 @@ decouple(
     network = network,
     .source = "tf",
     .target = "target",
-    statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+    statistics = c("gsva", "mean", "pscira", "scira", "viper", "ora"),
     args = list(
         gsva = list(verbose = FALSE),
         mean = list(.mor = "mor", .likelihood = "likelihood"),
         pscira = list(.mor = "mor"),
         scira = list(.mor = "mor"),
-        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
+        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE),
+        ora = list()
     )
 )
 #> Warning: multiple methods tables found for 'rowRanges'
-#> # A tibble: 112 x 6
-#>    run_id statistic tf    condition    score p_value
-#>    <chr>  <chr>     <chr> <chr>        <dbl>   <dbl>
-#>  1 1      gsva      FOXO4 GSM2753335 -0.380       NA
-#>  2 1      gsva      FOXO4 GSM2753336 -0.300       NA
-#>  3 1      gsva      FOXO4 GSM2753337  0.239       NA
-#>  4 1      gsva      FOXO4 GSM2753338  0.0907      NA
-#>  5 1      gsva      NFIC  GSM2753335 -0.0845      NA
-#>  6 1      gsva      NFIC  GSM2753336  0.0778      NA
-#>  7 1      gsva      NFIC  GSM2753337 -0.260       NA
-#>  8 1      gsva      NFIC  GSM2753338  0.281       NA
-#>  9 1      gsva      RFXAP GSM2753335 -0.810       NA
-#> 10 1      gsva      RFXAP GSM2753336 -0.472       NA
-#> # … with 102 more rows
+#> # A tibble: 140 x 11
+#>    run_id statistic tf    condition   score p_value estimate conf.low conf.high
+#>    <chr>  <chr>     <chr> <chr>       <dbl>   <dbl>    <dbl>    <dbl>     <dbl>
+#>  1 1      gsva      FOXO4 GSM27533… -0.380       NA       NA       NA        NA
+#>  2 1      gsva      FOXO4 GSM27533… -0.300       NA       NA       NA        NA
+#>  3 1      gsva      FOXO4 GSM27533…  0.239       NA       NA       NA        NA
+#>  4 1      gsva      FOXO4 GSM27533…  0.0907      NA       NA       NA        NA
+#>  5 1      gsva      NFIC  GSM27533… -0.0845      NA       NA       NA        NA
+#>  6 1      gsva      NFIC  GSM27533…  0.0778      NA       NA       NA        NA
+#>  7 1      gsva      NFIC  GSM27533… -0.260       NA       NA       NA        NA
+#>  8 1      gsva      NFIC  GSM27533…  0.281       NA       NA       NA        NA
+#>  9 1      gsva      RFXAP GSM27533… -0.810       NA       NA       NA        NA
+#> 10 1      gsva      RFXAP GSM27533… -0.472       NA       NA       NA        NA
+#> # … with 130 more rows, and 2 more variables: method <chr>, alternative <chr>
 ```
 
 ### Individual parts
@@ -194,39 +189,39 @@ run_viper(
     .likelihood = "likelihood",
     verbose = FALSE
 )
-#> # A tibble: 12 x 4
+#> # A tibble: 20 x 4
 #>    statistic tf     condition    score
 #>    <chr>     <chr>  <chr>        <dbl>
-#>  1 viper     NFIC   GSM2753335  0.0696
-#>  2 viper     NFIC   GSM2753336 -0.0265
-#>  3 viper     NFIC   GSM2753337 -0.516 
-#>  4 viper     NFIC   GSM2753338 -0.543 
-#>  5 viper     SMAD3  GSM2753335  0.176 
-#>  6 viper     SMAD3  GSM2753336  0.0426
-#>  7 viper     SMAD3  GSM2753337  0.219 
-#>  8 viper     SMAD3  GSM2753338  0.142 
-#>  9 viper     TFAP2A GSM2753335  0.722 
-#> 10 viper     TFAP2A GSM2753336  0.582 
-#> 11 viper     TFAP2A GSM2753337  0.462 
-#> 12 viper     TFAP2A GSM2753338  0.330
+#>  1 viper     FOXO4  GSM2753335  1.34  
+#>  2 viper     FOXO4  GSM2753336  1.18  
+#>  3 viper     FOXO4  GSM2753337  1.44  
+#>  4 viper     FOXO4  GSM2753338  1.21  
+#>  5 viper     NFIC   GSM2753335  0.0696
+#>  6 viper     NFIC   GSM2753336 -0.0265
+#>  7 viper     NFIC   GSM2753337 -0.516 
+#>  8 viper     NFIC   GSM2753338 -0.543 
+#>  9 viper     RFXAP  GSM2753335  0.488 
+#> 10 viper     RFXAP  GSM2753336  1.32  
+#> 11 viper     RFXAP  GSM2753337  1.93  
+#> 12 viper     RFXAP  GSM2753338  1.93  
+#> 13 viper     SMAD3  GSM2753335  0.176 
+#> 14 viper     SMAD3  GSM2753336  0.0426
+#> 15 viper     SMAD3  GSM2753337  0.219 
+#> 16 viper     SMAD3  GSM2753338  0.142 
+#> 17 viper     TFAP2A GSM2753335  0.722 
+#> 18 viper     TFAP2A GSM2753336  0.582 
+#> 19 viper     TFAP2A GSM2753337  0.462 
+#> 20 viper     TFAP2A GSM2753338  0.330
 ```
 
 <!-- ## Citation -->
-
 <!-- Below is the citation output from using `citation('decoupleR')` in R. Please -->
-
 <!-- run this yourself to check for any updates on how to cite __decoupleR__. -->
-
 <!-- ```{r 'citation', eval = requireNamespace('decoupleR')} -->
-
 <!-- print(citation("decoupleR"), bibtex = TRUE) -->
-
 <!-- ``` -->
-
 <!-- Please note that the `decoupleR` was only made possible thanks to many other R -->
-
 <!-- and bioinformatics software authors, which are cited either in the vignettes -->
-
 <!-- and/or the paper(s) describing this package. -->
 
 ## Contributing to decoupleR
@@ -236,7 +231,7 @@ in the development of internal tools that allow the extension of the
 package? Please check out our [contribution
 guide](https://saezlab.github.io/decoupleR/CONTRIBUTING.html).
 
------
+------------------------------------------------------------------------
 
 Please note that this project is released with a [Contributor Code of
 Conduct](https://saezlab.github.io/decoupleR/CODE_OF_CONDUCT). By

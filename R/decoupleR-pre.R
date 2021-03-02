@@ -14,7 +14,6 @@ filter_regulons <- function(
     .source,
     min_size = 1,
     max_size = Inf) {
-
     network %>%
         add_count({{ .source }}, wt = NULL) %>%
         filter(.data$n >= min_size, .data$n <= max_size) %>%

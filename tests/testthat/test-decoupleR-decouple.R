@@ -24,7 +24,8 @@ statistics <- c(
     "pscira",
     "mean",
     "viper",
-    "gsva"
+    "gsva",
+    "ora"
 )
 
 # Arguments for statistics; same order as statistics vector.
@@ -33,7 +34,8 @@ args <- list(
     pscira = list(),
     mean = list(.likelihood = NULL),
     viper = list(verbose = FALSE),
-    gsva = list(verbose = FALSE)
+    gsva = list(verbose = FALSE),
+    ora = list()
 )
 
 partial_decouple <- purrr::partial(
@@ -49,15 +51,6 @@ partial_decouple <- purrr::partial(
 # decouple() --------------------------------------------------------------
 
 test_that("decouple same results as independent functions", {
-
-    # Available statistics
-    statistics <- c(
-        "scira",
-        "pscira",
-        "mean",
-        "viper",
-        "gsva"
-    )
 
     # Choose the same defaults as in the section on generating expected results.
     res_decouple_defaults <- partial_decouple(

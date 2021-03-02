@@ -49,6 +49,7 @@ run_gsva(mat, network, tf, target, verbose = FALSE)
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_mean}()},
+\code{\link{run_ora}()},
 \code{\link{run_pscira}()},
 \code{\link{run_scira}()},
 \code{\link{run_viper}()}

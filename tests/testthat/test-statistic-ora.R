@@ -23,6 +23,8 @@ test_that("test run_mora with dorothea gene sets", {
         readRDS()
 
     expect_equal(res_1, exp_1)
-    expect_error(object = run_ora(emat, dorothea_genesets, n_background = -1),
-                 regexp = "`n` must be a non-missing positive number.")
+    expect_error(
+        object = run_ora(emat, dorothea_genesets, n_background = -1),
+        regexp = "`n` must be a non-missing positive number."
+    )
 })

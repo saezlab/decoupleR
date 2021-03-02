@@ -57,9 +57,6 @@ run_viper(emat, dorothea_genesets) %>%
 run_viper(emat, dorothea_genesets, tf, target, mor, likelihood) %>%
     saveRDS(file.path(out$viper, "output-viper_dorothea_tidy-evaluation.rds"))
 
-run_viper(emat, dorothea_genesets, minsize = 4) %>%
-    saveRDS(file.path(out$viper, "output-viper_dorothea_minsize4.rds"))
-
 #----- run_scira() -------------------------------------------------------------
 
 run_scira(emat, dorothea_genesets) %>%

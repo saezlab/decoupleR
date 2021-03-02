@@ -11,7 +11,6 @@ run_mean(
   .target = .data$target,
   .mor = .data$mor,
   .likelihood = .data$likelihood,
-  minsize = 1,
   times = 2,
   seed = 42,
   sparse = TRUE,
@@ -33,9 +32,6 @@ in \code{network} \code{.target} column.}
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
 \item{.likelihood}{Column with edge likelihood.}
-
-\item{minsize}{How many output edges a source node must have to be included
-in the analysis?}
 
 \item{times}{How many permutations to do?}
 

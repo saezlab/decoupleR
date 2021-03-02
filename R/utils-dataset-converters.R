@@ -191,7 +191,7 @@ convert_to_gsva <- function(network, .source, .target) {
 #' @export
 convert_to_ora <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
-                       .dots_names = c(".source", ".target")
+        .dots_names = c(".source", ".target")
     )
 
     network %>%

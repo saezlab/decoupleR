@@ -25,7 +25,7 @@ randomize_matrix <- function(
     randomize_type <- match.arg(randomize_type)
 
     switch(randomize_type,
-        rows = mat[sample(nrow(mat)), ],
+        rows = mat[sample(nrow(mat)), , drop = FALSE],
         cols_independently = apply(mat, 2, sample)
     ) %>%
         `row.names<-`(rownames(mat))

@@ -36,6 +36,8 @@ run_gsva <- function(
         .fn = GSVA::gsva,
         expr = mat,
         gset.idx.list = regulons,
+        min.sz = 1,
+        max.sz = Inf,
         !!!list(...)
     ) %>%
         as.data.frame() %>%

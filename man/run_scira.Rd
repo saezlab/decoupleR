@@ -11,7 +11,9 @@ run_scira(
   .target = .data$target,
   .mor = .data$mor,
   sparse = FALSE,
-  fast = TRUE
+  fast = TRUE,
+  center = TRUE,
+  na.rm = FALSE
 )
 }
 \arguments{
@@ -33,6 +35,12 @@ should be sparse.}
 
 \item{fast}{Logical value indicating if the lineal model must be calculated
 with \code{\link[speedglm:speedlm]{speedglm::speedlm.fit()}} or with base \code{\link[stats:lm]{stats::lm()}}.}
+
+\item{center}{Logical value indicating if \code{mat} must be centered by
+\code{\link[base:colSums]{base::rowMeans()}}.}
+
+\item{na.rm}{Should missing values (including NaN) be omitted from the
+calculations of \code{\link[base:colSums]{base::rowMeans()}}?}
 }
 \value{
 A long format tibble of the enrichment scores for each tf
@@ -52,9 +60,9 @@ Calculates TF activity according to
 \details{
 Estimation of regulatory activity: A linear regression of the expression
 profile is performed against the "target profile" of the given TF, where
-in the target profile, any member of the regulon will be assigned a +1
-for activated actions, a -1 for inhibitory activations and, finally, a 0
-for all genes that are not a member of the TF regulon. TF activity is then
+in the target profile, any regulon member is assigned a \code{+1} for activating
+interactions and a \code{-1} for inhibitory interactions. All other genes not
+members of the TF's regulon are assigned a value o \code{0}. TF activity is then
 defined as the t-statistic of this linear regression.
 }
 \examples{

@@ -162,7 +162,7 @@ run_scira <- function(
     } else {
         lm(mat[, condition] ~ mor_mat[, source]) %>%
             summary() %>%
-            coefficients() %>%
+            coef() %>%
             .[, "t value"] %>%
             pluck(2, .default = NA)
     }

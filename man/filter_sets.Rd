@@ -26,5 +26,5 @@ returns a filtered and formatted set source
 Helper Function to filter and format the gene set resource
 }
 \details{
-Filtering can be omitted if \code{filter_col} is \code{NULL}.
+Filtering can be omitted if \code{filter_col} is \code{NA}.
 }

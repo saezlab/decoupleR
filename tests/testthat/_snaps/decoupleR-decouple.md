@@ -4,13 +4,9 @@
       partial_decouple(show_toy_call = TRUE) %>% select(-statistic_time)
     Message <simpleMessage>
       run_scira(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
-    Message <simpleMessage>
       run_pscira(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
-    Message <simpleMessage>
       run_mean(mat = mat, network = dorothea_genesets, .source = tf, .target = target,  .likelihood = NULL)
-    Message <simpleMessage>
       run_viper(mat = mat, network = dorothea_genesets, .source = tf, .target = target,  verbose = FALSE)
-    Message <simpleMessage>
       run_gsva(mat = mat, network = dorothea_genesets, .source = tf, .target = target,  verbose = FALSE)
     Output
       # A tibble: 112 x 6

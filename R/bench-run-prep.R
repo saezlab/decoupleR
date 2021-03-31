@@ -51,7 +51,6 @@ filter_sets <- function(set_source,
                         .silent){
   n_duprows <- sum(duplicated(set_source))
   na_bool <- is.na(filter_col)
-  print(na_bool)
 
   gs_filtered <- set_source %>%
     {

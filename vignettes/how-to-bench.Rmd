@@ -170,7 +170,7 @@ given source).
 It is worth pointing out that similarly to `.mor` and `.likelihood`, 
 `source_col`, `target_col`, and `filter_col` can take any user-specified name.
 The `filter_col` and hence source_set pre-filtering can be omitted by passing
-`NULL` as its name.
+`NA` as its name.
 
 In this tutorial, we will use [DoRothEA](https://github.com/saezlab/dorothea) -
 a gene set resource containing signed TF-target interactions.

@@ -64,21 +64,12 @@ run_mean <- function(
     # Calculate the weights that will be used for the evaluation of the model
     network <- network %>%
         filter(.data$target %in% rownames(mat)) %>%
-        add_count(.data$tf, wt = .data$likelihood, name = "contribution") %>%
-        transmute(
-            .data$tf,
-            .data$target,
-            weight = .data$mor * .data$likelihood / .data$contribution
-        )
+        .mean_calculate_weight()
 
     # Extract labels that will map to the expression and profile matrices
-    tfs <- network %>%
-        pull(.data$tf) %>%
-        unique()
+    tfs <- unique(network[["tf"]])
 
-    shared_targets <- network %>%
-        pull(.data$target) %>%
-        unique()
+    shared_targets <- unique(network[["target"]])
 
     targets <- rownames(mat)
     conditions <- colnames(mat)
@@ -169,6 +160,21 @@ run_mean <- function(
 .mean_run <- function(mat, weight_mat, shared_targets, random, randomize_type) {
     .mean_map_model_data(mat, shared_targets, random, randomize_type) %>%
         .mean_evaluate_model(weight_mat)
+}
+
+#' Calculate mean weight
+#'
+#' @inheritParams .mean_analysis
+#' @keywords internal
+#' @noRd
+.mean_calculate_weight <- function(network) {
+    network %>%
+        add_count(.data$tf, name = "contribution") %>%
+        transmute(
+            .data$tf,
+            .data$target,
+            weight = .data$mor * .data$likelihood / .data$contribution
+        )
 }
 
 #' Collect a subset of data: random or not.

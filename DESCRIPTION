@@ -13,9 +13,9 @@ Authors@R:
              role = "aut",
              email = "jvelez@lcg.unam.mx",
              comment = c(ORCID = "0000-0001-5128-3838")))
-Description: Transcriptome profiling followed by differential
-    gene expression analysis often leads to lists of genes that are hard
-    to analyze and interpret. Downstream analysis tools can be used to
+Description: Transcriptome profiling followed by differential gene
+    expression analysis often leads to lists of genes that are hard to
+    analyze and interpret. Downstream analysis tools can be used to
     summarize deregulation events into a smaller set of biologically
     interpretable features.  In particular, methods that estimate the
     activity of transcription factors (TFs) from gene expression are
@@ -37,6 +37,7 @@ BugReports: https://github.com/saezlab/decoupleR/issues
 Depends: 
     R (>= 4.0)
 Imports:
+    broom,
     dplyr,
     GSVA,
     magrittr,
@@ -49,8 +50,7 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
-    viper,
-    broom
+    viper
 Suggests: 
     BiocStyle,
     covr,
@@ -63,7 +63,8 @@ Suggests:
     testthat
 VignetteBuilder: 
     knitr
-biocViews: Software, StatisticalMethod, FunctionalGenomics
+biocViews: FunctionalGenomics, GeneExpression, GeneRegulation, Network,
+    Software, StatisticalMethod, Transcription
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

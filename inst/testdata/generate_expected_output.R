@@ -50,12 +50,8 @@ progeny_genesets <- file.path(input_dir, "input-progeny_genesets.rds") %>%
     readRDS()
 
 #----- run_viper() -------------------------------------------------------------
-
 run_viper(emat, dorothea_genesets) %>%
     saveRDS(out_default$viper)
-
-run_viper(emat, dorothea_genesets, tf, target, mor, likelihood) %>%
-    saveRDS(file.path(out$viper, "output-viper_dorothea_tidy-evaluation.rds"))
 
 #----- run_scira() -------------------------------------------------------------
 run_scira(emat, dorothea_genesets) %>%

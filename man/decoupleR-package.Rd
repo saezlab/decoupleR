@@ -6,9 +6,9 @@
 \alias{decoupleR-package}
 \title{decoupleR: Package to decouple gene sets from statistics}
 \description{
-Transcriptome profiling followed by differential
-    gene expression analysis often leads to lists of genes that are hard
-    to analyze and interpret. Downstream analysis tools can be used to
+Transcriptome profiling followed by differential gene
+    expression analysis often leads to lists of genes that are hard to
+    analyze and interpret. Downstream analysis tools can be used to
     summarize deregulation events into a smaller set of biologically
     interpretable features.  In particular, methods that estimate the
     activity of transcription factors (TFs) from gene expression are

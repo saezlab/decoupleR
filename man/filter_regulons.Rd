@@ -22,3 +22,8 @@ Filtered tibble.
 Keep only sources which satisfied the condition \verb{min_size >= n <= max_size},
 where \code{n} denotes the number of targets per source.
 }
+\examples{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+filter_regulons(network, .source = tf, min_size = 30, max_size = 50)
+}

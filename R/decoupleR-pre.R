@@ -9,6 +9,10 @@
 #'
 #' @return Filtered tibble.
 #' @export
+#' @examples
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#' filter_regulons(network, .source = tf, min_size = 30, max_size = 50)
 filter_regulons <- function(
     network,
     .source,

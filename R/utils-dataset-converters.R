@@ -98,12 +98,11 @@ convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_mean <- function(
-    network,
-    .source,
-    .target,
-    .mor = NULL,
-    .likelihood = NULL) {
+convert_to_mean <- function(network,
+                            .source,
+                            .target,
+                            .mor = NULL,
+                            .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
@@ -127,12 +126,11 @@ convert_to_mean <- function(
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_viper <- function(
-    network,
-    .source,
-    .target,
-    .mor = NULL,
-    .likelihood = NULL) {
+convert_to_viper <- function(network,
+                             .source,
+                             .target,
+                             .mor = NULL,
+                             .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
@@ -280,11 +278,10 @@ convert_to_ora <- function(network, .source, .target) {
 #'     new_z = NULL,
 #'     .def_col_val = c(new_z = 3)
 #' )
-convert_f_defaults <- function(
-    .data,
-    ...,
-    .def_col_val = c(),
-    .use_dots = TRUE) {
+convert_f_defaults <- function(.data,
+                               ...,
+                               .def_col_val = c(),
+                               .use_dots = TRUE) {
     expected_columns <- match.call(expand.dots = FALSE)$... %>%
         names() %>%
         unique()

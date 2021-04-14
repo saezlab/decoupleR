@@ -30,16 +30,15 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' run_ora(mat, network, tf, target)
-run_ora <- function(
-    mat,
-    network,
-    .source = .data$tf,
-    .target = .data$target,
-    n_up = nrow(mat),
-    n_bottom = 0,
-    n_background = NULL,
-    with_ties = TRUE,
-    ...) {
+run_ora <- function(mat,
+                    network,
+                    .source = .data$tf,
+                    .target = .data$target,
+                    n_up = nrow(mat),
+                    n_bottom = 0,
+                    n_background = NULL,
+                    with_ties = TRUE,
+                    ...) {
     # Before to start ---------------------------------------------------------
     regulons <- network %>%
         convert_to_ora({{ .source }}, {{ .target }})

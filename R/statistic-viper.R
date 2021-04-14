@@ -25,14 +25,13 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' run_viper(mat, network, tf, target, mor, likelihood, verbose = FALSE)
-run_viper <- function(
-    mat,
-    network,
-    .source = .data$tf,
-    .target = .data$target,
-    .mor = .data$mor,
-    .likelihood = .data$likelihood,
-    ...) {
+run_viper <- function(mat,
+                      network,
+                      .source = .data$tf,
+                      .target = .data$target,
+                      .mor = .data$mor,
+                      .likelihood = .data$likelihood,
+                      ...) {
 
     # Before to start ---------------------------------------------------------
     network <- network %>%

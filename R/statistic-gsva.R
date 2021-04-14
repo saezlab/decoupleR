@@ -21,12 +21,11 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' run_gsva(mat, network, tf, target, verbose = FALSE)
-run_gsva <- function(
-    mat,
-    network,
-    .source = .data$tf,
-    .target = .data$target,
-    ...) {
+run_gsva <- function(mat,
+                     network,
+                     .source = .data$tf,
+                     .target = .data$target,
+                     ...) {
     # Before to start ---------------------------------------------------------
     regulons <- network %>%
         convert_to_gsva({{ .source }}, {{ .target }})

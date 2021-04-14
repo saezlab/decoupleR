@@ -39,18 +39,16 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' run_mean(mat, network, tf, target, mor, likelihood)
-run_mean <- function(
-    mat,
-    network,
-    .source = .data$tf,
-    .target = .data$target,
-    .mor = .data$mor,
-    .likelihood = .data$likelihood,
-    times = 2,
-    seed = 42,
-    sparse = TRUE,
-    randomize_type = "rows") {
-
+run_mean <- function(mat,
+                     network,
+                     .source = .data$tf,
+                     .target = .data$target,
+                     .mor = .data$mor,
+                     .likelihood = .data$likelihood,
+                     times = 2,
+                     seed = 42,
+                     sparse = TRUE,
+                     randomize_type = "rows") {
     # Before to start ---------------------------------------------------------
     if (times < 2) {
         stop(stringr::str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))

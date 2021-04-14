@@ -125,13 +125,13 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 #' }
 #' @keywords internal
 pivot_wider_profile <- function(data,
-    id_cols,
-    names_from,
-    values_from,
-    values_fill = NA,
-    to_matrix = FALSE,
-    to_sparse = FALSE,
-    ...) {
+                                id_cols,
+                                names_from,
+                                values_from,
+                                values_fill = NA,
+                                to_matrix = FALSE,
+                                to_sparse = FALSE,
+                                ...) {
     wider_profile <- data %>%
         select({{ id_cols }}, {{ names_from }}, {{ values_from }}) %>%
         pivot_wider(

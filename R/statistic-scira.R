@@ -47,16 +47,15 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' run_scira(mat, network, tf, target, mor)
-run_scira <- function(
-    mat,
-    network,
-    .source = .data$tf,
-    .target = .data$target,
-    .mor = .data$mor,
-    sparse = FALSE,
-    fast = TRUE,
-    center = TRUE,
-    na.rm = FALSE) {
+run_scira <- function(mat,
+                      network,
+                      .source = .data$tf,
+                      .target = .data$target,
+                      .mor = .data$mor,
+                      sparse = FALSE,
+                      fast = TRUE,
+                      center = TRUE,
+                      na.rm = FALSE) {
 
     # Before to start ---------------------------------------------------------
     # Convert to standard tibble: tf-target-mor.
@@ -65,11 +64,10 @@ run_scira <- function(
 
     # Preprocessing -----------------------------------------------------------
     .scira_preprocessing(network, mat, center, na.rm, sparse) %>%
-
-    # Model evaluation --------------------------------------------------------
-    {
-        .scira_analysis(.$mat, .$mor_mat, fast)
-    }
+        # Model evaluation --------------------------------------------------------
+        {
+            .scira_analysis(.$mat, .$mor_mat, fast)
+        }
 }
 
 # Helper functions ------------------------------------------------------
@@ -88,7 +86,6 @@ run_scira <- function(
 #' @keywords intern
 #' @noRd
 .scira_preprocessing <- function(network, mat, center, na.rm, sparse) {
-
     shared_targets <- intersect(
         rownames(mat),
         network$target

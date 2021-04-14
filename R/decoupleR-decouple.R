@@ -50,15 +50,14 @@
 #'         )
 #'     )
 #' }
-decouple <- function(
-    mat,
-    network,
-    .source,
-    .target,
-    statistics,
-    args = list(NULL),
-    include_time = FALSE,
-    show_toy_call = FALSE) {
+decouple <- function(mat,
+                     network,
+                     .source,
+                     .target,
+                     statistics,
+                     args = list(NULL),
+                     include_time = FALSE,
+                     show_toy_call = FALSE) {
 
     # Match statistics to couple ----------------------------------------------
     statistics <- .select_statistics(statistics)
@@ -148,15 +147,15 @@ decouple <- function(
 #' @keywords internal
 #' @noRd
 .invoke_statistic <- function(fn,
-    args,
-    mat,
-    network,
-    .source,
-    .target,
-    mat_symbol,
-    network_symbol,
-    include_time,
-    show_toy_call) {
+                              args,
+                              mat,
+                              network,
+                              .source,
+                              .target,
+                              mat_symbol,
+                              network_symbol,
+                              include_time,
+                              show_toy_call) {
     .toy_call <- expr(
         (!!fn)(
             mat = {{ mat_symbol }},

@@ -19,9 +19,8 @@
 #' randomize_matrix(mat, randomize_type = "cols_independently")
 #' }
 #' @keywords internal
-randomize_matrix <- function(
-    mat,
-    randomize_type = c("rows", "cols_independently")) {
+randomize_matrix <- function(mat,
+                             randomize_type = c("rows", "cols_independently")) {
     randomize_type <- match.arg(randomize_type)
 
     switch(randomize_type,

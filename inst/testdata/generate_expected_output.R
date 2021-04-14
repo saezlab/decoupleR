@@ -91,16 +91,8 @@ run_mean(emat, dorothea_genesets, sparse = TRUE, .likelihood = NULL) %>%
     saveRDS(file.path(out$mean, "output-mean_dorothea_sparse-background-calculation.rds"))
 
 #---- run_gsva() ---------------------------------------------------------------
-
 run_gsva(emat, dorothea_genesets) %>%
     saveRDS(out_default$gsva)
-
-run_gsva(emat, dorothea_genesets, tf, target) %>%
-    saveRDS(file.path(out$gsva, "output-gsva_dorothea_tidy-evaluation.rds"))
-
-run_gsva(emat, dorothea_genesets, min.sz = 4) %>%
-    saveRDS(file.path(out$gsva, "output-gsva_dorothea_minsize4.rds"))
-
 
 #---- run_ora() ---------------------------------------------------------------
 run_ora(emat, dorothea_genesets) %>%

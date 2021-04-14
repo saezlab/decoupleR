@@ -24,7 +24,7 @@
 #'  2. `tf`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
-#'  6. `p_value`: p-value for the score of mean method.
+#'  5. `p_value`: p-value for the score of mean method.
 #' @family decoupleR statistics
 #' @export
 #' @import dplyr

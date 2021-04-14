@@ -38,7 +38,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Jesús Vélez \email{jvelez@lcg.unam.mx} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
+  \item Jesús Vélez \email{jvelezmagic@gmail.com} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
 }
 
 }

@@ -125,11 +125,11 @@ network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
     dplyr::glimpse()
 #> Rows: 151
 #> Columns: 5
-#> $ tf         <chr> "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOX…
-#> $ confidence <chr> "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A"…
-#> $ target     <chr> "BCL2L11", "BCL6", "CDKN1A", "CDKN1B", "G6PC", "GADD45A", …
-#> $ mor        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-#> $ likelihood <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+#> $ tf         <chr> "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO…
+#> $ confidence <chr> "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A",…
+#> $ target     <chr> "BCL2L11", "BCL6", "CDKN1A", "CDKN1B", "G6PC", "GADD45A", "…
+#> $ mor        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+#> $ likelihood <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 ```
 
 ### Decouple wrapper
@@ -155,20 +155,19 @@ decouple(
         ora = list()
     )
 )
-#> Warning: multiple methods tables found for 'rowRanges'
 #> # A tibble: 140 x 11
-#>    run_id statistic tf    condition   score p_value estimate conf.low conf.high
-#>    <chr>  <chr>     <chr> <chr>       <dbl>   <dbl>    <dbl>    <dbl>     <dbl>
-#>  1 1      gsva      FOXO4 GSM27533… -0.380       NA       NA       NA        NA
-#>  2 1      gsva      FOXO4 GSM27533… -0.300       NA       NA       NA        NA
-#>  3 1      gsva      FOXO4 GSM27533…  0.239       NA       NA       NA        NA
-#>  4 1      gsva      FOXO4 GSM27533…  0.0907      NA       NA       NA        NA
-#>  5 1      gsva      NFIC  GSM27533… -0.0845      NA       NA       NA        NA
-#>  6 1      gsva      NFIC  GSM27533…  0.0778      NA       NA       NA        NA
-#>  7 1      gsva      NFIC  GSM27533… -0.260       NA       NA       NA        NA
-#>  8 1      gsva      NFIC  GSM27533…  0.281       NA       NA       NA        NA
-#>  9 1      gsva      RFXAP GSM27533… -0.810       NA       NA       NA        NA
-#> 10 1      gsva      RFXAP GSM27533… -0.472       NA       NA       NA        NA
+#>    run_id statistic tf    condition    score p_value estimate conf.low conf.high
+#>    <chr>  <chr>     <chr> <chr>        <dbl>   <dbl>    <dbl>    <dbl>     <dbl>
+#>  1 1      gsva      FOXO4 GSM2753335 -0.380       NA       NA       NA        NA
+#>  2 1      gsva      FOXO4 GSM2753336 -0.300       NA       NA       NA        NA
+#>  3 1      gsva      FOXO4 GSM2753337  0.239       NA       NA       NA        NA
+#>  4 1      gsva      FOXO4 GSM2753338  0.0907      NA       NA       NA        NA
+#>  5 1      gsva      NFIC  GSM2753335 -0.0845      NA       NA       NA        NA
+#>  6 1      gsva      NFIC  GSM2753336  0.0778      NA       NA       NA        NA
+#>  7 1      gsva      NFIC  GSM2753337 -0.260       NA       NA       NA        NA
+#>  8 1      gsva      NFIC  GSM2753338  0.281       NA       NA       NA        NA
+#>  9 1      gsva      RFXAP GSM2753335 -0.810       NA       NA       NA        NA
+#> 10 1      gsva      RFXAP GSM2753336 -0.472       NA       NA       NA        NA
 #> # … with 130 more rows, and 2 more variables: method <chr>, alternative <chr>
 ```
 

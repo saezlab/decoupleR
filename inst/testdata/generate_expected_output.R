@@ -69,12 +69,8 @@ run_scira(emat, dorothea_genesets, sparse = TRUE) %>%
     saveRDS(file.path(out$scira, "output-scira_dorothea_sparse-background-calculation.rds"))
 
 #----- run_pscira() ------------------------------------------------------------
-
 run_pscira(emat, dorothea_genesets) %>%
     saveRDS(out_default$pscira)
-
-run_pscira(emat, dorothea_genesets, tf, target, mor) %>%
-    saveRDS(file.path(out$pscira, "output-pscira_dorothea_tidy-evaluation.rds"))
 
 run_pscira(emat, dorothea_genesets, sparse = TRUE) %>%
     saveRDS(file.path(out$pscira, "output-pscira_dorothea_sparse-background-calculation.rds"))

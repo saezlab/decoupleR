@@ -46,9 +46,6 @@ emat <- file.path(input_dir, "input-expr_matrix.rds") %>%
 dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
     readRDS()
 
-progeny_genesets <- file.path(input_dir, "input-progeny_genesets.rds") %>%
-    readRDS()
-
 #----- run_viper() -------------------------------------------------------------
 run_viper(emat, dorothea_genesets) %>%
     saveRDS(out_default$viper)

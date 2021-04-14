@@ -80,12 +80,8 @@ run_pscira(emat, dorothea_genesets, sparse = TRUE) %>%
     saveRDS(file.path(out$pscira, "output-pscira_dorothea_sparse-background-calculation.rds"))
 
 #----- run_mean() -------------------------------------------------------------
-
 run_mean(emat, dorothea_genesets, .likelihood = NULL) %>%
     saveRDS(out_default$mean)
-
-run_mean(emat, dorothea_genesets, tf, target, mor, .likelihood = NULL) %>%
-    saveRDS(file.path(out$mean, "output-mean_dorothea_tidy-evaluation.rds"))
 
 run_mean(emat, dorothea_genesets, sparse = TRUE, .likelihood = NULL) %>%
     saveRDS(file.path(out$mean, "output-mean_dorothea_sparse-background-calculation.rds"))

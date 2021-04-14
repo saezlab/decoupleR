@@ -11,7 +11,7 @@ Authors@R:
       person(given = "Jesús",
              family = "Vélez",
              role = "aut",
-             email = "jvelez@lcg.unam.mx",
+             email = "jvelezmagic@gmail.com",
              comment = c(ORCID = "0000-0001-5128-3838")))
 Description: Transcriptome profiling followed by differential gene
     expression analysis often leads to lists of genes that are hard to
@@ -63,8 +63,8 @@ Suggests:
     testthat
 VignetteBuilder: 
     knitr
-biocViews: FunctionalGenomics, GeneExpression, GeneRegulation, Network,
-    Software, StatisticalMethod, Transcription
+biocViews: DifferentialExpression, FunctionalGenomics, GeneExpression,
+    GeneRegulation, Network, Software, StatisticalMethod, Transcription,
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

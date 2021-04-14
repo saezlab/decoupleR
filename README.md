@@ -36,52 +36,6 @@ one algorithm. To systematically evaluate both networks and algorithms,
 we developed decoupleR , an R package that allows users to apply
 efficiently any combination provided.
 
-As an initial set of regulatory networks, we integrated the following
-resources:
-
--   [DoRothEA](https://github.com/saezlab/dorothea)
--   [CHEA3](https://amp.pharm.mssm.edu/ChEA3)
--   [RegNetwork](http://www.regnetworkweb.org/)
-
-And the following TF activity inference methods:
-
-### Estimation based on enrichment of sets on rankings
-
--   [viper](http://bioconductor.org/packages/release/bioc/html/viper.html)
--   GSEA as implemented in
-    [fgsea](https://www.bioconductor.org/packages/release/bioc/html/fgsea.html)
--   [GSVA](https://www.bioconductor.org/packages/release/bioc/html/GSVA.html)
-
-### Estimation from linear models
-
--   SCIRA: Linear models to estimate TF activities from gene expression
-    as defined
-    [here](https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13)
-
--   pscira: Linear combination of gene expression based on mode of
-    regulation followed by a comparison to a random null model.
-
-### Estimation from statistics
-
--   mean: Weighted mean that allows the use of directions and
-    contribution weights.
-
--   normalized\_mean: Similar as above, however the final score is
-    corrected based on a null (random) model
-
-We benchmarked an initial set of 84 combinations, comprising 7 methods
-and 13 networks.
-
-We evaluated the precision of different combinations in recovering
-perturbed TFs from different collections of gene expression datasets.
-Additionally, we tested the effects of combining multiple sources and
-estimations. We set up the package in a modular way which makes it easy
-and intuitive to extend it with further statistics or networks. We
-invite the community to participate by implementing their own statistics
-or integrating their gene regulatory network. With the decoupleR
-package, we lay the foundation for a crowdsourced systematic assessment
-of transcription factor activity estimation from transcriptomics data.
-
 ## Installation instructions
 
 Get the latest stable `R` release from

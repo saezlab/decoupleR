@@ -58,12 +58,8 @@ run_viper(emat, dorothea_genesets, tf, target, mor, likelihood) %>%
     saveRDS(file.path(out$viper, "output-viper_dorothea_tidy-evaluation.rds"))
 
 #----- run_scira() -------------------------------------------------------------
-
 run_scira(emat, dorothea_genesets) %>%
     saveRDS(out_default$scira)
-
-run_scira(emat, dorothea_genesets, tf, target, mor) %>%
-    saveRDS(file.path(out$scira, "output-scira_dorothea_tidy-evaluation.rds"))
 
 run_scira(emat, dorothea_genesets, sparse = TRUE) %>%
     saveRDS(file.path(out$scira, "output-scira_dorothea_sparse-background-calculation.rds"))

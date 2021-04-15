@@ -40,8 +40,8 @@ efficiently any combination provided.
 > assessment of transcription factor activity estimation from
 > transcriptomics
 > data](https://docs.google.com/document/d/1aYD3IF1tj7H6vUFqKnfHB6d6Trs_oit7umjk5mQDNZ0/edit).
-> - [Benchmarking code
-> used](https://github.com/saezlab/decoupleR/tree/benchmark).
+> - [Creation of benchmarking
+> pipelines](https://github.com/saezlab/decoupleR/tree/benchmark).
 
 ## Installation instructions
 

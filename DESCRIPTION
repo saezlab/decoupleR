@@ -3,16 +3,16 @@ Package: decoupleR
 Title: Package to decouple gene sets from statistics
 Version: 0.99.0
 Authors@R: 
-    c(person(given = "Christian H.",
-             family = "Holland",
-             role = c("cre", "aut"),
-             email = "cholland2408@gmail.com",
-             comment = c(ORCID = "0000-0002-3060-5786")),
-      person(given = "Jesús",
+    c(person(given = "Jesús",
              family = "Vélez",
-             role = "aut",
+             role = c("cre", "aut"),
              email = "jvelezmagic@gmail.com",
-             comment = c(ORCID = "0000-0001-5128-3838")))
+             comment = c(ORCID = "0000-0001-5128-3838")),
+      person(given = "Christian H.",
+             family = "Holland",
+             role = "aut",
+             email = "cholland2408@gmail.com",
+             comment = c(ORCID = "0000-0002-3060-5786")))
 Description: Transcriptome profiling followed by differential gene
     expression analysis often leads to lists of genes that are hard to
     analyze and interpret. Downstream analysis tools can be used to

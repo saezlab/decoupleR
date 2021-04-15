@@ -4,7 +4,7 @@ author:
   - name: Jesús Vélez
     affiliation:
     - National Autonomous University of Mexico
-    email: jvelez@lcg.unam.mx
+    email: jvelezmagic@gmail.com
 output: 
   BiocStyle::html_document:
     self_contained: true

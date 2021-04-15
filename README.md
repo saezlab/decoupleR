@@ -36,8 +36,10 @@ efficiently any combination provided.
 
 > For more information about how this package has been used with real
 > data, please check the following links:  
-> - [decupleR summary
-> document](https://docs.google.com/document/d/1aYD3IF1tj7H6vUFqKnfHB6d6Trs_oit7umjk5mQDNZ0/edit).
+> - [Decoupling statistics and networks: a crowdsourced systematic
+> assessment of transcription factor activity estimation from
+> transcriptomics
+> data](https://docs.google.com/document/d/1aYD3IF1tj7H6vUFqKnfHB6d6Trs_oit7umjk5mQDNZ0/edit).
 > - [Benchmarking code
 > used](https://github.com/saezlab/decoupleR/tree/benchmark).
 

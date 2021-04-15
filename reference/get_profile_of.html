@@ -93,7 +93,7 @@ useful for completing missing combinations of data." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -110,19 +110,19 @@ useful for completing missing combinations of data." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saezlab/decoupleR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://twitter.com/saezlab">
-    <span class="fab fa fab fa-twitter fa-lg"></span>
+    <span class="fab fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="http://www.saezlab.org">
-    <span class="fas fa fas fa-university"></span>
+    <span class="fas fa-university"></span>
      
   </a>
 </li>
@@ -162,7 +162,8 @@ useful for completing missing combinations of data.</p>
     </tr>
     <tr>
       <th>sources</th>
-      <td><p>A named vector or list with the values to expand and get profile.</p></td>
+      <td><p>A named vector or list with the values to expand and get
+profile.</p></td>
     </tr>
     <tr>
       <th>values_fill</th>
@@ -182,7 +183,8 @@ to different value columns.</p></td>
     <div class='dont-index'><p><a href='https://tidyr.tidyverse.org/reference/complete.html'>complete</a> <a href='https://tidyr.tidyverse.org/reference/expand.html'>expand</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>, warn.conflicts <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>, warn.conflicts <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
     group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>1</span><span class='op'>)</span>,
     item_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span>,
@@ -195,39 +197,19 @@ to different value columns.</p></td>
 
 <span class='co'># This will add the combinations of group 3 with the id of the items</span>
 <span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>get_profile_of</span><span class='op'>(</span>sources <span class='op'>=</span> <span class='va'>to_get_profile</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 5</span><span>
-#&gt;   group item_id item_name value1 value2
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1       1 a              1      4
-#&gt; </span><span style='color: #555555;'>2</span><span>     1       2 b              3      6
-#&gt; </span><span style='color: #555555;'>3</span><span>     2       1 </span><span style='color: #BB0000;'>NA</span><span>            </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span>     2       2 b              2      5
-#&gt; </span><span style='color: #555555;'>5</span><span>     3       1 </span><span style='color: #BB0000;'>NA</span><span>            </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>6</span><span>     3       2 </span><span style='color: #BB0000;'>NA</span><span>            </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
+
 <span class='co'># You can also choose to fill in missing values</span>
 
 <span class='co'># This only fill with "Unknown" the NA values of the column item_name</span>
-<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>get_profile_of</span><span class='op'>(</span>sources <span class='op'>=</span> <span class='va'>to_get_profile</span>, values_fill <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>item_name <span class='op'>=</span> <span class='st'>"Unknown"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 5</span><span>
-#&gt;   group item_id item_name value1 value2
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1       1 a              1      4
-#&gt; </span><span style='color: #555555;'>2</span><span>     1       2 b              3      6
-#&gt; </span><span style='color: #555555;'>3</span><span>     2       1 Unknown       </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span>     2       2 b              2      5
-#&gt; </span><span style='color: #555555;'>5</span><span>     3       1 Unknown       </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>6</span><span>     3       2 Unknown       </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
+<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>get_profile_of</span><span class='op'>(</span>
+    sources <span class='op'>=</span> <span class='va'>to_get_profile</span>,
+    values_fill <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>item_name <span class='op'>=</span> <span class='st'>"Unknown"</span><span class='op'>)</span>
+<span class='op'>)</span>
+
 <span class='co'># Replace all NAs with "Unkwnon"</span>
 <span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>get_profile_of</span><span class='op'>(</span>sources <span class='op'>=</span> <span class='va'>to_get_profile</span>, values_fill <span class='op'>=</span> <span class='st'>"Unknown"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 5</span><span>
-#&gt;   group item_id item_name value1  value2 
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'>1</span><span> 1     1       a         1       4      
-#&gt; </span><span style='color: #555555;'>2</span><span> 1     2       b         3       6      
-#&gt; </span><span style='color: #555555;'>3</span><span> 2     1       Unknown   Unknown Unknown
-#&gt; </span><span style='color: #555555;'>4</span><span> 2     2       b         2       5      
-#&gt; </span><span style='color: #555555;'>5</span><span> 3     1       Unknown   Unknown Unknown
-#&gt; </span><span style='color: #555555;'>6</span><span> 3     2       Unknown   Unknown Unknown</div></span></pre>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -239,7 +221,7 @@ to different value columns.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Christian H. Holland, Jesús Vélez.</p>
+  <p>Developed by Jesús Vélez, Christian H. Holland.</p>
 </div>
 
 <div class="pkgdown">

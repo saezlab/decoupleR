@@ -93,7 +93,7 @@ compared to its null distribution." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -110,19 +110,19 @@ compared to its null distribution." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saezlab/decoupleR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://twitter.com/saezlab">
-    <span class="fab fa fab fa-twitter fa-lg"></span>
+    <span class="fab fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="http://www.saezlab.org">
-    <span class="fas fa fas fa-university"></span>
+    <span class="fas fa-university"></span>
      
   </a>
 </li>
@@ -190,7 +190,8 @@ in <code>network</code> <code>.target</code> column.</p></td>
     </tr>
     <tr>
       <th>sparse</th>
-      <td><p>Logical value indicating if the generated profile matrix should be sparse.</p></td>
+      <td><p>Logical value indicating if the generated profile matrix
+should be sparse.</p></td>
     </tr>
     <tr>
       <th>times</th>
@@ -204,22 +205,21 @@ in <code>network</code> <code>.target</code> column.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A long format tibble of the enrichment scores for each tf across the conditions.
-Resulting tibble contains the following columns:</p><ol>
+    <p>A long format tibble of the enrichment scores for each tf
+across the samples. Resulting tibble contains the following columns:</p><ol>
 <li><p><code>statistic</code>: Indicates which method is associated with which score.</p></li>
 <li><p><code>tf</code>: Source nodes of <code>network</code>.</p></li>
 <li><p><code>condition</code>: Condition representing each column of <code>mat</code>.</p></li>
 <li><p><code>score</code>: Regulatory activity (enrichment score).</p></li>
-<li><p><code>statistic_time</code>: Internal execution time indicator.</p></li>
 </ol>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Estimation of regulatory activity: A linear regression of the expression
 profile is performed against the "target profile" of the given TF, where
-in the target profile, any member of the regulon will be assigned a +1
-for activated actions, a -1 for inhibitory activations and, finally, a 0
-for all genes that are not a member of the TF regulon. TF activity is then
+in the target profile, any regulon member is assigned a <code>+1</code> for activating
+interactions and a <code>-1</code> for inhibitory interactions. All other genes not
+members of the TF's regulon are assigned a value o <code>0</code>. TF activity is then
 defined as the t-statistic of this linear regression.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -227,6 +227,7 @@ defined as the t-statistic of this linear regression.</p>
 <code><a href='decouple.html'>decouple</a>()</code>,
 <code><a href='run_gsva.html'>run_gsva</a>()</code>,
 <code><a href='run_mean.html'>run_mean</a>()</code>,
+<code><a href='run_ora.html'>run_ora</a>()</code>,
 <code><a href='run_scira.html'>run_scira</a>()</code>,
 <code><a href='run_viper.html'>run_viper</a>()</code></p></div>
 
@@ -237,29 +238,29 @@ defined as the t-statistic of this linear regression.</p>
 <span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='fu'>run_pscira</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 20 x 5</span><span>
-#&gt;    statistic tf     condition  score statistic_time
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;drtn&gt;</span><span>        
-#&gt; </span><span style='color: #555555;'> 1</span><span> pscira    FOXO4  GSM2753335 2.50  0.6475351 secs
-#&gt; </span><span style='color: #555555;'> 2</span><span> pscira    FOXO4  GSM2753336 2.57  0.6475351 secs
-#&gt; </span><span style='color: #555555;'> 3</span><span> pscira    FOXO4  GSM2753337 3.05  0.6475351 secs
-#&gt; </span><span style='color: #555555;'> 4</span><span> pscira    FOXO4  GSM2753338 2.80  0.6475351 secs
-#&gt; </span><span style='color: #555555;'> 5</span><span> pscira    NFIC   GSM2753335 0.711 0.6475351 secs
-#&gt; </span><span style='color: #555555;'> 6</span><span> pscira    NFIC   GSM2753336 0.791 0.6475351 secs
-#&gt; </span><span style='color: #555555;'> 7</span><span> pscira    NFIC   GSM2753337 0.584 0.6475351 secs
-#&gt; </span><span style='color: #555555;'> 8</span><span> pscira    NFIC   GSM2753338 0.650 0.6475351 secs
-#&gt; </span><span style='color: #555555;'> 9</span><span> pscira    RFXAP  GSM2753335 1.19  0.6475351 secs
-#&gt; </span><span style='color: #555555;'>10</span><span> pscira    RFXAP  GSM2753336 1.79  0.6475351 secs
-#&gt; </span><span style='color: #555555;'>11</span><span> pscira    RFXAP  GSM2753337 2.42  0.6475351 secs
-#&gt; </span><span style='color: #555555;'>12</span><span> pscira    RFXAP  GSM2753338 2.44  0.6475351 secs
-#&gt; </span><span style='color: #555555;'>13</span><span> pscira    SMAD3  GSM2753335 0.353 0.6475351 secs
-#&gt; </span><span style='color: #555555;'>14</span><span> pscira    SMAD3  GSM2753336 0.557 0.6475351 secs
-#&gt; </span><span style='color: #555555;'>15</span><span> pscira    SMAD3  GSM2753337 1.04  0.6475351 secs
-#&gt; </span><span style='color: #555555;'>16</span><span> pscira    SMAD3  GSM2753338 1.08  0.6475351 secs
-#&gt; </span><span style='color: #555555;'>17</span><span> pscira    TFAP2A GSM2753335 1.42  0.6475351 secs
-#&gt; </span><span style='color: #555555;'>18</span><span> pscira    TFAP2A GSM2753336 1.58  0.6475351 secs
-#&gt; </span><span style='color: #555555;'>19</span><span> pscira    TFAP2A GSM2753337 1.88  0.6475351 secs
-#&gt; </span><span style='color: #555555;'>20</span><span> pscira    TFAP2A GSM2753338 2.07  0.6475351 secs</div></span></pre>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 20 x 4</span><span>
+#&gt;    statistic tf     condition  score
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> pscira    FOXO4  GSM2753335 2.50 
+#&gt; </span><span style='color: #555555;'> 2</span><span> pscira    FOXO4  GSM2753336 2.57 
+#&gt; </span><span style='color: #555555;'> 3</span><span> pscira    FOXO4  GSM2753337 3.05 
+#&gt; </span><span style='color: #555555;'> 4</span><span> pscira    FOXO4  GSM2753338 2.80 
+#&gt; </span><span style='color: #555555;'> 5</span><span> pscira    NFIC   GSM2753335 0.711
+#&gt; </span><span style='color: #555555;'> 6</span><span> pscira    NFIC   GSM2753336 0.791
+#&gt; </span><span style='color: #555555;'> 7</span><span> pscira    NFIC   GSM2753337 0.584
+#&gt; </span><span style='color: #555555;'> 8</span><span> pscira    NFIC   GSM2753338 0.650
+#&gt; </span><span style='color: #555555;'> 9</span><span> pscira    RFXAP  GSM2753335 1.19 
+#&gt; </span><span style='color: #555555;'>10</span><span> pscira    RFXAP  GSM2753336 1.79 
+#&gt; </span><span style='color: #555555;'>11</span><span> pscira    RFXAP  GSM2753337 2.42 
+#&gt; </span><span style='color: #555555;'>12</span><span> pscira    RFXAP  GSM2753338 2.44 
+#&gt; </span><span style='color: #555555;'>13</span><span> pscira    SMAD3  GSM2753335 0.353
+#&gt; </span><span style='color: #555555;'>14</span><span> pscira    SMAD3  GSM2753336 0.557
+#&gt; </span><span style='color: #555555;'>15</span><span> pscira    SMAD3  GSM2753337 1.04 
+#&gt; </span><span style='color: #555555;'>16</span><span> pscira    SMAD3  GSM2753338 1.08 
+#&gt; </span><span style='color: #555555;'>17</span><span> pscira    TFAP2A GSM2753335 1.42 
+#&gt; </span><span style='color: #555555;'>18</span><span> pscira    TFAP2A GSM2753336 1.58 
+#&gt; </span><span style='color: #555555;'>19</span><span> pscira    TFAP2A GSM2753337 1.88 
+#&gt; </span><span style='color: #555555;'>20</span><span> pscira    TFAP2A GSM2753338 2.07 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -271,7 +272,7 @@ defined as the t-statistic of this linear regression.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Christian H. Holland, Jesús Vélez.</p>
+  <p>Developed by Jesús Vélez, Christian H. Holland.</p>
 </div>
 
 <div class="pkgdown">

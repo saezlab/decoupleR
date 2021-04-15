@@ -40,9 +40,24 @@
 
 
 <meta property="og:title" content="decoupleR: Package to decouple gene sets from statistics — decoupleR-package" />
-<meta property="og:description" content="Usually functional genomics tools consist of a fixed combination of
-    gene sets and statistical approach. To overcome this limitation this package 
-    allows to combine a variety of gene sets with a variety of statistics." />
+<meta property="og:description" content="Transcriptome profiling followed by differential gene
+    expression analysis often leads to lists of genes that are hard to
+    analyze and interpret. Downstream analysis tools can be used to
+    summarize deregulation events into a smaller set of biologically
+    interpretable features.  In particular, methods that estimate the
+    activity of transcription factors (TFs) from gene expression are
+    commonly used. It has been shown that the transcriptional targets of a
+    TF yield a much more robust estimation of the TF activity than
+    observing the expression of the TF itself. Consequently, for the
+    estimation of transcription factor activities, a network of
+    transcriptional regulation is required in combination with a
+    statistical algorithm that summarizes the expression of the target
+    genes into a single activity score. Over the years, many different
+    regulatory networks and statistical algorithms have been developed,
+    mostly in a fixed combination of one network and one algorithm. To
+    systematically evaluate both networks and algorithms, we developed
+    decoupleR , an R package that allows users to apply efficiently any
+    combination provided." />
 
 
 
@@ -92,7 +107,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -109,19 +124,19 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saezlab/decoupleR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://twitter.com/saezlab">
-    <span class="fab fa fab fa-twitter fa-lg"></span>
+    <span class="fab fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="http://www.saezlab.org">
-    <span class="fas fa fas fa-university"></span>
+    <span class="fas fa-university"></span>
      
   </a>
 </li>
@@ -144,9 +159,24 @@
     </div>
 
     <div class="ref-description">
-    <p>Usually functional genomics tools consist of a fixed combination of
-    gene sets and statistical approach. To overcome this limitation this package 
-    allows to combine a variety of gene sets with a variety of statistics.</p>
+    <p>Transcriptome profiling followed by differential gene
+    expression analysis often leads to lists of genes that are hard to
+    analyze and interpret. Downstream analysis tools can be used to
+    summarize deregulation events into a smaller set of biologically
+    interpretable features.  In particular, methods that estimate the
+    activity of transcription factors (TFs) from gene expression are
+    commonly used. It has been shown that the transcriptional targets of a
+    TF yield a much more robust estimation of the TF activity than
+    observing the expression of the TF itself. Consequently, for the
+    estimation of transcription factor activities, a network of
+    transcriptional regulation is required in combination with a
+    statistical algorithm that summarizes the expression of the target
+    genes into a single activity score. Over the years, many different
+    regulatory networks and statistical algorithms have been developed,
+    mostly in a fixed combination of one network and one algorithm. To
+    systematically evaluate both networks and algorithms, we developed
+    decoupleR , an R package that allows users to apply efficiently any
+    combination provided.</p>
     </div>
 
 
@@ -163,7 +193,7 @@
 
     <p><strong>Maintainer</strong>: Christian H. Holland <a href='mailto:cholland2408@gmail.com'>cholland2408@gmail.com</a> (<a href='https://orcid.org/0000-0002-3060-5786'>ORCID</a>)</p>
 <p>Authors:</p><ul>
-<li><p>Jesús Vélez <a href='mailto:jvelez@lcg.unam.mx'>jvelez@lcg.unam.mx</a> (<a href='https://orcid.org/0000-0001-5128-3838'>ORCID</a>)</p></li>
+<li><p>Jesús Vélez <a href='mailto:jvelezmagic@gmail.com'>jvelezmagic@gmail.com</a> (<a href='https://orcid.org/0000-0001-5128-3838'>ORCID</a>)</p></li>
 </ul>
 
 
@@ -179,7 +209,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Christian H. Holland, Jesús Vélez.</p>
+  <p>Developed by Jesús Vélez, Christian H. Holland.</p>
 </div>
 
 <div class="pkgdown">

@@ -90,7 +90,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -107,19 +107,19 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saezlab/decoupleR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://twitter.com/saezlab">
-    <span class="fab fa fab fa-twitter fa-lg"></span>
+    <span class="fab fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="http://www.saezlab.org">
-    <span class="fas fa fas fa-university"></span>
+    <span class="fas fa-university"></span>
      
   </a>
 </li>
@@ -193,7 +193,6 @@ in <code>network</code> <code>.target</code> column.</p></td>
     <dt><code>nes</code></dt><dd><p>Logical, whether the enrichment score reported should be normalized</p></dd>
     <dt><code>method</code></dt><dd><p>Character string indicating the method for computing the single samples signature, either scale, rank, mad, ttest or none</p></dd>
     <dt><code>bootstraps</code></dt><dd><p>Integer indicating the number of bootstraps iterations to perform. Only the scale method is implemented with bootstraps.</p></dd>
-    <dt><code>minsize</code></dt><dd><p>Integer indicating the minimum number of targets allowed per regulon</p></dd>
     <dt><code>adaptive.size</code></dt><dd><p>Logical, whether the weighting scores should be taken into account for computing the regulon size</p></dd>
     <dt><code>eset.filter</code></dt><dd><p>Logical, whether the dataset should be limited only to the genes represented in the interactome
 #' @param mvws Number or vector indicating either the exponent score for the metaViper weights, or the inflection point and trend for the sigmoid function describing the weights in metaViper</p></dd>
@@ -207,13 +206,12 @@ in <code>network</code> <code>.target</code> column.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A long format tibble of the enrichment scores for each tf across the conditions.
-Resulting tibble contains the following columns:</p><ol>
+    <p>A long format tibble of the enrichment scores for each tf
+across the samples. Resulting tibble contains the following columns:</p><ol>
 <li><p><code>statistic</code>: Indicates which method is associated with which score.</p></li>
 <li><p><code>tf</code>: Source nodes of <code>network</code>.</p></li>
 <li><p><code>condition</code>: Condition representing each column of <code>mat</code>.</p></li>
 <li><p><code>score</code>: Regulatory activity (enrichment score).</p></li>
-<li><p><code>statistic_time</code>: Internal execution time indicator.</p></li>
 </ol>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -222,6 +220,7 @@ Resulting tibble contains the following columns:</p><ol>
 <code><a href='decouple.html'>decouple</a>()</code>,
 <code><a href='run_gsva.html'>run_gsva</a>()</code>,
 <code><a href='run_mean.html'>run_mean</a>()</code>,
+<code><a href='run_ora.html'>run_ora</a>()</code>,
 <code><a href='run_pscira.html'>run_pscira</a>()</code>,
 <code><a href='run_scira.html'>run_scira</a>()</code></p></div>
 
@@ -232,21 +231,29 @@ Resulting tibble contains the following columns:</p><ol>
 <span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='fu'>run_viper</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 12 x 5</span><span>
-#&gt;    statistic tf     condition    score statistic_time 
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;drtn&gt;</span><span>         
-#&gt; </span><span style='color: #555555;'> 1</span><span> viper     NFIC   GSM2753335  0.069</span><span style='text-decoration: underline;'>6</span><span> 0.02767682 secs
-#&gt; </span><span style='color: #555555;'> 2</span><span> viper     NFIC   GSM2753336 -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>5</span><span> 0.02767682 secs
-#&gt; </span><span style='color: #555555;'> 3</span><span> viper     NFIC   GSM2753337 -</span><span style='color: #BB0000;'>0.516</span><span>  0.02767682 secs
-#&gt; </span><span style='color: #555555;'> 4</span><span> viper     NFIC   GSM2753338 -</span><span style='color: #BB0000;'>0.543</span><span>  0.02767682 secs
-#&gt; </span><span style='color: #555555;'> 5</span><span> viper     SMAD3  GSM2753335  0.176  0.02767682 secs
-#&gt; </span><span style='color: #555555;'> 6</span><span> viper     SMAD3  GSM2753336  0.042</span><span style='text-decoration: underline;'>6</span><span> 0.02767682 secs
-#&gt; </span><span style='color: #555555;'> 7</span><span> viper     SMAD3  GSM2753337  0.219  0.02767682 secs
-#&gt; </span><span style='color: #555555;'> 8</span><span> viper     SMAD3  GSM2753338  0.142  0.02767682 secs
-#&gt; </span><span style='color: #555555;'> 9</span><span> viper     TFAP2A GSM2753335  0.722  0.02767682 secs
-#&gt; </span><span style='color: #555555;'>10</span><span> viper     TFAP2A GSM2753336  0.582  0.02767682 secs
-#&gt; </span><span style='color: #555555;'>11</span><span> viper     TFAP2A GSM2753337  0.462  0.02767682 secs
-#&gt; </span><span style='color: #555555;'>12</span><span> viper     TFAP2A GSM2753338  0.330  0.02767682 secs</div></span></pre>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 20 x 4</span><span>
+#&gt;    statistic tf     condition    score
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> viper     FOXO4  GSM2753335  1.34  
+#&gt; </span><span style='color: #555555;'> 2</span><span> viper     FOXO4  GSM2753336  1.18  
+#&gt; </span><span style='color: #555555;'> 3</span><span> viper     FOXO4  GSM2753337  1.44  
+#&gt; </span><span style='color: #555555;'> 4</span><span> viper     FOXO4  GSM2753338  1.21  
+#&gt; </span><span style='color: #555555;'> 5</span><span> viper     NFIC   GSM2753335  0.069</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'> 6</span><span> viper     NFIC   GSM2753336 -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>5</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span> viper     NFIC   GSM2753337 -</span><span style='color: #BB0000;'>0.516</span><span> 
+#&gt; </span><span style='color: #555555;'> 8</span><span> viper     NFIC   GSM2753338 -</span><span style='color: #BB0000;'>0.543</span><span> 
+#&gt; </span><span style='color: #555555;'> 9</span><span> viper     RFXAP  GSM2753335  0.488 
+#&gt; </span><span style='color: #555555;'>10</span><span> viper     RFXAP  GSM2753336  1.32  
+#&gt; </span><span style='color: #555555;'>11</span><span> viper     RFXAP  GSM2753337  1.93  
+#&gt; </span><span style='color: #555555;'>12</span><span> viper     RFXAP  GSM2753338  1.93  
+#&gt; </span><span style='color: #555555;'>13</span><span> viper     SMAD3  GSM2753335  0.176 
+#&gt; </span><span style='color: #555555;'>14</span><span> viper     SMAD3  GSM2753336  0.042</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'>15</span><span> viper     SMAD3  GSM2753337  0.219 
+#&gt; </span><span style='color: #555555;'>16</span><span> viper     SMAD3  GSM2753338  0.142 
+#&gt; </span><span style='color: #555555;'>17</span><span> viper     TFAP2A GSM2753335  0.722 
+#&gt; </span><span style='color: #555555;'>18</span><span> viper     TFAP2A GSM2753336  0.582 
+#&gt; </span><span style='color: #555555;'>19</span><span> viper     TFAP2A GSM2753337  0.462 
+#&gt; </span><span style='color: #555555;'>20</span><span> viper     TFAP2A GSM2753338  0.330 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -258,7 +265,7 @@ Resulting tibble contains the following columns:</p><ol>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Christian H. Holland, Jesús Vélez.</p>
+  <p>Developed by Jesús Vélez, Christian H. Holland.</p>
 </div>
 
 <div class="pkgdown">

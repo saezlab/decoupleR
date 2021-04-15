@@ -27,19 +27,16 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' run_pscira(mat, network, tf, target, mor)
-run_pscira <- function(
-    mat,
-    network,
-    .source = .data$tf,
-    .target = .data$target,
-    .mor = .data$mor,
-    sparse = TRUE,
-    times = 10,
-    seed = 42) {
+run_pscira <- function(mat,
+                       network,
+                       .source = .data$tf,
+                       .target = .data$target,
+                       .mor = .data$mor,
+                       sparse = TRUE,
+                       times = 10,
+                       seed = 42) {
 
     # Before to start ---------------------------------------------------------
-    .start_time <- Sys.time()
-
     if (times < 2) {
         stop(stringr::str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
     }
@@ -72,12 +69,11 @@ run_pscira <- function(
         )
 
     # Convert to matrix to ensure that matrix multiplication works
-    # in case mat is a labelled dataframe.
+    # in case mat is a labeled dataframe.
     mat <- as.matrix(mat)
 
     # Evaluate model ----------------------------------------------------------
-    .pscira_analysis(mat, mor_mat, times, seed) %>%
-        mutate(statistic_time = difftime(Sys.time(), .start_time))
+    .pscira_analysis(mat, mor_mat, times, seed)
 }
 
 # Helper functions --------------------------------------------------------

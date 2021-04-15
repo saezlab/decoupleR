@@ -19,6 +19,7 @@ Utility function used in functions that require permutations of the
 expression matrix
 }
 \examples{
+\dontrun{
 mat <- matrix(seq_len(9), ncol = 3)
 mat
 
@@ -28,3 +29,5 @@ randomize_matrix(mat, randomize_type = "rows")
 set.seed(42)
 randomize_matrix(mat, randomize_type = "cols_independently")
 }
+}
+\keyword{internal}

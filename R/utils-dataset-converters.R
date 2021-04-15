@@ -17,7 +17,9 @@
 #'    Return a list of regulons suitable for [GSVA::gsva()].
 #' * `convert_to_mean()`
 #'    Return a tibble with four columns: `tf`, `target`, `mor` and `likelihood`.
-#' * `convert_to_pcira()`
+#' * `convert_to_ora()`
+#'    Return a named list of regulons; tf with associated targets.
+#' * `convert_to_pscira()`
 #'    Returns a tibble with three columns: `tf`, `target` and `mor`.
 #' * `convert_to_scira()`
 #'    Returns a tibble with three columns: `tf`, `target` and `mor`.
@@ -38,6 +40,7 @@
 #' convert_to_(network)
 #' convert_to_gsva(network, tf, target)
 #' convert_to_mean(network, tf, target, mor, likelihood)
+#' convert_to_ora(network, tf, target)
 #' convert_to_pscira(network, tf, target, mor)
 #' convert_to_scira(network, tf, target, mor)
 #' convert_to_viper(network, tf, target, mor, likelihood)
@@ -52,7 +55,9 @@ convert_to_ <- function(network) invisible(network)
 #' @family convert_to_ variants
 #' @export
 convert_to_scira <- function(network, .source, .target, .mor = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
 
     network %>%
         convert_f_defaults(
@@ -71,7 +76,9 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL) {
 #' @family convert_to_ variants
 #' @export
 convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
 
     network %>%
         convert_f_defaults(
@@ -91,8 +98,14 @@ convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_mean <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+convert_to_mean <- function(network,
+                            .source,
+                            .target,
+                            .mor = NULL,
+                            .likelihood = NULL) {
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
 
     network %>%
         convert_f_defaults(
@@ -113,8 +126,14 @@ convert_to_mean <- function(network, .source, .target, .mor = NULL, .likelihood 
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_viper <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+convert_to_viper <- function(network,
+                             .source,
+                             .target,
+                             .mor = NULL,
+                             .likelihood = NULL) {
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
 
     network %>%
         convert_f_defaults(
@@ -143,7 +162,35 @@ convert_to_viper <- function(network, .source, .target, .mor = NULL, .likelihood
 #' @family convert_to_ variants
 #' @export
 convert_to_gsva <- function(network, .source, .target) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
+
+    network %>%
+        convert_f_defaults(
+            tf = {{ .source }},
+            target = {{ .target }}
+        ) %>%
+        group_by(.data$tf) %>%
+        summarise(
+            regulons = set_names(list(.data$target), .data$tf[1]),
+            .groups = "drop"
+        ) %>%
+        pull(.data$regulons)
+}
+
+# ora ---------------------------------------------------------------------
+
+#' @rdname convert_to_
+#'
+#' @inheritParams run_ora
+#'
+#' @family convert_to_ variants
+#' @export
+convert_to_ora <- function(network, .source, .target) {
+    .check_quos_status({{ .source }}, {{ .target }},
+        .dots_names = c(".source", ".target")
+    )
 
     network %>%
         convert_f_defaults(
@@ -231,12 +278,11 @@ convert_to_gsva <- function(network, .source, .target) {
 #'     new_z = NULL,
 #'     .def_col_val = c(new_z = 3)
 #' )
-convert_f_defaults <- function(
-    .data,
-    ...,
-    .def_col_val = c(),
-    .use_dots = TRUE) {
-    out_cols <- match.call(expand.dots = FALSE)$... %>%
+convert_f_defaults <- function(.data,
+                               ...,
+                               .def_col_val = c(),
+                               .use_dots = TRUE) {
+    expected_columns <- match.call(expand.dots = FALSE)$... %>%
         names() %>%
         unique()
 
@@ -246,7 +292,7 @@ convert_f_defaults <- function(
     # Return rename changes with dot prefix variables.
     loc <- eval_rename(.expr, data = .data)
 
-    .data <- .data %>%
+    .data %>%
         select(all_of(loc)) %>%
         {
             # Remove prefix dots generated by eval_rename()
@@ -256,28 +302,44 @@ convert_f_defaults <- function(
                 .
             }
         } %>%
-        add_column(., !!!.def_col_val[!names(.def_col_val) %in% names(.)])
+        add_column(., !!!.def_col_val[!names(.def_col_val) %in% names(.)]) %>%
+        .check_expected_columns(expected_columns = expected_columns)
+}
 
-    # Check output data columns
+#' Check if data contains specific columns
+#'
+#' If `.data` present more or less columns than expected
+#' then the function will abort execution, otherwise it will
+#' return the same input data.
+#'
+#' @inheritParams convert_f_defaults
+#' @param expected_columns Name of the columns that must make a total match
+#'  with the expected columns
+#'
+#' @return `.data`
+#'
+#' @noRd
+.check_expected_columns <- function(.data, expected_columns) {
+    # Get data columns.
     data_cols <- names(.data)
 
     # Calculate symmetric difference
     diff_cols <- setdiff(
-        x = union(out_cols, data_cols),
-        y = intersect(out_cols, data_cols)
+        x = union(expected_columns, data_cols),
+        y = intersect(expected_columns, data_cols)
     )
 
     # Abort execution if there is an inconsistency in the output results
     if (!is_empty(diff_cols)) {
-        extra_cols <- setdiff(diff_cols, out_cols) %>%
+        extra_cols <- setdiff(diff_cols, expected_columns) %>%
             paste(collapse = ", ")
-        removed_cols <- intersect(out_cols, diff_cols) %>%
+        removed_cols <- intersect(expected_columns, diff_cols) %>%
             paste(collapse = ", ")
-        out_cols <- paste(out_cols, collapse = ", ")
+        expected_columns <- paste(expected_columns, collapse = ", ")
 
         out_message <- stringr::str_glue(
             "Output columns are different than expected.\n",
-            "Expected: {out_cols}\n",
+            "Expected: {expected_columns}\n",
             "Extra: {extra_cols}\n",
             "Removed: {removed_cols}"
         )

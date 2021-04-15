@@ -22,42 +22,14 @@ knitr::opts_chunk$set(
 [![GitHub issues](https://img.shields.io/github/issues/saezlab/decoupleR)](https://github.com/saezlab/decoupleR/issues)
 <!-- badges: end -->
 
-<!-- > A community effort by [saezlab](http://saezlab.org) members. -->
-
 ## Overview
 
-Transcriptome profiling followed by differential gene expression analysis often leads to lists of genes that are hard to analyze and interpret. Downstream analysis tools can be used to summarize deregulation events into a smaller set of biologically interpretable features. In particular, methods that estimate the activity of transcription factors (TFs) from gene expression are commonly used. It has been shown that the transcriptional targets of a TF yield a much more robust estimation of the TF activity than observing the expression of the TF itself.  Consequently, for the estimation of transcription factor activities, a network of transcriptional regulation is required in combination with a statistical algorithm that summarizes the expression of the target genes into a single activity score. Over the years, many different regulatory networks and statistical algorithms have been developed, mostly in a fixed combination of one network and one algorithm. To systematically evaluate both networks and algorithms, we developed decoupleR , an R package that allows users to apply efficiently any combination provided. 
+Transcriptome profiling followed by differential gene expression analysis often leads to lists of genes that are hard to analyze and interpret. Downstream analysis tools can be used to summarize deregulation events into a smaller set of biologically interpretable features. In particular, methods that estimate the activity of transcription factors (TFs) from gene expression are commonly used. It has been shown that the transcriptional targets of a TF yield a much more robust estimation of the TF activity than observing the expression of the TF itself.  Consequently, for the estimation of transcription factor activities, a network of transcriptional regulation is required in combination with a statistical algorithm that summarizes the expression of the target genes into a single activity score. Over the years, many different regulatory networks and statistical algorithms have been developed, mostly in a fixed combination of one network and one algorithm. To systematically evaluate both networks and algorithms, we developed decoupleR , an R package that allows users to apply efficiently any combination provided.
 
-As an initial set of regulatory networks, we integrated the following resources:
-
-* [DoRothEA](https://github.com/saezlab/dorothea)
-* [CHEA3](https://amp.pharm.mssm.edu/ChEA3)
-* [RegNetwork](http://www.regnetworkweb.org/)
-
-And the following TF activity inference methods:
-
-### Estimation based on enrichment of sets on rankings
-
-* [viper](http://bioconductor.org/packages/release/bioc/html/viper.html)
-* GSEA as implemented in [fgsea](https://www.bioconductor.org/packages/release/bioc/html/fgsea.html)
-* [GSVA](https://www.bioconductor.org/packages/release/bioc/html/GSVA.html)
-
-### Estimation from linear models
-
-* SCIRA: Linear models to estimate TF activities from gene expression as defined [here](https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13)
-
-* pscira: Linear combination of gene expression based on mode of regulation followed by a comparison to a random null model.
-
-### Estimation from statistics
-
-* mean: Weighted mean that allows the use of directions and contribution weights.
-
-* normalized_mean: Similar as above, however the final score is corrected based on a null (random) model
-
-
-We benchmarked an initial set of 84 combinations, comprising 7 methods and 13 networks. 
-
-We evaluated the precision of different combinations in recovering perturbed TFs from different collections of gene expression datasets. Additionally, we tested the effects of combining multiple sources and estimations. We set up the package in a modular way which makes it easy and intuitive to extend it with further statistics or networks. We invite the community to participate by implementing their own statistics or integrating their gene regulatory network. With the decoupleR package, we lay the foundation for a crowdsourced systematic assessment of transcription factor activity estimation from transcriptomics data.
+> For more information about how this package has been used with real data,
+please check the following links:  
+> - [Decoupling statistics and networks: a crowdsourced systematic assessment of transcription factor activity estimation from transcriptomics data](https://docs.google.com/document/d/1aYD3IF1tj7H6vUFqKnfHB6d6Trs_oit7umjk5mQDNZ0/edit).
+> - [Creation of benchmarking pipelines](https://github.com/saezlab/decoupleR/tree/benchmark).
 
 ## Installation instructions
 
@@ -110,13 +82,14 @@ decouple(
     network = network,
     .source = "tf",
     .target = "target",
-    statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+    statistics = c("gsva", "mean", "pscira", "scira", "viper", "ora"),
     args = list(
         gsva = list(verbose = FALSE),
         mean = list(.mor = "mor", .likelihood = "likelihood"),
         pscira = list(.mor = "mor"),
         scira = list(.mor = "mor"),
-        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE)
+        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE),
+        ora = list()
     )
 )
 ```

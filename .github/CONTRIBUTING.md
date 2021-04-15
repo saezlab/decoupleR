@@ -60,8 +60,7 @@ Read carefully the instructions dedicated to the pull request section above and 
     2. **tf**: Source nodes of `network`.
     3. **condition**: Conditions representing each column of `mat`.
     4. **score**: Regulatory activity (enrichment score).
-    5. **statistic_time**: Internal execution time indicator.
-    6. **...**: If the algorithm requires it, add the generated metadata
+    5. **...**: If the algorithm requires it, add the generated metadata
        columns. For instance, p-value.
       
     **Notes:**

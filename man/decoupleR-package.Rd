@@ -6,9 +6,24 @@
 \alias{decoupleR-package}
 \title{decoupleR: Package to decouple gene sets from statistics}
 \description{
-Usually functional genomics tools consist of a fixed combination of
-    gene sets and statistical approach. To overcome this limitation this package 
-    allows to combine a variety of gene sets with a variety of statistics.
+Transcriptome profiling followed by differential gene
+    expression analysis often leads to lists of genes that are hard to
+    analyze and interpret. Downstream analysis tools can be used to
+    summarize deregulation events into a smaller set of biologically
+    interpretable features.  In particular, methods that estimate the
+    activity of transcription factors (TFs) from gene expression are
+    commonly used. It has been shown that the transcriptional targets of a
+    TF yield a much more robust estimation of the TF activity than
+    observing the expression of the TF itself. Consequently, for the
+    estimation of transcription factor activities, a network of
+    transcriptional regulation is required in combination with a
+    statistical algorithm that summarizes the expression of the target
+    genes into a single activity score. Over the years, many different
+    regulatory networks and statistical algorithms have been developed,
+    mostly in a fixed combination of one network and one algorithm. To
+    systematically evaluate both networks and algorithms, we developed
+    decoupleR , an R package that allows users to apply efficiently any
+    combination provided.
 }
 \seealso{
 Useful links:
@@ -23,7 +38,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Jesús Vélez \email{jvelez@lcg.unam.mx} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
+  \item Jesús Vélez \email{jvelezmagic@gmail.com} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
 }
 
 }

@@ -17,7 +17,8 @@ available_statistics <- c(
     "pscira",
     "scira",
     "viper",
-    "gsva"
+    "gsva",
+    "ora"
 )
 
 out <- available_statistics %>%
@@ -45,78 +46,38 @@ emat <- file.path(input_dir, "input-expr_matrix.rds") %>%
 dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
     readRDS()
 
-progeny_genesets <- file.path(input_dir, "input-progeny_genesets.rds") %>%
-    readRDS()
-
 #----- run_viper() -------------------------------------------------------------
-
 run_viper(emat, dorothea_genesets) %>%
-    select(-statistic_time) %>%
     saveRDS(out_default$viper)
 
-run_viper(emat, dorothea_genesets, tf, target, mor, likelihood) %>%
-    select(-statistic_time) %>%
-    saveRDS(file.path(out$viper, "output-viper_dorothea_tidy-evaluation.rds"))
-
-run_viper(emat, dorothea_genesets, minsize = 4) %>%
-    select(-statistic_time) %>%
-    saveRDS(file.path(out$viper, "output-viper_dorothea_minsize4.rds"))
-
 #----- run_scira() -------------------------------------------------------------
-
 run_scira(emat, dorothea_genesets) %>%
-    select(-statistic_time) %>%
     saveRDS(out_default$scira)
 
-run_scira(emat, dorothea_genesets, tf, target, mor) %>%
-    select(-statistic_time) %>%
-    saveRDS(file.path(out$scira, "output-scira_dorothea_tidy-evaluation.rds"))
-
 run_scira(emat, dorothea_genesets, sparse = TRUE) %>%
-    select(-statistic_time) %>%
     saveRDS(file.path(out$scira, "output-scira_dorothea_sparse-background-calculation.rds"))
 
 #----- run_pscira() ------------------------------------------------------------
-
 run_pscira(emat, dorothea_genesets) %>%
-    select(-statistic_time) %>%
     saveRDS(out_default$pscira)
 
-run_pscira(emat, dorothea_genesets, tf, target, mor) %>%
-    select(-statistic_time) %>%
-    saveRDS(file.path(out$pscira, "output-pscira_dorothea_tidy-evaluation.rds"))
-
 run_pscira(emat, dorothea_genesets, sparse = TRUE) %>%
-    select(-statistic_time) %>%
     saveRDS(file.path(out$pscira, "output-pscira_dorothea_sparse-background-calculation.rds"))
 
 #----- run_mean() -------------------------------------------------------------
-
 run_mean(emat, dorothea_genesets, .likelihood = NULL) %>%
-    select(-statistic_time) %>%
     saveRDS(out_default$mean)
 
-run_mean(emat, dorothea_genesets, tf, target, mor, .likelihood = NULL) %>%
-    select(-statistic_time) %>%
-    saveRDS(file.path(out$mean, "output-mean_dorothea_tidy-evaluation.rds"))
-
 run_mean(emat, dorothea_genesets, sparse = TRUE, .likelihood = NULL) %>%
-    select(-statistic_time) %>%
     saveRDS(file.path(out$mean, "output-mean_dorothea_sparse-background-calculation.rds"))
 
 #---- run_gsva() ---------------------------------------------------------------
-
 run_gsva(emat, dorothea_genesets) %>%
-    select(-statistic_time) %>%
     saveRDS(out_default$gsva)
 
-run_gsva(emat, dorothea_genesets, tf, target) %>%
-    select(-statistic_time) %>%
-    saveRDS(file.path(out$gsva, "output-gsva_dorothea_tidy-evaluation.rds"))
-
-run_gsva(emat, dorothea_genesets, min.sz = 4) %>%
-    select(-statistic_time) %>%
-    saveRDS(file.path(out$gsva, "output-gsva_dorothea_minsize4.rds"))
+#---- run_ora() ---------------------------------------------------------------
+run_ora(emat, dorothea_genesets) %>%
+    saveRDS(out_default$ora)
 
 # decouple() --------------------------------------------------------------
 # This section should be kept at the end of the file

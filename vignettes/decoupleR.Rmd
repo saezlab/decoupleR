@@ -4,7 +4,7 @@ author:
   - name: Jesús Vélez
     affiliation:
     - National Autonomous University of Mexico
-    email: jvelez@lcg.unam.mx
+    email: jvelezmagic@gmail.com
 output: 
   BiocStyle::html_document:
     self_contained: true
@@ -31,26 +31,21 @@ knitr::opts_chunk$set(
 start_time <- Sys.time()
 
 # Bib setup.
-library(knitcitations)
-
-# Load knitcitations with a clean bibliography.
-cleanbib()
-cite_options(hyperlink = "to.doc", citation_format = "text", style = "html")
+library(RefManageR)
 
 # Write bibliography information
 bib <- c(
     R = citation(),
     BiocStyle = citation("BiocStyle")[1],
-    knitcitations = citation("knitcitations")[1],
     knitr = citation("knitr")[1],
     rmarkdown = citation("rmarkdown")[1],
     sessioninfo = citation("sessioninfo")[1],
     testthat = citation("testthat")[1],
+    RefManageR = citation("RefManageR")[1],
     decoupleR = citation("decoupleR")[1],
     GSVA = citation("GSVA")[1],
     viper = citation("viper")[1]
 )
-write.bibtex(bib, file = "decoupleR.bib")
 ```
 
 # Basics
@@ -173,7 +168,7 @@ decouple(
     network = network,
     .source = "tf",
     .target = "target",
-    statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+    statistics = c("gsva", "mean", "pscira", "scira", "viper", "ora"),
     args = list(
         gsva = list(verbose = FALSE),
         mean = list(.mor = "mor", .likelihood = "likelihood"),
@@ -183,10 +178,10 @@ decouple(
             .mor = "mor",
             .likelihood = "likelihood",
             verbose = FALSE
-        )
+        ),
+        ora = list()
     )
 ) %>%
-    select(-statistic_time) %>%
     glimpse()
 ```
 
@@ -226,11 +221,10 @@ gsvas_res <- decouple(
     statistics = c("gsva"),
     args = list(
         gsva_default = list(verbose = FALSE),
-        gsva_minsize = list(verbose = FALSE, min.sz = 20)
+        gsva_minsize = list(verbose = FALSE, ssgsea.norm = FALSE)
     ),
     show_toy_call = TRUE
-) %>%
-    select(-statistic_time)
+)
 ```
 
 Run same calls as provided by setting `show_toy_call = TRUE`.
@@ -250,11 +244,10 @@ gsva_2 <- run_gsva(
     .source = "tf",
     .target = "target",
     verbose = FALSE,
-    min.sz = 20
+    ssgsea.norm = FALSE
 )
 
-gsvas_res_2 <- bind_rows(gsva_1, gsva_2, .id = "run_id") %>%
-    select(-statistic_time)
+gsvas_res_2 <- bind_rows(gsva_1, gsva_2, .id = "run_id")
 ```
 
 Now compare results and see there is not difference.
@@ -306,25 +299,21 @@ viper_res <- decouple(
 
 ## Special thanks
 
-The `r Biocpkg("decouopleR")` package `r citep(bib[["decoupleR"]])` was made
+The `r Biocpkg("decouopleR")` package `r Citep(bib[["decoupleR"]])` was made
 possible thanks to:
 
-* R `r citep(bib[["R"]])`
-* `r Biocpkg("BiocStyle")` `r citep(bib[["BiocStyle"]])`
-* `r CRANpkg("knitcitations")` `r citep(bib[["knitcitations"]])`
-* `r CRANpkg("knitr")` `r citep(bib[["knitr"]])`
-* `r CRANpkg("rmarkdown")` `r citep(bib[["rmarkdown"]])`
-* `r CRANpkg("sessioninfo")` `r citep(bib[["sessioninfo"]])`
-* `r CRANpkg("testthat")` `r citep(bib[["testthat"]])`
-* `r Biocpkg("GSVA")` `r citep(bib[["GSVA"]])`
-* `r Biocpkg("viper")` `r citep(bib[["viper"]])`
+* R `r Citep(bib[["R"]])`
+* `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])`
+* `r CRANpkg("knitcitations")` `r Citep(bib[["knitcitations"]])`
+* `r CRANpkg("knitr")` `r Citep(bib[["knitr"]])`
+* `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])`
+* `r CRANpkg("sessioninfo")` `r Citep(bib[["sessioninfo"]])`
+* `r CRANpkg("testthat")` `r Citep(bib[["testthat"]])`
+* `r Biocpkg("GSVA")` `r Citep(bib[["GSVA"]])`
+* `r Biocpkg("viper")` `r Citep(bib[["viper"]])`
 
 This package was developed using
 `r BiocStyle::Githubpkg("lcolladotor/biocthis")`.
-
-```{r clean, include=FALSE}
-file.remove("decoupleR.bib")
-```
 
 ## Vignette
 
@@ -357,15 +346,14 @@ sessioninfo::session_info()
 
 # Bibliography
 
-This vignette was generated using `r Biocpkg("BiocStyle")`
-`r citep(bib[["BiocStyle"]])` with `r CRANpkg("knitr")` 
-`r citep(bib[["knitr"]])` and `r CRANpkg("rmarkdown")`
-`r citep(bib[["rmarkdown"]])` running behind the scenes.
+This vignette was generated using `r Biocpkg("BiocStyle")` 
+`r Citep(bib[["BiocStyle"]])` with `r CRANpkg("knitr")`
+`r Citep(bib[["knitr"]])` and `r CRANpkg("rmarkdown")`
+`r Citep(bib[["rmarkdown"]])` running behind the scenes.
 
-Citations made with
-`r CRANpkg("knitcitations")`
-`r citep(bib[["knitcitations"]])`.
+Citations made with `r CRANpkg('RefManageR')` `r Citep(bib[['RefManageR']])`.
 
-```{r vignette_biblio, results = "asis", echo = FALSE, warning = FALSE, message = FALSE}
-bibliography()
+```{r vignetteBiblio, results = "asis", echo = FALSE, warning = FALSE, message = FALSE}
+## Print bibliography
+PrintBibliography(bib, .opts = list(hyperlink = "to.doc", style = "html"))
 ```

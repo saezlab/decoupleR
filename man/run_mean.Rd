@@ -11,7 +11,6 @@ run_mean(
   .target = .data$target,
   .mor = .data$mor,
   .likelihood = .data$likelihood,
-  minsize = 1,
   times = 2,
   seed = 42,
   sparse = TRUE,
@@ -34,9 +33,6 @@ in \code{network} \code{.target} column.}
 
 \item{.likelihood}{Column with edge likelihood.}
 
-\item{minsize}{How many output edges a source node must have to be included
-in the analysis?}
-
 \item{times}{How many permutations to do?}
 
 \item{seed}{A single value, interpreted as an integer, or NULL for random
@@ -47,14 +43,13 @@ number generation.}
 \item{randomize_type}{How to randomize the expression matrix.}
 }
 \value{
-A long format tibble of the enrichment scores for each tf across the conditions.
-Resulting tibble contains the following columns:
+A long format tibble of the enrichment scores for each tf
+across the samples. Resulting tibble contains the following columns:
 \enumerate{
 \item \code{statistic}: Indicates which method is associated with which score.
 \item \code{tf}: Source nodes of \code{network}.
 \item \code{condition}: Condition representing each column of \code{mat}.
 \item \code{score}: Regulatory activity (enrichment score).
-\item \code{statistic_time}: Internal execution time indicator.
 \item \code{p_value}: p-value for the score of mean method.
 }
 }
@@ -81,6 +76,7 @@ run_mean(mat, network, tf, target, mor, likelihood)
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_gsva}()},
+\code{\link{run_ora}()},
 \code{\link{run_pscira}()},
 \code{\link{run_scira}()},
 \code{\link{run_viper}()}

@@ -9,7 +9,8 @@ get_profile_of(data, sources, values_fill = NA)
 \arguments{
 \item{data}{A data frame.}
 
-\item{sources}{A named vector or list with the values to expand and get profile.}
+\item{sources}{A named vector or list with the values to expand and get
+profile.}
 
 \item{values_fill}{Optionally, a (scalar) value that specifies what each
 \code{value} should be filled in with when missing.
@@ -28,6 +29,7 @@ This is a wrapper around \code{\link[tidyr:expand]{expand()}},
 useful for completing missing combinations of data.
 }
 \examples{
+\dontrun{
 library(dplyr, warn.conflicts = FALSE)
 df <- tibble(
     group = c(1:2, 1),
@@ -45,11 +47,16 @@ df \%>\% get_profile_of(sources = to_get_profile)
 # You can also choose to fill in missing values
 
 # This only fill with "Unknown" the NA values of the column item_name
-df \%>\% get_profile_of(sources = to_get_profile, values_fill = list(item_name = "Unknown"))
+df \%>\% get_profile_of(
+    sources = to_get_profile,
+    values_fill = list(item_name = "Unknown")
+)
 
 # Replace all NAs with "Unkwnon"
 df \%>\% get_profile_of(sources = to_get_profile, values_fill = "Unknown")
 }
+}
 \seealso{
 \link[tidyr:complete]{complete} \link[tidyr:expand]{expand}
 }
+\keyword{internal}

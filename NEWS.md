@@ -15,6 +15,7 @@ columns to use as strings, integer position, symbol or expression.
   * New `run_gsva()` incorporate a convinient wrapper for [GSVA::gsva()](https://rdrr.io/bioc/GSVA/man/gsva.html).
   * New `run_mean()` calculates both the unnormalized regulatory activity
     and the normalized (i.e. z-score) one based on an empirical distribution.
+  * New `run_ora()` fisher exact test to calculate the regulatory activity.
   * New `run_pscira()` uses a logic equivalent to `run_mean()` with the
     difference that it does not accept a column of likelihood.
   * New `run_scira()` calculates the regulatory activity through the coefficient
@@ -29,6 +30,8 @@ columns to use as strings, integer position, symbol or expression.
   * New `convert_to_gsva()` return a list of regulons suitable for [GSVA::gsva()](https://rdrr.io/bioc/GSVA/man/gsva.html).
   * New `convert_to_mean()` return a tibble with four columns:
     `tf`, `target`, `mor` and `likelihood`.
+  * New `convert_to_ora()` returns a named list of regulons; tf with
+    associated targets.
   * New `convert_to_pscira()` returns a tibble with three columns:
     `tf`, `target` and `mor`.
   * New `convert_to_scira()` returns a tibble with three columns:

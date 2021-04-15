@@ -29,21 +29,21 @@ in \code{network} \code{.target} column.}
 
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
-\item{sparse}{Logical value indicating if the generated profile matrix should be sparse.}
+\item{sparse}{Logical value indicating if the generated profile matrix
+should be sparse.}
 
 \item{times}{Number of replications.}
 
 \item{seed}{A single value, interpreted as an integer, or NULL.}
 }
 \value{
-A long format tibble of the enrichment scores for each tf across the conditions.
-Resulting tibble contains the following columns:
+A long format tibble of the enrichment scores for each tf
+across the samples. Resulting tibble contains the following columns:
 \enumerate{
 \item \code{statistic}: Indicates which method is associated with which score.
 \item \code{tf}: Source nodes of \code{network}.
 \item \code{condition}: Condition representing each column of \code{mat}.
 \item \code{score}: Regulatory activity (enrichment score).
-\item \code{statistic_time}: Internal execution time indicator.
 }
 }
 \description{
@@ -55,9 +55,9 @@ compared to its null distribution.
 \details{
 Estimation of regulatory activity: A linear regression of the expression
 profile is performed against the "target profile" of the given TF, where
-in the target profile, any member of the regulon will be assigned a +1
-for activated actions, a -1 for inhibitory activations and, finally, a 0
-for all genes that are not a member of the TF regulon. TF activity is then
+in the target profile, any regulon member is assigned a \code{+1} for activating
+interactions and a \code{-1} for inhibitory interactions. All other genes not
+members of the TF's regulon are assigned a value o \code{0}. TF activity is then
 defined as the t-statistic of this linear regression.
 }
 \examples{
@@ -73,6 +73,7 @@ Other decoupleR statistics:
 \code{\link{decouple}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mean}()},
+\code{\link{run_ora}()},
 \code{\link{run_scira}()},
 \code{\link{run_viper}()}
 }

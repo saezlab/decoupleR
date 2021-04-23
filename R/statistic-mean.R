@@ -85,7 +85,7 @@ run_mean <- function(mat,
 
     # Analysis ----------------------------------------------------------------
     withr::with_seed(seed, {
-        .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type)
+        .mean_analysis(mat, weight_mat, shared_targets, times, randomize_type)
     })
 
 }

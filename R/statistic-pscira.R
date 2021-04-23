@@ -74,7 +74,7 @@ run_pscira <- function(mat,
 
     # Evaluate model ----------------------------------------------------------
     withr::with_seed(seed, {
-        .pscira_analysis(mat, mor_mat, times, seed)
+        .pscira_analysis(mat, mor_mat, times)
     })
 }
 

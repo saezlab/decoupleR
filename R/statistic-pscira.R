@@ -73,7 +73,9 @@ run_pscira <- function(mat,
     mat <- as.matrix(mat)
 
     # Evaluate model ----------------------------------------------------------
-    .pscira_analysis(mat, mor_mat, times, seed)
+    withr::with_seed(seed, {
+        .pscira_analysis(mat, mor_mat, times, seed)
+    })
 }
 
 # Helper functions --------------------------------------------------------
@@ -87,14 +89,13 @@ run_pscira <- function(mat,
 #' @inherit run_pscira return
 #' @keywords intern
 #' @noRd
-.pscira_analysis <- function(mat, mor_mat, times, seed) {
+.pscira_analysis <- function(mat, mor_mat, times) {
     pscira_run <- partial(
         .f = .pscira_run,
         mat = mat,
         mor_mat = mor_mat
     )
 
-    set.seed(seed)
     map_dfr(seq_len(times), ~ pscira_run(random = TRUE)) %>%
         group_by(.data$tf, .data$condition) %>%
         summarise(

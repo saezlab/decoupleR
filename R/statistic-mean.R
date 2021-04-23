@@ -84,7 +84,10 @@ run_mean <- function(mat,
         )
 
     # Analysis ----------------------------------------------------------------
-    .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type)
+    withr::with_seed(seed, {
+        .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type)
+    })
+
 }
 
 # Helper functions --------------------------------------------------------
@@ -103,7 +106,7 @@ run_mean <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.mean_analysis <- function(mat, weight_mat, shared_targets, times, seed, randomize_type) {
+.mean_analysis <- function(mat, weight_mat, shared_targets, times, randomize_type) {
     # Thus, it is only necessary to define if we want
     # to evaluate a random model or not.
     mean_run <- partial(
@@ -114,8 +117,6 @@ run_mean <- function(mat,
         randomize_type = randomize_type
     )
 
-    # Set a seed to ensure reproducible results
-    set.seed(seed)
     # Run model for random data
     map_dfr(seq_len(times), ~ mean_run(random = TRUE)) %>%
         group_by(.data$tf, .data$condition) %>%

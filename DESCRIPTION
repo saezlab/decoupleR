@@ -1,7 +1,7 @@
 Type: Package
 Package: decoupleR
 Title: Package to decouple gene sets from statistics
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: 
     c(person(given = "Jesús",
              family = "Vélez",
@@ -50,7 +50,8 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
-    viper
+    viper,
+    withr
 Suggests: 
     BiocStyle,
     covr,
@@ -67,6 +68,6 @@ biocViews: DifferentialExpression, FunctionalGenomics, GeneExpression,
     GeneRegulation, Network, Software, StatisticalMethod, Transcription,
 Config/testthat/edition: 3
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

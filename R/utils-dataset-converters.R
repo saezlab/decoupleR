@@ -220,7 +220,7 @@ convert_to_ora <- function(network, .source, .target) {
 
     walk2(.x = dots, .y = .dots_names, function(.dot, .name) {
         if (quo_is_missing(.dot)) {
-            abort(
+            rlang::abort(
                 message = stringr::str_glue(
                     'Quo "{.name}" is missing, with no default.'
                 ),
@@ -228,7 +228,7 @@ convert_to_ora <- function(network, .source, .target) {
             )
         }
         if (quo_is_null(.dot)) {
-            abort(
+            rlang::abort(
                 message = stringr::str_glue('Quo "{.name}" can not be NULL.'),
                 class = "quo_null_error"
             )
@@ -336,15 +336,16 @@ convert_f_defaults <- function(.data,
         removed_cols <- intersect(expected_columns, diff_cols) %>%
             paste(collapse = ", ")
         expected_columns <- paste(expected_columns, collapse = ", ")
-
-        out_message <- stringr::str_glue(
-            "Output columns are different than expected.\n",
-            "Expected: {expected_columns}\n",
-            "Extra: {extra_cols}\n",
-            "Removed: {removed_cols}"
+        
+        rlang::abort(
+            message = stringr::str_glue(
+                "Output columns are different than expected.\n",
+                "Expected: {expected_columns}\n",
+                "Extra: {extra_cols}\n",
+                "Removed: {removed_cols}"
+            ),
+            class = "different_set_columns"
         )
-
-        abort(message = out_message, class = "different_set_columns")
     }
 
     .data

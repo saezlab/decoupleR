@@ -51,7 +51,8 @@ run_mean <- function(mat,
                      randomize_type = "rows") {
     # Before to start ---------------------------------------------------------
     if (times < 2) {
-        stop(stringr::str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
+        .message <- stringr::str_glue("Parameter 'times' must be greater than or equal to 2, but {times} was passed.")
+        rlang::abort(message = .message)
     }
 
     network <- network %>%

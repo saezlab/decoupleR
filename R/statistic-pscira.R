@@ -38,7 +38,8 @@ run_pscira <- function(mat,
 
     # Before to start ---------------------------------------------------------
     if (times < 2) {
-        stop(stringr::str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
+        .message <- stringr::str_glue("Parameter 'times' must be greater than or equal to 2, but {times} was passed.")
+        rlang::abort(message = .message)
     }
 
     # Preprocessing -----------------------------------------------------------

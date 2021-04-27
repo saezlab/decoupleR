@@ -1,7 +1,7 @@
 Type: Package
 Package: decoupleR
 Title: Package to decouple gene sets from statistics
-Version: 0.99.5
+Version: 0.99.6
 Authors@R: 
     c(person(given = "Jesús",
              family = "Vélez",

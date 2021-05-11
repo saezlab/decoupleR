@@ -31,7 +31,7 @@ Description: Transcriptome profiling followed by differential gene
     systematically evaluate both networks and algorithms, we developed
     decoupleR , an R package that allows users to apply efficiently any
     combination provided.
-License: GPL-3 + file LICENSE
+License: GPL-3
 URL: https://saezlab.github.io/decoupleR/
 BugReports: https://github.com/saezlab/decoupleR/issues
 Depends: 

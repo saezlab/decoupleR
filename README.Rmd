@@ -16,7 +16,9 @@ knitr::opts_chunk$set(
 # decoupleR
 
 <!-- badges: start -->
-[![Lifecycle:experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![BioC status](http://www.bioconductor.org/shields/build/release/bioc/decoupleR.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/decoupleR)
+[![BioC dev status](http://www.bioconductor.org/shields/build/devel/bioc/decoupleR.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/decoupleR)
 [![R build status](https://github.com/saezlab/decoupleR/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/saezlab/decoupleR/actions)
 [![Codecov test coverage](https://codecov.io/gh/saezlab/decoupleR/branch/master/graph/badge.svg)](https://codecov.io/gh/saezlab/decoupleR?branch=master)
 [![GitHub issues](https://img.shields.io/github/issues/saezlab/decoupleR)](https://github.com/saezlab/decoupleR/issues)
@@ -24,7 +26,21 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-Transcriptome profiling followed by differential gene expression analysis often leads to lists of genes that are hard to analyze and interpret. Downstream analysis tools can be used to summarize deregulation events into a smaller set of biologically interpretable features. In particular, methods that estimate the activity of transcription factors (TFs) from gene expression are commonly used. It has been shown that the transcriptional targets of a TF yield a much more robust estimation of the TF activity than observing the expression of the TF itself.  Consequently, for the estimation of transcription factor activities, a network of transcriptional regulation is required in combination with a statistical algorithm that summarizes the expression of the target genes into a single activity score. Over the years, many different regulatory networks and statistical algorithms have been developed, mostly in a fixed combination of one network and one algorithm. To systematically evaluate both networks and algorithms, we developed decoupleR , an R package that allows users to apply efficiently any combination provided.
+Transcriptome profiling followed by differential gene expression analysis often
+leads to lists of genes that are hard to analyze and interpret. Downstream
+analysis tools can be used to summarize deregulation events into a smaller set
+of biologically interpretable features. In particular, methods that estimate the
+activity of transcription factors (TFs) from gene expression are commonly used.
+It has been shown that the transcriptional targets of a TF yield a much more
+robust estimation of the TF activity than observing the expression of the TF
+itself.  Consequently, for the estimation of transcription factor activities,
+a network of transcriptional regulation is required in combination with a
+statistical algorithm that summarizes the expression of the target genes into
+a single activity score. Over the years, many different regulatory networks and
+statistical algorithms have been developed, mostly in a fixed combination of one
+network and one algorithm. To systematically evaluate both networks and
+algorithms, we developed decoupleR , an R package that allows users to apply
+efficiently any combination provided.
 
 For more information about how this package has been used with real data,
 please check the following links:  
@@ -37,20 +53,24 @@ please check the following links:
 Get the latest stable `R` release from
 [CRAN](http://cran.r-project.org/). 
 
-<!-- Then install `decoupleR` using from [Bioconductor](http://bioconductor.org/) the following code: -->
+Then install `decoupleR` using from [Bioconductor](http://bioconductor.org/) the
+following code:
 
-<!-- ```{r bioconductor_install, eval = FALSE} -->
-<!-- if (!requireNamespace("BiocManager", quietly = TRUE)) { -->
-<!--     install.packages("BiocManager") -->
-<!-- } -->
-<!-- BiocManager::install("decoupleR") -->
-<!-- ``` -->
+```{r bioconductor_install, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+
+BiocManager::install("decoupleR")
+
+# Check that you have a valid Bioconductor installation
+BiocManager::valid()
+```
 
 Then install development version from [GitHub](https://github.com/) with:
 
 ```{r github_installation, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("saezlab/decoupleR")
+BiocManager::install("saezlab/decoupleR")
 ```
 
 ## Usage
@@ -128,7 +148,10 @@ run_viper(
 
 ## Contributing to decoupleR
 
-Are you interested in adding a new statistical method or collaborating in the development of internal tools that allow the extension of the package? Please check out our [contribution guide](https://saezlab.github.io/decoupleR/CONTRIBUTING.html).
+Are you interested in adding a new statistical method or collaborating in the
+development of internal tools that allow the extension of the package?
+Please check out our
+[contribution guide](https://saezlab.github.io/decoupleR/CONTRIBUTING.html).
 
 ---
 

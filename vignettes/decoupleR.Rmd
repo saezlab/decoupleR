@@ -73,8 +73,7 @@ BiocManager::valid()
 You can install the development version from [GitHub](https://github.com/) with:
 
 ```{r github_install, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("saezlab/decoupleR")
+BiocManager::install("saezlab/decoupleR")
 ```
 
 ## Required knowledge

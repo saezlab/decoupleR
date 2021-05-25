@@ -5,7 +5,12 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Lifecycle:
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![BioC
+status](http://www.bioconductor.org/shields/build/release/bioc/decoupleR.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/decoupleR)
+[![BioC dev
+status](http://www.bioconductor.org/shields/build/devel/bioc/decoupleR.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/decoupleR)
 [![R build
 status](https://github.com/saezlab/decoupleR/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/saezlab/decoupleR/actions)
 [![Codecov test
@@ -49,20 +54,25 @@ data, please check the following links:
 Get the latest stable `R` release from
 [CRAN](http://cran.r-project.org/).
 
-<!-- Then install `decoupleR` using from [Bioconductor](http://bioconductor.org/) the following code: -->
-<!-- ```{r bioconductor_install, eval = FALSE} -->
-<!-- if (!requireNamespace("BiocManager", quietly = TRUE)) { -->
-<!--     install.packages("BiocManager") -->
-<!-- } -->
-<!-- BiocManager::install("decoupleR") -->
-<!-- ``` -->
+Then install `decoupleR` using from
+[Bioconductor](http://bioconductor.org/) the following code:
+
+``` r
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+
+BiocManager::install("decoupleR")
+
+# Check that you have a valid Bioconductor installation
+BiocManager::valid()
+```
 
 Then install development version from [GitHub](https://github.com/)
 with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("saezlab/decoupleR")
+BiocManager::install("saezlab/decoupleR")
 ```
 
 ## Usage

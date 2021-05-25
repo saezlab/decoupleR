@@ -60,9 +60,10 @@ the \code{mat} matrix by calculating the mean over the expression of all genes.
 \details{
 \code{run_mean()} calculates the activity score, but in addition, it takes
 advantage of the permutations used to calculate the \code{p-value}, to provide
-the normalized activity score. This is represented in the \code{statistic} column
-which will contain two values for each call to \code{run_mean()}; \strong{mean} and
-\strong{normalized_mean}.
+the normalized activity score and a corrected mean score.
+This is represented in the \code{statistic} column which will contain three
+values for each call to \code{run_mean()}; \strong{mean}, \strong{normalized_mean}, and
+\strong{corrected_mean}.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

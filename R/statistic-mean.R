@@ -138,7 +138,8 @@ run_mean <- function(mat,
                 .y = .data$value,
                 .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
             ),
-            corrected_mean = - .data$value * log10(p_value)
+            p_value = if_else(.data$p_value == 0, 1 / times, .data$p_value),
+            corrected_mean = - .data$value * log10(.data$p_value)
         ) %>%
         # Reformat results
         select(-contains("null")) %>%

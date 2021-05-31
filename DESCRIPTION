@@ -61,6 +61,7 @@ Suggests:
     rmarkdown,
     roxygen2,
     sessioninfo,
+    styler,
     testthat
 VignetteBuilder: 
     knitr

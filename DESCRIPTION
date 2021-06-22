@@ -63,7 +63,9 @@ Suggests:
     roxygen2,
     sessioninfo,
     testthat,
-    yardstick
+    yardstick,
+    ggplot2,
+    pheatmap
 VignetteBuilder: 
     knitr
 biocViews: DifferentialExpression, FunctionalGenomics, GeneExpression,

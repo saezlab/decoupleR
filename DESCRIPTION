@@ -55,13 +55,17 @@ Imports:
 Suggests: 
     BiocStyle,
     covr,
+    knitcitations,
     knitr,
     pkgdown,
     RefManageR,
     rmarkdown,
     roxygen2,
     sessioninfo,
-    testthat
+    testthat,
+    yardstick,
+    ggplot2,
+    pheatmap
 VignetteBuilder: 
     knitr
 biocViews: DifferentialExpression, FunctionalGenomics, GeneExpression,

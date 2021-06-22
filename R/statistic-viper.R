@@ -42,7 +42,6 @@ run_viper <- function(mat,
         .fn = viper::viper,
         eset = mat,
         regulon = network,
-        minsize = 0,
         !!!list(...)
     ) %>%
         as.data.frame() %>%

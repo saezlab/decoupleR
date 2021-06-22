@@ -49,9 +49,14 @@ to different value columns.}
 \item{to_matrix}{Logical value indicating if the result should be a matrix.
 Parameter is ignored in case \code{sparse} is \code{TRUE}.}
 
-\item{to_sparse}{Logical value indicating whether the resulting matrix should be sparse or not.}
+\item{to_sparse}{Logical value indicating whether the resulting matrix
+should be sparse or not.}
 
 \item{...}{Additional arguments passed on to methods.}
+}
+\value{
+"widened" data; it is increasing the number of columns and
+decreasing the number of rows.
 }
 \description{
 Generates a kind of table where the rows come from \code{id_cols},
@@ -62,7 +67,7 @@ In the current state of the function, to ensure its operation,
 the \code{id_cols} parameter is a single selector.
 }
 \examples{
-
+\dontrun{
 df <- tibble::tibble(
     tf = c("tf_1", "tf_1", "tf_2", "tf_2"),
     gene = c("gene_1", "gene_2", "gene_1", "gene_2"),
@@ -94,3 +99,5 @@ pivot_wider_profile(
     to_sparse = TRUE
 )
 }
+}
+\keyword{internal}

@@ -8,13 +8,18 @@
 #' @param .downsample_roc whether to downsample ROC true negatives
 #' @param .downsample_times downsampling iterations
 #' @inheritParams readRDS_helper
+#'
 #' @import tibble tidyr dplyr tidyselect
+#'
 #' @seealso See \link{input_tibble} for a description of the params/columns
 #'   of .design (i.e. input tibble).
+#'
 #' @export
+#'
 #' @importFrom rlang .data
 #' @importFrom stats reorder setNames
 #' @importFrom methods new
+#'
 #' @return An S4 object of \link{BenchResult-class}
 run_benchmark <- function(.design,
                           .form = TRUE,
@@ -67,7 +72,8 @@ run_benchmark <- function(.design,
       # Obtain Activity with decouple and format
       decouple(mat = bench_env$gene_expression, network = ss_filtered,
                .source = source_col, .target = all_of(target_col),
-               statistics = stats_list, args = opts_list)  %>%
+               statistics = stats_list, args = opts_list,
+               include_time = TRUE)  %>%
         dplyr::rename(id=.data$condition) %>%
         inner_join(bench_env$meta_data, by="id")  %>%
         group_split(.data$statistic, .keep=TRUE) %>%

@@ -38,7 +38,6 @@ in \code{network} \code{.target} column.}
     \item{\code{nes}}{Logical, whether the enrichment score reported should be normalized}
     \item{\code{method}}{Character string indicating the method for computing the single samples signature, either scale, rank, mad, ttest or none}
     \item{\code{bootstraps}}{Integer indicating the number of bootstraps iterations to perform. Only the scale method is implemented with bootstraps.}
-    \item{\code{minsize}}{Integer indicating the minimum number of targets allowed per regulon}
     \item{\code{adaptive.size}}{Logical, whether the weighting scores should be taken into account for computing the regulon size}
     \item{\code{eset.filter}}{Logical, whether the dataset should be limited only to the genes represented in the interactome
 #' @param mvws Number or vector indicating either the exponent score for the metaViper weights, or the inflection point and trend for the sigmoid function describing the weights in metaViper}
@@ -48,14 +47,13 @@ in \code{network} \code{.target} column.}
   }}
 }
 \value{
-A long format tibble of the enrichment scores for each tf across the conditions.
-Resulting tibble contains the following columns:
+A long format tibble of the enrichment scores for each tf
+across the samples. Resulting tibble contains the following columns:
 \enumerate{
 \item \code{statistic}: Indicates which method is associated with which score.
 \item \code{tf}: Source nodes of \code{network}.
 \item \code{condition}: Condition representing each column of \code{mat}.
 \item \code{score}: Regulatory activity (enrichment score).
-\item \code{statistic_time}: Internal execution time indicator.
 }
 }
 \description{
@@ -74,6 +72,7 @@ Other decoupleR statistics:
 \code{\link{decouple}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mean}()},
+\code{\link{run_ora}()},
 \code{\link{run_pscira}()},
 \code{\link{run_scira}()}
 }

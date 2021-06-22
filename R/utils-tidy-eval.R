@@ -35,8 +35,8 @@
 #'
 #' To learn more about tidy eval and how to use these tools, visit
 #' <https://tidyeval.tidyverse.org> and the
-#' [Metaprogramming
-#' section](https://adv-r.hadley.nz/metaprogramming.html) of [Advanced R](https://adv-r.hadley.nz).
+#' [Metaprogramming section](https://adv-r.hadley.nz/metaprogramming.html) of
+#' [Advanced R](https://adv-r.hadley.nz).
 #'
 #' @md
 #' @name tidyeval
@@ -45,7 +45,7 @@
 #' @aliases expr enquo enquos sym syms .data := as_name as_label quo_is_null quo_is_missing abort exec
 #' @export expr enquo enquos sym syms .data := as_name as_label quo_is_null quo_is_missing abort exec
 #' @examples
-#' \donttest{
-#' help("nse-defuse", package = "rlang")
+#' if (FALSE) {
+#'     help("nse-defuse", package = "rlang")
 #' }
 NULL

@@ -9,25 +9,28 @@
 #' @details
 #' Estimation of regulatory activity: A linear regression of the expression
 #' profile is performed against the "target profile" of the given TF, where
-#' in the target profile, any member of the regulon will be assigned a +1
-#' for activated actions, a -1 for inhibitory activations and, finally, a 0
-#' for all genes that are not a member of the TF regulon. TF activity is then
+#' in the target profile, any regulon member is assigned a `+1` for activating
+#' interactions and a `-1` for inhibitory interactions. All other genes not
+#' members of the TF's regulon are assigned a value o `0`. TF activity is then
 #' defined as the t-statistic of this linear regression.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param sparse Logical value indicating if the generated profile matrix should be sparse.
+#' @param sparse Logical value indicating if the generated profile matrix
+#'  should be sparse.
 #' @param fast Logical value indicating if the lineal model must be calculated
 #' with [speedglm::speedlm.fit()] or with base [stats::lm()].
+#' @param center Logical value indicating if `mat` must be centered by
+#' [base::rowMeans()].
+#' @param na.rm Should missing values (including NaN) be omitted from the
+#'  calculations of [base::rowMeans()]?
 #'
-#' @return
-#'  A long format tibble of the enrichment scores for each tf across the conditions.
-#'  Resulting tibble contains the following columns:
+#' @return A long format tibble of the enrichment scores for each tf
+#'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
 #'  2. `tf`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
-#'  5. `statistic_time`: Internal execution time indicator.
 #' @family decoupleR statistics
 #' @export
 #'
@@ -44,48 +47,70 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' run_scira(mat, network, tf, target, mor)
-run_scira <- function(
-    mat,
-    network,
-    .source = .data$tf,
-    .target = .data$target,
-    .mor = .data$mor,
-    sparse = FALSE,
-    fast = TRUE) {
+run_scira <- function(mat,
+                      network,
+                      .source = .data$tf,
+                      .target = .data$target,
+                      .mor = .data$mor,
+                      sparse = FALSE,
+                      fast = TRUE,
+                      center = TRUE,
+                      na.rm = FALSE) {
 
-    # Preprocessing -----------------------------------------------------------
-    .start_time <- Sys.time()
-
+    # Before to start ---------------------------------------------------------
     # Convert to standard tibble: tf-target-mor.
     network <- network %>%
         convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }})
 
-    # Extract labels that will map to the expression and profile matrices
-    tfs <- network %>%
-        pull(.data$tf) %>%
-        unique()
+    # Preprocessing -----------------------------------------------------------
+    .scira_preprocessing(network, mat, center, na.rm, sparse) %>%
+        # Model evaluation --------------------------------------------------------
+        {
+            .scira_analysis(.$mat, .$mor_mat, fast)
+        }
+}
 
-    # Ensures column matching, expands the target profile to encompass all targets
-    # in the expression matrix for each source, and converts the result to a matrix.
+# Helper functions ------------------------------------------------------
+#' Scira preprocessing
+#'
+#' - Get only the intersection of target genes between `mat` and `network`.
+#' - Transform tidy `network` into `matrix` representation with `mor` as value.
+#' - If `center` is true, then the expression values are centered by the
+#'   mean of expression across the conditions.
+#'
+#' @inheritParams run_scira
+#'
+#' @return A named list of matrices to evaluate in `.scira_analysis()`.
+#'  - mat: Genes as rows and conditions as columns.
+#'  - mor_mat: Genes as rows and columns as tfs.
+#' @keywords intern
+#' @noRd
+.scira_preprocessing <- function(network, mat, center, na.rm, sparse) {
+    shared_targets <- intersect(
+        rownames(mat),
+        network$target
+    )
+
+    mat <- mat[shared_targets, ]
+
     mor_mat <- network %>%
-        get_profile_of(
-            sources = list(tf = tfs, target = rownames(mat)),
-            values_fill = list(mor = 0)
-        ) %>%
+        filter(.data$target %in% shared_targets) %>%
         pivot_wider_profile(
             id_cols = .data$target,
             names_from = .data$tf,
             values_from = .data$mor,
+            values_fill = 0,
             to_matrix = TRUE,
             to_sparse = sparse
-        )
+        ) %>%
+        .[shared_targets, ]
 
-    # Model evaluation --------------------------------------------------------
-    .scira_analysis(mat, mor_mat, fast) %>%
-        mutate(statistic_time = difftime(Sys.time(), .start_time))
+    if (center) {
+        mat <- mat - rowMeans(mat, na.rm)
+    }
+
+    list(mat = mat, mor_mat = mor_mat)
 }
-
-# Helper functions ------------------------------------------------------
 
 #' Wrapper to execute run_scira() logic one finished preprocessing of data
 #'
@@ -132,11 +157,10 @@ run_scira <- function(
             summary() %>%
             pluck("coefficients", "t", 2, .default = NA)
     } else {
-        coefficients_values <- lm(mat[, condition] ~ mor_mat[, source]) %>%
+        lm(mat[, condition] ~ mor_mat[, source]) %>%
             summary() %>%
-            coef()
-
-        t_values <- coefficients_values[, "t value"]
-        pluck(t_values, 2, .default = NA)
+            coef() %>%
+            .[, "t value"] %>%
+            pluck(2, .default = NA)
     }
 }

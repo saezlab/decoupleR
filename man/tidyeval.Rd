@@ -49,11 +49,12 @@ name, or would like to enforce this, use \code{as_name()}.
 
 To learn more about tidy eval and how to use these tools, visit
 \url{https://tidyeval.tidyverse.org} and the
-\href{https://adv-r.hadley.nz/metaprogramming.html}{Metaprogramming section} of \href{https://adv-r.hadley.nz}{Advanced R}.
+\href{https://adv-r.hadley.nz/metaprogramming.html}{Metaprogramming section} of
+\href{https://adv-r.hadley.nz}{Advanced R}.
 }
 \examples{
-\donttest{
-help("nse-defuse", package = "rlang")
+if (FALSE) {
+    help("nse-defuse", package = "rlang")
 }
 }
 \keyword{internal}

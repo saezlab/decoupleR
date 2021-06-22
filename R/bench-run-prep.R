@@ -2,9 +2,12 @@
 
 #' Helper Function to to generate the bools used to check if the current
 #' locations/rds objects are the same as the previous one.
+#'
 #' @param .design input tibble used to provide the experimental design for each
 #' benchmark run
+#'
 #' @keywords internal
+#'
 #' @details This is used to limit the number of times that any of the
 #' prerequsites is loaded.
 format_design <- function(.design){
@@ -41,7 +44,9 @@ check_preced <- function(vector_loc){
 #' @param .silent bool whether to silence wanring messages
 #'
 #' @importFrom stringr str_glue
+#'
 #' @return returns a filtered and formatted set source
+#'
 #' @details Filtering can be omitted if `filter_col` is `NA`.
 filter_sets <- function(set_source,
                         source_col,
@@ -75,9 +80,12 @@ filter_sets <- function(set_source,
 
 
 #' `base::readRDS` helper function that enables loading files from urls
+#'
 #' @inheritParams base::readRDS
 #' @inheritDotParams base::readRDS
+#'
 #' @param .url_bool bool whether the location is a url or not
+#'
 #' @export
 readRDS_helper <- function(file, .url_bool=FALSE, ...){
   if(.url_bool){

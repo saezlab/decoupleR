@@ -9,8 +9,9 @@ expected_dir <- system.file("testdata", "outputs", package = "decoupleR")
 test_that("test benchmark warnings", {
 
     # duplicate network
-    net_dup <- readRDS(file.path(input_dir,
-                                 "input-dorothea_genesets.rds")) %>%
+    net_dup <- readRDS(file.path(
+        input_dir,
+        "input-dorothea_genesets.rds")) %>%
         bind_rows(., .)
 
     # expected duplicates

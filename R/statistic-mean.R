@@ -12,23 +12,19 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param minsize How many output edges a source node must have to be included
-#'  in the analysis?
 #' @param times How many permutations to do?
 #' @param seed A single value, interpreted as an integer, or NULL for random
 #'  number generation.
 #' @param sparse Should the matrices used for the calculation be sparse?
 #' @param randomize_type How to randomize the expression matrix.
 #'
-#' @return
-#'  A long format tibble of the enrichment scores for each tf across the conditions.
-#'  Resulting tibble contains the following columns:
+#' @return A long format tibble of the enrichment scores for each tf
+#'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
 #'  2. `tf`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
-#'  5. `statistic_time`: Internal execution time indicator.
-#'  6. `p_value`: p-value for the score of mean method.
+#'  5. `p_value`: p-value for the score of mean method.
 #' @family decoupleR statistics
 #' @export
 #' @import dplyr
@@ -43,24 +39,19 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' run_mean(mat, network, tf, target, mor, likelihood)
-run_mean <- function(
-    mat,
-    network,
-    .source = .data$tf,
-    .target = .data$target,
-    .mor = .data$mor,
-    .likelihood = .data$likelihood,
-    minsize = 1,
-    times = 2,
-    seed = 42,
-    sparse = TRUE,
-    randomize_type = "rows") {
-
+run_mean <- function(mat,
+                     network,
+                     .source = .data$tf,
+                     .target = .data$target,
+                     .mor = .data$mor,
+                     .likelihood = .data$likelihood,
+                     times = 2,
+                     seed = 42,
+                     sparse = TRUE,
+                     randomize_type = "rows") {
     # Before to start ---------------------------------------------------------
-    .start_time <- Sys.time()
-
     if (times < 2) {
-        stop(stringr::str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
+        rlang::abort(message = stringr::str_glue("Parameter 'times' must be greater than or equal to 2, but {times} was passed."))
     }
 
     network <- network %>%
@@ -71,20 +62,12 @@ run_mean <- function(
     # Calculate the weights that will be used for the evaluation of the model
     network <- network %>%
         filter(.data$target %in% rownames(mat)) %>%
-        add_count(.data$tf, name = "out_degree") %>%
-        filter(.data$out_degree >= minsize) %>%
-        add_count(.data$tf, wt = .data$likelihood, name = "contribution") %>%
-        mutate(weight = .data$mor * .data$likelihood / .data$contribution) %>%
-        select(-.data$out_degree, -.data$contribution)
+        .mean_calculate_weight()
 
     # Extract labels that will map to the expression and profile matrices
-    tfs <- network %>%
-        pull(.data$tf) %>%
-        unique()
+    tfs <- unique(network[["tf"]])
 
-    shared_targets <- network %>%
-        pull(.data$target) %>%
-        unique()
+    shared_targets <- unique(network[["target"]])
 
     targets <- rownames(mat)
     conditions <- colnames(mat)
@@ -101,11 +84,10 @@ run_mean <- function(
         )
 
     # Analysis ----------------------------------------------------------------
-    .mean_analysis(mat, weight_mat, shared_targets, times, seed, randomize_type) %>%
-        add_column(
-            statistic_time = difftime(Sys.time(), .start_time),
-            .after = "score"
-        )
+    withr::with_seed(seed, {
+        .mean_analysis(mat, weight_mat, shared_targets, times, randomize_type)
+    })
+
 }
 
 # Helper functions --------------------------------------------------------
@@ -124,7 +106,7 @@ run_mean <- function(
 #'
 #' @keywords internal
 #' @noRd
-.mean_analysis <- function(mat, weight_mat, shared_targets, times, seed, randomize_type) {
+.mean_analysis <- function(mat, weight_mat, shared_targets, times, randomize_type) {
     # Thus, it is only necessary to define if we want
     # to evaluate a random model or not.
     mean_run <- partial(
@@ -135,8 +117,6 @@ run_mean <- function(
         randomize_type = randomize_type
     )
 
-    # Set a seed to ensure reproducible results
-    set.seed(seed)
     # Run model for random data
     map_dfr(seq_len(times), ~ mean_run(random = TRUE)) %>%
         group_by(.data$tf, .data$condition) %>%
@@ -179,6 +159,21 @@ run_mean <- function(
 .mean_run <- function(mat, weight_mat, shared_targets, random, randomize_type) {
     .mean_map_model_data(mat, shared_targets, random, randomize_type) %>%
         .mean_evaluate_model(weight_mat)
+}
+
+#' Calculate mean weight
+#'
+#' @inheritParams .mean_analysis
+#' @keywords internal
+#' @noRd
+.mean_calculate_weight <- function(network) {
+    network %>%
+        add_count(.data$tf, name = "contribution") %>%
+        transmute(
+            .data$tf,
+            .data$target,
+            weight = .data$mor * .data$likelihood / .data$contribution
+        )
 }
 
 #' Collect a subset of data: random or not.

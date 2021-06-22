@@ -7,6 +7,7 @@
 \alias{convert_to_mean}
 \alias{convert_to_viper}
 \alias{convert_to_gsva}
+\alias{convert_to_ora}
 \title{Convert a network to run under the method of interest.}
 \usage{
 convert_to_(network)
@@ -20,6 +21,8 @@ convert_to_mean(network, .source, .target, .mor = NULL, .likelihood = NULL)
 convert_to_viper(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
 convert_to_gsva(network, .source, .target)
+
+convert_to_ora(network, .source, .target)
 }
 \arguments{
 \item{network}{Tibble or dataframe with edges and it's associated metadata.}
@@ -42,7 +45,9 @@ Return same as input.
 Return a list of regulons suitable for \code{\link[GSVA:gsva]{GSVA::gsva()}}.
 \item \code{convert_to_mean()}
 Return a tibble with four columns: \code{tf}, \code{target}, \code{mor} and \code{likelihood}.
-\item \code{convert_to_pcira()}
+\item \code{convert_to_ora()}
+Return a named list of regulons; tf with associated targets.
+\item \code{convert_to_pscira()}
 Returns a tibble with three columns: \code{tf}, \code{target} and \code{mor}.
 \item \code{convert_to_scira()}
 Returns a tibble with three columns: \code{tf}, \code{target} and \code{mor}.
@@ -63,6 +68,7 @@ network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 convert_to_(network)
 convert_to_gsva(network, tf, target)
 convert_to_mean(network, tf, target, mor, likelihood)
+convert_to_ora(network, tf, target)
 convert_to_pscira(network, tf, target, mor)
 convert_to_scira(network, tf, target, mor)
 convert_to_viper(network, tf, target, mor, likelihood)

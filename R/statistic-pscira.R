@@ -27,21 +27,18 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' run_pscira(mat, network, tf, target, mor)
-run_pscira <- function(
-    mat,
-    network,
-    .source = .data$tf,
-    .target = .data$target,
-    .mor = .data$mor,
-    sparse = TRUE,
-    times = 10,
-    seed = 42) {
+run_pscira <- function(mat,
+                       network,
+                       .source = .data$tf,
+                       .target = .data$target,
+                       .mor = .data$mor,
+                       sparse = TRUE,
+                       times = 10,
+                       seed = 42) {
 
     # Before to start ---------------------------------------------------------
-    .start_time <- Sys.time()
-
     if (times < 2) {
-        stop(stringr::str_interp("Parameter 'times' must be greater than or equal to 2, but ${times} was passed."))
+        rlang::abort(message = stringr::str_glue("Parameter 'times' must be greater than or equal to 2, but {times} was passed."))
     }
 
     # Preprocessing -----------------------------------------------------------
@@ -72,12 +69,13 @@ run_pscira <- function(
         )
 
     # Convert to matrix to ensure that matrix multiplication works
-    # in case mat is a labelled dataframe.
+    # in case mat is a labeled dataframe.
     mat <- as.matrix(mat)
 
     # Evaluate model ----------------------------------------------------------
-    .pscira_analysis(mat, mor_mat, times, seed) %>%
-        mutate(statistic_time = difftime(Sys.time(), .start_time))
+    withr::with_seed(seed, {
+        .pscira_analysis(mat, mor_mat, times)
+    })
 }
 
 # Helper functions --------------------------------------------------------
@@ -91,14 +89,13 @@ run_pscira <- function(
 #' @inherit run_pscira return
 #' @keywords intern
 #' @noRd
-.pscira_analysis <- function(mat, mor_mat, times, seed) {
+.pscira_analysis <- function(mat, mor_mat, times) {
     pscira_run <- partial(
         .f = .pscira_run,
         mat = mat,
         mor_mat = mor_mat
     )
 
-    set.seed(seed)
     map_dfr(seq_len(times), ~ pscira_run(random = TRUE)) %>%
         group_by(.data$tf, .data$condition) %>%
         summarise(

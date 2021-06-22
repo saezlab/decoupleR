@@ -16,6 +16,8 @@
 #'    in the case of PR curve; or sensitivity and specificity, auc, n, cp, cn
 #'    and coverage in the case of ROC.
 #' @import yardstick
+#'
+#' @export
 calc_curve = function(df,
                       downsampling = FALSE,
                       times = 1000,

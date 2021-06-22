@@ -13,9 +13,10 @@ source_url = "https://zenodo.org/record/4322914/files/dorothea_filtered.rds?down
 url_tibble <- tibble(
     set_name="dorothea",
     bench_name="dbd",
-    stats_list=list(c("pscira","viper")),
-    opts_list=list(list(scira=list(),
-                        viper = list(verbose = FALSE, minsize=0))),
+    stats_list=list(c("pscira", "viper", "ora")),
+    opts_list=list(list(scira = list(),
+                        viper = list(verbose = FALSE, minsize=0),
+                        ora = list())),
     bexpr_loc = bexpr_url,
     bmeta_loc = bmeta_url,
     source_loc = source_url,
@@ -29,11 +30,15 @@ url_tibble <- tibble(
 
 # Test run_benchmark url load, performance, and downsampling -------------------
 test_that("test benchmark performance evaluation and downsampling", {
-    res <- run_benchmark(url_tibble, .url_bool = TRUE)
+    res <- run_benchmark(url_tibble,
+                         .url_bool = TRUE,
+                         .form = TRUE,
+                         .perform = TRUE,
+                        )
 
     res_1 <- res %>%
         pluck(., "summary", "summary_table") %>%
-        select(-c(statistic_time, regulon_time))
+        select(!ends_with("time"))
 
     exp_1 <- readRDS(file.path(expected_dir,
                                "benchmark",

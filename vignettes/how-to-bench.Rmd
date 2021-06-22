@@ -91,7 +91,8 @@ design_row <-
                 "pscira",
                 "scira",
                 "viper",
-                "gsva"
+                "gsva",
+                "ora"
             )
         ),
         opts_list = list(list( # list of options for each stat method
@@ -102,7 +103,8 @@ design_row <-
                          minsize = 0,
                          .mor = "mor",
                          .likelihood = "likelihood"),
-            gsva = list(verbose = FALSE, method = "gsva")
+            gsva = list(verbose = FALSE, method = "gsva"),
+            ora = list()
         )),
         bexpr_loc = bexample_url, # benchmark data location
         bmeta_loc = bmeta_url, # metadata location

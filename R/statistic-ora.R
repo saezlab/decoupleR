@@ -78,7 +78,9 @@ run_ora <- function(mat,
         .groups = "drop"
         ) %>%
         select(.data$tf, .data$condition,
-            score = -log10(.data$p.value), everything()
+            score = .data$p.value, everything()
+        ) %>%
+        mutate(score = -log10(score)
         ) %>%
         add_column(statistic = "ora", .before = 1)
 }

@@ -139,9 +139,7 @@ run_ora <- function(mat,
             values_to = "value"
         ) %>%
         group_by(.data$condition) %>%
-        {
-          slice_max(., abs(.data$value), n = n_up, with_ties = with_ties)
-        } %>%
+        slice_max(., abs(.data$value), n = n_up, with_ties = with_ties) %>%
         summarise(
             targets = set_names(list(.data$target), .data$condition[1]),
             .groups = "drop"

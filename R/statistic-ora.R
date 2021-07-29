@@ -36,6 +36,7 @@ run_ora <- function(mat,
                     .target = .data$target,
                     n_up = nrow(mat),
                     n_bottom = 0,
+                    thr = 0.05,
                     n_background = NULL,
                     with_ties = TRUE,
                     ...) {
@@ -43,12 +44,11 @@ run_ora <- function(mat,
     regulons <- network %>%
         convert_to_ora({{ .source }}, {{ .target }})
 
-    ns <- .ora_check_ns(n_up, n_bottom, n_background, network, mat)
+    ns <- .ora_check_ns(thr, n_background, network, mat)
     n_up <- ns[1]
-    n_bottom <- ns[2]
-    n_background <- ns[3]
+    n_background <- ns[2]
 
-    targets <- .ora_slice_targets(mat, n_up, n_bottom, with_ties)
+    targets <- .ora_slice_targets(mat, n_up, with_ties)
 
     # Run analysis ------------------------------------------------------------
     .ora_analysis(regulons, targets, n_background, ...)
@@ -128,7 +128,7 @@ run_ora <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.ora_slice_targets <- function(mat, n_up, n_bottom, with_ties) {
+.ora_slice_targets <- function(mat, n_up, with_ties) {
     mat %>%
         as_tibble(rownames = "target") %>%
         pivot_longer(
@@ -138,10 +138,7 @@ run_ora <- function(mat,
         ) %>%
         group_by(.data$condition) %>%
         {
-            bind_rows(
-                slice_max(., .data$value, n = n_up, with_ties = with_ties),
-                slice_min(., .data$value, n = n_bottom, with_ties = with_ties)
-            )
+          slice_max(., abs(.data$value), n = n_up, with_ties = with_ties)
         } %>%
         summarise(
             targets = set_names(list(.data$target), .data$condition[1]),
@@ -161,7 +158,7 @@ run_ora <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.ora_check_ns <- function(n_up, n_bottom, n_background, network, mat) {
+.ora_check_ns <- function(threshold, n_background, network, mat) {
     if (is_null(n_background)) {
         n_background <- network %>%
             pull(.data$target) %>%
@@ -172,10 +169,7 @@ run_ora <- function(mat,
         abort("`n` must be a non-missing positive number.")
     }
 
-    if (n_up + n_bottom >= nrow(mat)) {
-        n_up <- nrow(mat)
-        n_bottom <- 0
-    }
+    n_up <- ceiling(threshold * length(mat))
 
-    c(n_up, n_bottom, n_background)
+    c(n_up, n_background)
 }

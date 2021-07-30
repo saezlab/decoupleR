@@ -34,7 +34,7 @@ run_ora <- function(mat,
                     network,
                     .source = .data$tf,
                     .target = .data$target,
-                    thr = 0.05,
+                    thr = 0.01,
                     n_background = NULL,
                     with_ties = TRUE,
                     ...) {
@@ -157,7 +157,7 @@ run_ora <- function(mat,
 #' @keywords internal
 #' @noRd
 .ora_check_ns <- function(threshold, n_background, network, mat) {
-    if (is_null(n_background)) {
+    if (is.null(n_background)) {
         n_background <- network %>%
             pull(.data$target) %>%
             unique() %>%

@@ -93,7 +93,7 @@ run_ora <- function(mat,
 #' @noRd
 .ora_fisher_exact_test <- function(expected, observed, n_background, ...) {
     exec(
-        .fn = stats::fisher.test,
+        .fn = stats::fisher.test(alternative='greater'),
         x = .ora_contingency_table(expected, observed, n_background),
         y = NULL,
         !!!list(...)

@@ -80,7 +80,7 @@ run_ora <- function(mat,
             score = .data$p.value, everything()
         ) %>%
         mutate(
-          score = dplyr::ifelse(is.null(pval_corr), -log10(score), -log10(p.adjust(score,method = "BH")))
+          score = dplyr::if_else(is.null(pval_corr), -log10(score), -log10(p.adjust(score,method = "BH")))
         ) %>%
         add_column(statistic = "ora", .before = 1)
 }

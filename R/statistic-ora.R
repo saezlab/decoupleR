@@ -66,7 +66,7 @@ run_ora <- function(mat,
 #' @keywords internal
 #' @noRd
 .ora_analysis <- function(regulons, targets, n_background, pval_corr, ...) {
-    expand_grid(tf = names(regulons), condition = names(targets)) %>%
+    result <- expand_grid(tf = names(regulons), condition = names(targets)) %>%
         rowwise(.data$tf, .data$condition) %>%
         summarise(.ora_fisher_exact_test(
             expected = regulons[[.data$tf]],
@@ -79,10 +79,13 @@ run_ora <- function(mat,
         select(.data$tf, .data$condition,
             score = .data$p.value, everything()
         ) %>%
-        mutate(
-          score = dplyr::if_else(is.null(pval_corr), -log10(score), -log10(p.adjust(score,method = "BH")))
-        ) %>%
         add_column(statistic = "ora", .before = 1)
+  if (is.null(pval_corr)){
+    result['score'] <- -log10(result['score'])
+  } else{
+    result['score'] <- -log10(p.adjust(score,method = pval_corr))
+  }
+  result
 }
 
 #' Fisher Exact Test

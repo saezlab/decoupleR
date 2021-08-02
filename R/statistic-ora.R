@@ -37,6 +37,7 @@ run_ora <- function(mat,
                     thr = 0.01,
                     n_background = NULL,
                     with_ties = TRUE,
+                    pval_corr = 'BH',
                     ...) {
     # Before to start ---------------------------------------------------------
     regulons <- network %>%
@@ -78,7 +79,8 @@ run_ora <- function(mat,
         select(.data$tf, .data$condition,
             score = .data$p.value, everything()
         ) %>%
-        mutate(score = -log10(score)
+        mutate(
+          score = dplyr::ifelse(is.null(pval_corr), -log10(score), -log10(p.adjust(score,method = "BH")))
         ) %>%
         add_column(statistic = "ora", .before = 1)
 }

@@ -50,7 +50,7 @@ run_ora <- function(mat,
     targets <- .ora_slice_targets(mat, n_up, with_ties)
 
     # Run analysis ------------------------------------------------------------
-    .ora_analysis(regulons, targets, n_background, ...)
+    .ora_analysis(regulons, targets, n_background, pval_corr, ...)
 }
 
 # Helper functions --------------------------------------------------------
@@ -65,7 +65,7 @@ run_ora <- function(mat,
 #' @inherit run_scira return
 #' @keywords internal
 #' @noRd
-.ora_analysis <- function(regulons, targets, n_background, ...) {
+.ora_analysis <- function(regulons, targets, n_background, pval_corr, ...) {
     expand_grid(tf = names(regulons), condition = names(targets)) %>%
         rowwise(.data$tf, .data$condition) %>%
         summarise(.ora_fisher_exact_test(

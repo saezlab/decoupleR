@@ -83,7 +83,7 @@ run_ora <- function(mat,
   if (is.null(pval_corr)){
     result['score'] <- -log10(result['score'])
   } else{
-    result['score'] <- -log10(p.adjust(score,method = pval_corr))
+    result['score'] <- -log10(p.adjust(result['score'],method = pval_corr))
   }
   result
 }

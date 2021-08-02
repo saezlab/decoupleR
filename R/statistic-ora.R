@@ -172,8 +172,8 @@ run_ora <- function(mat,
     } else if (n_background < 0) {
         abort("`n` must be a non-missing positive number.")
     }
-
-    n_up <- ceiling(threshold * length(mat))
+    # Select % of total genes in mat
+    n_up <- ceiling(threshold * nrow(mat))
 
     c(n_up, n_background)
 }

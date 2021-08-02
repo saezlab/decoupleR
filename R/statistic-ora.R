@@ -81,9 +81,9 @@ run_ora <- function(mat,
         ) %>%
         add_column(statistic = "ora", .before = 1)
   if (is.null(pval_corr)){
-    result['score'] <- -log10(result['score'])
+    result[['score']] <- -log10(result[['score']])
   } else{
-    result['score'] <- -log10(p.adjust(result['score'],method = pval_corr))
+    result[['score']] <- -log10(p.adjust(result[['score']],method = pval_corr))
   }
   result
 }

@@ -135,25 +135,25 @@ run_ora <- function(mat,
 #' @keywords internal
 #' @noRd
 .ora_slice_targets <- function(mat, n_up, with_ties) {
-    mat %>%
-        as_tibble(rownames = "target") %>%
-        pivot_longer(
-            cols = -.data$target,
-            names_to = "condition",
-            values_to = "value"
-        ) %>%
-        group_by(.data$condition) %>%
-        {
-          bind_rows(
-            slice_max(., .data$value, n = n_up, with_ties = with_ties),
-            slice_min(., .data$value, n = n_up, with_ties = with_ties)
-          )
-        } %>%
-        summarise(
-            targets = rlang::set_names(list(.data$target), .data$condition[1]),
-            .groups = "drop"
-        ) %>%
-        pull(.data$targets)
+  mat %>%
+    as_tibble(rownames = "target") %>%
+    tidyr::pivot_longer(
+      cols = -.data$target,
+      names_to = "condition",
+      values_to = "value"
+    ) %>%
+    group_by(.data$condition) %>% dplyr::arrange(.data$value) %>%
+    {
+      bind_rows(
+        slice_tail(., n = n_up), 
+        slice_head(., n = n_up)
+        )
+      } %>%
+    summarise(
+      targets = rlang::set_names(list(.data$target), .data$condition[1]),
+      .groups = "drop"
+    ) %>%
+    pull(.data$targets)
 }
 
 #' Check values of variables with n_prefix

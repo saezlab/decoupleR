@@ -150,6 +150,7 @@ run_ora <- function(mat,
         slice_head(., n = n_up)
         )
       } %>%
+    dplyr::arrange(.data$condition) %>%
     summarise(
       targets = rlang::set_names(list(.data$target), .data$condition[1]),
       .groups = "drop"

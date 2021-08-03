@@ -142,7 +142,8 @@ run_ora <- function(mat,
       names_to = "condition",
       values_to = "value"
     ) %>%
-    group_by(.data$condition) %>% dplyr::arrange(.data$value) %>%
+    dplyr::arrange(.data$condition, .data$value) %>%
+    group_by(.data$condition) %>%
     {
       bind_rows(
         slice_tail(., n = n_up), 

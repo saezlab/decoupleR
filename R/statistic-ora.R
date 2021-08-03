@@ -34,23 +34,24 @@ run_ora <- function(mat,
                     network,
                     .source = .data$tf,
                     .target = .data$target,
-                    thr = 0.01,
+                    n_up = nrow(mat),
+                    n_bottom = 0,
                     n_background = NULL,
                     with_ties = TRUE,
-                    pval_corr = 'BH',
                     ...) {
     # Before to start ---------------------------------------------------------
     regulons <- network %>%
         convert_to_ora({{ .source }}, {{ .target }})
 
-    ns <- .ora_check_ns(thr, n_background, network, mat)
+    ns <- .ora_check_ns(n_up, n_bottom, n_background, network, mat)
     n_up <- ns[1]
-    n_background <- ns[2]
+    n_bottom <- ns[2]
+    n_background <- ns[3]
 
-    targets <- .ora_slice_targets(mat, n_up, with_ties)
+    targets <- .ora_slice_targets(mat, n_up, n_bottom, with_ties)
 
     # Run analysis ------------------------------------------------------------
-    .ora_analysis(regulons, targets, n_background, pval_corr, ...)
+    .ora_analysis(regulons, targets, n_background, ...)
 }
 
 # Helper functions --------------------------------------------------------
@@ -65,8 +66,8 @@ run_ora <- function(mat,
 #' @inherit run_scira return
 #' @keywords internal
 #' @noRd
-.ora_analysis <- function(regulons, targets, n_background, pval_corr, ...) {
-    result <- expand_grid(tf = names(regulons), condition = names(targets)) %>%
+.ora_analysis <- function(regulons, targets, n_background, ...) {
+    expand_grid(tf = names(regulons), condition = names(targets)) %>%
         rowwise(.data$tf, .data$condition) %>%
         summarise(.ora_fisher_exact_test(
             expected = regulons[[.data$tf]],
@@ -79,13 +80,8 @@ run_ora <- function(mat,
         select(.data$tf, .data$condition,
             score = .data$p.value, everything()
         ) %>%
+        mutate(score = -log10(score)) %>%
         add_column(statistic = "ora", .before = 1)
-  if (is.null(pval_corr)){
-    result[['score']] <- -log10(result[['score']])
-  } else{
-    result[['score']] <- -log10(p.adjust(result[['score']],method = pval_corr))
-  }
-  result
 }
 
 #' Fisher Exact Test
@@ -134,7 +130,7 @@ run_ora <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.ora_slice_targets <- function(mat, n_up, with_ties) {
+.ora_slice_targets <- function(mat, n_up, n_bottom, with_ties) {
   mat %>%
     as_tibble(rownames = "target") %>%
     tidyr::pivot_longer(
@@ -142,15 +138,15 @@ run_ora <- function(mat,
       names_to = "condition",
       values_to = "value"
     ) %>%
-    dplyr::arrange(.data$condition, .data$value) %>%
+    arrange(.data$condition, .data$value) %>%
     group_by(.data$condition) %>%
     {
       bind_rows(
-        slice_tail(., n = n_up), 
-        slice_head(., n = n_up)
-        )
-      } %>%
-    dplyr::arrange(.data$condition) %>%
+        slice_tail(., n = n_up),
+        slice_head(., n = n_bottom)
+      )
+    } %>%
+    arrange(.data$condition) %>%
     summarise(
       targets = rlang::set_names(list(.data$target), .data$condition[1]),
       .groups = "drop"
@@ -169,7 +165,7 @@ run_ora <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.ora_check_ns <- function(threshold, n_background, network, mat) {
+.ora_check_ns <- function(n_up, n_bottom, n_background, network, mat) {
     if (is.null(n_background)) {
         n_background <- network %>%
             pull(.data$target) %>%
@@ -179,8 +175,11 @@ run_ora <- function(mat,
     } else if (n_background < 0) {
         abort("`n` must be a non-missing positive number.")
     }
-    # Select % of total genes in mat
-    n_up <- ceiling(threshold * nrow(mat))
 
-    c(n_up, n_background)
+    if (n_up + n_bottom >= nrow(mat)) {
+        n_up <- nrow(mat)
+        n_bottom <- 0
+    }
+
+    c(n_up, n_bottom, n_background)
 }

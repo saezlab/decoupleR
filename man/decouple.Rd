@@ -11,6 +11,7 @@ decouple(
   .target,
   statistics,
   args = list(NULL),
+  consensus_score = T,
   include_time = FALSE,
   show_toy_call = FALSE
 )
@@ -33,6 +34,9 @@ in \code{network} \code{.target} column.}
 (or length 1). The default argument, list(NULL), will be recycled to the
 same length as \code{statistics}, and will call each function with no arguments
 (apart from \code{mat}, \code{network}, \code{.source} and, \code{.target}).}
+
+\item{consensus_score}{Boolean wheter to run a consensus score between
+methods.}
 
 \item{include_time}{Should the time per statistic evaluated be informed?}
 

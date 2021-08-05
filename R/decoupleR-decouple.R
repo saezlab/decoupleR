@@ -10,6 +10,8 @@
 #'  (or length 1). The default argument, list(NULL), will be recycled to the
 #'  same length as `statistics`, and will call each function with no arguments
 #'   (apart from `mat`, `network`, `.source` and, `.target`).
+#' @param consensus_score Boolean wheter to run a consensus score between
+#' methods.
 #' @param include_time Should the time per statistic evaluated be informed?
 #' @param show_toy_call The call of each statistic must be informed?
 #'
@@ -56,6 +58,7 @@ decouple <- function(mat,
                      .target,
                      statistics,
                      args = list(NULL),
+                     consensus_score = T,
                      include_time = FALSE,
                      show_toy_call = FALSE) {
 
@@ -69,7 +72,7 @@ decouple <- function(mat,
 
     # For the moment this will only ensure that the parameters passed
     # to decoupleR are the same when invoking the functions.
-    map2_dfr(
+    df <- map2_dfr(
         .x = statistics,
         .y = args,
         .f = .invoke_statistic,
@@ -92,6 +95,10 @@ decouple <- function(mat,
             if_else(include_time, .data$statistic_time, NULL),
             everything()
         )
+    if (consensus_score){
+        df <- run_consensus(df)
+    }
+    df
 }
 
 # Helpers -----------------------------------------------------------------

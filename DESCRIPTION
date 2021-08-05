@@ -51,7 +51,8 @@ Imports:
     tidyr,
     tidyselect,
     viper,
-    withr
+    withr,
+    RobustRankAggreg
 Suggests: 
     BiocStyle,
     covr,

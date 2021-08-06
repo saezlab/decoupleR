@@ -205,6 +205,30 @@ convert_to_ora <- function(network, .source, .target) {
         pull(.data$regulons)
 }
 
+# fgsea -------------------------------------------------------------------
+
+#' @rdname convert_to_
+#'
+#' @inheritParams run_fgsea
+#'
+#' @export
+#' @family convert_to_ variants
+convert_to_fgsea <- function(dataset, .source, .target) {
+    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+
+    dataset %>%
+        convert_f_defaults(
+            tf = {{ .source }},
+            target = {{ .target }}
+        ) %>%
+        group_by(.data$tf) %>%
+        summarise(
+            regulons = set_names(list(.data$target), .data$tf[1]),
+            .groups = "drop"
+        ) %>%
+        pull(.data$regulons)
+}
+
 # Helper functions --------------------------------------------------------
 
 #' Stop if any of past quos are missing or NULL.
@@ -336,7 +360,7 @@ convert_f_defaults <- function(.data,
         removed_cols <- intersect(expected_columns, diff_cols) %>%
             paste(collapse = ", ")
         expected_columns <- paste(expected_columns, collapse = ", ")
-        
+
         rlang::abort(
             message = stringr::str_glue(
                 "Output columns are different than expected.\n",

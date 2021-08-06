@@ -8,6 +8,7 @@
 \alias{convert_to_viper}
 \alias{convert_to_gsva}
 \alias{convert_to_ora}
+\alias{convert_to_fgsea}
 \title{Convert a network to run under the method of interest.}
 \usage{
 convert_to_(network)
@@ -23,6 +24,8 @@ convert_to_viper(network, .source, .target, .mor = NULL, .likelihood = NULL)
 convert_to_gsva(network, .source, .target)
 
 convert_to_ora(network, .source, .target)
+
+convert_to_fgsea(dataset, .source, .target)
 }
 \arguments{
 \item{network}{Tibble or dataframe with edges and it's associated metadata.}

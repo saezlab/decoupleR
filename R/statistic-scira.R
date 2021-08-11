@@ -52,6 +52,7 @@ run_scira <- function(mat,
                       .source = .data$tf,
                       .target = .data$target,
                       .mor = .data$mor,
+                      .likelihood = .data$likelihood,
                       sparse = FALSE,
                       fast = TRUE,
                       center = TRUE,
@@ -60,7 +61,7 @@ run_scira <- function(mat,
     # Before to start ---------------------------------------------------------
     # Convert to standard tibble: tf-target-mor.
     network <- network %>%
-        convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }})
+        convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
     # Preprocessing -----------------------------------------------------------
     .scira_preprocessing(network, mat, center, na.rm, sparse) %>%
@@ -104,12 +105,26 @@ run_scira <- function(mat,
             to_sparse = sparse
         ) %>%
         .[shared_targets, ]
+    
+    likelihood_mat <- network %>%
+        filter(.data$target %in% shared_targets) %>%
+        pivot_wider_profile(
+            id_cols = .data$target,
+            names_from = .data$tf,
+            values_from = .data$likelihood,
+            values_fill = 0,
+            to_matrix = TRUE,
+            to_sparse = sparse
+        ) %>%
+        .[shared_targets, ]
+    
+    weight_mat <- mor_mat * likelihood_mat
 
     if (center) {
         mat <- mat - rowMeans(mat, na.rm)
     }
 
-    list(mat = mat, mor_mat = mor_mat)
+    list(mat = mat, mor_mat = weight_mat)
 }
 
 #' Wrapper to execute run_scira() logic one finished preprocessing of data

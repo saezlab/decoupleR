@@ -54,7 +54,7 @@ convert_to_ <- function(network) invisible(network)
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_scira <- function(network, .source, .target, .mor = NULL) {
+convert_to_scira <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
@@ -64,7 +64,8 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL) {
             tf = {{ .source }},
             target = {{ .target }},
             mor = {{ .mor }},
-            .def_col_val = c(mor = 0)
+            likelihood = {{ .likelihood }},
+            .def_col_val = c(mor = 0, likelihood = 1)
         ) %>%
         mutate(mor = sign(.data$mor))
 }
@@ -75,7 +76,7 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL) {
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
+convert_to_pscira <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
@@ -85,7 +86,8 @@ convert_to_pscira <- function(network, .source, .target, .mor = NULL) {
             tf = {{ .source }},
             target = {{ .target }},
             mor = {{ .mor }},
-            .def_col_val = c(mor = 0)
+            likelihood = {{ .likelihood }},
+            .def_col_val = c(mor = 0, likelihood = 1)
         ) %>%
         mutate(mor = sign(.data$mor))
 }

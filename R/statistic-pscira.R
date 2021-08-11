@@ -131,7 +131,7 @@ run_pscira <- function(mat,
             values_to = "score"
         ) %>%
         arrange(.data$statistic, .data$tf, .data$condition) %>%
-        select(.data$statistic, .data$tf, .data$condition, .data$score, .data$value)
+        select(.data$statistic, .data$tf, .data$condition, .data$score)
 }
 
 #'  Wrapper to perform mat %*% mor_mat

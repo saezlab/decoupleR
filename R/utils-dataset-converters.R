@@ -58,6 +58,7 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL, .likelihood
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
+    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
     network %>%
         convert_f_defaults(
@@ -80,6 +81,7 @@ convert_to_pscira <- function(network, .source, .target, .mor = NULL, .likelihoo
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
+    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
     network %>%
         convert_f_defaults(
@@ -108,6 +110,7 @@ convert_to_mean <- function(network,
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
+    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
     network %>%
         convert_f_defaults(
@@ -136,6 +139,7 @@ convert_to_viper <- function(network,
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
+    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
     network %>%
         convert_f_defaults(
@@ -167,6 +171,7 @@ convert_to_gsva <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
+    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
     network %>%
         convert_f_defaults(
@@ -193,6 +198,7 @@ convert_to_ora <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
+    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
     network %>%
         convert_f_defaults(
@@ -217,6 +223,7 @@ convert_to_ora <- function(network, .source, .target) {
 #' @family convert_to_ variants
 convert_to_fgsea <- function(dataset, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
+    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
     dataset %>%
         convert_f_defaults(
@@ -375,4 +382,19 @@ convert_f_defaults <- function(.data,
     }
 
     .data
+}
+
+#' Check if network contains repeated edges
+#'
+#' @param network Network in tibble format.
+#' @param .source Name of the source column.
+#' @param .target Name of the target column.
+#' @noRd
+check_repeated_edges <- function(network, .source, .target){
+    repeated <- network %>%
+        group_by({{ .source }}, {{ .target }}) %>%
+        filter(n()>1)
+    if (nrow(repeated) > 1){
+        stop('Network contains repeated edges, please remove them.')
+    }
 }

@@ -10,6 +10,7 @@ run_scira(
   .source = .data$tf,
   .target = .data$target,
   .mor = .data$mor,
+  .likelihood = .data$likelihood,
   sparse = FALSE,
   fast = TRUE,
   center = TRUE,
@@ -29,6 +30,8 @@ in \code{network} \code{.target} column.}
 \item{.target}{Column with target nodes.}
 
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
+
+\item{.likelihood}{Column with edge likelihood.}
 
 \item{sparse}{Logical value indicating if the generated profile matrix
 should be sparse.}

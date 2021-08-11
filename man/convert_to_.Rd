@@ -13,9 +13,9 @@
 \usage{
 convert_to_(network)
 
-convert_to_scira(network, .source, .target, .mor = NULL)
+convert_to_scira(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
-convert_to_pscira(network, .source, .target, .mor = NULL)
+convert_to_pscira(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
 convert_to_mean(network, .source, .target, .mor = NULL, .likelihood = NULL)
 

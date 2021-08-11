@@ -88,8 +88,6 @@ run_mean <- function(mat,
     # This fixes the wrong denominator defined in contribution
     weight_mat <- t(t(weight_mat)/colSums(abs(weight_mat)))
     
-    weight_mat <- as_tibble(weight_mat, rownames = NA)
-
     # Analysis ----------------------------------------------------------------
     withr::with_seed(seed, {
         .mean_analysis(mat, weight_mat, shared_targets, times, randomize_type)

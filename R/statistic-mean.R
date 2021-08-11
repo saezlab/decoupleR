@@ -82,6 +82,9 @@ run_mean <- function(mat,
             to_sparse = sparse,
             values_fill = 0
         )
+    
+    # This fixes the wrong denominator defined in contribution
+    weight_mat <- t(t(weight_mat)/colSums(abs(weight_mat)))
 
     # Analysis ----------------------------------------------------------------
     withr::with_seed(seed, {
@@ -172,7 +175,7 @@ run_mean <- function(mat,
         transmute(
             .data$tf,
             .data$target,
-            weight = .data$mor * .data$likelihood / .data$contribution
+            weight = .data$mor * .data$likelihood
         )
 }
 

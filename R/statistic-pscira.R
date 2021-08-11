@@ -32,6 +32,7 @@ run_pscira <- function(mat,
                        .source = .data$tf,
                        .target = .data$target,
                        .mor = .data$mor,
+                       .likelihood = .data$likelihood,
                        sparse = TRUE,
                        times = 10,
                        seed = 42) {
@@ -45,7 +46,7 @@ run_pscira <- function(mat,
 
     # Convert to standard tibble: tf-target-mor.
     network <- network %>%
-        convert_to_pscira({{ .source }}, {{ .target }}, {{ .mor }})
+        convert_to_pscira({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
     # Extract labels that will map to the expression and profile matrices
     tfs <- network %>%
@@ -67,6 +68,21 @@ run_pscira <- function(mat,
             to_matrix = TRUE,
             to_sparse = sparse
         )
+    
+    likelihood_mat <- network %>%
+        get_profile_of(
+            sources = list(tf = tfs, target = rownames(mat)),
+            values_fill = list(likelihood = 0)
+        ) %>%
+        pivot_wider_profile(
+            id_cols = .data$tf,
+            names_from = .data$target,
+            values_from = .data$likelihood,
+            to_matrix = TRUE,
+            to_sparse = sparse
+        )
+    
+    weight_mat <- mor_mat * likelihood_mat
 
     # Convert to matrix to ensure that matrix multiplication works
     # in case mat is a labeled dataframe.
@@ -74,7 +90,7 @@ run_pscira <- function(mat,
 
     # Evaluate model ----------------------------------------------------------
     withr::with_seed(seed, {
-        .pscira_analysis(mat, mor_mat, times)
+        .pscira_analysis(mat, weight_mat, times)
     })
 }
 
@@ -108,7 +124,14 @@ run_pscira <- function(mat,
             score = (.data$value - .data$.mean) / .data$.sd,
             score = replace_na(.data$score, 0)
         ) %>%
-        transmute(statistic = "pscira", .data$tf, .data$condition, .data$score)
+        rename(normalized_pscira = .data$score, pscira = .data$value) %>%
+        pivot_longer(
+            cols = c(.data$normalized_pscira, .data$pscira),
+            names_to = "statistic",
+            values_to = "score"
+        ) %>%
+        arrange(.data$statistic, .data$tf, .data$condition) %>%
+        select(.data$statistic, .data$tf, .data$condition, .data$score, .data$value)
 }
 
 #'  Wrapper to perform mat %*% mor_mat

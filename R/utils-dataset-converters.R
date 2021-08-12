@@ -58,16 +58,17 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL, .likelihood
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
-    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
-    network %>%
+    network <- network %>%
         convert_f_defaults(
             tf = {{ .source }},
             target = {{ .target }},
             mor = {{ .mor }},
             likelihood = {{ .likelihood }},
             .def_col_val = c(mor = 0, likelihood = 1)
-        ) %>%
+        )
+    check_repeated_edges(network)
+    network %>%
         mutate(mor = sign(.data$mor))
 }
 
@@ -81,16 +82,17 @@ convert_to_pscira <- function(network, .source, .target, .mor = NULL, .likelihoo
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
-    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
-    network %>%
+    network <- network %>%
         convert_f_defaults(
             tf = {{ .source }},
             target = {{ .target }},
             mor = {{ .mor }},
             likelihood = {{ .likelihood }},
             .def_col_val = c(mor = 0, likelihood = 1)
-        ) %>%
+        )
+    check_repeated_edges(network)
+    network %>%
         mutate(mor = sign(.data$mor))
 }
 
@@ -110,16 +112,17 @@ convert_to_mean <- function(network,
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
-    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
-    network %>%
+    network <- network %>%
         convert_f_defaults(
             tf = {{ .source }},
             target = {{ .target }},
             mor = {{ .mor }},
             likelihood = {{ .likelihood }},
             .def_col_val = c(mor = 0, likelihood = 1)
-        ) %>%
+        )
+    check_repeated_edges(network)
+    network %>%
         mutate(mor = sign(.data$mor))
 }
 
@@ -139,16 +142,17 @@ convert_to_viper <- function(network,
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
-    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
-    network %>%
+    network <- network %>%
         convert_f_defaults(
             tf = {{ .source }},
             target = {{ .target }},
             mor = {{ .mor }},
             likelihood = {{ .likelihood }},
             .def_col_val = c(mor = 0, likelihood = 1)
-        ) %>%
+        )
+    check_repeated_edges(network)
+    network %>%
         mutate(mor = sign(.data$mor)) %>%
         split(.$tf) %>%
         map(~ {
@@ -171,13 +175,14 @@ convert_to_gsva <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
-    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
-    network %>%
+    network <- network %>%
         convert_f_defaults(
             tf = {{ .source }},
             target = {{ .target }}
-        ) %>%
+        )
+    check_repeated_edges(network)
+    network %>%
         group_by(.data$tf) %>%
         summarise(
             regulons = set_names(list(.data$target), .data$tf[1]),
@@ -198,13 +203,14 @@ convert_to_ora <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
-    check_repeated_edges(network, {{ .source }}, {{ .target }})
 
-    network %>%
+    network <- network %>%
         convert_f_defaults(
             tf = {{ .source }},
             target = {{ .target }}
-        ) %>%
+        )
+    check_repeated_edges(network)
+    network %>%
         group_by(.data$tf) %>%
         summarise(
             regulons = set_names(list(.data$target), .data$tf[1]),
@@ -221,15 +227,17 @@ convert_to_ora <- function(network, .source, .target) {
 #'
 #' @export
 #' @family convert_to_ variants
-convert_to_fgsea <- function(dataset, .source, .target) {
-    .check_quos_status({{ .source }}, {{ .target }}, .dots_names = c(".source", ".target"))
-    check_repeated_edges(network, {{ .source }}, {{ .target }})
+convert_to_fgsea <- function(network, .source, .target) {
+    .check_quos_status({{ .source }}, {{ .target }},
+                       .dots_names = c(".source", ".target"))
 
-    dataset %>%
+    network <- network %>%
         convert_f_defaults(
             tf = {{ .source }},
             target = {{ .target }}
-        ) %>%
+        )
+    check_repeated_edges(network)
+    network %>%
         group_by(.data$tf) %>%
         summarise(
             regulons = set_names(list(.data$target), .data$tf[1]),
@@ -387,12 +395,10 @@ convert_f_defaults <- function(.data,
 #' Check if network contains repeated edges
 #'
 #' @param network Network in tibble format.
-#' @param .source Name of the source column.
-#' @param .target Name of the target column.
 #' @noRd
-check_repeated_edges <- function(network, .source, .target){
+check_repeated_edges <- function(network){
     repeated <- network %>%
-        group_by({{ .source }}, {{ .target }}) %>%
+        group_by(tf, target) %>%
         filter(n()>1)
     if (nrow(repeated) > 1){
         stop('Network contains repeated edges, please remove them.')

@@ -25,7 +25,7 @@ convert_to_gsva(network, .source, .target)
 
 convert_to_ora(network, .source, .target)
 
-convert_to_fgsea(dataset, .source, .target)
+convert_to_fgsea(network, .source, .target)
 }
 \arguments{
 \item{network}{Tibble or dataframe with edges and it's associated metadata.}

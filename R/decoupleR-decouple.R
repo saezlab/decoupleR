@@ -123,7 +123,8 @@ decouple <- function(mat,
         pscira = expr(run_pscira),
         viper = expr(run_viper),
         gsva = expr(run_gsva),
-        ora = expr(run_ora)
+        ora = expr(run_ora),
+        fgsea = expr(run_fgsea)
     )
 
     statistics %>%

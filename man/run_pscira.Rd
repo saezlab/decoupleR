@@ -56,12 +56,13 @@ each given condition.The result is equal to the z-score of the found value
 compared to its null distribution.
 }
 \details{
-Estimation of regulatory activity: A linear regression of the expression
-profile is performed against the "target profile" of the given TF, where
-in the target profile, any regulon member is assigned a \code{+1} for activating
-interactions and a \code{-1} for inhibitory interactions. All other genes not
-members of the TF's regulon are assigned a value o \code{0}. TF activity is then
-defined as the t-statistic of this linear regression.
+PSCIRA estimates the regulatory activity by performing a linear combination
+of the expression profile and the target profile of a given TF. In the
+target profile of a TF, any regulon member is assigned a +1 for activating
+interactions and a -1 for inhibitory interactions. Additionally, any
+positive weight can be added to each interaction. A normalized score per
+score is calculated by calculating a z-score using a null distribution
+computed from n permutations (times parameter).
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

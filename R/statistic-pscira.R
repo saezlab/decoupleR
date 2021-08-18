@@ -6,7 +6,14 @@
 #' each given condition.The result is equal to the z-score of the found value
 #' compared to its null distribution.
 #'
-#' @inherit run_scira details
+#' @details
+#' PSCIRA estimates the regulatory activity by performing a linear combination
+#' of the expression profile and the target profile of a given TF. In the
+#' target profile of a TF, any regulon member is assigned a +1 for activating
+#' interactions and a -1 for inhibitory interactions. Additionally, any
+#' positive weight can be added to each interaction. A normalized score per
+#' score is calculated by calculating a z-score using a null distribution
+#' computed from n permutations (times parameter).
 #'
 #' @inheritParams run_scira
 #' @param times Number of replications.

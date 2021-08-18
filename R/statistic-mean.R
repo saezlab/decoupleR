@@ -54,6 +54,9 @@ run_mean <- function(mat,
         rlang::abort(message = stringr::str_glue("Parameter 'times' must be greater than or equal to 2, but {times} was passed."))
     }
 
+    # Check for NAs/Infs in mat
+    check_nas_infs(mat)
+
     network <- network %>%
         convert_to_mean({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
@@ -82,12 +85,12 @@ run_mean <- function(mat,
             to_sparse = sparse,
             values_fill = 0
         )
-    
+
     weight_mat <- as.matrix(weight_mat)
-    
+
     # This fixes the wrong denominator defined in contribution
     weight_mat <- weight_mat/rowSums(abs(weight_mat))
-    
+
     # Analysis ----------------------------------------------------------------
     withr::with_seed(seed, {
         .mean_analysis(mat, weight_mat, shared_targets, times, randomize_type)

@@ -57,6 +57,8 @@ run_scira <- function(mat,
                       fast = TRUE,
                       center = TRUE,
                       na.rm = FALSE) {
+    # Check for NAs/Infs in mat
+    check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
     # Convert to standard tibble: tf-target-mor.
@@ -105,7 +107,7 @@ run_scira <- function(mat,
             to_sparse = sparse
         ) %>%
         .[shared_targets, ]
-    
+
     likelihood_mat <- network %>%
         filter(.data$target %in% shared_targets) %>%
         pivot_wider_profile(
@@ -117,7 +119,7 @@ run_scira <- function(mat,
             to_sparse = sparse
         ) %>%
         .[shared_targets, ]
-    
+
     weight_mat <- mor_mat * likelihood_mat
 
     if (center) {

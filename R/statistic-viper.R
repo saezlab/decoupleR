@@ -32,6 +32,8 @@ run_viper <- function(mat,
                       .mor = .data$mor,
                       .likelihood = .data$likelihood,
                       ...) {
+    # Check for NAs/Infs in mat
+    check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
     network <- network %>%

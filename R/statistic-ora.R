@@ -39,6 +39,9 @@ run_ora <- function(mat,
                     n_background = NULL,
                     with_ties = TRUE,
                     ...) {
+    # Check for NAs/Infs in mat
+    check_nas_infs(mat)
+
     # Before to start ---------------------------------------------------------
     regulons <- network %>%
         convert_to_ora({{ .source }}, {{ .target }})

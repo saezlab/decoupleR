@@ -28,6 +28,9 @@ run_fgsea <- function(mat,
                       force_ties = F,
                       options = list(),
                       seed = 42) {
+  # Check for NAs/Infs in mat
+  check_nas_infs(mat)
+
   regulons <- network %>%
     convert_to_fgsea({{ .source }}, {{ .target }})
 

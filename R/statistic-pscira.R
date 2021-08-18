@@ -36,6 +36,8 @@ run_pscira <- function(mat,
                        sparse = TRUE,
                        times = 10,
                        seed = 42) {
+    # Check for NAs/Infs in mat
+    check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
     if (times < 2) {
@@ -68,7 +70,7 @@ run_pscira <- function(mat,
             to_matrix = TRUE,
             to_sparse = sparse
         )
-    
+
     likelihood_mat <- network %>%
         get_profile_of(
             sources = list(tf = tfs, target = rownames(mat)),
@@ -81,7 +83,7 @@ run_pscira <- function(mat,
             to_matrix = TRUE,
             to_sparse = sparse
         )
-    
+
     weight_mat <- mor_mat * likelihood_mat
 
     # Convert to matrix to ensure that matrix multiplication works

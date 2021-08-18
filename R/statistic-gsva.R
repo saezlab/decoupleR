@@ -26,6 +26,9 @@ run_gsva <- function(mat,
                      .source = .data$tf,
                      .target = .data$target,
                      ...) {
+    # Check for NAs/Infs in mat
+    check_nas_infs(mat)
+
     # Before to start ---------------------------------------------------------
     regulons <- network %>%
         convert_to_gsva({{ .source }}, {{ .target }})

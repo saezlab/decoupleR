@@ -117,6 +117,7 @@ run_pscira <- function(mat,
     map_dfr(seq_len(times), ~ pscira_run(random = TRUE)) %>%
         group_by(.data$tf, .data$condition) %>%
         summarise(
+            null_distribution = list(.data$value),
             .mean = mean(.data$value),
             .sd = sd(.data$value),
             .groups = "drop"
@@ -124,7 +125,12 @@ run_pscira <- function(mat,
         left_join(pscira_run(random = FALSE), by = c("tf", "condition")) %>%
         mutate(
             score = (.data$value - .data$.mean) / .data$.sd,
-            score = replace_na(.data$score, 0)
+            score = replace_na(.data$score, 0),
+            p_value = map2_dbl(
+                .x = .data$null_distribution,
+                .y = .data$value,
+                .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
+            )
         ) %>%
         rename(normalized_pscira = .data$score, pscira = .data$value) %>%
         pivot_longer(
@@ -133,7 +139,7 @@ run_pscira <- function(mat,
             values_to = "score"
         ) %>%
         arrange(.data$statistic, .data$tf, .data$condition) %>%
-        select(.data$statistic, .data$tf, .data$condition, .data$score)
+        select(.data$statistic, .data$tf, .data$condition, .data$score, .data$p_value)
 }
 
 #'  Wrapper to perform mat %*% mor_mat

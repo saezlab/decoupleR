@@ -62,6 +62,9 @@ decouple <- function(mat,
                      include_time = FALSE,
                      show_toy_call = FALSE) {
 
+    # Match statistic names with arguments
+    statistics <- statistics[match(names(args),statistics)]
+
     # Match statistics to couple ----------------------------------------------
     statistics <- .select_statistics(statistics)
 

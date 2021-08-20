@@ -44,7 +44,7 @@ run_aucell <- function(mat,
     .extract_assay_auc() %>%
     as.data.frame() %>%
     rownames_to_column("tf") %>%
-    pivot_longer(-tf ,  values_to = "score") %>%
+    pivot_longer(-tf ,names_to = "condition", values_to = "score") %>%
     add_column(statistic = "aucell", .before = 1)
   
 }

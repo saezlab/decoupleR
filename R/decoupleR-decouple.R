@@ -121,6 +121,7 @@ decouple <- function(mat,
 #' @noRd
 .select_statistics <- function(statistics) {
     available_statistics <- list(
+        aucell = expr(run_aucell),
         mean = expr(run_mean),
         scira = expr(run_scira),
         pscira = expr(run_pscira),

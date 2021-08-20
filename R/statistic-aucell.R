@@ -4,8 +4,7 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-
-
+#'
 #' @family decoupleR statistics
 #' @export
 #' @import dplyr
@@ -21,7 +20,8 @@
 run_aucell <- function(mat,
                        network,
                        .source = .data$tf,
-                       .target = .data$target) {
+                       .target = .data$target,
+                       nCores = 1) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
   
@@ -33,13 +33,15 @@ run_aucell <- function(mat,
   rankings <- exec(.fn = AUCell::AUCell_buildRankings,
                    exprMat = mat,
                    plotStats = FALSE,
-                   verbose = FALSE)
+                   verbose = FALSE,
+                   nCores = nCores)
   
   
   exec(.fn = AUCell::AUCell_calcAUC,
        geneSets = network,
        rankings = rankings,
-       verbose = FALSE
+       verbose = FALSE,
+       nCores = nCores
   ) %>%
     .extract_assay_auc() %>%
     as.data.frame() %>%

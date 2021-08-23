@@ -1,6 +1,6 @@
 #' AUCell wrapper
 #'
-#' This function is a convenient wrapper for the AUCell workflow that consists of [AUCell::AUCell_buildRankings] and  [AUCell::AUCell_buildRankings] functions.
+#' 
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -21,33 +21,73 @@ run_aucell <- function(mat,
                        network,
                        .source = .data$tf,
                        .target = .data$target,
+                       mor_lg = TRUE,
                        nCores = 1) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
   
-  # Before to start ---------------------------------------------------------
+  if (mor_lg){ 
+    
+    # Analysis ----------------------------------------------------------------
+    network %>%
+      group_by(tf) %>%
+      group_modify(~ .one_TF_aucell_mor(.x, mat), .keep = TRUE) %>%
+      pivot_longer(-tf , names_to = "condition",  values_to = "score") %>%
+      add_column(statistic = "aucell", .before = 1)
+    
+  }
+  else {
+    
+    # Before to start ---------------------------------------------------------
+    network <- network %>%
+      convert_to_aucell({{ .source }}, {{ .target }})
+    
+    # Analysis ----------------------------------------------------------------
+    rankings <- exec(.fn = AUCell::AUCell_buildRankings,
+                     exprMat = mat,
+                     plotStats = FALSE,
+                     verbose = FALSE,
+                     nCores = nCores)
+    
+    
+    exec(.fn = AUCell::AUCell_calcAUC,
+         geneSets = network,
+         rankings = rankings,
+         verbose = FALSE,
+         nCores = nCores
+    ) %>%
+      .extract_assay_auc() %>%
+      as.data.frame() %>%
+      rownames_to_column("tf") %>%
+      pivot_longer(-tf ,names_to = "condition", values_to = "score") %>%
+      add_column(statistic = "aucell", .before = 1)
+    
+  }
+}
+
+
+.one_TF_aucell_mor <- function(network, mat){
+  # Overlap between genes in the network and genes in the expression matrix
   network <- network %>%
-    convert_to_aucell({{ .source }}, {{ .target }})
+    filter(target %in% rownames(mat))
+  # Multiply by mor
+  .mat_sub <- network$mor * mat[rownames(mat) %in% network$target,]
+  .mat_sub <- rbind(.mat_sub, mat[!rownames(mat) %in% network$target,])
+  # Calculate rankings
+  .rankings <- AUCell::AUCell_buildRankings(.mat_sub, nCores=1, plotStats=FALSE, verbose=FALSE)
   
-  # Analysis ----------------------------------------------------------------
-  rankings <- exec(.fn = AUCell::AUCell_buildRankings,
-                   exprMat = mat,
-                   plotStats = FALSE,
-                   verbose = FALSE,
-                   nCores = nCores)
+  # Convert network into named list for the AUCell_calcAUC function
+  .network_aucell <- network %>%
+    group_by(tf) %>%
+    summarise(regulons = rlang::set_names(list(target), tf[1]),
+              .groups = "drop"
+    ) %>%
+    pull(regulons)
   
-  
-  exec(.fn = AUCell::AUCell_calcAUC,
-       geneSets = network,
-       rankings = rankings,
-       verbose = FALSE,
-       nCores = nCores
-  ) %>%
+  # Calculate AUC
+  AUCell::AUCell_calcAUC(.network_aucell, .rankings, nCores=1, verbose=FALSE) %>%
     .extract_assay_auc() %>%
-    as.data.frame() %>%
-    rownames_to_column("tf") %>%
-    pivot_longer(-tf ,names_to = "condition", values_to = "score") %>%
-    add_column(statistic = "aucell", .before = 1)
+    as.data.frame()
   
 }
 

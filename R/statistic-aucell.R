@@ -27,9 +27,9 @@ run_aucell <- function(mat,
   check_nas_infs(mat)
   
   if (mor_lg){ 
-    
     # Analysis ----------------------------------------------------------------
     network %>%
+      filter(target %in% rownames(mat)) %>% # Overlap between genes in the network and genes in the expression matrix
       group_by(tf) %>%
       group_modify(~ .one_TF_aucell_mor(.x, mat), .keep = TRUE) %>%
       pivot_longer(-tf , names_to = "condition",  values_to = "score") %>%
@@ -67,14 +67,11 @@ run_aucell <- function(mat,
 
 
 .one_TF_aucell_mor <- function(network, mat){
-  # Overlap between genes in the network and genes in the expression matrix
-  network <- network %>%
-    filter(target %in% rownames(mat))
   # Multiply by mor
-  .mat_sub <- network$mor * mat[rownames(mat) %in% network$target,]
-  .mat_sub <- rbind(.mat_sub, mat[!rownames(mat) %in% network$target,])
+  mat[rownames(mat) %in% network$target,] <- network$mor * mat[rownames(mat) %in% network$target,]
+  
   # Calculate rankings
-  .rankings <- AUCell::AUCell_buildRankings(.mat_sub, nCores=1, plotStats=FALSE, verbose=FALSE)
+  .rankings <- AUCell::AUCell_buildRankings(mat, nCores=20, plotStats=FALSE, verbose=FALSE)
   
   # Convert network into named list for the AUCell_calcAUC function
   .network_aucell <- network %>%

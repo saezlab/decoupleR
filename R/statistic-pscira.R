@@ -137,11 +137,13 @@ run_pscira <- function(mat,
                 .x = .data$null_distribution,
                 .y = .data$value,
                 .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
-            )
+            ),
+            c_p_value = ifelse(.data$p_value == 0, 1/length(.data$null_distribution), .data$p_value),
+            c_score = .data$value * (-log10(.data$c_p_value))
         ) %>%
-        rename(normalized_pscira = .data$score, pscira = .data$value) %>%
+        rename(corrected_pscira = .data$c_score ,normalized_pscira = .data$score, pscira = .data$value) %>%
         pivot_longer(
-            cols = c(.data$normalized_pscira, .data$pscira),
+            cols = c(.data$corrected_pscira, .data$normalized_pscira, .data$pscira),
             names_to = "statistic",
             values_to = "score"
         ) %>%

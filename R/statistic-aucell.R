@@ -21,12 +21,12 @@ run_aucell <- function(mat,
                        network,
                        .source = .data$tf,
                        .target = .data$target,
-                       mor_lg = TRUE,
+                       #mor_lg = TRUE,
                        nCores = 1) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
   
-  if (mor_lg){ 
+    if (-1 %in% network$mor){ 
     # Analysis ----------------------------------------------------------------
     network %>%
       filter(target %in% rownames(mat)) %>% # Overlap between genes in the network and genes in the expression matrix
@@ -37,7 +37,6 @@ run_aucell <- function(mat,
     
   }
   else {
-    
     # Before to start ---------------------------------------------------------
     network <- network %>%
       convert_to_aucell({{ .source }}, {{ .target }})

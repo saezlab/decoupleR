@@ -62,7 +62,9 @@ target profile of a TF, any regulon member is assigned a +1 for activating
 interactions and a -1 for inhibitory interactions. Additionally, any
 positive weight can be added to each interaction. A normalized score per
 score is calculated by calculating a z-score using a null distribution
-computed from n permutations (times parameter).
+computed from n permutations (times parameter). A corrected score per score is
+calculated by calculating a p-value using a null distribution computed from n
+permutations.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -75,6 +77,7 @@ run_pscira(mat, network, tf, target, mor)
 \seealso{
 Other decoupleR statistics: 
 \code{\link{decouple}()},
+\code{\link{run_aucell}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mean}()},
 \code{\link{run_ora}()},

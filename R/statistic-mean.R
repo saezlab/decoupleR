@@ -6,9 +6,9 @@
 #' @details
 #'  `run_mean()` calculates the activity score, but in addition, it takes
 #'  advantage of the permutations used to calculate the `p-value`, to provide
-#'  the normalized activity score. This is represented in the `statistic` column
-#'  which will contain two values for each call to `run_mean()`; __mean__ and
-#'  __normalized_mean__.
+#'  the normalized and corrected activity scores. This is represented in the `statistic` column
+#'  which will contain three values for each call to `run_mean()`; __mean__,
+#'  __normalized_mean__ and __corrected_mean__.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -144,13 +144,15 @@ run_mean <- function(mat,
                 .x = .data$null_distribution,
                 .y = .data$value,
                 .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
-            )
+            ),
+            c_p_value = ifelse(.data$p_value == 0, 1/length(.data$null_distribution), .data$p_value),
+            c_score = .data$value * (-log10(.data$c_p_value))
         ) %>%
         # Reformat results
         select(-contains("null")) %>%
-        rename(mean = .data$value, normalized_mean = .data$z_score) %>%
+        rename(corrected_mean = .data$c_score, mean = .data$value, normalized_mean = .data$z_score) %>%
         pivot_longer(
-            cols = c(.data$mean, .data$normalized_mean),
+            cols = c(.data$corrected_mean, .data$mean, .data$normalized_mean),
             names_to = "statistic",
             values_to = "score"
         ) %>%

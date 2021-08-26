@@ -106,6 +106,7 @@ run_ora(mat, network, tf, target)
 \seealso{
 Other decoupleR statistics: 
 \code{\link{decouple}()},
+\code{\link{run_aucell}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mean}()},
 \code{\link{run_pscira}()},

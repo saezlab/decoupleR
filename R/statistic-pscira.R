@@ -13,7 +13,9 @@
 #' interactions and a -1 for inhibitory interactions. Additionally, any
 #' positive weight can be added to each interaction. A normalized score per
 #' score is calculated by calculating a z-score using a null distribution
-#' computed from n permutations (times parameter).
+#' computed from n permutations (times parameter). A corrected score per score is 
+#' calculated by calculating a p-value using a null distribution computed from n 
+#' permutations.
 #'
 #' @inheritParams run_scira
 #' @param times Number of replications.
@@ -137,11 +139,13 @@ run_pscira <- function(mat,
                 .x = .data$null_distribution,
                 .y = .data$value,
                 .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
-            )
+            ),
+            c_p_value = ifelse(.data$p_value == 0, 1/length(.data$null_distribution), .data$p_value),
+            c_score = .data$value * (-log10(.data$c_p_value))
         ) %>%
-        rename(normalized_pscira = .data$score, pscira = .data$value) %>%
+        rename(corrected_pscira = .data$c_score, normalized_pscira = .data$score, pscira = .data$value) %>%
         pivot_longer(
-            cols = c(.data$normalized_pscira, .data$pscira),
+            cols = c(.data$corrected_pscira, .data$normalized_pscira, .data$pscira),
             names_to = "statistic",
             values_to = "score"
         ) %>%

@@ -13,6 +13,8 @@
 #'
 #' + `convert_to_`
 #'    Return same as input.
+#' * `convert_to_aucell()`
+#'    Return a named list of regulons; tf with associated targets.
 #' * `convert_to_gsva()`
 #'    Return a list of regulons suitable for [GSVA::gsva()].
 #' * `convert_to_mean()`
@@ -38,6 +40,7 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' convert_to_(network)
+#' convert_to_aucell(network, tf, target)
 #' convert_to_gsva(network, tf, target)
 #' convert_to_mean(network, tf, target, mor, likelihood)
 #' convert_to_ora(network, tf, target)
@@ -45,6 +48,34 @@
 #' convert_to_scira(network, tf, target, mor)
 #' convert_to_viper(network, tf, target, mor, likelihood)
 convert_to_ <- function(network) invisible(network)
+
+# aucell ---------------------------------------------------------------------
+
+#' @rdname convert_to_
+#'
+#' @inheritParams run_aucell
+#'
+#' @family convert_to_ variants
+#' @export
+convert_to_aucell <- function(network, .source, .target) {
+    .check_quos_status({{ .source }}, {{ .target }},
+                       .dots_names = c(".source", ".target")
+    )
+    
+    network <- network %>%
+        convert_f_defaults(
+            tf = {{ .source }},
+            target = {{ .target }}
+        )
+    check_repeated_edges(network)
+    network %>%
+        group_by(.data$tf) %>%
+        summarise(
+            regulons = set_names(list(.data$target), .data$tf[1]),
+            .groups = "drop"
+        ) %>%
+        pull(.data$regulons)
+}
 
 # scira and pscira ------------------------------------------------------
 

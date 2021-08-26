@@ -79,6 +79,7 @@ run_scira(mat, network, tf, target, mor)
 \seealso{
 Other decoupleR statistics: 
 \code{\link{decouple}()},
+\code{\link{run_aucell}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mean}()},
 \code{\link{run_ora}()},

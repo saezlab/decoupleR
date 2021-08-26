@@ -24,17 +24,18 @@ run_aucell <- function(mat,
                        network,
                        .source = .data$tf,
                        .target = .data$target,
+                       weights = FALSE,
                        nCores = 1) {
   
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
   
-    if (-1 %in% network$mor){ 
+    if (-1 %in% network$mor | weights){ 
     # Analysis ----------------------------------------------------------------
     network %>%
       filter(target %in% rownames(mat)) %>% # Overlap between genes in the network and genes in the expression matrix
       group_by(tf) %>%
-      group_modify(~ .one_TF_aucell_mor(.x, mat), .keep = TRUE) %>%
+      group_modify(~ .one_TF_aucell_mor(.x, mat, nCores=nCores), .keep = TRUE) %>%
       pivot_longer(-tf , names_to = "condition",  values_to = "score") %>%
       add_column(statistic = "aucell", .before = 1)
     
@@ -67,8 +68,8 @@ run_aucell <- function(mat,
 }
 
 .one_TF_aucell_mor <- function(network, mat, nCores){
-  # Multiply mat by mor
-  mat[rownames(mat) %in% network$target,] <- network$mor * mat[rownames(mat) %in% network$target,]
+  # Multiply mat by (likelihood*mor)
+  mat[rownames(mat) %in% network$target,] <- (network$likelihood * network$mor) * mat[rownames(mat) %in% network$target,]
   
   # Calculate rankings
   .rankings <- AUCell::AUCell_buildRankings(mat, nCores=nCores, plotStats=FALSE, verbose=FALSE)

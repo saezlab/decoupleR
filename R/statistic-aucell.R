@@ -1,10 +1,13 @@
 #' AUCell wrapper
 #'
-#' 
+#' This function is a convenient wrapper for the workflow that calculates AUC
+#' for each regulon in each cell. The workflow consists of the AUCell::AUCell_buildRankings
+#' and AUCell::AUCell_calcAUC functions.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#'
+#' @param nCores Number of cores to use for computation.
+#' 
 #' @family decoupleR statistics
 #' @export
 #' @import dplyr
@@ -21,8 +24,8 @@ run_aucell <- function(mat,
                        network,
                        .source = .data$tf,
                        .target = .data$target,
-                       #mor_lg = TRUE,
                        nCores = 1) {
+  
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
   
@@ -48,7 +51,6 @@ run_aucell <- function(mat,
                      verbose = FALSE,
                      nCores = nCores)
     
-    
     exec(.fn = AUCell::AUCell_calcAUC,
          geneSets = network,
          rankings = rankings,
@@ -64,13 +66,12 @@ run_aucell <- function(mat,
   }
 }
 
-
-.one_TF_aucell_mor <- function(network, mat){
-  # Multiply by mor
+.one_TF_aucell_mor <- function(network, mat, nCores){
+  # Multiply mat by mor
   mat[rownames(mat) %in% network$target,] <- network$mor * mat[rownames(mat) %in% network$target,]
   
   # Calculate rankings
-  .rankings <- AUCell::AUCell_buildRankings(mat, nCores=20, plotStats=FALSE, verbose=FALSE)
+  .rankings <- AUCell::AUCell_buildRankings(mat, nCores=nCores, plotStats=FALSE, verbose=FALSE)
   
   # Convert network into named list for the AUCell_calcAUC function
   .network_aucell <- network %>%
@@ -81,7 +82,7 @@ run_aucell <- function(mat,
     pull(regulons)
   
   # Calculate AUC
-  AUCell::AUCell_calcAUC(.network_aucell, .rankings, nCores=1, verbose=FALSE) %>%
+  AUCell::AUCell_calcAUC(.network_aucell, .rankings, nCores=nCores, verbose=FALSE) %>%
     .extract_assay_auc() %>%
     as.data.frame()
   

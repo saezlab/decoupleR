@@ -2,6 +2,7 @@
 % Please edit documentation in R/utils-dataset-converters.R
 \name{convert_to_}
 \alias{convert_to_}
+\alias{convert_to_aucell}
 \alias{convert_to_scira}
 \alias{convert_to_pscira}
 \alias{convert_to_mean}
@@ -12,6 +13,8 @@
 \title{Convert a network to run under the method of interest.}
 \usage{
 convert_to_(network)
+
+convert_to_aucell(network, .source, .target)
 
 convert_to_scira(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
@@ -44,6 +47,8 @@ convert_to_fgsea(network, .source, .target)
 Return same as input.
 }
 \itemize{
+\item \code{convert_to_aucell()}
+Return a named list of regulons; tf with associated targets.
 \item \code{convert_to_gsva()}
 Return a list of regulons suitable for \code{\link[GSVA:gsva]{GSVA::gsva()}}.
 \item \code{convert_to_mean()}
@@ -69,6 +74,7 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
 convert_to_(network)
+convert_to_aucell(network, tf, target)
 convert_to_gsva(network, tf, target)
 convert_to_mean(network, tf, target, mor, likelihood)
 convert_to_ora(network, tf, target)

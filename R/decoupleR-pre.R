@@ -39,8 +39,11 @@ filter_regulons <- function(network,
 #' filter_regulons(mat, network, target)
 intersect_regulons <- function(mat,
                                network,
-                               target='target') {
+                               target='target',
+                               minsize=0
+                               ) {
   targets <- rownames(mat)
   network %>%
-    filter(target %in% targets)
+    filter(target %in% targets) %>%
+    filter(n() >= minsize)
 }

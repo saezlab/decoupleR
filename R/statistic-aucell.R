@@ -25,6 +25,8 @@ run_aucell <- function(mat,
                        network,
                        .source = .data$tf,
                        .target = .data$target,
+                       .mor = .data$mor,
+                       .likelihood = .data$likelihood,
                        weights = FALSE,
                        nCores = 1) {
   # Check for NAs/Infs in mat

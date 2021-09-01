@@ -9,6 +9,7 @@ run_aucell(
   network,
   .source = .data$tf,
   .target = .data$target,
+  weights = FALSE,
   nCores = 1
 )
 }

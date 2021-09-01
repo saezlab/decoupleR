@@ -53,7 +53,10 @@ Imports:
     viper,
     withr,
     RobustRankAggreg,
-    fgsea (>= 1.15.4)
+    fgsea (>= 1.15.4),
+    AUCell,
+    doParallel,
+    doRNG
 Suggests: 
     BiocStyle,
     covr,

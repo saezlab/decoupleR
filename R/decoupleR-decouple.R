@@ -99,7 +99,7 @@ decouple <- function(mat,
             everything()
         )
     if (consensus_score){
-        df <- run_consensus(df)
+        df <- run_consensus(df, include_time=include_time)
     }
     df
 }

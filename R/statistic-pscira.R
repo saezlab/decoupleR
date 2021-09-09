@@ -13,8 +13,8 @@
 #' interactions and a -1 for inhibitory interactions. Additionally, any
 #' positive weight can be added to each interaction. A normalized score per
 #' score is calculated by calculating a z-score using a null distribution
-#' computed from n permutations (times parameter). A corrected score per score is 
-#' calculated by calculating a p-value using a null distribution computed from n 
+#' computed from n permutations (times parameter). A corrected score per score is
+#' calculated by calculating a p-value using a null distribution computed from n
 #' permutations.
 #'
 #' @inheritParams run_scira
@@ -43,7 +43,7 @@ run_pscira <- function(mat,
                        .mor = .data$mor,
                        .likelihood = .data$likelihood,
                        sparse = TRUE,
-                       times = 10,
+                       times = 100,
                        seed = 42) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)

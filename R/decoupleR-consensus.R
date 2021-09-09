@@ -1,7 +1,7 @@
 #' Function to generate a consensus score between methods from the
 #' result of decouple
 #'
-#' @param df deocuple results
+#' @param df decouple results
 #' @param condition Column name for sample names
 #' @param statistic Column name for statistic names
 #'
@@ -12,7 +12,10 @@
 #' @export
 run_consensus <- function(df,
                           condition='condition',
-                          statistic='statistic'){
+                          statistic='statistic',
+                          include_time=FALSE
+                          ){
+  start_time <- Sys.time()
   # Split df by samples
   cond_names <- unique(df$condition)
   lst_conds <- df %>%
@@ -52,8 +55,17 @@ run_consensus <- function(df,
     }) %>%
     bind_rows()
 
+  if (include_time) {
+    consensus <- consensus %>%
+      add_column(
+        statistic_time = difftime(Sys.time(), start_time),
+        .after = "score"
+      )
+  }
+
   # Join results
   result <- list(df, consensus) %>% bind_rows()
+
   result
 }
 

@@ -10,7 +10,8 @@ run_aucell(
   .source = .data$source,
   .target = .data$target,
   aucMaxRank = ceiling(0.05 * nrow(rankings)),
-  nCores = 1
+  nCores = 1,
+  seed = 42
 )
 }
 \arguments{

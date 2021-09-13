@@ -26,8 +26,11 @@ run_aucell <- function(mat,
                        .source = .data$source,
                        .target = .data$target,
                        aucMaxRank = ceiling(0.05 * nrow(rankings)),
-                       nCores = 1) {
+                       nCores = 1,
+                       seed = 42
+                       ) {
   # Before to start ---------------------------------------------------------
+  set.seed(seed)
 
   # Check for NAs/Infs in mat
   check_nas_infs(mat)

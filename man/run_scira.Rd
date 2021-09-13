@@ -7,7 +7,7 @@
 run_scira(
   mat,
   network,
-  .source = .data$tf,
+  .source = .data$source,
   .target = .data$target,
   .mor = .data$mor,
   .likelihood = .data$likelihood,
@@ -46,26 +46,26 @@ with \code{\link[speedglm:speedlm]{speedglm::speedlm.fit()}} or with base \code{
 calculations of \code{\link[base:colSums]{base::rowMeans()}}?}
 }
 \value{
-A long format tibble of the enrichment scores for each tf
+A long format tibble of the enrichment scores for each source
 across the samples. Resulting tibble contains the following columns:
 \enumerate{
 \item \code{statistic}: Indicates which method is associated with which score.
-\item \code{tf}: Source nodes of \code{network}.
+\item \code{source}: Source nodes of \code{network}.
 \item \code{condition}: Condition representing each column of \code{mat}.
 \item \code{score}: Regulatory activity (enrichment score).
 }
 }
 \description{
-Calculates TF activity according to
+Calculates source activity according to
 \href{https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13}{Improved detection of tumor suppressor events in single-cell RNA-Seq data}
 .
 }
 \details{
 Estimation of regulatory activity: A linear regression of the expression
-profile is performed against the "target profile" of the given TF, where
+profile is performed against the "target profile" of the given source, where
 in the target profile, any regulon member is assigned a \code{+1} for activating
 interactions and a \code{-1} for inhibitory interactions. All other genes not
-members of the TF's regulon are assigned a value o \code{0}. TF activity is then
+members of the source's regulon are assigned a value o \code{0}. Source activity is then
 defined as the t-statistic of this linear regression.
 }
 \examples{
@@ -74,16 +74,16 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_scira(mat, network, tf, target, mor)
+run_scira(mat, network, .source='tf')
 }
 \seealso{
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_aucell}()},
 \code{\link{run_gsva}()},
-\code{\link{run_mean}()},
 \code{\link{run_ora}()},
 \code{\link{run_pscira}()},
-\code{\link{run_viper}()}
+\code{\link{run_viper}()},
+\code{\link{run_wmean}()}
 }
 \concept{decoupleR statistics}

@@ -43,11 +43,11 @@ methods.}
 \item{show_toy_call}{The call of each statistic must be informed?}
 }
 \value{
-A long format tibble of the enrichment scores for each tf
+A long format tibble of the enrichment scores for each source
 across the samples. Resulting tibble contains the following columns:
 \enumerate{
 \item \code{statistic}: Indicates which method is associated with which score.
-\item \code{tf}: Source nodes of \code{network}.
+\item \code{source}: Source nodes of \code{network}.
 \item \code{condition}: Condition representing each column of \code{mat}.
 \item \code{score}: Regulatory activity (enrichment score).
 \item \code{statistic_time}: If requested, internal execution time indicator.
@@ -55,7 +55,7 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculate the TF activity per sample out of a gene expression matrix by
+Calculate the source activity per sample out of a gene expression matrix by
 coupling a regulon network with a variety of statistics.
 }
 \examples{
@@ -70,10 +70,10 @@ if (FALSE) {
         network = network,
         .source = "tf",
         .target = "target",
-        statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+        statistics = c("gsva", "wmean", "pscira", "scira", "viper"),
         args = list(
             gsva = list(verbose = FALSE),
-            mean = list(.mor = "mor", .likelihood = "likelihood"),
+            wmean = list(.mor = "mor", .likelihood = "likelihood"),
             pscira = list(.mor = "mor"),
             scira = list(.mor = "mor"),
             viper = list(
@@ -89,10 +89,10 @@ if (FALSE) {
 Other decoupleR statistics: 
 \code{\link{run_aucell}()},
 \code{\link{run_gsva}()},
-\code{\link{run_mean}()},
 \code{\link{run_ora}()},
 \code{\link{run_pscira}()},
 \code{\link{run_scira}()},
-\code{\link{run_viper}()}
+\code{\link{run_viper}()},
+\code{\link{run_wmean}()}
 }
 \concept{decoupleR statistics}

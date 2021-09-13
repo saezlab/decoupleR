@@ -17,7 +17,7 @@
 #'    Return a named list of sources with associated targets.
 #' * `convert_to_gsva()`
 #'    Return a list of sources with associated targets suitable for [GSVA::gsva()].
-#' * `convert_to_mean()`
+#' * `convert_to_wmean()`
 #'    Return a tibble with four columns: `source`, `target`, `mor` and `likelihood`.
 #' * `convert_to_ora()`
 #'    Return a named list of sources with associated targets.
@@ -42,7 +42,7 @@
 #' convert_to_(network)
 #' convert_to_aucell(network, source, target)
 #' convert_to_gsva(network, source, target)
-#' convert_to_mean(network, source, target, mor, likelihood)
+#' convert_to_wmean(network, source, target, mor, likelihood)
 #' convert_to_ora(network, source, target)
 #' convert_to_pscira(network, source, target, mor)
 #' convert_to_scira(network, source, target, mor)
@@ -127,15 +127,15 @@ convert_to_pscira <- function(network, .source, .target, .mor = NULL, .likelihoo
         mutate(mor = sign(.data$mor))
 }
 
-# mean --------------------------------------------------------------------
+# wmean --------------------------------------------------------------------
 
 #' @rdname convert_to_
 #'
-#' @inheritParams run_mean
+#' @inheritParams run_wmean
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_mean <- function(network,
+convert_to_wmean <- function(network,
                             .source,
                             .target,
                             .mor = NULL,

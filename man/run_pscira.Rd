@@ -7,12 +7,12 @@
 run_pscira(
   mat,
   network,
-  .source = .data$tf,
+  .source = .data$source,
   .target = .data$target,
   .mor = .data$mor,
   .likelihood = .data$likelihood,
   sparse = TRUE,
-  times = 10,
+  times = 100,
   seed = 42
 )
 }
@@ -40,25 +40,25 @@ should be sparse.}
 \item{seed}{A single value, interpreted as an integer, or NULL.}
 }
 \value{
-A long format tibble of the enrichment scores for each tf
+A long format tibble of the enrichment scores for each source
 across the samples. Resulting tibble contains the following columns:
 \enumerate{
 \item \code{statistic}: Indicates which method is associated with which score.
-\item \code{tf}: Source nodes of \code{network}.
+\item \code{source}: Source nodes of \code{network}.
 \item \code{condition}: Condition representing each column of \code{mat}.
 \item \code{score}: Regulatory activity (enrichment score).
 }
 }
 \description{
-Calculate the regulatory activity of each tf by multiplying the expression
+Calculate the regulatory activity of each source by multiplying the expression
 values of its objectives with their corresponding associated profiles for
 each given condition.The result is equal to the z-score of the found value
 compared to its null distribution.
 }
 \details{
 PSCIRA estimates the regulatory activity by performing a linear combination
-of the expression profile and the target profile of a given TF. In the
-target profile of a TF, any regulon member is assigned a +1 for activating
+of the expression profile and the target profile of a given source. In the
+target profile of a source, any regulon member is assigned a +1 for activating
 interactions and a -1 for inhibitory interactions. Additionally, any
 positive weight can be added to each interaction. A normalized score per
 score is calculated by calculating a z-score using a null distribution
@@ -72,16 +72,16 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_pscira(mat, network, tf, target, mor)
+run_pscira(mat, network, .source='tf')
 }
 \seealso{
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_aucell}()},
 \code{\link{run_gsva}()},
-\code{\link{run_mean}()},
 \code{\link{run_ora}()},
 \code{\link{run_scira}()},
-\code{\link{run_viper}()}
+\code{\link{run_viper}()},
+\code{\link{run_wmean}()}
 }
 \concept{decoupleR statistics}

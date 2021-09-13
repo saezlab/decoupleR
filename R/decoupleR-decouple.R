@@ -38,10 +38,10 @@
 #'         network = network,
 #'         .source = "tf",
 #'         .target = "target",
-#'         statistics = c("gsva", "mean", "pscira", "scira", "viper"),
+#'         statistics = c("gsva", "wmean", "pscira", "scira", "viper"),
 #'         args = list(
 #'             gsva = list(verbose = FALSE),
-#'             mean = list(.mor = "mor", .likelihood = "likelihood"),
+#'             wmean = list(.mor = "mor", .likelihood = "likelihood"),
 #'             pscira = list(.mor = "mor"),
 #'             scira = list(.mor = "mor"),
 #'             viper = list(
@@ -122,7 +122,7 @@ decouple <- function(mat,
 .select_statistics <- function(statistics) {
     available_statistics <- list(
         aucell = expr(run_aucell),
-        mean = expr(run_mean),
+        wmean = expr(run_wmean),
         scira = expr(run_scira),
         pscira = expr(run_pscira),
         viper = expr(run_viper),

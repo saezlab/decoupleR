@@ -70,11 +70,11 @@ if (FALSE) {
         network = network,
         .source = "tf",
         .target = "target",
-        statistics = c("gsva", "wmean", "pscira", "scira", "viper"),
+        statistics = c("gsva", "wmean", "wsum", "scira", "viper"),
         args = list(
             gsva = list(verbose = FALSE),
             wmean = list(.mor = "mor", .likelihood = "likelihood"),
-            pscira = list(.mor = "mor"),
+            wsum = list(.mor = "mor"),
             scira = list(.mor = "mor"),
             viper = list(
                 .mor = "mor",
@@ -90,9 +90,9 @@ Other decoupleR statistics:
 \code{\link{run_aucell}()},
 \code{\link{run_gsva}()},
 \code{\link{run_ora}()},
-\code{\link{run_pscira}()},
 \code{\link{run_scira}()},
 \code{\link{run_viper}()},
-\code{\link{run_wmean}()}
+\code{\link{run_wmean}()},
+\code{\link{run_wsum}()}
 }
 \concept{decoupleR statistics}

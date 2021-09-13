@@ -21,7 +21,7 @@
 #'    Return a tibble with four columns: `source`, `target`, `mor` and `likelihood`.
 #' * `convert_to_ora()`
 #'    Return a named list of sources with associated targets.
-#' * `convert_to_pscira()`
+#' * `convert_to_wsum()`
 #'    Returns a tibble with three columns: `source`, `target` and `mor`.
 #' * `convert_to_scira()`
 #'    Returns a tibble with three columns: `source`, `target` and `mor`.
@@ -44,7 +44,7 @@
 #' convert_to_gsva(network, source, target)
 #' convert_to_wmean(network, source, target, mor, likelihood)
 #' convert_to_ora(network, source, target)
-#' convert_to_pscira(network, source, target, mor)
+#' convert_to_wsum(network, source, target, mor)
 #' convert_to_scira(network, source, target, mor)
 #' convert_to_viper(network, source, target, mor, likelihood)
 convert_to_ <- function(network) invisible(network)
@@ -77,7 +77,7 @@ convert_to_aucell <- function(network, .source, .target) {
         pull(.data$regulons)
 }
 
-# scira and pscira ------------------------------------------------------
+# scira and wsum ------------------------------------------------------
 
 #' @rdname convert_to_
 #'
@@ -105,11 +105,11 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL, .likelihood
 
 #' @rdname convert_to_
 #'
-#' @inheritParams run_pscira
+#' @inheritParams run_wsum
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_pscira <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
+convert_to_wsum <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )

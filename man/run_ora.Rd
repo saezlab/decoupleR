@@ -108,9 +108,9 @@ Other decoupleR statistics:
 \code{\link{decouple}()},
 \code{\link{run_aucell}()},
 \code{\link{run_gsva}()},
-\code{\link{run_pscira}()},
 \code{\link{run_scira}()},
 \code{\link{run_viper}()},
-\code{\link{run_wmean}()}
+\code{\link{run_wmean}()},
+\code{\link{run_wsum}()}
 }
 \concept{decoupleR statistics}

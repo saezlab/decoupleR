@@ -1,15 +1,15 @@
 #' PSCIRA (Permutation Single Cell Inference of Regulatory Activity)
 #'
 #' @description
-#' Calculate the regulatory activity of each tf by multiplying the expression
+#' Calculate the regulatory activity of each source by multiplying the expression
 #' values of its objectives with their corresponding associated profiles for
 #' each given condition.The result is equal to the z-score of the found value
 #' compared to its null distribution.
 #'
 #' @details
 #' PSCIRA estimates the regulatory activity by performing a linear combination
-#' of the expression profile and the target profile of a given TF. In the
-#' target profile of a TF, any regulon member is assigned a +1 for activating
+#' of the expression profile and the target profile of a given source. In the
+#' target profile of a source, any regulon member is assigned a +1 for activating
 #' interactions and a -1 for inhibitory interactions. Additionally, any
 #' positive weight can be added to each interaction. A normalized score per
 #' score is calculated by calculating a z-score using a null distribution
@@ -35,10 +35,10 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_pscira(mat, network, tf, target, mor)
+#' run_pscira(mat, network, .source='tf')
 run_pscira <- function(mat,
                        network,
-                       .source = .data$tf,
+                       .source = .data$source,
                        .target = .data$target,
                        .mor = .data$mor,
                        .likelihood = .data$likelihood,
@@ -55,13 +55,13 @@ run_pscira <- function(mat,
 
     # Preprocessing -----------------------------------------------------------
 
-    # Convert to standard tibble: tf-target-mor.
+    # Convert to standard tibble: source-target-mor.
     network <- network %>%
         convert_to_pscira({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
     # Extract labels that will map to the expression and profile matrices
-    tfs <- network %>%
-        pull(.data$tf) %>%
+    sources <- network %>%
+        pull(.data$source) %>%
         unique()
 
     # Ensures column matching, expands the target profile to encompass
@@ -69,11 +69,11 @@ run_pscira <- function(mat,
     # the result to a matrix.
     mor_mat <- network %>%
         get_profile_of(
-            sources = list(tf = tfs, target = rownames(mat)),
+            sources = list(source = sources, target = rownames(mat)),
             values_fill = list(mor = 0)
         ) %>%
         pivot_wider_profile(
-            id_cols = .data$tf,
+            id_cols = .data$source,
             names_from = .data$target,
             values_from = .data$mor,
             to_matrix = TRUE,
@@ -82,11 +82,11 @@ run_pscira <- function(mat,
 
     likelihood_mat <- network %>%
         get_profile_of(
-            sources = list(tf = tfs, target = rownames(mat)),
+            sources = list(source = sources, target = rownames(mat)),
             values_fill = list(likelihood = 0)
         ) %>%
         pivot_wider_profile(
-            id_cols = .data$tf,
+            id_cols = .data$source,
             names_from = .data$target,
             values_from = .data$likelihood,
             to_matrix = TRUE,
@@ -111,7 +111,7 @@ run_pscira <- function(mat,
 #'
 #' @inheritParams run_pscira
 #' @param mor_mat Matrix that corresponds to the mor of the
-#' target genes (columns) of a tf (rows).
+#' target genes (columns) of a source (rows).
 #'
 #' @inherit run_pscira return
 #' @keywords intern
@@ -124,14 +124,14 @@ run_pscira <- function(mat,
     )
 
     map_dfr(seq_len(times), ~ pscira_run(random = TRUE)) %>%
-        group_by(.data$tf, .data$condition) %>%
+        group_by(.data$source, .data$condition) %>%
         summarise(
             null_distribution = list(.data$value),
             .mean = mean(.data$value),
             .sd = sd(.data$value),
             .groups = "drop"
         ) %>%
-        left_join(pscira_run(random = FALSE), by = c("tf", "condition")) %>%
+        left_join(pscira_run(random = FALSE), by = c("source", "condition")) %>%
         mutate(
             score = (.data$value - .data$.mean) / .data$.sd,
             score = replace_na(.data$score, 0),
@@ -149,8 +149,8 @@ run_pscira <- function(mat,
             names_to = "statistic",
             values_to = "score"
         ) %>%
-        arrange(.data$statistic, .data$tf, .data$condition) %>%
-        select(.data$statistic, .data$tf, .data$condition, .data$score, .data$p_value)
+        arrange(.data$statistic, .data$source, .data$condition) %>%
+        select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
 }
 
 #'  Wrapper to perform mat %*% mor_mat
@@ -186,18 +186,18 @@ run_pscira <- function(mat,
 
 #' Evaluate model
 #'
-#' Calculates the regulatory activity of all tfs with respect to its
+#' Calculates the regulatory activity of all sources with respect to its
 #' associated profile for each condition.
 #'
 #' @inheritParams .pscira_run
 #'
-#' @return Tibble with tf regulatory activity for each tf-sample pair.
+#' @return Tibble with source activity for each source-sample pair.
 #' @keywords internal
 #' @noRd
 .pscira_evaluate_model <- function(mat, mor_mat) {
     (mor_mat %*% mat) %>%
         as.matrix() %>%
         as.data.frame() %>%
-        rownames_to_column("tf") %>%
-        pivot_longer(-.data$tf, names_to = "condition")
+        rownames_to_column("source") %>%
+        pivot_longer(-.data$source, names_to = "condition")
 }

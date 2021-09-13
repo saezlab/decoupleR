@@ -26,7 +26,7 @@ run_consensus <- function(df,
   # Split each sample by method
   stats_names <- unique(df[[statistic]])
   consensus <- lst_conds %>%
-    # Generate a sorted list of TFs per method
+    # Generate a sorted list of sources per method
     map(function(df){
       df %>%
         group_by(statistic) %>%
@@ -34,7 +34,7 @@ run_consensus <- function(df,
         map(function(df){
           df %>%
             arrange(desc(abs(score))) %>%
-            select(tf) %>%
+            select(source) %>%
             pull()
         })
     }) %>%
@@ -46,7 +46,7 @@ run_consensus <- function(df,
     # Transform back to tibble
     map2(., names(.), function(df, cond){
       as_tibble(df) %>%
-        rename('tf' = Name, 'score' = Score) %>%
+        rename('source' = Name, 'score' = Score) %>%
         mutate(score= -log10(score),
                statistic = 'consensus',
                condition = cond,

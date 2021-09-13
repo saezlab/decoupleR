@@ -1,6 +1,6 @@
 #' Evaluate multiple statistics with same input data
 #'
-#' Calculate the TF activity per sample out of a gene expression matrix by
+#' Calculate the source activity per sample out of a gene expression matrix by
 #' coupling a regulon network with a variety of statistics.
 #'
 #' @inheritParams .decoupler_mat_format
@@ -15,10 +15,10 @@
 #' @param include_time Should the time per statistic evaluated be informed?
 #' @param show_toy_call The call of each statistic must be informed?
 #'
-#' @return A long format tibble of the enrichment scores for each tf
+#' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
-#'  2. `tf`: Source nodes of `network`.
+#'  2. `source`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #'  5. `statistic_time`: If requested, internal execution time indicator.
@@ -92,7 +92,7 @@ decouple <- function(mat,
         select(
             .data$run_id,
             .data$statistic,
-            .data$tf,
+            .data$source,
             .data$condition,
             .data$score,
             if_else(include_time, .data$statistic_time, NULL),

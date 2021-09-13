@@ -20,10 +20,10 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_aucell(mat, network)
+#' run_aucell(mat, network, .source='tf')
 run_aucell <- function(mat,
                        network,
-                       .source = .data$tf,
+                       .source = .data$source,
                        .target = .data$target,
                        aucMaxRank = ceiling(0.05 * nrow(rankings)),
                        nCores = 1) {
@@ -54,8 +54,8 @@ run_aucell <- function(mat,
   ) %>%
     .extract_assay_auc() %>%
     as.data.frame() %>%
-    rownames_to_column("tf") %>%
-    pivot_longer(-tf ,names_to = "condition", values_to = "score") %>%
+    rownames_to_column("source") %>%
+    pivot_longer(-source ,names_to = "condition", values_to = "score") %>%
     add_column(statistic = "aucell", .before = 1)
 
 }

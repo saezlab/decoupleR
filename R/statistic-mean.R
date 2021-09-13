@@ -18,10 +18,10 @@
 #' @param sparse Should the matrices used for the calculation be sparse?
 #' @param randomize_type How to randomize the expression matrix.
 #'
-#' @return A long format tibble of the enrichment scores for each tf
+#' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
-#'  2. `tf`: Source nodes of `network`.
+#'  2. `source`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #'  5. `p_value`: p-value for the score of mean method.
@@ -38,10 +38,10 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_mean(mat, network, tf, target, mor, likelihood)
+#' run_mean(mat, network, .source='tf')
 run_mean <- function(mat,
                      network,
-                     .source = .data$tf,
+                     .source = .data$source,
                      .target = .data$target,
                      .mor = .data$mor,
                      .likelihood = .data$likelihood,
@@ -68,8 +68,6 @@ run_mean <- function(mat,
         .mean_calculate_weight()
 
     # Extract labels that will map to the expression and profile matrices
-    tfs <- unique(network[["tf"]])
-
     shared_targets <- unique(network[["target"]])
 
     targets <- rownames(mat)
@@ -78,7 +76,7 @@ run_mean <- function(mat,
     # Extract matrix of weights
     weight_mat <- network %>%
         pivot_wider_profile(
-            id_cols = .data$tf,
+            id_cols = .data$source,
             names_from = .data$target,
             values_from = .data$weight,
             to_matrix = TRUE,
@@ -127,7 +125,7 @@ run_mean <- function(mat,
 
     # Run model for random data
     map_dfr(seq_len(times), ~ mean_run(random = TRUE)) %>%
-        group_by(.data$tf, .data$condition) %>%
+        group_by(.data$source, .data$condition) %>%
         summarise(
             null_distribution = list(.data$value),
             null_mean = mean(.data$value),
@@ -135,7 +133,7 @@ run_mean <- function(mat,
             .groups = "drop"
         ) %>%
         # Run the true model and joined to random.
-        left_join(y = mean_run(random = FALSE), by = c("tf", "condition")) %>%
+        left_join(y = mean_run(random = FALSE), by = c("source", "condition")) %>%
         # Calculate scores
         mutate(
             z_score = (.data$value - .data$null_mean) / .data$null_sd,
@@ -156,8 +154,8 @@ run_mean <- function(mat,
             names_to = "statistic",
             values_to = "score"
         ) %>%
-        arrange(.data$statistic, .data$tf, .data$condition) %>%
-        select(.data$statistic, .data$tf, .data$condition, .data$score, .data$p_value)
+        arrange(.data$statistic, .data$source, .data$condition) %>%
+        select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
 }
 
 #' Wrapper to run mean one time
@@ -178,9 +176,9 @@ run_mean <- function(mat,
 #' @noRd
 .mean_calculate_weight <- function(network) {
     network %>%
-        add_count(.data$tf, name = "contribution") %>%
+        add_count(.data$source, name = "contribution") %>%
         transmute(
-            .data$tf,
+            .data$source,
             .data$target,
             weight = .data$mor * .data$likelihood
         )
@@ -215,7 +213,7 @@ run_mean <- function(mat,
 #' @inheritParams .mean_analysis
 #'
 #' @return A dataframe with three columns:
-#'  tf (source nodes), condition (colnames of mat) and value (score).
+#'  source (source nodes), condition (colnames of mat) and value (score).
 #'
 #' @keywords internal
 #' @noRd
@@ -223,6 +221,6 @@ run_mean <- function(mat,
     (weight_mat %*% mat) %>%
         as.matrix() %>%
         as.data.frame() %>%
-        rownames_to_column("tf") %>%
-        pivot_longer(-.data$tf, names_to = "condition")
+        rownames_to_column("source") %>%
+        pivot_longer(-.data$source, names_to = "condition")
 }

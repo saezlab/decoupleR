@@ -15,10 +15,10 @@
 #'   and return the first `n` rows.
 #' @inheritDotParams stats::fisher.test -x -y
 #'
-#' @return A long format tibble of the enrichment scores for each tf
+#' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
-#'  2. `tf`: Source nodes of `network`.
+#'  2. `source`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #' @family decoupleR statistics
@@ -29,10 +29,10 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_ora(mat, network, tf, target)
+#' run_ora(mat, network, .source='tf', target)
 run_ora <- function(mat,
                     network,
-                    .source = .data$tf,
+                    .source = .data$source,
                     .target = .data$target,
                     n_up = nrow(mat),
                     n_bottom = 0,
@@ -61,7 +61,7 @@ run_ora <- function(mat,
 #' Wrapper to execute `run_ora()` logic one finished preprocessing of data
 #'
 #' @inheritParams run_ora
-#' @param regulons Named list; names from `.data$tf` and values
+#' @param regulons Named list; names from `.data$source` and values
 #'  from `.data$target`.
 #' @param targets Named list; names from columns of `mat` and
 #'  values from sliced data of `mat`.
@@ -70,17 +70,17 @@ run_ora <- function(mat,
 #' @keywords internal
 #' @noRd
 .ora_analysis <- function(regulons, targets, n_background, ...) {
-    expand_grid(tf = names(regulons), condition = names(targets)) %>%
-        rowwise(.data$tf, .data$condition) %>%
+    expand_grid(source = names(regulons), condition = names(targets)) %>%
+        rowwise(.data$source, .data$condition) %>%
         summarise(.ora_fisher_exact_test(
-            expected = regulons[[.data$tf]],
+            expected = regulons[[.data$source]],
             observed = targets[[.data$condition]],
             n_background = n_background,
             ...
         ),
         .groups = "drop"
         ) %>%
-        select(.data$tf, .data$condition,
+        select(.data$source, .data$condition,
             score = .data$p.value, everything()
         ) %>%
         mutate(score = -log10(score)) %>%

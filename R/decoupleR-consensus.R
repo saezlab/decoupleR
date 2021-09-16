@@ -1,7 +1,7 @@
 #' Function to generate a consensus score between methods from the
 #' result of decouple
 #'
-#' @param df deocuple results
+#' @param df decouple results
 #' @param condition Column name for sample names
 #' @param statistic Column name for statistic names
 #'
@@ -12,7 +12,10 @@
 #' @export
 run_consensus <- function(df,
                           condition='condition',
-                          statistic='statistic'){
+                          statistic='statistic',
+                          include_time=FALSE
+                          ){
+  start_time <- Sys.time()
   # Split df by samples
   cond_names <- unique(df$condition)
   lst_conds <- df %>%
@@ -23,7 +26,7 @@ run_consensus <- function(df,
   # Split each sample by method
   stats_names <- unique(df[[statistic]])
   consensus <- lst_conds %>%
-    # Generate a sorted list of TFs per method
+    # Generate a sorted list of sources per method
     map(function(df){
       df %>%
         group_by(statistic) %>%
@@ -31,7 +34,7 @@ run_consensus <- function(df,
         map(function(df){
           df %>%
             arrange(desc(abs(score))) %>%
-            select(tf) %>%
+            select(source) %>%
             pull()
         })
     }) %>%
@@ -43,7 +46,7 @@ run_consensus <- function(df,
     # Transform back to tibble
     map2(., names(.), function(df, cond){
       as_tibble(df) %>%
-        rename('tf' = Name, 'score' = Score) %>%
+        rename('source' = Name, 'score' = Score) %>%
         mutate(score= -log10(score),
                statistic = 'consensus',
                condition = cond,
@@ -52,8 +55,17 @@ run_consensus <- function(df,
     }) %>%
     bind_rows()
 
+  if (include_time) {
+    consensus <- consensus %>%
+      add_column(
+        statistic_time = difftime(Sys.time(), start_time),
+        .after = "score"
+      )
+  }
+
   # Join results
   result <- list(df, consensus) %>% bind_rows()
+
   result
 }
 

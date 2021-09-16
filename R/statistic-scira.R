@@ -1,17 +1,17 @@
 #' SCIRA (Single Cell Inference of Regulatory Activity)
 #'
 #' @description
-#' Calculates TF activity according to
+#' Calculates source activity according to
 #' [Improved detection of tumor suppressor events in single-cell RNA-Seq data](
 #' https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13)
 #' .
 #'
 #' @details
 #' Estimation of regulatory activity: A linear regression of the expression
-#' profile is performed against the "target profile" of the given TF, where
+#' profile is performed against the "target profile" of the given source, where
 #' in the target profile, any regulon member is assigned a `+1` for activating
 #' interactions and a `-1` for inhibitory interactions. All other genes not
-#' members of the TF's regulon are assigned a value o `0`. TF activity is then
+#' members of the source's regulon are assigned a value o `0`. Source activity is then
 #' defined as the t-statistic of this linear regression.
 #'
 #' @inheritParams .decoupler_mat_format
@@ -25,10 +25,10 @@
 #' @param na.rm Should missing values (including NaN) be omitted from the
 #'  calculations of [base::rowMeans()]?
 #'
-#' @return A long format tibble of the enrichment scores for each tf
+#' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
-#'  2. `tf`: Source nodes of `network`.
+#'  2. `source`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #' @family decoupleR statistics
@@ -46,10 +46,10 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_scira(mat, network, tf, target, mor)
+#' run_scira(mat, network, .source='tf')
 run_scira <- function(mat,
                       network,
-                      .source = .data$tf,
+                      .source = .data$source,
                       .target = .data$target,
                       .mor = .data$mor,
                       .likelihood = .data$likelihood,
@@ -61,7 +61,7 @@ run_scira <- function(mat,
     check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
-    # Convert to standard tibble: tf-target-mor.
+    # Convert to standard tibble: source-target-mor.
     network <- network %>%
         convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
@@ -85,7 +85,7 @@ run_scira <- function(mat,
 #'
 #' @return A named list of matrices to evaluate in `.scira_analysis()`.
 #'  - mat: Genes as rows and conditions as columns.
-#'  - mor_mat: Genes as rows and columns as tfs.
+#'  - mor_mat: Genes as rows and columns as source.
 #' @keywords intern
 #' @noRd
 .scira_preprocessing <- function(network, mat, center, na.rm, sparse) {
@@ -100,7 +100,7 @@ run_scira <- function(mat,
         filter(.data$target %in% shared_targets) %>%
         pivot_wider_profile(
             id_cols = .data$target,
-            names_from = .data$tf,
+            names_from = .data$source,
             values_from = .data$mor,
             values_fill = 0,
             to_matrix = TRUE,
@@ -112,7 +112,7 @@ run_scira <- function(mat,
         filter(.data$target %in% shared_targets) %>%
         pivot_wider_profile(
             id_cols = .data$target,
-            names_from = .data$tf,
+            names_from = .data$source,
             values_from = .data$likelihood,
             values_fill = 0,
             to_matrix = TRUE,
@@ -150,18 +150,18 @@ run_scira <- function(mat,
     # Allocate the space for all combinations of sources and conditions
     # and evaluate the proposed model.
     expand_grid(
-        tf = colnames(mor_mat),
+        source = colnames(mor_mat),
         condition = colnames(mat)
     ) %>%
-        rowwise(.data$tf, .data$condition) %>%
+        rowwise(.data$source, .data$condition) %>%
         summarise(
-            score = scira_evaluate_model(.data$tf, .data$condition),
+            score = scira_evaluate_model(.data$source, .data$condition),
             .groups = "drop"
         ) %>%
-        transmute(statistic = "scira", .data$tf, .data$condition, .data$score)
+        transmute(statistic = "scira", .data$source, .data$condition, .data$score)
 }
 
-#' Wrapper to run scira one tf (source) per sample (condition) at time
+#' Wrapper to run scira one source (source) per sample (condition) at time
 #'
 #' @keywords internal
 #' @noRd

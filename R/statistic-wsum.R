@@ -1,14 +1,14 @@
-#' Weighted mean
+#' Weighted sum
 #'
 #' Calculate the activity of all regulons in `network` through the conditions in
-#' the `mat` matrix by calculating the mean over the expression of all genes.
+#' the `mat` matrix by calculating the weighted sum over the expression of all genes.
 #'
 #' @details
-#'  `run_mean()` calculates the activity score, but in addition, it takes
+#'  `run_wsum()` calculates the activity score, but in addition, it takes
 #'  advantage of the permutations used to calculate the `p-value`, to provide
 #'  the normalized and corrected activity scores. This is represented in the `statistic` column
-#'  which will contain three values for each call to `run_mean()`; __mean__,
-#'  __normalized_mean__ and __corrected_mean__.
+#'  which will contain three values for each call to `run_wsum()`; __wsum__,
+#'  __norm_wsum__ and __corr_wsum__.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -18,13 +18,13 @@
 #' @param sparse Should the matrices used for the calculation be sparse?
 #' @param randomize_type How to randomize the expression matrix.
 #'
-#' @return A long format tibble of the enrichment scores for each tf
+#' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
-#'  2. `tf`: Source nodes of `network`.
+#'  2. `source`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
-#'  5. `p_value`: p-value for the score of mean method.
+#'  5. `p_value`: p-value for the score of the method.
 #' @family decoupleR statistics
 #' @export
 #' @import dplyr
@@ -38,17 +38,17 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_mean(mat, network, tf, target, mor, likelihood)
-run_mean <- function(mat,
-                     network,
-                     .source = .data$tf,
-                     .target = .data$target,
-                     .mor = .data$mor,
-                     .likelihood = .data$likelihood,
-                     times = 2,
-                     seed = 42,
-                     sparse = TRUE,
-                     randomize_type = "rows") {
+#' run_wsum(mat, network, .source='tf')
+run_wsum <- function(mat,
+                      network,
+                      .source = .data$source,
+                      .target = .data$target,
+                      .mor = .data$mor,
+                      .likelihood = .data$likelihood,
+                      times = 100,
+                      seed = 42,
+                      sparse = TRUE,
+                      randomize_type = "rows") {
     # Before to start ---------------------------------------------------------
     if (times < 2) {
         rlang::abort(message = stringr::str_glue("Parameter 'times' must be greater than or equal to 2, but {times} was passed."))
@@ -58,18 +58,16 @@ run_mean <- function(mat,
     check_nas_infs(mat)
 
     network <- network %>%
-        convert_to_mean({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+        convert_to_wsum({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
     # Preprocessing -----------------------------------------------------------
 
     # Calculate the weights that will be used for the evaluation of the model
     network <- network %>%
         filter(.data$target %in% rownames(mat)) %>%
-        .mean_calculate_weight()
+        .wsum_calculate_weight()
 
     # Extract labels that will map to the expression and profile matrices
-    tfs <- unique(network[["tf"]])
-
     shared_targets <- unique(network[["target"]])
 
     targets <- rownames(mat)
@@ -78,7 +76,7 @@ run_mean <- function(mat,
     # Extract matrix of weights
     weight_mat <- network %>%
         pivot_wider_profile(
-            id_cols = .data$tf,
+            id_cols = .data$source,
             names_from = .data$target,
             values_from = .data$weight,
             to_matrix = TRUE,
@@ -88,37 +86,34 @@ run_mean <- function(mat,
 
     weight_mat <- as.matrix(weight_mat)
 
-    # This fixes the wrong denominator defined in contribution
-    weight_mat <- weight_mat/rowSums(abs(weight_mat))
-
     # Analysis ----------------------------------------------------------------
     withr::with_seed(seed, {
-        .mean_analysis(mat, weight_mat, shared_targets, times, randomize_type)
+        .wsum_analysis(mat, weight_mat, shared_targets, times, randomize_type)
     })
 
 }
 
 # Helper functions --------------------------------------------------------
 
-#' Wrapper to execute run_mean() logic once finished preprocessing of data
+#' Wrapper to execute run_wsum() logic once finished preprocessing of data
 #'
-#' @inherit run_mean description
+#' @inherit run_wsum description
 #'
-#' @inheritParams run_mean
+#' @inheritParams run_wsum
 #' @param weight_mat Matrix that corresponds to the multiplication of the mor
 #'  column with likelihood divided over the contribution.
 #' @param shared_targets Target nodes that are shared between the
 #'  `mat` and `network`.
 #'
-#' @inherit run_mean return
+#' @inherit run_wsum return
 #'
 #' @keywords internal
 #' @noRd
-.mean_analysis <- function(mat, weight_mat, shared_targets, times, randomize_type) {
+.wsum_analysis <- function(mat, weight_mat, shared_targets, times, randomize_type) {
     # Thus, it is only necessary to define if we want
     # to evaluate a random model or not.
-    mean_run <- partial(
-        .mean_run,
+    wsum_run <- partial(
+        .wsum_run,
         mat = mat,
         weight_mat = weight_mat,
         shared_targets = shared_targets,
@@ -126,8 +121,8 @@ run_mean <- function(mat,
     )
 
     # Run model for random data
-    map_dfr(seq_len(times), ~ mean_run(random = TRUE)) %>%
-        group_by(.data$tf, .data$condition) %>%
+    map_dfr(seq_len(times), ~ wsum_run(random = TRUE)) %>%
+        group_by(.data$source, .data$condition) %>%
         summarise(
             null_distribution = list(.data$value),
             null_mean = mean(.data$value),
@@ -135,7 +130,7 @@ run_mean <- function(mat,
             .groups = "drop"
         ) %>%
         # Run the true model and joined to random.
-        left_join(y = mean_run(random = FALSE), by = c("tf", "condition")) %>%
+        left_join(y = wsum_run(random = FALSE), by = c("source", "condition")) %>%
         # Calculate scores
         mutate(
             z_score = (.data$value - .data$null_mean) / .data$null_sd,
@@ -150,37 +145,37 @@ run_mean <- function(mat,
         ) %>%
         # Reformat results
         select(-contains("null")) %>%
-        rename(corrected_mean = .data$c_score, mean = .data$value, normalized_mean = .data$z_score) %>%
+        rename(corr_wsum = .data$c_score, wsum = .data$value, norm_wsum = .data$z_score) %>%
         pivot_longer(
-            cols = c(.data$corrected_mean, .data$mean, .data$normalized_mean),
+            cols = c(.data$corr_wsum, .data$wsum, .data$norm_wsum),
             names_to = "statistic",
             values_to = "score"
         ) %>%
-        arrange(.data$statistic, .data$tf, .data$condition) %>%
-        select(.data$statistic, .data$tf, .data$condition, .data$score, .data$p_value)
+        arrange(.data$statistic, .data$source, .data$condition) %>%
+        select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
 }
 
-#' Wrapper to run mean one time
+#' Wrapper to run wsum one time
 #'
-#' @inheritParams .mean_analysis
-#' @inherit .mean_evaluate_model return
+#' @inheritParams .wsum_analysis
+#' @inherit .wsum_evaluate_model return
 #' @keywords internal
 #' @noRd
-.mean_run <- function(mat, weight_mat, shared_targets, random, randomize_type) {
-    .mean_map_model_data(mat, shared_targets, random, randomize_type) %>%
-        .mean_evaluate_model(weight_mat)
+.wsum_run <- function(mat, weight_mat, shared_targets, random, randomize_type) {
+    .wsum_map_model_data(mat, shared_targets, random, randomize_type) %>%
+        .wsum_evaluate_model(weight_mat)
 }
 
-#' Calculate mean weight
+#' Calculate sum weight
 #'
-#' @inheritParams .mean_analysis
+#' @inheritParams .wsum_analysis
 #' @keywords internal
 #' @noRd
-.mean_calculate_weight <- function(network) {
+.wsum_calculate_weight <- function(network) {
     network %>%
-        add_count(.data$tf, name = "contribution") %>%
+        add_count(.data$source, name = "contribution") %>%
         transmute(
-            .data$tf,
+            .data$source,
             .data$target,
             weight = .data$mor * .data$likelihood
         )
@@ -195,10 +190,10 @@ run_mean <- function(mat,
 #'
 #' @return Matrix with rows that match `shared_targets`.
 #'
-#' @inheritParams .mean_analysis
+#' @inheritParams .wsum_analysis
 #' @keywords internal
 #' @noRd
-.mean_map_model_data <- function(mat, shared_targets, random, randomize_type) {
+.wsum_map_model_data <- function(mat, shared_targets, random, randomize_type) {
     if (random) {
         randomize_matrix(mat, randomize_type = randomize_type)[shared_targets, ]
     } else {
@@ -212,17 +207,17 @@ run_mean <- function(mat,
 #' weights by the factor of interest and comparing it against results
 #' from permutations of the matrix of values of interest.
 #'
-#' @inheritParams .mean_analysis
+#' @inheritParams .wsum_analysis
 #'
 #' @return A dataframe with three columns:
-#'  tf (source nodes), condition (colnames of mat) and value (score).
+#'  source (source nodes), condition (colnames of mat) and value (score).
 #'
 #' @keywords internal
 #' @noRd
-.mean_evaluate_model <- function(mat, weight_mat) {
+.wsum_evaluate_model <- function(mat, weight_mat) {
     (weight_mat %*% mat) %>%
         as.matrix() %>%
         as.data.frame() %>%
-        rownames_to_column("tf") %>%
-        pivot_longer(-.data$tf, names_to = "condition")
+        rownames_to_column("source") %>%
+        pivot_longer(-.data$source, names_to = "condition")
 }

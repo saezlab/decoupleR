@@ -27,10 +27,7 @@
 #' @import dplyr
 #' @import purrr
 #' @import tibble
-#' @import tidyr
-#' @import tidymodels
-#' @importFrom stats coef lm summary.lm
-#' @importFrom speedglm speedlm.fit
+#' @import parsnip
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -156,8 +153,8 @@ run_nolea <- function(mat,
 #' @noRd
 .nolea_evaluate_model <- function(condition, mat, mor_mat) {
   set.seed(42)
-  rand_forest(trees = 500, mode = "regression") %>%
-    set_engine("ranger", importance = "impurity", num.threads = 1) %>%
-    fit(condition ~ ., data = data.frame(condition=mat[, condition], mor_mat)) %>%
+  parsnip::rand_forest(trees = 500, mode = "regression") %>%
+    parsnip::set_engine("ranger", importance = "impurity", num.threads = 1) %>%
+    parsnip::fit(condition ~ ., data = data.frame(condition=mat[, condition], mor_mat)) %>%
     pluck("fit", "variable.importance")
 }

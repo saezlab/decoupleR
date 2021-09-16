@@ -5,10 +5,15 @@
 \title{Function to generate a consensus score between methods from the
 result of decouple}
 \usage{
-run_consensus(df, condition = "condition", statistic = "statistic")
+run_consensus(
+  df,
+  condition = "condition",
+  statistic = "statistic",
+  include_time = FALSE
+)
 }
 \arguments{
-\item{df}{deocuple results}
+\item{df}{decouple results}
 
 \item{condition}{Column name for sample names}
 

@@ -14,19 +14,19 @@
 #' + `convert_to_`
 #'    Return same as input.
 #' * `convert_to_aucell()`
-#'    Return a named list of regulons; tf with associated targets.
+#'    Return a named list of sources with associated targets.
 #' * `convert_to_gsva()`
-#'    Return a list of regulons suitable for [GSVA::gsva()].
-#' * `convert_to_mean()`
-#'    Return a tibble with four columns: `tf`, `target`, `mor` and `likelihood`.
+#'    Return a list of sources with associated targets suitable for [GSVA::gsva()].
+#' * `convert_to_wmean()`
+#'    Return a tibble with four columns: `source`, `target`, `mor` and `likelihood`.
 #' * `convert_to_ora()`
-#'    Return a named list of regulons; tf with associated targets.
-#' * `convert_to_pscira()`
-#'    Returns a tibble with three columns: `tf`, `target` and `mor`.
+#'    Return a named list of sources with associated targets.
+#' * `convert_to_wsum()`
+#'    Returns a tibble with three columns: `source`, `target` and `mor`.
 #' * `convert_to_scira()`
-#'    Returns a tibble with three columns: `tf`, `target` and `mor`.
+#'    Returns a tibble with three columns: `source`, `target` and `mor`.
 #' * `convert_to_viper()`
-#'    Return a list of regulons suitable for [viper::viper()]
+#'    Return a list of sources with associated targets suitable for [viper::viper()]
 #'
 #' @name convert_to_
 #' @rdname convert_to_
@@ -40,13 +40,13 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' convert_to_(network)
-#' convert_to_aucell(network, tf, target)
-#' convert_to_gsva(network, tf, target)
-#' convert_to_mean(network, tf, target, mor, likelihood)
-#' convert_to_ora(network, tf, target)
-#' convert_to_pscira(network, tf, target, mor)
-#' convert_to_scira(network, tf, target, mor)
-#' convert_to_viper(network, tf, target, mor, likelihood)
+#' convert_to_aucell(network, source, target)
+#' convert_to_gsva(network, source, target)
+#' convert_to_wmean(network, source, target, mor, likelihood)
+#' convert_to_ora(network, source, target)
+#' convert_to_wsum(network, source, target, mor)
+#' convert_to_scira(network, source, target, mor)
+#' convert_to_viper(network, source, target, mor, likelihood)
 convert_to_ <- function(network) invisible(network)
 
 # aucell ---------------------------------------------------------------------
@@ -61,23 +61,23 @@ convert_to_aucell <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
                        .dots_names = c(".source", ".target")
     )
-    
+
     network <- network %>%
         convert_f_defaults(
-            tf = {{ .source }},
+            source = {{ .source }},
             target = {{ .target }}
         )
     check_repeated_edges(network)
     network %>%
-        group_by(.data$tf) %>%
+        group_by(.data$source) %>%
         summarise(
-            regulons = set_names(list(.data$target), .data$tf[1]),
+            regulons = set_names(list(.data$target), .data$source[1]),
             .groups = "drop"
         ) %>%
         pull(.data$regulons)
 }
 
-# scira and pscira ------------------------------------------------------
+# scira and wsum ------------------------------------------------------
 
 #' @rdname convert_to_
 #'
@@ -92,7 +92,7 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL, .likelihood
 
     network <- network %>%
         convert_f_defaults(
-            tf = {{ .source }},
+            source = {{ .source }},
             target = {{ .target }},
             mor = {{ .mor }},
             likelihood = {{ .likelihood }},
@@ -105,18 +105,18 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL, .likelihood
 
 #' @rdname convert_to_
 #'
-#' @inheritParams run_pscira
+#' @inheritParams run_wsum
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_pscira <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
+convert_to_wsum <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
         .dots_names = c(".source", ".target")
     )
 
     network <- network %>%
         convert_f_defaults(
-            tf = {{ .source }},
+            source = {{ .source }},
             target = {{ .target }},
             mor = {{ .mor }},
             likelihood = {{ .likelihood }},
@@ -127,15 +127,15 @@ convert_to_pscira <- function(network, .source, .target, .mor = NULL, .likelihoo
         mutate(mor = sign(.data$mor))
 }
 
-# mean --------------------------------------------------------------------
+# wmean --------------------------------------------------------------------
 
 #' @rdname convert_to_
 #'
-#' @inheritParams run_mean
+#' @inheritParams run_wmean
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_mean <- function(network,
+convert_to_wmean <- function(network,
                             .source,
                             .target,
                             .mor = NULL,
@@ -146,7 +146,7 @@ convert_to_mean <- function(network,
 
     network <- network %>%
         convert_f_defaults(
-            tf = {{ .source }},
+            source = {{ .source }},
             target = {{ .target }},
             mor = {{ .mor }},
             likelihood = {{ .likelihood }},
@@ -176,7 +176,7 @@ convert_to_viper <- function(network,
 
     network <- network %>%
         convert_f_defaults(
-            tf = {{ .source }},
+            source = {{ .source }},
             target = {{ .target }},
             mor = {{ .mor }},
             likelihood = {{ .likelihood }},
@@ -185,7 +185,7 @@ convert_to_viper <- function(network,
     check_repeated_edges(network)
     network %>%
         mutate(mor = sign(.data$mor)) %>%
-        split(.$tf) %>%
+        split(.$source) %>%
         map(~ {
             list(
                 tfmode = set_names(.x$mor, .x$target),
@@ -209,14 +209,14 @@ convert_to_gsva <- function(network, .source, .target) {
 
     network <- network %>%
         convert_f_defaults(
-            tf = {{ .source }},
+            source = {{ .source }},
             target = {{ .target }}
         )
     check_repeated_edges(network)
     network %>%
-        group_by(.data$tf) %>%
+        group_by(.data$source) %>%
         summarise(
-            regulons = set_names(list(.data$target), .data$tf[1]),
+            regulons = set_names(list(.data$target), .data$source[1]),
             .groups = "drop"
         ) %>%
         pull(.data$regulons)
@@ -237,14 +237,14 @@ convert_to_ora <- function(network, .source, .target) {
 
     network <- network %>%
         convert_f_defaults(
-            tf = {{ .source }},
+            source = {{ .source }},
             target = {{ .target }}
         )
     check_repeated_edges(network)
     network %>%
-        group_by(.data$tf) %>%
+        group_by(.data$source) %>%
         summarise(
-            regulons = set_names(list(.data$target), .data$tf[1]),
+            regulons = set_names(list(.data$target), .data$source[1]),
             .groups = "drop"
         ) %>%
         pull(.data$regulons)
@@ -264,14 +264,14 @@ convert_to_fgsea <- function(network, .source, .target) {
 
     network <- network %>%
         convert_f_defaults(
-            tf = {{ .source }},
+            source = {{ .source }},
             target = {{ .target }}
         )
     check_repeated_edges(network)
     network %>%
-        group_by(.data$tf) %>%
+        group_by(.data$source) %>%
         summarise(
-            regulons = set_names(list(.data$target), .data$tf[1]),
+            regulons = set_names(list(.data$target), .data$source[1]),
             .groups = "drop"
         ) %>%
         pull(.data$regulons)
@@ -429,7 +429,7 @@ convert_f_defaults <- function(.data,
 #' @noRd
 check_repeated_edges <- function(network){
     repeated <- network %>%
-        group_by(tf, target) %>%
+        group_by(source, target) %>%
         filter(n()>1)
     if (nrow(repeated) > 1){
         stop('Network contains repeated edges, please remove them.')

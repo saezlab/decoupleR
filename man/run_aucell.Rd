@@ -7,10 +7,11 @@
 run_aucell(
   mat,
   network,
-  .source = .data$tf,
+  .source = .data$source,
   .target = .data$target,
-  weights = FALSE,
-  nCores = 1
+  aucMaxRank = ceiling(0.05 * nrow(rankings)),
+  nCores = 1,
+  seed = 42
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ in \code{network} \code{.target} column.}
 
 \item{.target}{Column with target nodes.}
 
+\item{aucMaxRank}{Threshold to calculate the AUC.}
+
 \item{nCores}{Number of cores to use for computation.}
 }
 \description{
@@ -38,16 +41,16 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_aucell(mat, network)
+run_aucell(mat, network, .source='tf')
 }
 \seealso{
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_gsva}()},
-\code{\link{run_mean}()},
 \code{\link{run_ora}()},
-\code{\link{run_pscira}()},
 \code{\link{run_scira}()},
-\code{\link{run_viper}()}
+\code{\link{run_viper}()},
+\code{\link{run_wmean}()},
+\code{\link{run_wsum}()}
 }
 \concept{decoupleR statistics}

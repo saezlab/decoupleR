@@ -4,13 +4,7 @@
 \alias{intersect_regulons}
 \title{Intersect network target genes with expression matrix.}
 \usage{
-intersect_regulons(
-  mat,
-  network,
-  source = "source",
-  target = "target",
-  minsize = 0
-)
+intersect_regulons(mat, network, source, target, minsize)
 }
 \arguments{
 \item{network}{Tibble or dataframe with edges and it's associated metadata.}

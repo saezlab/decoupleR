@@ -25,6 +25,8 @@
 #'    Returns a tibble with three columns: `source`, `target` and `mor`.
 #' * `convert_to_scira()`
 #'    Returns a tibble with three columns: `source`, `target` and `mor`.
+#' * `convert_to_nolea()`
+#'    Returns a tibble with three columns: `source`, `target` and `mor`.
 #' * `convert_to_viper()`
 #'    Return a list of sources with associated targets suitable for [viper::viper()]
 #'
@@ -46,6 +48,7 @@
 #' convert_to_ora(network, source, target)
 #' convert_to_wsum(network, source, target, mor)
 #' convert_to_scira(network, source, target, mor)
+#' convert_to_nolea(network, source, target, mor)
 #' convert_to_viper(network, source, target, mor, likelihood)
 convert_to_ <- function(network) invisible(network)
 
@@ -61,7 +64,7 @@ convert_to_aucell <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
                        .dots_names = c(".source", ".target")
     )
-
+    
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
@@ -77,7 +80,7 @@ convert_to_aucell <- function(network, .source, .target) {
         pull(.data$regulons)
 }
 
-# scira and wsum ------------------------------------------------------
+# scira, wsum and nolea ------------------------------------------------------
 
 #' @rdname convert_to_
 #'
@@ -87,9 +90,33 @@ convert_to_aucell <- function(network, .source, .target) {
 #' @export
 convert_to_scira <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
-        .dots_names = c(".source", ".target")
+                       .dots_names = c(".source", ".target")
     )
+    
+    network <- network %>%
+        convert_f_defaults(
+            source = {{ .source }},
+            target = {{ .target }},
+            mor = {{ .mor }},
+            likelihood = {{ .likelihood }},
+            .def_col_val = c(mor = 0, likelihood = 1)
+        )
+    check_repeated_edges(network)
+    network %>%
+        mutate(mor = sign(.data$mor))
+}
 
+#' @rdname convert_to_
+#'
+#' @inheritParams run_nolea
+#'
+#' @family convert_to_ variants
+#' @export
+convert_to_nolea <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
+    .check_quos_status({{ .source }}, {{ .target }},
+                       .dots_names = c(".source", ".target")
+    )
+    
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
@@ -111,9 +138,9 @@ convert_to_scira <- function(network, .source, .target, .mor = NULL, .likelihood
 #' @export
 convert_to_wsum <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
-        .dots_names = c(".source", ".target")
+                       .dots_names = c(".source", ".target")
     )
-
+    
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
@@ -136,14 +163,14 @@ convert_to_wsum <- function(network, .source, .target, .mor = NULL, .likelihood 
 #' @family convert_to_ variants
 #' @export
 convert_to_wmean <- function(network,
-                            .source,
-                            .target,
-                            .mor = NULL,
-                            .likelihood = NULL) {
+                             .source,
+                             .target,
+                             .mor = NULL,
+                             .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
-        .dots_names = c(".source", ".target")
+                       .dots_names = c(".source", ".target")
     )
-
+    
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
@@ -171,9 +198,9 @@ convert_to_viper <- function(network,
                              .mor = NULL,
                              .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
-        .dots_names = c(".source", ".target")
+                       .dots_names = c(".source", ".target")
     )
-
+    
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
@@ -204,9 +231,9 @@ convert_to_viper <- function(network,
 #' @export
 convert_to_gsva <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
-        .dots_names = c(".source", ".target")
+                       .dots_names = c(".source", ".target")
     )
-
+    
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
@@ -232,9 +259,9 @@ convert_to_gsva <- function(network, .source, .target) {
 #' @export
 convert_to_ora <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
-        .dots_names = c(".source", ".target")
+                       .dots_names = c(".source", ".target")
     )
-
+    
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
@@ -261,7 +288,7 @@ convert_to_ora <- function(network, .source, .target) {
 convert_to_fgsea <- function(network, .source, .target) {
     .check_quos_status({{ .source }}, {{ .target }},
                        .dots_names = c(".source", ".target"))
-
+    
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
@@ -289,7 +316,7 @@ convert_to_fgsea <- function(network, .source, .target) {
 # TODO be able to use name of dots as name of quo.
 .check_quos_status <- function(..., .dots_names) {
     dots <- enquos(...)
-
+    
     walk2(.x = dots, .y = .dots_names, function(.dot, .name) {
         if (quo_is_missing(.dot)) {
             rlang::abort(
@@ -357,13 +384,13 @@ convert_f_defaults <- function(.data,
     expected_columns <- match.call(expand.dots = FALSE)$... %>%
         names() %>%
         unique()
-
+    
     .expr <- expr(c(...))
     if (.use_dots) .expr <- expr(c(. = !!.expr))
-
+    
     # Return rename changes with dot prefix variables.
     loc <- eval_rename(.expr, data = .data)
-
+    
     .data %>%
         select(all_of(loc)) %>%
         {
@@ -394,13 +421,13 @@ convert_f_defaults <- function(.data,
 .check_expected_columns <- function(.data, expected_columns) {
     # Get data columns.
     data_cols <- names(.data)
-
+    
     # Calculate symmetric difference
     diff_cols <- setdiff(
         x = union(expected_columns, data_cols),
         y = intersect(expected_columns, data_cols)
     )
-
+    
     # Abort execution if there is an inconsistency in the output results
     if (!is_empty(diff_cols)) {
         extra_cols <- setdiff(diff_cols, expected_columns) %>%
@@ -408,7 +435,7 @@ convert_f_defaults <- function(.data,
         removed_cols <- intersect(expected_columns, diff_cols) %>%
             paste(collapse = ", ")
         expected_columns <- paste(expected_columns, collapse = ", ")
-
+        
         rlang::abort(
             message = stringr::str_glue(
                 "Output columns are different than expected.\n",
@@ -419,7 +446,7 @@ convert_f_defaults <- function(.data,
             class = "different_set_columns"
         )
     }
-
+    
     .data
 }
 

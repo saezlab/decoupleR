@@ -56,7 +56,8 @@ Imports:
     fgsea (>= 1.15.4),
     AUCell,
     doParallel,
-    doRNG
+    doRNG,
+    parsnip
 Suggests: 
     BiocStyle,
     covr,

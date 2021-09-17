@@ -42,8 +42,11 @@ run_nolea <- function(mat,
                       .mor = .data$mor,
                       .likelihood = .data$likelihood,
                       sparse = FALSE,
-                      center = TRUE,
-                      na.rm = FALSE) {
+                      center = FALSE,
+                      na.rm = FALSE,
+                      trees = 500,
+                      num.threads = -1
+                     ) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
   
@@ -56,7 +59,7 @@ run_nolea <- function(mat,
   .nolea_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
   {
-    .nolea_analysis(.$mat, .$mor_mat)
+    .nolea_analysis(.$mat, .$mor_mat, trees, num.threads)
   }
 }
 
@@ -125,11 +128,13 @@ run_nolea <- function(mat,
 #' @inherit run_nolea return
 #' @keywords intern
 #' @noRd
-.nolea_analysis <- function(mat, mor_mat) {
+.nolea_analysis <- function(mat, mor_mat, trees, num.threads) {
   nolea_evaluate_model <- partial(
     .f = .nolea_evaluate_model,
     mat = mat,
-    mor_mat = mor_mat
+    mor_mat = mor_mat,
+    trees = tres,
+    num.threads = num.threads
   )
   
   # Allocate the space for all conditions and evaluate the proposed model.
@@ -151,10 +156,10 @@ run_nolea <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.nolea_evaluate_model <- function(condition, mat, mor_mat) {
+.nolea_evaluate_model <- function(condition, mat, mor_mat, trees, num.threads) {
   set.seed(42)
-  parsnip::rand_forest(trees = 500, mode = "regression") %>%
-    parsnip::set_engine("ranger", importance = "impurity", num.threads = 1) %>%
+  parsnip::rand_forest(trees = trees, mode = "regression") %>%
+    parsnip::set_engine("ranger", importance = "impurity", num.threads = num.threads) %>%
     parsnip::fit(condition ~ ., data = data.frame(condition=mat[, condition], mor_mat)) %>%
     pluck("fit", "variable.importance")
 }

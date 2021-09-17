@@ -28,26 +28,26 @@ run_aucell <- function(mat,
                        aucMaxRank = ceiling(0.05 * nrow(rankings)),
                        nCores = 1,
                        seed = 42
-                       ) {
+) {
   # Before to start ---------------------------------------------------------
   set.seed(seed)
-
+  
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
-
+  
   network <- network %>%
     convert_to_aucell({{ .source }}, {{ .target }})
-
+  
   # Convert to absolute values
   mat <- abs(mat)
-
+  
   # Analysis ----------------------------------------------------------------
   rankings <- exec(.fn = AUCell::AUCell_buildRankings,
                    exprMat = mat,
                    plotStats = FALSE,
                    verbose = FALSE,
                    nCores = nCores)
-
+  
   exec(.fn = AUCell::AUCell_calcAUC,
        geneSets = network,
        rankings = rankings,
@@ -60,7 +60,7 @@ run_aucell <- function(mat,
     rownames_to_column("source") %>%
     pivot_longer(-source ,names_to = "condition", values_to = "score") %>%
     add_column(statistic = "aucell", .before = 1)
-
+  
 }
 
 .extract_assay_auc <- function(.a){

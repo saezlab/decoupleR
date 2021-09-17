@@ -4,6 +4,7 @@
 \alias{convert_to_}
 \alias{convert_to_aucell}
 \alias{convert_to_scira}
+\alias{convert_to_nolea}
 \alias{convert_to_wsum}
 \alias{convert_to_wmean}
 \alias{convert_to_viper}
@@ -17,6 +18,8 @@ convert_to_(network)
 convert_to_aucell(network, .source, .target)
 
 convert_to_scira(network, .source, .target, .mor = NULL, .likelihood = NULL)
+
+convert_to_nolea(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
 convert_to_wsum(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
@@ -59,6 +62,8 @@ Return a named list of sources with associated targets.
 Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}.
 \item \code{convert_to_scira()}
 Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}.
+\item \code{convert_to_nolea()}
+Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}.
 \item \code{convert_to_viper()}
 Return a list of sources with associated targets suitable for \code{\link[viper:viper]{viper::viper()}}
 }
@@ -80,6 +85,7 @@ convert_to_wmean(network, source, target, mor, likelihood)
 convert_to_ora(network, source, target)
 convert_to_wsum(network, source, target, mor)
 convert_to_scira(network, source, target, mor)
+convert_to_nolea(network, source, target, mor)
 convert_to_viper(network, source, target, mor, likelihood)
 }
 \seealso{

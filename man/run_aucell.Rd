@@ -47,6 +47,7 @@ run_aucell(mat, network, .source='tf')
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_gsva}()},
+\code{\link{run_nolea}()},
 \code{\link{run_ora}()},
 \code{\link{run_scira}()},
 \code{\link{run_viper}()},

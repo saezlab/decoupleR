@@ -133,7 +133,7 @@ run_nolea <- function(mat,
     .f = .nolea_evaluate_model,
     mat = mat,
     mor_mat = mor_mat,
-    trees = tres,
+    trees = trees,
     num.threads = num.threads
   )
   

@@ -12,8 +12,10 @@ run_nolea(
   .mor = .data$mor,
   .likelihood = .data$likelihood,
   sparse = FALSE,
-  center = TRUE,
-  na.rm = FALSE
+  center = FALSE,
+  na.rm = FALSE,
+  trees = 500,
+  num.threads = -1
 )
 }
 \arguments{

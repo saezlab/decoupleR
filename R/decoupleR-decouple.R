@@ -122,7 +122,8 @@ decouple <- function(mat,
 .select_statistics <- function(statistics) {
     available_statistics <- list(
         aucell = expr(run_aucell),
-        nolea = expr(run_nolea),
+        udt = expr(run_udt),
+        mdt = expr(run_mdt),
         wmean = expr(run_wmean),
         scira = expr(run_scira),
         wsum = expr(run_wsum),

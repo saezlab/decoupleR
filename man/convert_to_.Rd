@@ -4,7 +4,6 @@
 \alias{convert_to_}
 \alias{convert_to_aucell}
 \alias{convert_to_scira}
-\alias{convert_to_nolea}
 \alias{convert_to_wsum}
 \alias{convert_to_wmean}
 \alias{convert_to_viper}
@@ -18,8 +17,6 @@ convert_to_(network)
 convert_to_aucell(network, .source, .target)
 
 convert_to_scira(network, .source, .target, .mor = NULL, .likelihood = NULL)
-
-convert_to_nolea(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
 convert_to_wsum(network, .source, .target, .mor = NULL, .likelihood = NULL)
 

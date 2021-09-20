@@ -1,4 +1,4 @@
-#' NOLEA (NOn Linear Enrichment Analysis)
+#' MDT (Multivariate Decision Tree)
 #'
 #' @description
 #' .
@@ -34,8 +34,8 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_nolea(mat, network, .source='tf')
-run_nolea <- function(mat,
+#' run_mdt(mat, network, .source='tf')
+run_mdt <- function(mat,
                       network,
                       .source = .data$source,
                       .target = .data$target,
@@ -44,48 +44,50 @@ run_nolea <- function(mat,
                       sparse = FALSE,
                       center = FALSE,
                       na.rm = FALSE,
-                      trees = 500,
-                      num.threads = -1
-                     ) {
+                      trees = 10,
+                      num.threads = 4,
+                      seed = 42
+) {
+  set.seed(seed)
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
-  
+
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
-    convert_to_nolea({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
-  
+    convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+
   # Preprocessing -----------------------------------------------------------
-  .nolea_preprocessing(network, mat, center, na.rm, sparse) %>%
+  .mdt_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
   {
-    .nolea_analysis(.$mat, .$mor_mat, trees, num.threads)
+    .mdt_analysis(.$mat, .$mor_mat, trees, num.threads)
   }
 }
 
 # Helper functions ------------------------------------------------------
-#' nolea preprocessing
+#' mdt preprocessing
 #'
 #' - Get only the intersection of target genes between `mat` and `network`.
 #' - Transform tidy `network` into `matrix` representation with `mor` as value.
 #' - If `center` is true, then the expression values are centered by the
 #'   mean of expression across the conditions.
 #'
-#' @inheritParams run_nolea
+#' @inheritParams run_mdt
 #'
 #' @return A named list of matrices to evaluate in `.nolea_analysis()`.
 #'  - mat: Genes as rows and conditions as columns.
 #'  - mor_mat: Genes as rows and columns as source.
 #' @keywords intern
 #' @noRd
-.nolea_preprocessing <- function(network, mat, center, na.rm, sparse) {
+.mdt_preprocessing <- function(network, mat, center, na.rm, sparse) {
   shared_targets <- intersect(
     rownames(mat),
     network$target
   )
-  
+
   mat <- mat[shared_targets, ]
-  
+
   mor_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -97,7 +99,7 @@ run_nolea <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-  
+
   likelihood_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -109,55 +111,54 @@ run_nolea <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-  
+
   weight_mat <- mor_mat * likelihood_mat
-  
+
   if (center) {
     mat <- mat - rowMeans(mat, na.rm)
   }
-  
+
   list(mat = mat, mor_mat = weight_mat)
 }
 
-#' Wrapper to execute run_nolea() logic one finished preprocessing of data
+#' Wrapper to execute run_mdt() logic one finished preprocessing of data
 #'
 #'
-#' @inheritParams run_nolea
+#' @inheritParams run_mdt
 #' @param mor_mat
 #'
-#' @inherit run_nolea return
+#' @inherit run_mdt return
 #' @keywords intern
 #' @noRd
-.nolea_analysis <- function(mat, mor_mat, trees, num.threads) {
-  nolea_evaluate_model <- partial(
-    .f = .nolea_evaluate_model,
+.mdt_analysis <- function(mat, mor_mat, trees, num.threads) {
+  mdt_evaluate_model <- partial(
+    .f = .mdt_evaluate_model,
     mat = mat,
     mor_mat = mor_mat,
     trees = trees,
     num.threads = num.threads
   )
-  
+
   # Allocate the space for all conditions and evaluate the proposed model.
   expand_grid(
     condition = colnames(mat)
   ) %>%
     rowwise(.data$condition) %>%
     summarise(
-      score = nolea_evaluate_model(.data$condition),
+      score = mdt_evaluate_model(.data$condition),
       source = colnames(mor_mat),
       .groups = "drop"
     ) %>%
-    transmute(statistic = "nolea", .data$source, .data$condition, .data$score
+    transmute(statistic = "mdt", .data$source, .data$condition, .data$score
     ) %>%
     arrange(source)
 }
 
-#' Wrapper to run nolea per a sample (condition) at time
+#' Wrapper to run mdt per a sample (condition) at time
 #'
 #' @keywords internal
 #' @noRd
-.nolea_evaluate_model <- function(condition, mat, mor_mat, trees, num.threads) {
-  set.seed(42)
+.mdt_evaluate_model <- function(condition, mat, mor_mat, trees, num.threads) {
   parsnip::rand_forest(trees = trees, mode = "regression") %>%
     parsnip::set_engine("ranger", importance = "impurity", num.threads = num.threads) %>%
     parsnip::fit(condition ~ ., data = data.frame(condition=mat[, condition], mor_mat)) %>%

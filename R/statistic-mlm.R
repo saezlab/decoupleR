@@ -1,10 +1,18 @@
-#' NOLEA (NOn Linear Enrichment Analysis)
+#' mlm (Single Cell Inference of Regulatory Activity)
 #'
 #' @description
+#' Calculates source activity according to
+#' [Improved detection of tumor suppressor events in single-cell RNA-Seq data](
+#' https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13)
 #' .
 #'
 #' @details
-#'
+#' Estimation of regulatory activity: A linear regression of the expression
+#' profile is performed against the "target profile" of the given source, where
+#' in the target profile, any regulon member is assigned a `+1` for activating
+#' interactions and a `-1` for inhibitory interactions. All other genes not
+#' members of the source's regulon are assigned a value o `0`. Source activity is then
+#' defined as the t-statistic of this linear regression.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -26,18 +34,18 @@
 #'
 #' @import dplyr
 #' @import purrr
-#' @import future
-#' @import furrr
 #' @import tibble
-#' @import parsnip
+#' @import tidyr
+#' @importFrom stats coef lm summary.lm
+#' @importFrom speedglm speedlm.fit
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_udt(mat, network, .source='tf')
-run_udt <- function(mat,
+#' run_mlm(mat, network, .source='tf')
+run_mlm <- function(mat,
                       network,
                       .source = .data$source,
                       .target = .data$target,
@@ -45,52 +53,46 @@ run_udt <- function(mat,
                       .likelihood = .data$likelihood,
                       sparse = FALSE,
                       center = FALSE,
-                      na.rm = FALSE,
-                      min_n = 2,
-                      workers = 4,
-                      seed = 42
-                     ) {
-  set.seed(seed)
-  plan(multisession, workers = workers)
+                      na.rm = FALSE) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
-
+  
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
-    convert_to_ulm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
-
+    convert_to_mlm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+  
   # Preprocessing -----------------------------------------------------------
-  .udt_preprocessing(network, mat, center, na.rm, sparse) %>%
+  .mlm_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
   {
-    .udt_analysis(.$mat, .$mor_mat, min_n, seed)
+    .mlm_analysis(.$mat, .$mor_mat)
   }
 }
 
 # Helper functions ------------------------------------------------------
-#' udt preprocessing
+#' mlm preprocessing
 #'
 #' - Get only the intersection of target genes between `mat` and `network`.
 #' - Transform tidy `network` into `matrix` representation with `mor` as value.
 #' - If `center` is true, then the expression values are centered by the
 #'   mean of expression across the conditions.
 #'
-#' @inheritParams run_udt
+#' @inheritParams run_mlm
 #'
-#' @return A named list of matrices to evaluate in `.udt_analysis()`.
+#' @return A named list of matrices to evaluate in `.mlm_analysis()`.
 #'  - mat: Genes as rows and conditions as columns.
 #'  - mor_mat: Genes as rows and columns as source.
 #' @keywords intern
 #' @noRd
-.udt_preprocessing <- function(network, mat, center, na.rm, sparse) {
+.mlm_preprocessing <- function(network, mat, center, na.rm, sparse) {
   shared_targets <- intersect(
     rownames(mat),
     network$target
   )
-
+  
   mat <- mat[shared_targets, ]
-
+  
   mor_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -102,7 +104,7 @@ run_udt <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-
+  
   likelihood_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -114,65 +116,66 @@ run_udt <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-
+  
   weight_mat <- mor_mat * likelihood_mat
-
+  
   if (center) {
     mat <- mat - rowMeans(mat, na.rm)
   }
-
+  
   list(mat = mat, mor_mat = weight_mat)
 }
 
-#' Wrapper to execute run_udt() logic one finished preprocessing of data
+#' Wrapper to execute run_mlm() logic one finished preprocessing of data
 #'
+#' Fit a linear regression between the value of expression and the profile of its targets.
 #'
-#' @inheritParams run_udt
+#' @inheritParams run_mlm
 #' @param mor_mat
 #'
-#' @inherit run_udt return
+#' @inherit run_mlm return
 #' @keywords intern
 #' @noRd
-.udt_analysis <- function(mat, mor_mat, min_n, seed) {
-  udt_evaluate_model <- partial(
-    .f = .udt_evaluate_model,
+.mlm_analysis <- function(mat, mor_mat) {
+  mlm_evaluate_model <- partial(
+    .f = .mlm_evaluate_model,
     mat = mat,
-    mor_mat = mor_mat,
-    min_n = min_n
+    mor_mat = mor_mat
   )
+  
+  # Allocate the space for all combinations of sources and conditions
+  # and evaluate the proposed model.
 
-  # Allocate the space for all conditions and evaluate the proposed model.
   expand_grid(
-    source = colnames(mor_mat),
     condition = colnames(mat)
   ) %>%
+    rowwise(.data$condition) %>%
     summarise(
-      score = future_map2_dbl(.x=.data$source, .y=.data$condition, .f=function(.source, .condition){
-        udt_evaluate_model(.source, .condition)
-      }, .options = furrr_options(seed = seed)),
-      source = .data$source,
-      condition = .data$condition,
+      score = mlm_evaluate_model(.data$condition),
+      source = colnames(mor_mat),
       .groups = "drop"
     ) %>%
-      transmute(statistic = "udt", .data$source, .data$condition, .data$score)
+        transmute(statistic = "mlm", .data$source, .data$condition, .data$score
+                  ) %>%
+                  arrange(source)
 }
 
-#' Wrapper to run udt per a sample (condition) at time
+#' Wrapper to run mlm one source (source) per sample (condition) at time
 #'
 #' @keywords internal
 #' @noRd
-.udt_evaluate_model <- function(source, condition, mat, mor_mat, min_n) {
-  score <- parsnip::decision_tree(min_n = min_n, mode = "regression") %>%
-    parsnip::set_engine("rpart") %>%
-    parsnip::fit_xy(x = mat[, condition, drop=F] , y = mor_mat[, source]) %>%
-    pluck("fit", "variable.importance")
-  #score <- parsnip::rand_forest(trees = 1, mode = "regression", min_n = min_n, mtry=1) %>%
-  #  parsnip::set_engine("ranger", importance = "impurity", probability = F) %>%
-  #  parsnip::fit_xy(x = mat[, condition, drop=F] , y = mor_mat[, source]) %>%
-  #  pluck("fit", "variable.importance")
-  if (is.null(score)) {
-    score <- 0
-    names(score) <- source
-  }
-  score
+.mlm_evaluate_model <- function(condition, mat, mor_mat) {
+  speedlm.fit(
+      y = mat[ , condition],
+      X = cbind(1, mor_mat)
+    ) %>%
+      summary() %>%
+      pluck("coefficients", "t") %>% 
+      .[-1]
 }
+
+
+
+
+
+

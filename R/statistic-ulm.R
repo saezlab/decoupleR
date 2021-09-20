@@ -1,4 +1,4 @@
-#' SCIRA (Single Cell Inference of Regulatory Activity)
+#' ULM (Univariate Linear Model)
 #'
 #' @description
 #' Calculates source activity according to
@@ -18,8 +18,6 @@
 #' @inheritParams .decoupler_network_format
 #' @param sparse Logical value indicating if the generated profile matrix
 #'  should be sparse.
-#' @param fast Logical value indicating if the lineal model must be calculated
-#' with [speedglm::speedlm.fit()] or with base [stats::lm()].
 #' @param center Logical value indicating if `mat` must be centered by
 #' [base::rowMeans()].
 #' @param na.rm Should missing values (including NaN) be omitted from the
@@ -46,16 +44,15 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_scira(mat, network, .source='tf')
-run_scira <- function(mat,
+#' run_ulm(mat, network, .source='tf')
+run_ulm <- function(mat,
                       network,
                       .source = .data$source,
                       .target = .data$target,
                       .mor = .data$mor,
                       .likelihood = .data$likelihood,
                       sparse = FALSE,
-                      fast = TRUE,
-                      center = TRUE,
+                      center = FALSE,
                       na.rm = FALSE) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
@@ -63,32 +60,32 @@ run_scira <- function(mat,
     # Before to start ---------------------------------------------------------
     # Convert to standard tibble: source-target-mor.
     network <- network %>%
-        convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+        convert_to_ulm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
     # Preprocessing -----------------------------------------------------------
-    .scira_preprocessing(network, mat, center, na.rm, sparse) %>%
+    .ulm_preprocessing(network, mat, center, na.rm, sparse) %>%
         # Model evaluation --------------------------------------------------------
         {
-            .scira_analysis(.$mat, .$mor_mat, fast)
+            .ulm_analysis(.$mat, .$mor_mat)
         }
 }
 
 # Helper functions ------------------------------------------------------
-#' Scira preprocessing
+#' ulm preprocessing
 #'
 #' - Get only the intersection of target genes between `mat` and `network`.
 #' - Transform tidy `network` into `matrix` representation with `mor` as value.
 #' - If `center` is true, then the expression values are centered by the
 #'   mean of expression across the conditions.
 #'
-#' @inheritParams run_scira
+#' @inheritParams run_ulm
 #'
-#' @return A named list of matrices to evaluate in `.scira_analysis()`.
+#' @return A named list of matrices to evaluate in `.ulm_analysis()`.
 #'  - mat: Genes as rows and conditions as columns.
 #'  - mor_mat: Genes as rows and columns as source.
 #' @keywords intern
 #' @noRd
-.scira_preprocessing <- function(network, mat, center, na.rm, sparse) {
+.ulm_preprocessing <- function(network, mat, center, na.rm, sparse) {
     shared_targets <- intersect(
         rownames(mat),
         network$target
@@ -129,22 +126,21 @@ run_scira <- function(mat,
     list(mat = mat, mor_mat = weight_mat)
 }
 
-#' Wrapper to execute run_scira() logic one finished preprocessing of data
+#' Wrapper to execute run_ulm() logic one finished preprocessing of data
 #'
 #' Fit a linear regression between the value of expression and the profile of its targets.
 #'
-#' @inheritParams run_scira
+#' @inheritParams run_ulm
 #' @param mor_mat
 #'
-#' @inherit run_scira return
+#' @inherit run_ulm return
 #' @keywords intern
 #' @noRd
-.scira_analysis <- function(mat, mor_mat, fast) {
-    scira_evaluate_model <- partial(
-        .f = .scira_evaluate_model,
+.ulm_analysis <- function(mat, mor_mat) {
+    ulm_evaluate_model <- partial(
+        .f = .ulm_evaluate_model,
         mat = mat,
-        mor_mat = mor_mat,
-        fast = fast
+        mor_mat = mor_mat
     )
 
     # Allocate the space for all combinations of sources and conditions
@@ -155,29 +151,21 @@ run_scira <- function(mat,
     ) %>%
         rowwise(.data$source, .data$condition) %>%
         summarise(
-            score = scira_evaluate_model(.data$source, .data$condition),
+            score = ulm_evaluate_model(.data$source, .data$condition),
             .groups = "drop"
         ) %>%
-        transmute(statistic = "scira", .data$source, .data$condition, .data$score)
+        transmute(statistic = "ulm", .data$source, .data$condition, .data$score)
 }
 
-#' Wrapper to run scira one source (source) per sample (condition) at time
+#' Wrapper to run ulm one source (source) per sample (condition) at time
 #'
 #' @keywords internal
 #' @noRd
-.scira_evaluate_model <- function(source, condition, mat, mor_mat, fast) {
-    if (fast) {
+.ulm_evaluate_model <- function(source, condition, mat, mor_mat) {
         speedlm.fit(
             y = mat[, condition],
             X = cbind(1, mor_mat[, source])
         ) %>%
             summary() %>%
             pluck("coefficients", "t", 2, .default = NA)
-    } else {
-        lm(mat[, condition] ~ mor_mat[, source]) %>%
-            summary() %>%
-            coef() %>%
-            .[, "t value"] %>%
-            pluck(2, .default = NA)
-    }
 }

@@ -45,7 +45,7 @@ run_mdt <- function(mat,
                       center = FALSE,
                       na.rm = FALSE,
                       trees = 10,
-                      num.threads = 4,
+                      #num.threads = 4,
                       seed = 42
 ) {
   set.seed(seed)
@@ -55,7 +55,7 @@ run_mdt <- function(mat,
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
-    convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    convert_to_mlm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
   # Preprocessing -----------------------------------------------------------
   .mdt_preprocessing(network, mat, center, na.rm, sparse) %>%
@@ -135,8 +135,7 @@ run_mdt <- function(mat,
     .f = .mdt_evaluate_model,
     mat = mat,
     mor_mat = mor_mat,
-    trees = trees,
-    num.threads = num.threads
+    trees = trees
   )
 
   # Allocate the space for all conditions and evaluate the proposed model.

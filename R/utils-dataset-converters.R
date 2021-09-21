@@ -83,7 +83,7 @@ convert_to_aucell <- function(network, .source, .target) {
         pull(.data$regulons)
 }
 
-# ulm, mlm, wsum and nolea ------------------------------------------------------
+# ulm, mlm and wsum ------------------------------------------------------
 
 #' @rdname convert_to_
 #'

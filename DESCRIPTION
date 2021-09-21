@@ -57,7 +57,8 @@ Imports:
     AUCell,
     doParallel,
     doRNG,
-    parsnip
+    rpart,
+    ranger
 Suggests: 
     BiocStyle,
     covr,

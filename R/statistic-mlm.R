@@ -1,18 +1,8 @@
-#' mlm (Single Cell Inference of Regulatory Activity)
+#' MLM (Multivariate Linear Model)
 #'
 #' @description
-#' Calculates source activity according to
-#' [Improved detection of tumor suppressor events in single-cell RNA-Seq data](
-#' https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13)
-#' .
 #'
 #' @details
-#' Estimation of regulatory activity: A linear regression of the expression
-#' profile is performed against the "target profile" of the given source, where
-#' in the target profile, any regulon member is assigned a `+1` for activating
-#' interactions and a `-1` for inhibitory interactions. All other genes not
-#' members of the source's regulon are assigned a value o `0`. Source activity is then
-#' defined as the t-statistic of this linear regression.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -143,8 +133,7 @@ run_mlm <- function(mat,
     mor_mat = mor_mat
   )
   
-  # Allocate the space for all combinations of sources and conditions
-  # and evaluate the proposed model.
+  # Allocate the space for all conditions and evaluate the proposed model.
 
   expand_grid(
     condition = colnames(mat)
@@ -160,7 +149,7 @@ run_mlm <- function(mat,
                   arrange(source)
 }
 
-#' Wrapper to run mlm one source (source) per sample (condition) at time
+#' Wrapper to run mlm per sample (condition) at time
 #'
 #' @keywords internal
 #' @noRd
@@ -173,9 +162,3 @@ run_mlm <- function(mat,
       pluck("coefficients", "t") %>% 
       .[-1]
 }
-
-
-
-
-
-

@@ -1,7 +1,7 @@
 #' MDT (Multivariate Decision Tree)
 #'
 #' @description
-#' .
+#'
 #'
 #' @details
 #'
@@ -27,7 +27,7 @@
 #' @import dplyr
 #' @import purrr
 #' @import tibble
-#' @import parsnip
+#' @import ranger
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -36,27 +36,27 @@
 #'
 #' run_mdt(mat, network, .source='tf')
 run_mdt <- function(mat,
-                      network,
-                      .source = .data$source,
-                      .target = .data$target,
-                      .mor = .data$mor,
-                      .likelihood = .data$likelihood,
-                      sparse = FALSE,
-                      center = FALSE,
-                      na.rm = FALSE,
-                      trees = 10,
-                      num.threads = 4,
-                      seed = 42
+                    network,
+                    .source = .data$source,
+                    .target = .data$target,
+                    .mor = .data$mor,
+                    .likelihood = .data$likelihood,
+                    sparse = FALSE,
+                    center = FALSE,
+                    na.rm = FALSE,
+                    trees = 10,
+                    num.threads = 4,
+                    seed = 42
 ) {
   set.seed(seed)
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
-
+  
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
     convert_to_mlm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
-
+  
   # Preprocessing -----------------------------------------------------------
   .mdt_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
@@ -85,9 +85,9 @@ run_mdt <- function(mat,
     rownames(mat),
     network$target
   )
-
+  
   mat <- mat[shared_targets, ]
-
+  
   mor_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -99,7 +99,7 @@ run_mdt <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-
+  
   likelihood_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -111,13 +111,13 @@ run_mdt <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-
+  
   weight_mat <- mor_mat * likelihood_mat
-
+  
   if (center) {
     mat <- mat - rowMeans(mat, na.rm)
   }
-
+  
   list(mat = mat, mor_mat = weight_mat)
 }
 
@@ -138,7 +138,7 @@ run_mdt <- function(mat,
     trees = trees,
     num.threads = num.threads
   )
-
+  
   # Allocate the space for all conditions and evaluate the proposed model.
   expand_grid(
     condition = colnames(mat)
@@ -159,8 +159,7 @@ run_mdt <- function(mat,
 #' @keywords internal
 #' @noRd
 .mdt_evaluate_model <- function(condition, mat, mor_mat, trees, num.threads) {
-  parsnip::rand_forest(trees = trees, mode = "regression") %>%
-    parsnip::set_engine("ranger", importance = "impurity", num.threads = num.threads) %>%
-    parsnip::fit(condition ~ ., data = data.frame(condition=mat[, condition], mor_mat)) %>%
-    pluck("fit", "variable.importance")
+  ranger::ranger(condition ~ ., data = data.frame(condition=mat[, condition], mor_mat), importance = "impurity", num.threads = num.threads) %>% 
+    pluck("variable.importance")
+  
 }

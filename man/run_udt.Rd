@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-udt.R
 \name{run_udt}
 \alias{run_udt}
-\title{NOLEA (NOn Linear Enrichment Analysis)}
+\title{UDT (Univariate Decision Tree)}
 \usage{
 run_udt(
   mat,
@@ -15,7 +15,6 @@ run_udt(
   center = FALSE,
   na.rm = FALSE,
   min_n = 2,
-  workers = 4,
   seed = 42
 )
 }
@@ -55,7 +54,7 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-.
+
 }
 \details{
 
@@ -74,8 +73,9 @@ Other decoupleR statistics:
 \code{\link{run_aucell}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mdt}()},
+\code{\link{run_mlm}()},
 \code{\link{run_ora}()},
-\code{\link{run_scira}()},
+\code{\link{run_ulm}()},
 \code{\link{run_viper}()},
 \code{\link{run_wmean}()},
 \code{\link{run_wsum}()}

@@ -1,7 +1,7 @@
-#' NOLEA (NOn Linear Enrichment Analysis)
+#' UDT (Univariate Decision Tree)
 #'
 #' @description
-#' .
+#'
 #'
 #' @details
 #'
@@ -26,10 +26,8 @@
 #'
 #' @import dplyr
 #' @import purrr
-#' @import future
-#' @import furrr
 #' @import tibble
-#' @import parsnip
+#' @import rpart
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -38,28 +36,26 @@
 #'
 #' run_udt(mat, network, .source='tf')
 run_udt <- function(mat,
-                      network,
-                      .source = .data$source,
-                      .target = .data$target,
-                      .mor = .data$mor,
-                      .likelihood = .data$likelihood,
-                      sparse = FALSE,
-                      center = FALSE,
-                      na.rm = FALSE,
-                      min_n = 2,
-                      workers = 4,
-                      seed = 42
-                     ) {
+                    network,
+                    .source = .data$source,
+                    .target = .data$target,
+                    .mor = .data$mor,
+                    .likelihood = .data$likelihood,
+                    sparse = FALSE,
+                    center = FALSE,
+                    na.rm = FALSE,
+                    min_n = 2,
+                    seed = 42
+) {
   set.seed(seed)
-  plan(multisession, workers = workers)
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
-
+  
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
     convert_to_ulm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
-
+  
   # Preprocessing -----------------------------------------------------------
   .udt_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
@@ -88,9 +84,9 @@ run_udt <- function(mat,
     rownames(mat),
     network$target
   )
-
+  
   mat <- mat[shared_targets, ]
-
+  
   mor_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -102,7 +98,7 @@ run_udt <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-
+  
   likelihood_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -114,17 +110,17 @@ run_udt <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-
+  
   weight_mat <- mor_mat * likelihood_mat
-
+  
   if (center) {
     mat <- mat - rowMeans(mat, na.rm)
   }
-
+  
   list(mat = mat, mor_mat = weight_mat)
 }
 
-#' Wrapper to execute run_udt() logic one finished preprocessing of data
+#' Wrapper to execute run_udt() logic once finished preprocessing of data
 #'
 #'
 #' @inheritParams run_udt
@@ -140,21 +136,19 @@ run_udt <- function(mat,
     mor_mat = mor_mat,
     min_n = min_n
   )
-
+  
   # Allocate the space for all conditions and evaluate the proposed model.
-  expand_grid(
+  temp <- expand_grid(
     source = colnames(mor_mat),
     condition = colnames(mat)
-  ) %>%
-    summarise(
-      score = future_map2_dbl(.x=.data$source, .y=.data$condition, .f=function(.source, .condition){
-        udt_evaluate_model(.source, .condition)
-      }, .options = furrr_options(seed = seed)),
-      source = .data$source,
-      condition = .data$condition,
-      .groups = "drop"
-    ) %>%
-      transmute(statistic = "udt", .data$source, .data$condition, .data$score)
+  ) 
+  
+  score <- seq_len(nrow(temp)) %>% 
+    map_dbl(~udt_evaluate_model(temp %>% pluck("source", .x), 
+                                temp %>% pluck("condition", .x)))
+  
+  bind_cols(temp, score = score) %>% 
+    transmute(statistic = "udt", .data$source, .data$condition, .data$score)
 }
 
 #' Wrapper to run udt per a sample (condition) at time
@@ -162,14 +156,9 @@ run_udt <- function(mat,
 #' @keywords internal
 #' @noRd
 .udt_evaluate_model <- function(source, condition, mat, mor_mat, min_n) {
-  score <- parsnip::decision_tree(min_n = min_n, mode = "regression") %>%
-    parsnip::set_engine("rpart") %>%
-    parsnip::fit_xy(x = mat[, condition, drop=F] , y = mor_mat[, source]) %>%
-    pluck("fit", "variable.importance")
-  #score <- parsnip::rand_forest(trees = 1, mode = "regression", min_n = min_n, mtry=1) %>%
-  #  parsnip::set_engine("ranger", importance = "impurity", probability = F) %>%
-  #  parsnip::fit_xy(x = mat[, condition, drop=F] , y = mor_mat[, source]) %>%
-  #  pluck("fit", "variable.importance")
+  data <- tibble(x = mat[, condition, drop=F] , y = mor_mat[, source])
+  score <- rpart::rpart(y~x, data, minsplit=min_n) %>% pluck("variable.importance")
+  
   if (is.null(score)) {
     score <- 0
     names(score) <- source

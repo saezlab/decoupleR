@@ -3,7 +3,8 @@
 \name{convert_to_}
 \alias{convert_to_}
 \alias{convert_to_aucell}
-\alias{convert_to_scira}
+\alias{convert_to_ulm}
+\alias{convert_to_mlm}
 \alias{convert_to_wsum}
 \alias{convert_to_wmean}
 \alias{convert_to_viper}
@@ -16,7 +17,9 @@ convert_to_(network)
 
 convert_to_aucell(network, .source, .target)
 
-convert_to_scira(network, .source, .target, .mor = NULL, .likelihood = NULL)
+convert_to_ulm(network, .source, .target, .mor = NULL, .likelihood = NULL)
+
+convert_to_mlm(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
 convert_to_wsum(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
@@ -57,7 +60,9 @@ Return a tibble with four columns: \code{source}, \code{target}, \code{mor} and 
 Return a named list of sources with associated targets.
 \item \code{convert_to_wsum()}
 Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}.
-\item \code{convert_to_scira()}
+\item \code{convert_to_ulm()}
+Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}.
+\item \code{convert_to_mlm()}
 Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}.
 \item \code{convert_to_nolea()}
 Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}.
@@ -81,7 +86,8 @@ convert_to_gsva(network, source, target)
 convert_to_wmean(network, source, target, mor, likelihood)
 convert_to_ora(network, source, target)
 convert_to_wsum(network, source, target, mor)
-convert_to_scira(network, source, target, mor)
+convert_to_ulm(network, source, target, mor)
+convert_to_mlm(network, source, target, mor)
 convert_to_nolea(network, source, target, mor)
 convert_to_viper(network, source, target, mor, likelihood)
 }

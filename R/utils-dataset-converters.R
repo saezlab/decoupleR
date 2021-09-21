@@ -23,7 +23,9 @@
 #'    Return a named list of sources with associated targets.
 #' * `convert_to_wsum()`
 #'    Returns a tibble with three columns: `source`, `target` and `mor`.
-#' * `convert_to_scira()`
+#' * `convert_to_ulm()`
+#'    Returns a tibble with three columns: `source`, `target` and `mor`.
+#' * `convert_to_mlm()`
 #'    Returns a tibble with three columns: `source`, `target` and `mor`.
 #' * `convert_to_nolea()`
 #'    Returns a tibble with three columns: `source`, `target` and `mor`.
@@ -47,7 +49,8 @@
 #' convert_to_wmean(network, source, target, mor, likelihood)
 #' convert_to_ora(network, source, target)
 #' convert_to_wsum(network, source, target, mor)
-#' convert_to_scira(network, source, target, mor)
+#' convert_to_ulm(network, source, target, mor)
+#' convert_to_mlm(network, source, target, mor)
 #' convert_to_nolea(network, source, target, mor)
 #' convert_to_viper(network, source, target, mor, likelihood)
 convert_to_ <- function(network) invisible(network)
@@ -80,19 +83,43 @@ convert_to_aucell <- function(network, .source, .target) {
         pull(.data$regulons)
 }
 
-# scira, wsum and nolea ------------------------------------------------------
+# ulm, mlm and wsum ------------------------------------------------------
 
 #' @rdname convert_to_
 #'
-#' @inheritParams run_scira
+#' @inheritParams run_ulm
 #'
 #' @family convert_to_ variants
 #' @export
-convert_to_scira <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
+convert_to_ulm <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
     .check_quos_status({{ .source }}, {{ .target }},
                        .dots_names = c(".source", ".target")
     )
 
+    network <- network %>%
+        convert_f_defaults(
+            source = {{ .source }},
+            target = {{ .target }},
+            mor = {{ .mor }},
+            likelihood = {{ .likelihood }},
+            .def_col_val = c(mor = 0, likelihood = 1)
+        )
+    check_repeated_edges(network)
+    network %>%
+        mutate(mor = sign(.data$mor))
+}
+
+#' @rdname convert_to_
+#'
+#' @inheritParams run_mlm
+#'
+#' @family convert_to_ variants
+#' @export
+convert_to_mlm <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
+    .check_quos_status({{ .source }}, {{ .target }},
+                       .dots_names = c(".source", ".target")
+    )
+    
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},

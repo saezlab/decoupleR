@@ -1,10 +1,8 @@
-#' UDT (Univariate Decision Tree)
+#' MLM (Multivariate Linear Model)
 #'
 #' @description
 #'
-#'
 #' @details
-#'
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -27,59 +25,57 @@
 #' @import dplyr
 #' @import purrr
 #' @import tibble
-#' @import rpart
+#' @import tidyr
+#' @importFrom stats coef lm summary.lm
+#' @importFrom speedglm speedlm.fit
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_udt(mat, network, .source='tf')
-run_udt <- function(mat,
-                    network,
-                    .source = .data$source,
-                    .target = .data$target,
-                    .mor = .data$mor,
-                    .likelihood = .data$likelihood,
-                    sparse = FALSE,
-                    center = FALSE,
-                    na.rm = FALSE,
-                    min_n = 2,
-                    seed = 42
-) {
-  set.seed(seed)
+#' run_mlm(mat, network, .source='tf')
+run_mlm <- function(mat,
+                      network,
+                      .source = .data$source,
+                      .target = .data$target,
+                      .mor = .data$mor,
+                      .likelihood = .data$likelihood,
+                      sparse = FALSE,
+                      center = FALSE,
+                      na.rm = FALSE) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
   
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
-    convert_to_ulm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    convert_to_mlm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
   
   # Preprocessing -----------------------------------------------------------
-  .udt_preprocessing(network, mat, center, na.rm, sparse) %>%
+  .mlm_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
   {
-    .udt_analysis(.$mat, .$mor_mat, min_n, seed)
+    .mlm_analysis(.$mat, .$mor_mat)
   }
 }
 
 # Helper functions ------------------------------------------------------
-#' udt preprocessing
+#' mlm preprocessing
 #'
 #' - Get only the intersection of target genes between `mat` and `network`.
 #' - Transform tidy `network` into `matrix` representation with `mor` as value.
 #' - If `center` is true, then the expression values are centered by the
 #'   mean of expression across the conditions.
 #'
-#' @inheritParams run_udt
+#' @inheritParams run_mlm
 #'
-#' @return A named list of matrices to evaluate in `.udt_analysis()`.
+#' @return A named list of matrices to evaluate in `.mlm_analysis()`.
 #'  - mat: Genes as rows and conditions as columns.
 #'  - mor_mat: Genes as rows and columns as source.
 #' @keywords intern
 #' @noRd
-.udt_preprocessing <- function(network, mat, center, na.rm, sparse) {
+.mlm_preprocessing <- function(network, mat, center, na.rm, sparse) {
   shared_targets <- intersect(
     rownames(mat),
     network$target
@@ -120,48 +116,49 @@ run_udt <- function(mat,
   list(mat = mat, mor_mat = weight_mat)
 }
 
-#' Wrapper to execute run_udt() logic once finished preprocessing of data
+#' Wrapper to execute run_mlm() logic one finished preprocessing of data
 #'
+#' Fit a linear regression between the value of expression and the profile of its targets.
 #'
-#' @inheritParams run_udt
+#' @inheritParams run_mlm
 #' @param mor_mat
 #'
-#' @inherit run_udt return
+#' @inherit run_mlm return
 #' @keywords intern
 #' @noRd
-.udt_analysis <- function(mat, mor_mat, min_n, seed) {
-  udt_evaluate_model <- partial(
-    .f = .udt_evaluate_model,
+.mlm_analysis <- function(mat, mor_mat) {
+  mlm_evaluate_model <- partial(
+    .f = .mlm_evaluate_model,
     mat = mat,
-    mor_mat = mor_mat,
-    min_n = min_n
+    mor_mat = mor_mat
   )
   
   # Allocate the space for all conditions and evaluate the proposed model.
-  temp <- expand_grid(
-    source = colnames(mor_mat),
+
+  expand_grid(
     condition = colnames(mat)
-  ) 
-  
-  score <- seq_len(nrow(temp)) %>% 
-    map_dbl(~udt_evaluate_model(temp %>% pluck("source", .x), 
-                                temp %>% pluck("condition", .x)))
-  
-  bind_cols(temp, score = score) %>% 
-    transmute(statistic = "udt", .data$source, .data$condition, .data$score)
+  ) %>%
+    rowwise(.data$condition) %>%
+    summarise(
+      score = mlm_evaluate_model(.data$condition),
+      source = colnames(mor_mat),
+      .groups = "drop"
+    ) %>%
+        transmute(statistic = "mlm", .data$source, .data$condition, .data$score
+                  ) %>%
+                  arrange(source)
 }
 
-#' Wrapper to run udt per a sample (condition) at time
+#' Wrapper to run mlm per sample (condition) at time
 #'
 #' @keywords internal
 #' @noRd
-.udt_evaluate_model <- function(source, condition, mat, mor_mat, min_n) {
-  data <- tibble(x = mat[, condition, drop=F] , y = mor_mat[, source])
-  score <- rpart::rpart(y~x, data, minsplit=min_n) %>% pluck("variable.importance")
-  
-  if (is.null(score)) {
-    score <- 0
-    names(score) <- source
-  }
-  score
+.mlm_evaluate_model <- function(condition, mat, mor_mat) {
+  speedlm.fit(
+      y = mat[ , condition],
+      X = cbind(1, mor_mat)
+    ) %>%
+      summary() %>%
+      pluck("coefficients", "t") %>% 
+      .[-1]
 }

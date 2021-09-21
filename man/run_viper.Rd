@@ -73,9 +73,10 @@ Other decoupleR statistics:
 \code{\link{run_aucell}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mdt}()},
+\code{\link{run_mlm}()},
 \code{\link{run_ora}()},
-\code{\link{run_scira}()},
 \code{\link{run_udt}()},
+\code{\link{run_ulm}()},
 \code{\link{run_wmean}()},
 \code{\link{run_wsum}()}
 }

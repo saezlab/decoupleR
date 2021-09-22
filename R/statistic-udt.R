@@ -1,9 +1,9 @@
-#' UDT (Univariate Decision Tree)
+#' Univariate Decision Tree (UDT)
 #'
-#' @description
-#'
-#'
-#' @details
+#' UDT fits a (univariate) decision tree to estimate regulatory activities. UDT
+#' fits a decision tree that predicts the observed molecular using the given
+#' weights of a regulon as a single co-variate. The obtained feature importance
+#' from the fitted model is the activity of the regulon.
 #'
 #'
 #' @inheritParams .decoupler_mat_format
@@ -50,12 +50,12 @@ run_udt <- function(mat,
   set.seed(seed)
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
-  
+
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
     convert_to_ulm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
-  
+
   # Preprocessing -----------------------------------------------------------
   .udt_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
@@ -84,9 +84,9 @@ run_udt <- function(mat,
     rownames(mat),
     network$target
   )
-  
+
   mat <- mat[shared_targets, ]
-  
+
   mor_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -98,7 +98,7 @@ run_udt <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-  
+
   likelihood_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -110,13 +110,13 @@ run_udt <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-  
+
   weight_mat <- mor_mat * likelihood_mat
-  
+
   if (center) {
     mat <- mat - rowMeans(mat, na.rm)
   }
-  
+
   list(mat = mat, mor_mat = weight_mat)
 }
 
@@ -136,18 +136,18 @@ run_udt <- function(mat,
     mor_mat = mor_mat,
     min_n = min_n
   )
-  
+
   # Allocate the space for all conditions and evaluate the proposed model.
   temp <- expand_grid(
     source = colnames(mor_mat),
     condition = colnames(mat)
-  ) 
-  
-  score <- seq_len(nrow(temp)) %>% 
-    map_dbl(~udt_evaluate_model(temp %>% pluck("source", .x), 
+  )
+
+  score <- seq_len(nrow(temp)) %>%
+    map_dbl(~udt_evaluate_model(temp %>% pluck("source", .x),
                                 temp %>% pluck("condition", .x)))
-  
-  bind_cols(temp, score = score) %>% 
+
+  bind_cols(temp, score = score) %>%
     transmute(statistic = "udt", .data$source, .data$condition, .data$score)
 }
 
@@ -158,7 +158,7 @@ run_udt <- function(mat,
 .udt_evaluate_model <- function(source, condition, mat, mor_mat, min_n) {
   data <- tibble(x = mat[, condition, drop=F] , y = mor_mat[, source])
   score <- rpart::rpart(y~x, data, minsplit=min_n) %>% pluck("variable.importance")
-  
+
   if (is.null(score)) {
     score <- 0
     names(score) <- source

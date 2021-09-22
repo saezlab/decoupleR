@@ -10,7 +10,7 @@ run_aucell(
   .source = .data$source,
   .target = .data$target,
   aucMaxRank = ceiling(0.05 * nrow(rankings)),
-  nCores = 1,
+  nproc = 4,
   seed = 42
 )
 }
@@ -46,6 +46,7 @@ run_aucell(mat, network, .source='tf')
 \seealso{
 Other decoupleR statistics: 
 \code{\link{decouple}()},
+\code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mdt}()},
 \code{\link{run_mlm}()},

@@ -88,6 +88,7 @@ if (FALSE) {
 \seealso{
 Other decoupleR statistics: 
 \code{\link{run_aucell}()},
+\code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mdt}()},
 \code{\link{run_mlm}()},

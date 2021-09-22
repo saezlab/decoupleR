@@ -1,9 +1,12 @@
-#' MDT (Multivariate Decision Tree)
+#' Multivariate Decision Tree (MDT)
 #'
-#' @description
-#'
-#'
-#' @details
+#' MDT fits a multivariate ensemble of decision trees (random forest) to
+#' estimate regulatory activities. MDT transforms a given network into and
+#' adjacency matrix, placing sources as columns and targets as rows. The matrix
+#' is filled with the associated weights for each interaction. This matrix is
+#' used to fit a random forest model to to predict the observed molecular
+#' readouts per sample. The obtained feature importances from the fitted model
+#' are the activities of the regulons.
 #'
 #'
 #' @inheritParams .decoupler_mat_format
@@ -45,23 +48,24 @@ run_mdt <- function(mat,
                     center = FALSE,
                     na.rm = FALSE,
                     trees = 10,
-                    num.threads = 4,
+                    min_n = 20,
+                    nproc = 4,
                     seed = 42
 ) {
   set.seed(seed)
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
-  
+
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
     convert_to_mlm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
-  
+
   # Preprocessing -----------------------------------------------------------
   .mdt_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
   {
-    .mdt_analysis(.$mat, .$mor_mat, trees, num.threads)
+    .mdt_analysis(.$mat, .$mor_mat, trees, min_n, nproc)
   }
 }
 
@@ -85,9 +89,9 @@ run_mdt <- function(mat,
     rownames(mat),
     network$target
   )
-  
+
   mat <- mat[shared_targets, ]
-  
+
   mor_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -99,7 +103,7 @@ run_mdt <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-  
+
   likelihood_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -111,13 +115,13 @@ run_mdt <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-  
+
   weight_mat <- mor_mat * likelihood_mat
-  
+
   if (center) {
     mat <- mat - rowMeans(mat, na.rm)
   }
-  
+
   list(mat = mat, mor_mat = weight_mat)
 }
 
@@ -130,15 +134,16 @@ run_mdt <- function(mat,
 #' @inherit run_mdt return
 #' @keywords intern
 #' @noRd
-.mdt_analysis <- function(mat, mor_mat, trees, num.threads) {
+.mdt_analysis <- function(mat, mor_mat, trees, min_n, nproc) {
   mdt_evaluate_model <- partial(
     .f = .mdt_evaluate_model,
     mat = mat,
     mor_mat = mor_mat,
     trees = trees,
-    num.threads = num.threads
+    min_n = min_n,
+    nproc = nproc
   )
-  
+
   # Allocate the space for all conditions and evaluate the proposed model.
   expand_grid(
     condition = colnames(mat)
@@ -158,8 +163,12 @@ run_mdt <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.mdt_evaluate_model <- function(condition, mat, mor_mat, trees, num.threads) {
-  ranger::ranger(condition ~ ., data = data.frame(condition=mat[, condition], mor_mat), importance = "impurity", num.threads = num.threads) %>% 
+.mdt_evaluate_model <- function(condition, mat, mor_mat, trees, min_n, nproc) {
+  ranger::ranger(condition ~ ., data = data.frame(condition=mat[, condition], mor_mat),
+                 num.trees = trees,
+                 importance = "impurity",
+                 min.node.size = min_n,
+                 num.threads = nproc) %>%
     pluck("variable.importance")
-  
+
 }

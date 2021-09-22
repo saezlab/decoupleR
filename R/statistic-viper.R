@@ -1,6 +1,11 @@
-#' VIPER wrapper
+#' Virtual Inference of Protein-activity by Enriched Regulon analysis
 #'
-#' This function is a convenient wrapper for the [viper::viper()] function.
+#' The VIPER (Virtual Inference of Protein-activity by Enriched Regulon analysis
+#' ) algorithm allows computational inference of protein activity, on an
+#' individual sample basis, from gene expression profile data. It uses the
+#' expression of genes that are most directly regulated by a given protein,
+#' such as the targets of a transcription factor (TF), as an accurate reporter
+#' of its activity.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format

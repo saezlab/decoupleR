@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-udt.R
 \name{run_udt}
 \alias{run_udt}
-\title{UDT (Univariate Decision Tree)}
+\title{Univariate Decision Tree (UDT)}
 \usage{
 run_udt(
   mat,
@@ -54,10 +54,10 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-
-}
-\details{
-
+UDT fits a (univariate) decision tree to estimate regulatory activities. UDT
+fits a decision tree that predicts the observed molecular using the given
+weights of a regulon as a single co-variate. The obtained feature importance
+from the fitted model is the activity of the regulon.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -71,6 +71,7 @@ run_udt(mat, network, .source='tf')
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_aucell}()},
+\code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mdt}()},
 \code{\link{run_mlm}()},

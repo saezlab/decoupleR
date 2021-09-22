@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-viper.R
 \name{run_viper}
 \alias{run_viper}
-\title{VIPER wrapper}
+\title{Virtual Inference of Protein-activity by Enriched Regulon analysis}
 \usage{
 run_viper(
   mat,
@@ -57,7 +57,12 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-This function is a convenient wrapper for the \code{\link[viper:viper]{viper::viper()}} function.
+The VIPER (Virtual Inference of Protein-activity by Enriched Regulon analysis
+) algorithm allows computational inference of protein activity, on an
+individual sample basis, from gene expression profile data. It uses the
+expression of genes that are most directly regulated by a given protein,
+such as the targets of a transcription factor (TF), as an accurate reporter
+of its activity.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -71,6 +76,7 @@ run_viper(mat, network, .source='tf', verbose = FALSE)
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_aucell}()},
+\code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mdt}()},
 \code{\link{run_mlm}()},

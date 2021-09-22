@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-mdt.R
 \name{run_mdt}
 \alias{run_mdt}
-\title{MDT (Multivariate Decision Tree)}
+\title{Multivariate Decision Tree (MDT)}
 \usage{
 run_mdt(
   mat,
@@ -15,7 +15,8 @@ run_mdt(
   center = FALSE,
   na.rm = FALSE,
   trees = 10,
-  num.threads = 4,
+  min_n = 20,
+  nproc = 4,
   seed = 42
 )
 }
@@ -55,10 +56,13 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-
-}
-\details{
-
+MDT fits a multivariate ensemble of decision trees (random forest) to
+estimate regulatory activities. MDT transforms a given network into and
+adjacency matrix, placing sources as columns and targets as rows. The matrix
+is filled with the associated weights for each interaction. This matrix is
+used to fit a random forest model to to predict the observed molecular
+readouts per sample. The obtained feature importances from the fitted model
+are the activities of the regulons.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -72,6 +76,7 @@ run_mdt(mat, network, .source='tf')
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_aucell}()},
+\code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mlm}()},
 \code{\link{run_ora}()},

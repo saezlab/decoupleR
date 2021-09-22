@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-ulm.R
 \name{run_ulm}
 \alias{run_ulm}
-\title{ULM (Univariate Linear Model)}
+\title{Univariate Linear Model (ULM)}
 \usage{
 run_ulm(
   mat,
@@ -52,17 +52,15 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculates source activity according to
-\href{https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13}{Improved detection of tumor suppressor events in single-cell RNA-Seq data}
-.
+Calculates regulatory activities by fitting univariate linear models (ULM)
 }
 \details{
-Estimation of regulatory activity: A linear regression of the expression
-profile is performed against the "target profile" of the given source, where
-in the target profile, any regulon member is assigned a \code{+1} for activating
-interactions and a \code{-1} for inhibitory interactions. All other genes not
-members of the source's regulon are assigned a value o \code{0}. Source activity is then
-defined as the t-statistic of this linear regression.
+ULM fits a (univariate) linear model to estimate regulatory activities. ULM
+fits a linear model that predicts the observed molecular using the given
+weights of a regulon as a single co-variate. The obtained t-value
+from the fitted model is the activity of the regulon. THis approach was first
+described in:
+\href{https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13}{Improved detection of tumor suppressor events in single-cell RNA-Seq data}.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -76,6 +74,7 @@ run_ulm(mat, network, .source='tf')
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_aucell}()},
+\code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mdt}()},
 \code{\link{run_mlm}()},

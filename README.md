@@ -21,23 +21,14 @@ issues](https://img.shields.io/github/issues/saezlab/decoupleR)](https://github.
 
 ## Overview
 
-Transcriptome profiling followed by differential gene expression
-analysis often leads to lists of genes that are hard to analyze and
-interpret. Downstream analysis tools can be used to summarize
-deregulation events into a smaller set of biologically interpretable
-features. In particular, methods that estimate the activity of
-transcription factors (TFs) from gene expression are commonly used. It
-has been shown that the transcriptional targets of a TF yield a much
-more robust estimation of the TF activity than observing the expression
-of the TF itself. Consequently, for the estimation of transcription
-factor activities, a network of transcriptional regulation is required
-in combination with a statistical algorithm that summarizes the
-expression of the target genes into a single activity score. Over the
-years, many different regulatory networks and statistical algorithms
-have been developed, mostly in a fixed combination of one network and
-one algorithm. To systematically evaluate both networks and algorithms,
-we developed decoupleR , an R package that allows users to apply
-efficiently any combination provided.
+Computational methods allow the extraction of mechanistic signatures
+from omics data based on prior knowledge resources, reducing the
+dimensionality of the data for increased statistical power and better
+interpretability. Here, we present decoupleR, a Bioconductor package
+containing different statistical methods to extract these signatures
+within a unified framework. decoupleR allows the user to flexibly test
+any method with any resource. It incorporates methods that take into
+account the sign and weight of network interactions.
 
 For more information about how this package has been used with real
 data, please check the following links:
@@ -117,30 +108,29 @@ decouple(
     network = network,
     .source = "tf",
     .target = "target",
-    statistics = c("gsva", "mean", "pscira", "scira", "viper", "ora"),
+    statistics = c("gsva", "wmean", "wsum", "ulm", "ora"),
     args = list(
         gsva = list(verbose = FALSE),
-        mean = list(.mor = "mor", .likelihood = "likelihood"),
-        pscira = list(.mor = "mor"),
-        scira = list(.mor = "mor"),
-        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE),
+        wmean = list(times=100),
+        wsum = list(times=100),
+        ulm = list(center=FALSE),
         ora = list()
     )
 )
-#> # A tibble: 140 x 11
-#>    run_id statistic tf    condition    score p_value estimate conf.low conf.high
-#>    <chr>  <chr>     <chr> <chr>        <dbl>   <dbl>    <dbl>    <dbl>     <dbl>
-#>  1 1      gsva      FOXO4 GSM2753335 -0.380       NA       NA       NA        NA
-#>  2 1      gsva      FOXO4 GSM2753336 -0.300       NA       NA       NA        NA
-#>  3 1      gsva      FOXO4 GSM2753337  0.239       NA       NA       NA        NA
-#>  4 1      gsva      FOXO4 GSM2753338  0.0907      NA       NA       NA        NA
-#>  5 1      gsva      NFIC  GSM2753335 -0.0845      NA       NA       NA        NA
-#>  6 1      gsva      NFIC  GSM2753336  0.0778      NA       NA       NA        NA
-#>  7 1      gsva      NFIC  GSM2753337 -0.260       NA       NA       NA        NA
-#>  8 1      gsva      NFIC  GSM2753338  0.281       NA       NA       NA        NA
-#>  9 1      gsva      RFXAP GSM2753335 -0.810       NA       NA       NA        NA
-#> 10 1      gsva      RFXAP GSM2753336 -0.472       NA       NA       NA        NA
-#> # … with 130 more rows, and 2 more variables: method <chr>, alternative <chr>
+#> # A tibble: 200 × 6
+#>    run_id statistic source condition    score p_value
+#>    <chr>  <chr>     <chr>  <chr>        <dbl>   <dbl>
+#>  1 1      gsva      FOXO4  GSM2753335 -0.380       NA
+#>  2 1      gsva      FOXO4  GSM2753336 -0.300       NA
+#>  3 1      gsva      FOXO4  GSM2753337  0.239       NA
+#>  4 1      gsva      FOXO4  GSM2753338  0.0907      NA
+#>  5 1      gsva      NFIC   GSM2753335 -0.0845      NA
+#>  6 1      gsva      NFIC   GSM2753336  0.0778      NA
+#>  7 1      gsva      NFIC   GSM2753337 -0.260       NA
+#>  8 1      gsva      NFIC   GSM2753338  0.281       NA
+#>  9 1      gsva      RFXAP  GSM2753335 -0.810       NA
+#> 10 1      gsva      RFXAP  GSM2753336 -0.472       NA
+#> # … with 190 more rows
 ```
 
 ### Individual parts
@@ -151,38 +141,28 @@ statistics follow the same design pattern and arguments, so moving
 between statistics could be very comfortable.
 
 ``` r
-# viper call is equivalent to the one made by decouple() above.
-run_viper(
+# wmean call is equivalent to the one made by decouple() above.
+run_wmean(
     mat = mat,
     network = network,
     .source = "tf",
     .target = "target",
-    .likelihood = "likelihood",
-    verbose = FALSE
+    .likelihood = "likelihood"
 )
-#> # A tibble: 20 x 4
-#>    statistic tf     condition    score
-#>    <chr>     <chr>  <chr>        <dbl>
-#>  1 viper     FOXO4  GSM2753335  1.34  
-#>  2 viper     FOXO4  GSM2753336  1.18  
-#>  3 viper     FOXO4  GSM2753337  1.44  
-#>  4 viper     FOXO4  GSM2753338  1.21  
-#>  5 viper     NFIC   GSM2753335  0.0696
-#>  6 viper     NFIC   GSM2753336 -0.0265
-#>  7 viper     NFIC   GSM2753337 -0.516 
-#>  8 viper     NFIC   GSM2753338 -0.543 
-#>  9 viper     RFXAP  GSM2753335  0.488 
-#> 10 viper     RFXAP  GSM2753336  1.32  
-#> 11 viper     RFXAP  GSM2753337  1.93  
-#> 12 viper     RFXAP  GSM2753338  1.93  
-#> 13 viper     SMAD3  GSM2753335  0.176 
-#> 14 viper     SMAD3  GSM2753336  0.0426
-#> 15 viper     SMAD3  GSM2753337  0.219 
-#> 16 viper     SMAD3  GSM2753338  0.142 
-#> 17 viper     TFAP2A GSM2753335  0.722 
-#> 18 viper     TFAP2A GSM2753336  0.582 
-#> 19 viper     TFAP2A GSM2753337  0.462 
-#> 20 viper     TFAP2A GSM2753338  0.330
+#> # A tibble: 60 × 5
+#>    statistic  source condition  score p_value
+#>    <chr>      <chr>  <chr>      <dbl>   <dbl>
+#>  1 corr_wmean FOXO4  GSM2753335  5.94    0   
+#>  2 corr_wmean FOXO4  GSM2753336  5.97    0   
+#>  3 corr_wmean FOXO4  GSM2753337  6.36    0   
+#>  4 corr_wmean FOXO4  GSM2753338  6.40    0   
+#>  5 corr_wmean NFIC   GSM2753335  1.58    0.23
+#>  6 corr_wmean NFIC   GSM2753336  1.84    0.2 
+#>  7 corr_wmean NFIC   GSM2753337  1.23    0.27
+#>  8 corr_wmean NFIC   GSM2753338  1.27    0.28
+#>  9 corr_wmean RFXAP  GSM2753335  3.61    0.11
+#> 10 corr_wmean RFXAP  GSM2753336  6.51    0.04
+#> # … with 50 more rows
 ```
 
 <!-- ## Citation -->

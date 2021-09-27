@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-ora.R
 \name{run_ora}
 \alias{run_ora}
-\title{Over Representation Analysis - Fisher Exact Test}
+\title{Over Representation Analysis (ORA)}
 \usage{
 run_ora(
   mat,
@@ -11,7 +11,7 @@ run_ora(
   .target = .data$target,
   n_up = nrow(mat),
   n_bottom = 0,
-  n_background = NULL,
+  n_background = 20000,
   with_ties = TRUE,
   ...
 )
@@ -93,7 +93,11 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
+Calculates regulatory activities using ORA.
+}
+\details{
 Performs an over-representation analysis using \code{\link[stats:fisher.test]{stats::fisher.test()}}.
+Obtained scores are -log10(p-values).
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -101,7 +105,7 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_ora(mat, network, .source='tf', target)
+run_ora(mat, network, .source='tf')
 }
 \seealso{
 Other decoupleR statistics: 

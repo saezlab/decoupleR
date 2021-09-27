@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-wmean.R
 \name{run_wmean}
 \alias{run_wmean}
-\title{Weighted mean}
+\title{Weighted Mean (WMEAN)}
 \usage{
 run_wmean(
   mat,
@@ -54,15 +54,15 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculate the activity of all regulons in \code{network} through the conditions in
-the \code{mat} matrix by calculating the weighted mean over the expression of all genes.
+Calculates regulatory activities by computing the WMEAN.
 }
 \details{
-\code{run_wmean()} calculates the activity score, but in addition, it takes
-advantage of the permutations used to calculate the \code{p-value}, to provide
-the normalized and corrected activity scores. This is represented in the \code{statistic} column
-which will contain three values for each call to \code{run_wmean()}; \strong{wmean},
-\strong{norm_wmean} and \strong{corr_wmean}.
+Infers activity score for each regulator by weighting the molecular readouts
+of its targets by their mode of regulations and likelihoods. In addition, it
+runs permutations to calculate empirical p-values, providing normalized
+(z-score) and corrected activity (estimate * -log10(pval)) scores. This is
+represented in the \code{statistic} column which will contain three values for
+each call to \code{run_wmean()}; \strong{wmean}, \strong{norm_wmean} and \strong{corr_wmean}.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

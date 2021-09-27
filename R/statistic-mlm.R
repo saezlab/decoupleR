@@ -1,8 +1,15 @@
-#' MLM (Multivariate Linear Model)
+#' Multivariate Linear Model (MLM)
 #'
 #' @description
+#' Calculates regulatory activities by fitting multivariate linear models (MLM)
 #'
 #' @details
+#' MLM fits a multivariate linear model to estimate regulatory activities.
+#' MLM transforms a given network into an adjacency matrix, placing sources as
+#' columns and targets as rows. The matrix is filled with the associated weights
+#' for each interaction. This matrix is used to fit a linear model to predict
+#' the observed molecular readouts per sample. The obtained t-values from the
+#' fitted model are the activities of the regulators.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -46,12 +53,12 @@ run_mlm <- function(mat,
                       na.rm = FALSE) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
-  
+
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
     convert_to_mlm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
-  
+
   # Preprocessing -----------------------------------------------------------
   .mlm_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
@@ -80,9 +87,9 @@ run_mlm <- function(mat,
     rownames(mat),
     network$target
   )
-  
+
   mat <- mat[shared_targets, ]
-  
+
   mor_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -94,7 +101,7 @@ run_mlm <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-  
+
   likelihood_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
     pivot_wider_profile(
@@ -106,13 +113,13 @@ run_mlm <- function(mat,
       to_sparse = sparse
     ) %>%
     .[shared_targets, ]
-  
+
   weight_mat <- mor_mat * likelihood_mat
-  
+
   if (center) {
     mat <- mat - rowMeans(mat, na.rm)
   }
-  
+
   list(mat = mat, mor_mat = weight_mat)
 }
 
@@ -132,21 +139,15 @@ run_mlm <- function(mat,
     mat = mat,
     mor_mat = mor_mat
   )
-  
-  # Allocate the space for all conditions and evaluate the proposed model.
 
+  # Allocate the space for all conditions and evaluate the proposed model.
   expand_grid(
     condition = colnames(mat)
   ) %>%
     rowwise(.data$condition) %>%
-    summarise(
-      score = mlm_evaluate_model(.data$condition),
-      source = colnames(mor_mat),
-      .groups = "drop"
-    ) %>%
-        transmute(statistic = "mlm", .data$source, .data$condition, .data$score
-                  ) %>%
-                  arrange(source)
+    mutate(model = list(mlm_evaluate_model(.data$condition)), statistic='mlm') %>%
+    unnest(model) %>%
+    select(statistic, source, condition, score, p_value)
 }
 
 #' Wrapper to run mlm per sample (condition) at time
@@ -154,11 +155,16 @@ run_mlm <- function(mat,
 #' @keywords internal
 #' @noRd
 .mlm_evaluate_model <- function(condition, mat, mor_mat) {
-  speedlm.fit(
+  fit <- speedlm.fit(
       y = mat[ , condition],
       X = cbind(1, mor_mat)
     ) %>%
-      summary() %>%
-      pluck("coefficients", "t") %>% 
+      summary()
+  scores <- fit %>%
+      pluck("coefficients", "t", .default = NA) %>%
       .[-1]
+  pvals <- fit %>%
+    pluck("coefficients", "p.value", .default = NA) %>%
+    .[-1]
+  tibble(score=scores, p_value=pvals, source=colnames(mor_mat))
 }

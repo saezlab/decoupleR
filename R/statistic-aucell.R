@@ -1,13 +1,17 @@
-#' AUCell wrapper
+#' AUCell
 #'
-#' This function is a convenient wrapper for the workflow that calculates AUC
-#' for each regulon in each cell. The workflow consists of the AUCell::AUCell_buildRankings
-#' and AUCell::AUCell_calcAUC functions.
+#' @description
+#' Calculates regulatory activities using Area Under the Curve (AUC) from AUCell
+#'
+#' @details
+#' This function is a wrapper for the method `AUCell`. It uses the
+#' "Area Under the Curve" (AUC) to calculate whether a critical subset of input
+#' molecular features is enriched for each sample.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
 #' @param aucMaxRank Threshold to calculate the AUC.
-#' @param nCores Number of cores to use for computation.
+#' @param nproc Number of cores to use for computation.
 #'
 #' @family decoupleR statistics
 #' @export

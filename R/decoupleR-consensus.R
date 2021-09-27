@@ -46,8 +46,8 @@ run_consensus <- function(df,
     # Transform back to tibble
     map2(., names(.), function(df, cond){
       as_tibble(df) %>%
-        rename('source' = Name, 'score' = Score) %>%
-        mutate(score= -log10(score),
+        rename('source' = Name, 'p_value' = Score) %>%
+        mutate(score= -log10(p_value),
                statistic = 'consensus',
                condition = cond,
                run_id = as.character(length(stats_names) + 1)

@@ -1,7 +1,10 @@
-#' fgsea wrapper
+#' Fast Gene Set Enrichment Analysis (FGSEA)
 #'
-#' This function is a convenient wrapper for the
-#' \code{\link[=fgsea]{fgsea::fgsea()}} function.
+#' @description
+#' Calculates regulatory activities using FGSEA.
+#'
+#' @details
+#' This function is a wrapper for the method \code{\link[=fgsea]{fgsea::fgsea()}}.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -21,21 +24,22 @@
 #'  }
 #' @family decoupleR statistics
 #' @export
-#' @importFrom fgsea fgsea
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_fgsea(mat, network, .source='tf')
+#' run_fgsea(mat, network, .source='tf', force_ties = T)
 run_fgsea <- function(mat,
                       network,
                       .source = .data$source,
                       .target = .data$target,
-                      force_ties = F,
-                      options = list(),
-                      seed = 42) {
+                      force_ties = T,
+                      times = 100,
+                      nproc = 4,
+                      seed = 42,
+                      ...) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
 
@@ -48,19 +52,25 @@ run_fgsea <- function(mat,
   set.seed(seed)
   map_dfr(.x = conditions, .f = ~ {
     stats <- mat[, .x]
-    options <- c(list(pathways = regulons, stats = stats), options)
-    result <- do.call(what = fgsea, args = options)
+    options <- list(
+      pathways = regulons,
+      stats = stats,
+      nPermSimple = times,
+      nproc = nproc
+      )
+    result <- suppressWarnings(do.call(what = fgsea::fgsea, args = options))
     if (all(table(stats) == 1) | force_ties){
       result
     } else {
       warning('
-      Ties were detected, NA will be returned.
+      FGSEA: Ties were detected, NAs will be returned.
       To force ties use force_ties = T, but results might not be reproducible.')
       result %>% mutate(across(!pathway, function(x){NA}))
     }
   }, .id = "condition") %>%
-    mutate(statistic = "fgsea") %>%
-    select(.data$statistic, source = .data$pathway, .data$condition, score = .data$ES, everything()) %>%
-    as_tibble() %>%
-    `attr<-`(".internal.selfref", NULL)
+    select(.data$pathway, .data$condition, .data$ES, .data$NES, .data$pval) %>%
+    tidyr::pivot_longer(cols=c("ES","NES"), names_to ="statistic", values_to="score") %>%
+    mutate(statistic=if_else(statistic=='ES', 'fgsea', 'norm_fgsea')) %>%
+    rename('source'=pathway, 'p_value'=pval) %>%
+    select(statistic, source, condition, score, p_value)
 }

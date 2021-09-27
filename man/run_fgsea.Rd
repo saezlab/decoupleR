@@ -2,16 +2,18 @@
 % Please edit documentation in R/statistic-fgsea.R
 \name{run_fgsea}
 \alias{run_fgsea}
-\title{fgsea wrapper}
+\title{Fast Gene Set Enrichment Analysis (FGSEA)}
 \usage{
 run_fgsea(
   mat,
   network,
   .source = .data$source,
   .target = .data$target,
-  force_ties = F,
-  options = list(),
-  seed = 42
+  force_ties = T,
+  times = 100,
+  nproc = 4,
+  seed = 42,
+  ...
 )
 }
 \arguments{
@@ -26,11 +28,11 @@ in \code{network} \code{.target} column.}
 
 \item{.target}{Column with target nodes.}
 
+\item{seed}{A single value, interpreted as an integer, or NULL.}
+
 \item{options}{A list of named options to pass to
 \code{\link[=fgsea]{fgsea::fgsea()}}..
 These options should not \code{include}, \code{pathways} or \code{stats}.}
-
-\item{seed}{A single value, interpreted as an integer, or NULL.}
 }
 \value{
 A long format tibble of the enrichment scores for each source
@@ -44,8 +46,10 @@ across the conditions. Resulting tibble contains the following columns:
 }
 }
 \description{
-This function is a convenient wrapper for the
-\code{\link[=fgsea]{fgsea::fgsea()}} function.
+Calculates regulatory activities using FGSEA.
+}
+\details{
+This function is a wrapper for the method \code{\link[=fgsea]{fgsea::fgsea()}}.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -53,7 +57,7 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_fgsea(mat, network, .source='tf')
+run_fgsea(mat, network, .source='tf', force_ties = T)
 }
 \seealso{
 Other decoupleR statistics: 

@@ -1,13 +1,16 @@
-#' Multivariate Decision Tree (MDT)
+#' Multivariate Decision Trees (MDT)
 #'
+#' @description
+#' Calculates regulatory activities by fitting multivariate desicion trees (MDT)
+#'
+#' @details
 #' MDT fits a multivariate ensemble of decision trees (random forest) to
-#' estimate regulatory activities. MDT transforms a given network into and
+#' estimate regulatory activities. MDT transforms a given network into an
 #' adjacency matrix, placing sources as columns and targets as rows. The matrix
 #' is filled with the associated weights for each interaction. This matrix is
-#' used to fit a random forest model to to predict the observed molecular
+#' used to fit a random forest model to predict the observed molecular
 #' readouts per sample. The obtained feature importances from the fitted model
-#' are the activities of the regulons.
-#'
+#' are the activities of the regulators.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -17,6 +20,12 @@
 #' [base::rowMeans()].
 #' @param na.rm Should missing values (including NaN) be omitted from the
 #'  calculations of [base::rowMeans()]?
+#' @param trees An integer for the number of trees contained in the ensemble.
+#' @param min_n An integer for the minimum number of data points in a node that
+#' are required for the node to be split further.
+#' @param nproc Number of cores to use for computation.
+#' @param seed A single value, interpreted as an integer, or NULL for random
+#'  number generation.
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:

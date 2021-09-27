@@ -2,9 +2,17 @@
 % Please edit documentation in R/statistic-gsva.R
 \name{run_gsva}
 \alias{run_gsva}
-\title{GSVA wrapper}
+\title{Gene Set Variation Analysis (GSVA)}
 \usage{
-run_gsva(mat, network, .source = .data$source, .target = .data$target, ...)
+run_gsva(
+  mat,
+  network,
+  .source = .data$source,
+  .target = .data$target,
+  verbose = FALSE,
+  method = "gsva",
+  ...
+)
 }
 \arguments{
 \item{mat}{Matrix to evaluate (e.g. expression matrix).
@@ -35,7 +43,10 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-This function is a convenient wrapper for the \code{\link[GSVA:gsva]{GSVA::gsva()}} function.
+Calculates regulatory activities using GSVA.
+}
+\details{
+This function is a wrapper for the method \code{\link[GSVA:gsva]{GSVA::gsva()}}.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

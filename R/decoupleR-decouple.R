@@ -1,7 +1,7 @@
 #' Evaluate multiple statistics with same input data
 #'
 #' Calculate the source activity per sample out of a gene expression matrix by
-#' coupling a regulon network with a variety of statistics.
+#' coupling a regulatory network with a variety of statistics.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -10,8 +10,8 @@
 #'  (or length 1). The default argument, list(NULL), will be recycled to the
 #'  same length as `statistics`, and will call each function with no arguments
 #'   (apart from `mat`, `network`, `.source` and, `.target`).
-#' @param consensus_score Boolean wheter to run a consensus score between
-#' methods.
+#' @param consensus_score Boolean whether to run a consensus score between
+#' methods. Obtained scores are -log10(p-values).
 #' @param include_time Should the time per statistic evaluated be informed?
 #' @param show_toy_call The call of each statistic must be informed?
 #'
@@ -54,15 +54,20 @@
 #' }
 decouple <- function(mat,
                      network,
-                     .source,
-                     .target,
-                     statistics,
+                     .source = .data$source,
+                     .target = .data$target,
+                     statistics = c('udt','mdt','aucell','wmean','wsum','ulm',
+                                    'mlm','viper','gsva','ora','fgsea'),
                      args = list(NULL),
                      consensus_score = T,
                      include_time = FALSE,
                      show_toy_call = FALSE) {
 
     # Match statistic names with arguments
+    for (stat in setdiff(statistics, names(args))) {
+        args[[stat]] = list()
+    }
+    args <- args[names(args) %in% statistics]
     statistics <- statistics[match(names(args),statistics)]
 
     # Match statistics to couple ----------------------------------------------

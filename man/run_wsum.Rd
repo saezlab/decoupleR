@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-wsum.R
 \name{run_wsum}
 \alias{run_wsum}
-\title{Weighted sum}
+\title{Weighted Sum (WSUM)}
 \usage{
 run_wsum(
   mat,
@@ -54,15 +54,15 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculate the activity of all regulons in \code{network} through the conditions in
-the \code{mat} matrix by calculating the weighted sum over the expression of all genes.
+Calculates regulatory activities by computing the WSUM
 }
 \details{
-\code{run_wsum()} calculates the activity score, but in addition, it takes
-advantage of the permutations used to calculate the \code{p-value}, to provide
-the normalized and corrected activity scores. This is represented in the \code{statistic} column
-which will contain three values for each call to \code{run_wsum()}; \strong{wsum},
-\strong{norm_wsum} and \strong{corr_wsum}.
+Infers activity score for each regulator by weighting the molecular readouts
+of its targets by their mode of regulations and likelihoods. In addition, it
+runs permutations to calculate empirical p-values, providing normalized
+(z-score) and corrected activity (estimate * -log10(p-value)) scores. This is
+represented in the \code{statistic} column which will contain three values for
+each call to \code{run_wsum()}; \strong{wsum}, \strong{norm_wsum} and \strong{corr_wsum}.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

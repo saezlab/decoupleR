@@ -1,10 +1,13 @@
 #' Univariate Decision Tree (UDT)
 #'
-#' UDT fits a (univariate) decision tree to estimate regulatory activities. UDT
-#' fits a decision tree that predicts the observed molecular using the given
-#' weights of a regulon as a single co-variate. The obtained feature importance
-#' from the fitted model is the activity of the regulon.
+#' @description
+#' Calculates regulatory activities by fitting univariate decision trees (UDT).
 #'
+#' @details
+#' UDT fits a (univariate) decision tree to estimate regulatory activities. UDT
+#' fits a decision tree that predicts the observed molecular readouts using the
+#' given weights of a regulator as a single co-variate. The obtained feature
+#' importance from the fitted model is the activity of the regulator.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -14,6 +17,10 @@
 #' [base::rowMeans()].
 #' @param na.rm Should missing values (including NaN) be omitted from the
 #'  calculations of [base::rowMeans()]?
+#' @param min_n An integer for the minimum number of data points in a node that
+#' are required for the node to be split further.
+#' @param seed A single value, interpreted as an integer, or NULL for random
+#'  number generation.
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
@@ -44,7 +51,7 @@ run_udt <- function(mat,
                     sparse = FALSE,
                     center = FALSE,
                     na.rm = FALSE,
-                    min_n = 2,
+                    min_n = 20,
                     seed = 42
 ) {
   set.seed(seed)

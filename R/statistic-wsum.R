@@ -1,14 +1,15 @@
-#' Weighted sum
+#' Weighted Sum (WSUM)
 #'
-#' Calculate the activity of all regulons in `network` through the conditions in
-#' the `mat` matrix by calculating the weighted sum over the expression of all genes.
+#' @description
+#' Calculates regulatory activities by computing the WSUM
 #'
 #' @details
-#'  `run_wsum()` calculates the activity score, but in addition, it takes
-#'  advantage of the permutations used to calculate the `p-value`, to provide
-#'  the normalized and corrected activity scores. This is represented in the `statistic` column
-#'  which will contain three values for each call to `run_wsum()`; __wsum__,
-#'  __norm_wsum__ and __corr_wsum__.
+#' Infers activity score for each regulator by weighting the molecular readouts
+#' of its targets by their mode of regulations and likelihoods. In addition, it
+#' runs permutations to calculate empirical p-values, providing normalized
+#' (z-score) and corrected activity (estimate * -log10(p-value)) scores. This is
+#' represented in the `statistic` column which will contain three values for
+#' each call to `run_wsum()`; __wsum__, __norm_wsum__ and __corr_wsum__.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format

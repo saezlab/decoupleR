@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-aucell.R
 \name{run_aucell}
 \alias{run_aucell}
-\title{AUCell wrapper}
+\title{AUCell}
 \usage{
 run_aucell(
   mat,
@@ -28,12 +28,15 @@ in \code{network} \code{.target} column.}
 
 \item{aucMaxRank}{Threshold to calculate the AUC.}
 
-\item{nCores}{Number of cores to use for computation.}
+\item{nproc}{Number of cores to use for computation.}
 }
 \description{
-This function is a convenient wrapper for the workflow that calculates AUC
-for each regulon in each cell. The workflow consists of the AUCell::AUCell_buildRankings
-and AUCell::AUCell_calcAUC functions.
+Calculates regulatory activities using Area Under the Curve (AUC) from AUCell
+}
+\details{
+This function is a wrapper for the method \code{AUCell}. It uses the
+"Area Under the Curve" (AUC) to calculate whether a critical subset of input
+molecular features is enriched for each sample.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

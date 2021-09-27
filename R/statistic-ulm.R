@@ -1,13 +1,13 @@
 #' Univariate Linear Model (ULM)
 #'
 #' @description
-#' Calculates regulatory activities by fitting univariate linear models (ULM)
+#' Calculates regulatory activities by fitting univariate linear models (ULM).
 #'
 #' @details
 #' ULM fits a (univariate) linear model to estimate regulatory activities. ULM
-#' fits a linear model that predicts the observed molecular using the given
-#' weights of a regulon as a single co-variate. The obtained t-value
-#' from the fitted model is the activity of the regulon. THis approach was first
+#' fits a linear model that predicts the observed molecular readouts using the given
+#' weights of a regulator as a single co-variate. The obtained t-value
+#' from the fitted model is the activity of the regulator. This approach was first
 #' described in:
 #' [Improved detection of tumor suppressor events in single-cell RNA-Seq data](
 #' https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13).
@@ -148,11 +148,9 @@ run_ulm <- function(mat,
         condition = colnames(mat)
     ) %>%
         rowwise(.data$source, .data$condition) %>%
-        summarise(
-            score = ulm_evaluate_model(.data$source, .data$condition),
-            .groups = "drop"
-        ) %>%
-        transmute(statistic = "ulm", .data$source, .data$condition, .data$score)
+        mutate(model = list(ulm_evaluate_model(.data$source, .data$condition)), statistic='ulm') %>%
+        unnest(model) %>%
+        select(statistic, source, condition, score, p_value)
 }
 
 #' Wrapper to run ulm one source (source) per sample (condition) at time
@@ -160,10 +158,14 @@ run_ulm <- function(mat,
 #' @keywords internal
 #' @noRd
 .ulm_evaluate_model <- function(source, condition, mat, mor_mat) {
-        speedlm.fit(
+    fit <- speedlm.fit(
             y = mat[, condition],
             X = cbind(1, mor_mat[, source])
         ) %>%
-            summary() %>%
-            pluck("coefficients", "t", 2, .default = NA)
+            summary()
+    score <- fit %>%
+        pluck("coefficients", "t", 2, .default = NA)
+    pval <- fit %>%
+        pluck("coefficients", "p.value", 2, .default = NA)
+    tibble(score=score, p_value=pval)
 }

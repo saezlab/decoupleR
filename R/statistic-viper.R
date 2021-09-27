@@ -1,11 +1,10 @@
-#' Virtual Inference of Protein-activity by Enriched Regulon analysis
+#' Virtual Inference of Protein-activity by Enriched Regulon analysis (VIPER)
 #'
-#' The VIPER (Virtual Inference of Protein-activity by Enriched Regulon analysis
-#' ) algorithm allows computational inference of protein activity, on an
-#' individual sample basis, from gene expression profile data. It uses the
-#' expression of genes that are most directly regulated by a given protein,
-#' such as the targets of a transcription factor (TF), as an accurate reporter
-#' of its activity.
+#' @description
+#' Calculates regulatory activities using VIPER.
+#'
+#' @details
+#' This function is a wrapper for the method [viper::viper()].
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -36,6 +35,10 @@ run_viper <- function(mat,
                       .target = .data$target,
                       .mor = .data$mor,
                       .likelihood = .data$likelihood,
+                      verbose = FALSE,
+                      minsize = 0,
+                      pleiotropy = T,
+                      eset.filter = F,
                       ...) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
@@ -49,10 +52,15 @@ run_viper <- function(mat,
         .fn = viper::viper,
         eset = mat,
         regulon = network,
+        verbose = verbose,
+        minsize = minsize,
+        pleiotropy = pleiotropy,
+        eset.filter = eset.filter,
         !!!list(...)
     ) %>%
         as.data.frame() %>%
         rownames_to_column("source") %>%
         pivot_longer(-.data$source, names_to = "condition", values_to = "score") %>%
-        add_column(statistic = "viper", .before = 1)
+        add_column(statistic = "viper", .before = 1) %>%
+        mutate(p_value = 2*pnorm(-abs(score)))
 }

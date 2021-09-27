@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistic-mlm.R
 \name{run_mlm}
 \alias{run_mlm}
-\title{MLM (Multivariate Linear Model)}
+\title{Multivariate Linear Model (MLM)}
 \usage{
 run_mlm(
   mat,
@@ -52,10 +52,15 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-
+Calculates regulatory activities by fitting multivariate linear models (MLM)
 }
 \details{
-
+MLM fits a multivariate linear model to estimate regulatory activities.
+MLM transforms a given network into an adjacency matrix, placing sources as
+columns and targets as rows. The matrix is filled with the associated weights
+for each interaction. This matrix is used to fit a linear model to predict
+the observed molecular readouts per sample. The obtained t-values from the
+fitted model are the activities of the regulators.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

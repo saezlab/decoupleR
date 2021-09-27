@@ -1,6 +1,11 @@
-#' Over Representation Analysis - Fisher Exact Test
+#' Over Representation Analysis (ORA)
 #'
+#' @description
+#' Calculates regulatory activities using ORA.
+#'
+#' @details
 #' Performs an over-representation analysis using [stats::fisher.test()].
+#' Obtained scores are -log10(p-values).
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -29,14 +34,14 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_ora(mat, network, .source='tf', target)
+#' run_ora(mat, network, .source='tf')
 run_ora <- function(mat,
                     network,
                     .source = .data$source,
                     .target = .data$target,
                     n_up = nrow(mat),
                     n_bottom = 0,
-                    n_background = NULL,
+                    n_background = 20000,
                     with_ties = TRUE,
                     ...) {
     # Check for NAs/Infs in mat
@@ -81,10 +86,11 @@ run_ora <- function(mat,
         .groups = "drop"
         ) %>%
         select(.data$source, .data$condition,
-            score = .data$p.value, everything()
+               p_value = .data$p.value, everything()
         ) %>%
-        mutate(score = -log10(score)) %>%
-        add_column(statistic = "ora", .before = 1)
+        mutate(score = -log10(p_value)) %>%
+        add_column(statistic = "ora", .before = 1) %>%
+        select(statistic, source, condition, score, p_value)
 }
 
 #' Fisher Exact Test

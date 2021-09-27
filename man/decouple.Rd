@@ -7,9 +7,10 @@
 decouple(
   mat,
   network,
-  .source,
-  .target,
-  statistics,
+  .source = .data$source,
+  .target = .data$target,
+  statistics = c("udt", "mdt", "aucell", "wmean", "wsum", "ulm", "mlm", "viper",
+    "gsva", "ora", "fgsea"),
   args = list(NULL),
   consensus_score = T,
   include_time = FALSE,
@@ -35,8 +36,8 @@ in \code{network} \code{.target} column.}
 same length as \code{statistics}, and will call each function with no arguments
 (apart from \code{mat}, \code{network}, \code{.source} and, \code{.target}).}
 
-\item{consensus_score}{Boolean wheter to run a consensus score between
-methods.}
+\item{consensus_score}{Boolean whether to run a consensus score between
+methods. Obtained scores are -log10(p-values).}
 
 \item{include_time}{Should the time per statistic evaluated be informed?}
 
@@ -56,7 +57,7 @@ across the samples. Resulting tibble contains the following columns:
 }
 \description{
 Calculate the source activity per sample out of a gene expression matrix by
-coupling a regulon network with a variety of statistics.
+coupling a regulatory network with a variety of statistics.
 }
 \examples{
 if (FALSE) {

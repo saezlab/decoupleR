@@ -1,6 +1,10 @@
-#' GSVA wrapper
+#' Gene Set Variation Analysis (GSVA)
 #'
-#' This function is a convenient wrapper for the [GSVA::gsva()] function.
+#' @description
+#' Calculates regulatory activities using GSVA.
+#'
+#' @details
+#' This function is a wrapper for the method [GSVA::gsva()].
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -25,6 +29,8 @@ run_gsva <- function(mat,
                      network,
                      .source = .data$source,
                      .target = .data$target,
+                     verbose = FALSE,
+                     method = "gsva",
                      ...) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
@@ -40,6 +46,8 @@ run_gsva <- function(mat,
         gset.idx.list = regulons,
         min.sz = 1,
         max.sz = Inf,
+        verbose = verbose,
+        method = method,
         !!!list(...)
     ) %>%
         as.data.frame() %>%

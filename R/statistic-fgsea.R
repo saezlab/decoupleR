@@ -36,7 +36,7 @@ run_fgsea <- function(mat,
                       .source = .data$source,
                       .target = .data$target,
                       force_ties = T,
-                      times = 100,
+                      times = 1000,
                       nproc = 4,
                       seed = 42,
                       ...) {
@@ -72,5 +72,6 @@ run_fgsea <- function(mat,
     tidyr::pivot_longer(cols=c("ES","NES"), names_to ="statistic", values_to="score") %>%
     mutate(statistic=if_else(statistic=='ES', 'fgsea', 'norm_fgsea')) %>%
     rename('source'=pathway, 'p_value'=pval) %>%
-    select(statistic, source, condition, score, p_value)
+    select(statistic, source, condition, score, p_value) %>%
+    mutate(score = replace_na(score, 0))
 }

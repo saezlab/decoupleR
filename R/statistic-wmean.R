@@ -46,7 +46,7 @@ run_wmean <- function(mat,
                      .target = .data$target,
                      .mor = .data$mor,
                      .likelihood = .data$likelihood,
-                     times = 100,
+                     times = 1000,
                      seed = 42,
                      sparse = TRUE,
                      randomize_type = "rows") {

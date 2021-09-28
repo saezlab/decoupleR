@@ -10,7 +10,7 @@ run_fgsea(
   .source = .data$source,
   .target = .data$target,
   force_ties = T,
-  times = 100,
+  times = 1000,
   nproc = 4,
   seed = 42,
   ...

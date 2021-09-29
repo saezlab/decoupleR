@@ -46,7 +46,7 @@ run_wsum <- function(mat,
                       .target = .data$target,
                       .mor = .data$mor,
                       .likelihood = .data$likelihood,
-                      times = 1000,
+                      times = 100,
                       seed = 42,
                       sparse = TRUE,
                       randomize_type = "rows") {

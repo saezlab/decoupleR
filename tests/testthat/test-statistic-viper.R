@@ -19,7 +19,7 @@ dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
 # Test for run_viper() ----------------------------------------------------
 
 test_that("test run_viper with dorothea gene sets", {
-    res_1 <- run_viper(emat, dorothea_genesets, verbose = FALSE)
+    res_1 <- run_viper(emat, dorothea_genesets, .source='tf', verbose = FALSE)
     exp_1 <- file.path(expected_dir, "output-viper_dorothea_default.rds") %>%
         readRDS()
 

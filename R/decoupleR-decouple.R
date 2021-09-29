@@ -38,17 +38,12 @@
 #'         network = network,
 #'         .source = "tf",
 #'         .target = "target",
-#'         statistics = c("gsva", "wmean", "wsum", "ulm", "viper"),
+#'         statistics = c("gsva", "wmean", "wsum", "ulm", "aucell"),
 #'         args = list(
 #'             gsva = list(verbose = FALSE),
 #'             wmean = list(.mor = "mor", .likelihood = "likelihood"),
 #'             wsum = list(.mor = "mor"),
-#'             ulm = list(.mor = "mor"),
-#'             viper = list(
-#'                 .mor = "mor",
-#'                 .likelihood = "likelihood",
-#'                 verbose = FALSE
-#'             )
+#'             ulm = list(.mor = "mor")
 #'         )
 #'     )
 #' }

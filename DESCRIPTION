@@ -57,6 +57,7 @@ Imports:
     AUCell,
     doParallel,
     doRNG,
+    doMC,
     rpart,
     ranger
 Suggests: 

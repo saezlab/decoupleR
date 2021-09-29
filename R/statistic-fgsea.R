@@ -8,9 +8,10 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param options A list of named options to pass to
-#' \code{\link[=fgsea]{fgsea::fgsea()}}..
-#' These options should not \code{include}, \code{pathways} or \code{stats}.
+#' @param force_ties Whether to force ties or not (results might not be
+#' reproducible in all systems).
+#' @param times How many permutations to do?
+#' @param nproc Number of cores to use for computation.
 #' @param seed A single value, interpreted as an integer, or NULL.
 #'
 #' @return A long format tibble of the enrichment scores for each source
@@ -36,7 +37,7 @@ run_fgsea <- function(mat,
                       .source = .data$source,
                       .target = .data$target,
                       force_ties = T,
-                      times = 1000,
+                      times = 100,
                       nproc = 4,
                       seed = 42,
                       ...) {

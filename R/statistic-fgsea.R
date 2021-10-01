@@ -47,7 +47,6 @@ run_fgsea <- function(mat,
   conditions <- colnames(mat) %>%
     set_names()
 
-  set.seed(seed)
   map_dfr(.x = conditions, .f = ~ {
     stats <- mat[, .x]
     options <- list(
@@ -56,15 +55,9 @@ run_fgsea <- function(mat,
       nPermSimple = times,
       nproc = nproc
       )
-    result <- suppressWarnings(do.call(what = fgsea::fgsea, args = options))
-    if (all(table(stats) == 1) | force_ties){
-      result
-    } else {
-      warning('
-      FGSEA: Ties were detected, NAs will be returned.
-      To force ties use force_ties = T, but results might not be reproducible.')
-      result %>% mutate(across(!pathway, function(x){NA}))
-    }
+    withr::with_seed(seed, {
+      result <- suppressWarnings(do.call(what = fgsea::fgsea, args = options))
+    })
   }, .id = "condition") %>%
     select(.data$pathway, .data$condition, .data$ES, .data$NES, .data$pval) %>%
     tidyr::pivot_longer(cols=c("ES","NES"), names_to ="statistic", values_to="score") %>%

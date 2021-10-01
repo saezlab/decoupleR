@@ -19,7 +19,7 @@ dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
 # Test for run_fgsea function ---------------------------------------------
 
 test_that("test run_fgsea with dorothea gene sets", {
-  res_1 <- run_fgsea(emat, dorothea_genesets, .source='tf', force_ties=F)
+  res_1 <- run_fgsea(emat, dorothea_genesets, .source='tf')
   exp_1 <- file.path(expected_dir, "output-fgsea_dorothea_default.rds") %>%
     readRDS()
 

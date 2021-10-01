@@ -91,7 +91,7 @@ run_ora(emat, dorothea_genesets, .source='tf') %>%
     saveRDS(out_default$ora)
 
 #----- run_fgsea() -------------------------------------------------------------
-run_fgsea(emat, dorothea_genesets, .source='tf', force_ties=F) %>%
+run_fgsea(emat, dorothea_genesets, .source='tf') %>%
     saveRDS(out_default$fgsea)
 
 # decouple() --------------------------------------------------------------

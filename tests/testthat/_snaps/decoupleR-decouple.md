@@ -14,22 +14,7 @@
       run_viper(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
       run_gsva(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
       run_ora(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
-      run_fgsea(mat = mat, network = dorothea_genesets, .source = tf, .target = target,
-      *   force_ties = FALSE)
-    Warning <simpleWarning>
-      
-            FGSEA: Ties were detected, NAs will be returned.
-            To force ties use force_ties = T, but results might not be reproducible.
-      
-            FGSEA: Ties were detected, NAs will be returned.
-            To force ties use force_ties = T, but results might not be reproducible.
-      
-            FGSEA: Ties were detected, NAs will be returned.
-            To force ties use force_ties = T, but results might not be reproducible.
-      
-            FGSEA: Ties were detected, NAs will be returned.
-            To force ties use force_ties = T, but results might not be reproducible.
-    Message <message>
+      run_fgsea(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
       run_mlm(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
     Output
       [1] TRUE

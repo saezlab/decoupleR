@@ -44,7 +44,7 @@ args <- list(
     viper = list(),
     gsva = list(),
     ora = list(),
-    fgsea = list(force_ties = F)
+    fgsea = list()
 )
 
 partial_decouple <- purrr::partial(

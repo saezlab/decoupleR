@@ -33,6 +33,8 @@ account the sign and weight of network interactions.
 For more information about how this package has been used with real
 data, please check the following links:
 
+-   [decoupleR’s manuscript
+    repository](https://github.com/saezlab/decoupleR_manuscript)
 -   [Creation of benchmarking
     pipelines](https://github.com/saezlab/decoupleRBench).
 

@@ -29,10 +29,9 @@ knitr::opts_chunk$set(
 Computational methods allow the extraction of mechanistic signatures from omics data based on prior knowledge resources, reducing the dimensionality of the data for increased statistical power and better interpretability. Here, we present decoupleR, a Bioconductor package containing different statistical methods to extract these signatures within a unified framework. decoupleR allows the user to flexibly test any method with any resource. It incorporates methods that take into account the sign and weight of network interactions.
 
 For more information about how this package has been used with real data,
-please check the following links:  
+please check the following links:
 
-- [Decoupling statistics and networks: a crowdsourced systematic assessment of transcription factor activity estimation from transcriptomics data](https://docs.google.com/document/d/1aYD3IF1tj7H6vUFqKnfHB6d6Trs_oit7umjk5mQDNZ0/edit).
-- [Creation of benchmarking pipelines](https://github.com/saezlab/decoupleR/tree/benchmark).
+- [Creation of benchmarking pipelines](https://github.com/saezlab/decoupleRBench).
 
 ## Installation instructions
 

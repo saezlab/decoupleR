@@ -1,7 +1,7 @@
 #' Function to generate a consensus score between methods from the
 #' result of decouple
 #'
-#' @param df decouple results
+#' @param df `decouple` data frame result
 #' @param condition Column name for sample names
 #' @param statistic Column name for statistic names
 #'

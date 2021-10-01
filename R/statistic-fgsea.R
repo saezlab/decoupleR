@@ -28,12 +28,11 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_fgsea(mat, network, .source='tf', force_ties = T)
+#' run_fgsea(mat, network, .source='tf')
 run_fgsea <- function(mat,
                       network,
                       .source = .data$source,
                       .target = .data$target,
-                      force_ties = T,
                       times = 100,
                       nproc = 4,
                       seed = 42,

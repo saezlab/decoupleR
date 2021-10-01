@@ -61,7 +61,6 @@ run_mdt <- function(mat,
                     nproc = 4,
                     seed = 42
 ) {
-  set.seed(seed)
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
 
@@ -74,7 +73,9 @@ run_mdt <- function(mat,
   .mdt_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
   {
-    .mdt_analysis(.$mat, .$mor_mat, trees, min_n, nproc)
+    withr::with_seed(seed, {
+      .mdt_analysis(.$mat, .$mor_mat, trees, min_n, nproc)
+    })
   }
 }
 

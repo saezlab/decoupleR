@@ -4,26 +4,18 @@
 \name{decoupleR-package}
 \alias{decoupleR}
 \alias{decoupleR-package}
-\title{decoupleR: Package to decouple gene sets from statistics}
+\title{decoupleR: decoupleR: Inferring biological activities from omics data using a collection of methods}
 \description{
-Transcriptome profiling followed by differential gene
-    expression analysis often leads to lists of genes that are hard to
-    analyze and interpret. Downstream analysis tools can be used to
-    summarize deregulation events into a smaller set of biologically
-    interpretable features.  In particular, methods that estimate the
-    activity of transcription factors (TFs) from gene expression are
-    commonly used. It has been shown that the transcriptional targets of a
-    TF yield a much more robust estimation of the TF activity than
-    observing the expression of the TF itself. Consequently, for the
-    estimation of transcription factor activities, a network of
-    transcriptional regulation is required in combination with a
-    statistical algorithm that summarizes the expression of the target
-    genes into a single activity score. Over the years, many different
-    regulatory networks and statistical algorithms have been developed,
-    mostly in a fixed combination of one network and one algorithm. To
-    systematically evaluate both networks and algorithms, we developed
-    decoupleR , an R package that allows users to apply efficiently any
-    combination provided.
+Computational methods allow the extraction of mechanistic signatures
+    from omics data based on prior knowledge resources, reducing the dimensionality 
+    of the data for increased statistical power and better interpretability. 
+    Here, we present decoupleR, a Bioconductor package containing different 
+    statistical methods to extract these signatures within a unified framework. 
+    decoupleR allows the user to flexibly test any method with any resource. 
+    It incorporates methods that take into account the sign and weight of 
+    network interactions. Using decoupleR, we evaluated the performance of 
+    contemporary methods on transcriptomic and phospho-proteomic perturbation 
+    experiments.
 }
 \seealso{
 Useful links:
@@ -34,10 +26,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jesús Vélez \email{jvelezmagic@gmail.com} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
+\strong{Maintainer}: Pau Badia-i-Mompel \email{pau.badia@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-1004-3923}{ORCID})
 
 Authors:
 \itemize{
+  \item Jesús Vélez \email{jvelezmagic@gmail.com} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
   \item Christian H. Holland \email{cholland2408@gmail.com} (\href{https://orcid.org/0000-0002-3060-5786}{ORCID})
 }
 

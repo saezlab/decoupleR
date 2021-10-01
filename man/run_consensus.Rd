@@ -13,7 +13,7 @@ run_consensus(
 )
 }
 \arguments{
-\item{df}{decouple results}
+\item{df}{\code{decouple} data frame result}
 
 \item{condition}{Column name for sample names}
 

@@ -34,8 +34,6 @@ run_aucell <- function(mat,
                        seed = 42
 ) {
   # Before to start ---------------------------------------------------------
-  set.seed(seed)
-
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
 
@@ -46,19 +44,23 @@ run_aucell <- function(mat,
   mat <- abs(mat)
 
   # Analysis ----------------------------------------------------------------
-  rankings <- exec(.fn = AUCell::AUCell_buildRankings,
-                   exprMat = mat,
-                   plotStats = FALSE,
-                   verbose = FALSE,
-                   nCores = nproc)
+  withr::with_seed(seed, {
+    rankings <- exec(.fn = AUCell::AUCell_buildRankings,
+                     exprMat = mat,
+                     plotStats = FALSE,
+                     verbose = FALSE,
+                     nCores = nproc)
+  })
 
-  exec(.fn = AUCell::AUCell_calcAUC,
-       geneSets = network,
-       rankings = rankings,
-       verbose = FALSE,
-       aucMaxRank = aucMaxRank,
-       nCores = nproc
-  ) %>%
+  withr::with_seed(seed, {
+    exec(.fn = AUCell::AUCell_calcAUC,
+         geneSets = network,
+         rankings = rankings,
+         verbose = FALSE,
+         aucMaxRank = aucMaxRank,
+         nCores = nproc
+    )
+  }) %>%
     .extract_assay_auc() %>%
     as.data.frame() %>%
     rownames_to_column("source") %>%

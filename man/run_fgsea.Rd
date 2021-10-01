@@ -9,7 +9,6 @@ run_fgsea(
   network,
   .source = .data$source,
   .target = .data$target,
-  force_ties = T,
   times = 100,
   nproc = 4,
   seed = 42,
@@ -28,14 +27,14 @@ in \code{network} \code{.target} column.}
 
 \item{.target}{Column with target nodes.}
 
-\item{force_ties}{Whether to force ties or not (results might not be
-reproducible in all systems).}
-
 \item{times}{How many permutations to do?}
 
 \item{nproc}{Number of cores to use for computation.}
 
 \item{seed}{A single value, interpreted as an integer, or NULL.}
+
+\item{force_ties}{Whether to force ties or not (results might not be
+reproducible in all systems).}
 }
 \value{
 A long format tibble of the enrichment scores for each source
@@ -59,7 +58,7 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_fgsea(mat, network, .source='tf', force_ties = T)
+run_fgsea(mat, network, .source='tf')
 }
 \seealso{
 Other decoupleR statistics: 

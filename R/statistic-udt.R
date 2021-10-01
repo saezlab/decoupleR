@@ -54,7 +54,6 @@ run_udt <- function(mat,
                     min_n = 20,
                     seed = 42
 ) {
-  set.seed(seed)
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
 
@@ -67,7 +66,9 @@ run_udt <- function(mat,
   .udt_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
   {
-    .udt_analysis(.$mat, .$mor_mat, min_n, seed)
+    withr::with_seed(seed, {
+      .udt_analysis(.$mat, .$mor_mat, min_n)
+    })
   }
 }
 
@@ -136,7 +137,7 @@ run_udt <- function(mat,
 #' @inherit run_udt return
 #' @keywords intern
 #' @noRd
-.udt_analysis <- function(mat, mor_mat, min_n, seed) {
+.udt_analysis <- function(mat, mor_mat, min_n) {
   udt_evaluate_model <- partial(
     .f = .udt_evaluate_model,
     mat = mat,

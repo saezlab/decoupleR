@@ -24,7 +24,7 @@ run_consensus <- function(df,
   names(lst_conds) <- cond_names
 
   # Split each sample by method
-  stats_names <- unique(df[[statistic]])
+  run_id <- max(df$run_id)
   consensus <- lst_conds %>%
     # Generate a sorted list of sources per method
     map(function(df){
@@ -50,7 +50,7 @@ run_consensus <- function(df,
         mutate(score= -log10(p_value),
                statistic = 'consensus',
                condition = cond,
-               run_id = as.character(length(stats_names) + 1)
+               run_id = run_id + 1
         )
     }) %>%
     bind_rows()

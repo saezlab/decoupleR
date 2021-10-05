@@ -1,7 +1,8 @@
 #' Univariate Decision Tree (UDT)
 #'
 #' @description
-#' Calculates regulatory activities by fitting univariate decision trees (UDT).
+#' Calculates regulatory activities by fitting univariate decision trees (UDT)
+#' using [rpart::rpart()].
 #'
 #' @details
 #' UDT fits a (univariate) decision tree to estimate regulatory activities. UDT

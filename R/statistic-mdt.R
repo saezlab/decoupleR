@@ -1,7 +1,8 @@
 #' Multivariate Decision Trees (MDT)
 #'
 #' @description
-#' Calculates regulatory activities by fitting multivariate desicion trees (MDT)
+#' Calculates regulatory activities by fitting multivariate decision trees (MDT)
+#' using [ranger::ranger()].
 #'
 #' @details
 #' MDT fits a multivariate ensemble of decision trees (random forest) to

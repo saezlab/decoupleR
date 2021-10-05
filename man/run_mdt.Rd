@@ -66,7 +66,8 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculates regulatory activities by fitting multivariate desicion trees (MDT)
+Calculates regulatory activities by fitting multivariate decision trees (MDT)
+using \code{\link[ranger:ranger]{ranger::ranger()}}.
 }
 \details{
 MDT fits a multivariate ensemble of decision trees (random forest) to

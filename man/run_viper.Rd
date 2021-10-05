@@ -64,7 +64,7 @@ across the samples. Resulting tibble contains the following columns:
 Calculates regulatory activities using VIPER.
 }
 \details{
-This function is a wrapper for the method \code{viper::viper()}.
+This function is a wrapper for the method \code{\link[viper:viper]{viper::viper()}}.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

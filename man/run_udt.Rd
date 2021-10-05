@@ -60,7 +60,8 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculates regulatory activities by fitting univariate decision trees (UDT).
+Calculates regulatory activities by fitting univariate decision trees (UDT)
+using \code{\link[rpart:rpart]{rpart::rpart()}}.
 }
 \details{
 UDT fits a (univariate) decision tree to estimate regulatory activities. UDT

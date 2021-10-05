@@ -39,13 +39,13 @@ filter_regulons <- function(network,
 #' filter_regulons(mat, network, target)
 intersect_regulons <- function(mat,
                                network,
-                               source,
-                               target,
+                               .source,
+                               .target,
                                minsize
                                ) {
   targets <- rownames(mat)
   network %>%
-    filter(!!sym(target) %in% targets) %>%
-    group_by(!! sym(source)) %>%
+    filter(!!sym(.target) %in% targets) %>%
+    group_by(!! sym(.source)) %>%
     filter(n() >= minsize)
 }

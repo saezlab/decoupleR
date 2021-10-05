@@ -4,7 +4,7 @@
 #' Calculates regulatory activities using GSVA.
 #'
 #' @details
-#' This function is a wrapper for the method `GSVA::gsva`.
+#' This function is a wrapper for the method [GSVA::gsva()].
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format

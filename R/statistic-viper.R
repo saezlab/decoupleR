@@ -4,7 +4,7 @@
 #' Calculates regulatory activities using VIPER.
 #'
 #' @details
-#' This function is a wrapper for the method `viper::viper()`.
+#' This function is a wrapper for the method [viper::viper()].
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format

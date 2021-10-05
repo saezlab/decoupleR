@@ -20,22 +20,31 @@ dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
 
 # Available statistics
 statistics <- c(
-    "scira",
-    "pscira",
-    "mean",
-    "viper",
-    "gsva",
-    "ora"
+    'udt',
+    'mdt',
+    'aucell',
+    'wmean',
+    'wsum',
+    'ulm',
+    'mlm',
+    'viper',
+    'gsva',
+    'ora',
+    'fgsea'
 )
 
 # Arguments for statistics; same order as statistics vector.
 args <- list(
-    scira = list(),
-    pscira = list(),
-    mean = list(.likelihood = NULL),
-    viper = list(verbose = FALSE),
-    gsva = list(verbose = FALSE),
-    ora = list()
+    udt = list(),
+    mdt = list(),
+    aucell = list(),
+    wmean = list(),
+    wsum = list(),
+    ulm = list(),
+    viper = list(),
+    gsva = list(),
+    ora = list(),
+    fgsea = list()
 )
 
 partial_decouple <- purrr::partial(
@@ -58,14 +67,16 @@ test_that("decouple same results as independent functions", {
         include_time = TRUE
     ) %>%
         dplyr::select(-.data$run_id, -statistic_time) %>%
-        dplyr::arrange(.data$statistic, .data$tf, .data$condition)
+        dplyr::filter(statistic != 'consensus') %>%
+        dplyr::arrange(.data$statistic, .data$source, .data$condition)
 
     exp_decouple_defaults <- file.path(
         expected_dir,
         "decouple",
         "output-decouple_dorothea_default.rds"
     ) %>%
-        readRDS()
+        readRDS() %>%
+        dplyr::arrange(.data$statistic, .data$source, .data$condition)
 
     expect_equal(res_decouple_defaults, exp_decouple_defaults)
 })

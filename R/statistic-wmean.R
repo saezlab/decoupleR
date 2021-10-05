@@ -4,21 +4,12 @@
 #' Calculates regulatory activities by computing the WMEAN.
 #'
 #' @details
-<<<<<<< HEAD:R/statistic-mean.R
-#'  `run_mean()` calculates the activity score, but in addition, it takes
-#'  advantage of the permutations used to calculate the `p-value`, to provide
-#'  the normalized activity score and a corrected mean score.
-#'  This is represented in the `statistic` column which will contain three
-#'  values for each call to `run_mean()`; __mean__, __normalized_mean__, and
-#'  __corrected_mean__.
-=======
 #' Infers activity score for each regulator by weighting the molecular readouts
 #' of its targets by their mode of regulations and likelihoods. In addition, it
 #' runs permutations to calculate empirical p-values, providing normalized
 #' (z-score) and corrected activity (estimate * -log10(pval)) scores. This is
 #' represented in the `statistic` column which will contain three values for
 #' each call to `run_wmean()`; __wmean__, __norm_wmean__ and __corr_wmean__.
->>>>>>> 079063fd42ac39301d8629ecfbdc606f5fe27cee:R/statistic-wmean.R
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -153,23 +144,14 @@ run_wmean <- function(mat,
                 .y = .data$value,
                 .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
             ),
-<<<<<<< HEAD:R/statistic-mean.R
-            p_value = if_else(.data$p_value == 0, 1 / times, .data$p_value),
-            corrected_mean = - .data$value * log10(.data$p_value)
-=======
             c_p_value = ifelse(.data$p_value == 0, 1/length(.data$null_distribution), .data$p_value),
             c_score = .data$value * (-log10(.data$c_p_value))
->>>>>>> 079063fd42ac39301d8629ecfbdc606f5fe27cee:R/statistic-wmean.R
         ) %>%
         # Reformat results
         select(-contains("null")) %>%
         rename(corr_wmean = .data$c_score, wmean = .data$value, norm_wmean = .data$z_score) %>%
         pivot_longer(
-<<<<<<< HEAD:R/statistic-mean.R
-            cols = c(.data$mean, .data$normalized_mean, .data$corrected_mean),
-=======
             cols = c(.data$corr_wmean, .data$wmean, .data$norm_wmean),
->>>>>>> 079063fd42ac39301d8629ecfbdc606f5fe27cee:R/statistic-wmean.R
             names_to = "statistic",
             values_to = "score"
         ) %>%

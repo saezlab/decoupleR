@@ -1,4 +1,46 @@
-# decoupleR 0.99.0
+# decoupleR 1.2.0
+
+## Changes
+* Some method's names have been changed to make them easier to identify:
+  * `pscira` now is called Weighted Sum (`wsum`).
+  * `mean` now is called Weighted Mean (`wmean`).
+  * `scira` now is called Univariate Linear Model (`ulm`).
+  
+* The column name for `tf` in the output tibbles has been changed to `source`.
+
+* Updated documentation for all methods.
+
+* Updated vignette and README.
+
+* `decouple` function now accepts order mismatch between the list of methods and 
+the list of methods's arguments.
+
+* Moved benchmark branch to a separate repository as its own package: 
+https://github.com/saezlab/decoupleRBench
+
+## New features
+
+* New methods added:
+  * Fast Gene Set Enrichment Analysis (`fgsea`).
+  * `AUCell`.
+  * Univariate Decision Tree (`udt`).
+  * Multivariate Decision Tree (`mdt`).
+  * Multivariate Linear Model (`mlm`).
+
+* New `decoupleR` manuscript repository: https://github.com/saezlab/decoupleR_manuscript
+
+* New `consensus` score based on `RobustRankAggreg::aggregateRanks()` added when
+running `decouple` with multiple methods. 
+
+* Methods based on permutations or statistical tests now return also a p-value 
+for the obtained score (`fgsea`, `mlm`, `ora`, `ulm`, `viper`, `wmean` and 
+`wsum`).
+
+* New error added when network edges are duplicated.
+
+* New error added when the input matrix contains NAs or Infs. 
+
+# decoupleR 1.1.0
 
 ## New features
 

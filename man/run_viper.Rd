@@ -2,15 +2,19 @@
 % Please edit documentation in R/statistic-viper.R
 \name{run_viper}
 \alias{run_viper}
-\title{VIPER wrapper}
+\title{Virtual Inference of Protein-activity by Enriched Regulon analysis (VIPER)}
 \usage{
 run_viper(
   mat,
   network,
-  .source = .data$tf,
+  .source = .data$source,
   .target = .data$target,
   .mor = .data$mor,
   .likelihood = .data$likelihood,
+  verbose = FALSE,
+  minsize = 0,
+  pleiotropy = T,
+  eset.filter = F,
   ...
 )
 }
@@ -47,17 +51,20 @@ in \code{network} \code{.target} column.}
   }}
 }
 \value{
-A long format tibble of the enrichment scores for each tf
+A long format tibble of the enrichment scores for each source
 across the samples. Resulting tibble contains the following columns:
 \enumerate{
 \item \code{statistic}: Indicates which method is associated with which score.
-\item \code{tf}: Source nodes of \code{network}.
+\item \code{source}: Source nodes of \code{network}.
 \item \code{condition}: Condition representing each column of \code{mat}.
 \item \code{score}: Regulatory activity (enrichment score).
 }
 }
 \description{
-This function is a convenient wrapper for the \code{\link[viper:viper]{viper::viper()}} function.
+Calculates regulatory activities using VIPER.
+}
+\details{
+This function is a wrapper for the method \code{\link[viper:viper]{viper::viper()}}.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -65,15 +72,20 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_viper(mat, network, tf, target, mor, likelihood, verbose = FALSE)
+run_viper(mat, network, .source='tf', verbose = FALSE)
 }
 \seealso{
 Other decoupleR statistics: 
 \code{\link{decouple}()},
+\code{\link{run_aucell}()},
+\code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
-\code{\link{run_mean}()},
+\code{\link{run_mdt}()},
+\code{\link{run_mlm}()},
 \code{\link{run_ora}()},
-\code{\link{run_pscira}()},
-\code{\link{run_scira}()}
+\code{\link{run_udt}()},
+\code{\link{run_ulm}()},
+\code{\link{run_wmean}()},
+\code{\link{run_wsum}()}
 }
 \concept{decoupleR statistics}

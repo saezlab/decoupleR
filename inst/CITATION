@@ -1,29 +1,25 @@
-pkgVer <- function(pkg) {
-    if (!exists("meta") || is.null(meta)) meta <- packageDescription(pkg)
-    ver <- meta$Version
-    paste0('https://github.com/saezlab/', pkg, ' - R package version ', ver)
-}
+citHeader("To cite decoupleR in publications, please use:")
 
-c(
-
-    bibentry(bibtype="manual",
-        title = "Package to decouple gene sets from statistics",
-        author = personList(
-            as.person("saezlab")
-        ),
-        year = format(Sys.Date(), "%Y"),
-        url = "http://www.bioconductor.org/packages/decoupleR",
-        note = pkgVer('decoupleR'),
-        doi = '10.18129/B9.bioc.decoupleR'
-    ),
-    bibentry(bibtype="article",
-        title = "Package to decouple gene sets from statistics",
-        author = personList(
-            as.person("saezlab")
-        ),
-        year = 2020,
-        journal = "bioRxiv",
-        doi = "10.1101/TODO",
-        url = "https://www.biorxiv.org/content/10.1101/TODO"
-    )
+citEntry(entry = "article",
+  author = personList(as.person("Pau Badia-i-Mompel"),
+                      as.person("Jesús Vélez"),
+                      as.person("Jana Braunger"),
+                      as.person("Celina Geiss"),
+                      as.person("Daniel Dimitrov"),
+                      as.person("Sophia Müller-Dott"),
+                      as.person("Petr Taus"),
+                      as.person("Aurelien Dugourd"),
+                      as.person("Christian H. Holland"),
+                      as.person("Ricardo O. Ramirez Flores"),
+                      as.person("Julio Saez-Rodriguez")),
+  title = "decoupleR: Inferring biological activities from omics data using a collection of methods",
+  journal = "X",
+  year = "2021",
+  volume = "",
+  pages = "",
+  doi = "",
+  url = "",
+  textVersion = ""
 )
+
+

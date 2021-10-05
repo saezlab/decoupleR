@@ -2,16 +2,16 @@
 % Please edit documentation in R/statistic-ora.R
 \name{run_ora}
 \alias{run_ora}
-\title{Over Representation Analysis - Fisher Exact Test}
+\title{Over Representation Analysis (ORA)}
 \usage{
 run_ora(
   mat,
   network,
-  .source = .data$tf,
+  .source = .data$source,
   .target = .data$target,
   n_up = nrow(mat),
   n_bottom = 0,
-  n_background = NULL,
+  n_background = 20000,
   with_ties = TRUE,
   ...
 )
@@ -83,17 +83,21 @@ and return the first \code{n} rows.}
   }}
 }
 \value{
-A long format tibble of the enrichment scores for each tf
+A long format tibble of the enrichment scores for each source
 across the samples. Resulting tibble contains the following columns:
 \enumerate{
 \item \code{statistic}: Indicates which method is associated with which score.
-\item \code{tf}: Source nodes of \code{network}.
+\item \code{source}: Source nodes of \code{network}.
 \item \code{condition}: Condition representing each column of \code{mat}.
 \item \code{score}: Regulatory activity (enrichment score).
 }
 }
 \description{
+Calculates regulatory activities using ORA.
+}
+\details{
 Performs an over-representation analysis using \code{\link[stats:fisher.test]{stats::fisher.test()}}.
+Obtained scores are -log10(p-values).
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -101,15 +105,20 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_ora(mat, network, tf, target)
+run_ora(mat, network, .source='tf')
 }
 \seealso{
 Other decoupleR statistics: 
 \code{\link{decouple}()},
+\code{\link{run_aucell}()},
+\code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
-\code{\link{run_mean}()},
-\code{\link{run_pscira}()},
-\code{\link{run_scira}()},
-\code{\link{run_viper}()}
+\code{\link{run_mdt}()},
+\code{\link{run_mlm}()},
+\code{\link{run_udt}()},
+\code{\link{run_ulm}()},
+\code{\link{run_viper}()},
+\code{\link{run_wmean}()},
+\code{\link{run_wsum}()}
 }
 \concept{decoupleR statistics}

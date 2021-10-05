@@ -1,34 +1,30 @@
-#' SCIRA (Single Cell Inference of Regulatory Activity)
+#' Univariate Linear Model (ULM)
 #'
 #' @description
-#' Calculates TF activity according to
-#' [Improved detection of tumor suppressor events in single-cell RNA-Seq data](
-#' https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13)
-#' .
+#' Calculates regulatory activities by fitting univariate linear models (ULM).
 #'
 #' @details
-#' Estimation of regulatory activity: A linear regression of the expression
-#' profile is performed against the "target profile" of the given TF, where
-#' in the target profile, any regulon member is assigned a `+1` for activating
-#' interactions and a `-1` for inhibitory interactions. All other genes not
-#' members of the TF's regulon are assigned a value o `0`. TF activity is then
-#' defined as the t-statistic of this linear regression.
+#' ULM fits a (univariate) linear model to estimate regulatory activities. ULM
+#' fits a linear model that predicts the observed molecular readouts using the given
+#' weights of a regulator as a single co-variate. The obtained t-value
+#' from the fitted model is the activity of the regulator. This approach was first
+#' described in:
+#' [Improved detection of tumor suppressor events in single-cell RNA-Seq data](
+#' https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13).
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
 #' @param sparse Logical value indicating if the generated profile matrix
 #'  should be sparse.
-#' @param fast Logical value indicating if the lineal model must be calculated
-#' with [speedglm::speedlm.fit()] or with base [stats::lm()].
 #' @param center Logical value indicating if `mat` must be centered by
 #' [base::rowMeans()].
 #' @param na.rm Should missing values (including NaN) be omitted from the
 #'  calculations of [base::rowMeans()]?
 #'
-#' @return A long format tibble of the enrichment scores for each tf
+#' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
-#'  2. `tf`: Source nodes of `network`.
+#'  2. `source`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #' @family decoupleR statistics
@@ -46,46 +42,48 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_scira(mat, network, tf, target, mor)
-run_scira <- function(mat,
+#' run_ulm(mat, network, .source='tf')
+run_ulm <- function(mat,
                       network,
-                      .source = .data$tf,
+                      .source = .data$source,
                       .target = .data$target,
                       .mor = .data$mor,
+                      .likelihood = .data$likelihood,
                       sparse = FALSE,
-                      fast = TRUE,
-                      center = TRUE,
+                      center = FALSE,
                       na.rm = FALSE) {
+    # Check for NAs/Infs in mat
+    check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
-    # Convert to standard tibble: tf-target-mor.
+    # Convert to standard tibble: source-target-mor.
     network <- network %>%
-        convert_to_scira({{ .source }}, {{ .target }}, {{ .mor }})
+        convert_to_ulm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
     # Preprocessing -----------------------------------------------------------
-    .scira_preprocessing(network, mat, center, na.rm, sparse) %>%
+    .ulm_preprocessing(network, mat, center, na.rm, sparse) %>%
         # Model evaluation --------------------------------------------------------
         {
-            .scira_analysis(.$mat, .$mor_mat, fast)
+            .ulm_analysis(.$mat, .$mor_mat)
         }
 }
 
 # Helper functions ------------------------------------------------------
-#' Scira preprocessing
+#' ulm preprocessing
 #'
 #' - Get only the intersection of target genes between `mat` and `network`.
 #' - Transform tidy `network` into `matrix` representation with `mor` as value.
 #' - If `center` is true, then the expression values are centered by the
 #'   mean of expression across the conditions.
 #'
-#' @inheritParams run_scira
+#' @inheritParams run_ulm
 #'
-#' @return A named list of matrices to evaluate in `.scira_analysis()`.
+#' @return A named list of matrices to evaluate in `.ulm_analysis()`.
 #'  - mat: Genes as rows and conditions as columns.
-#'  - mor_mat: Genes as rows and columns as tfs.
+#'  - mor_mat: Genes as rows and columns as source.
 #' @keywords intern
 #' @noRd
-.scira_preprocessing <- function(network, mat, center, na.rm, sparse) {
+.ulm_preprocessing <- function(network, mat, center, na.rm, sparse) {
     shared_targets <- intersect(
         rownames(mat),
         network$target
@@ -97,7 +95,7 @@ run_scira <- function(mat,
         filter(.data$target %in% shared_targets) %>%
         pivot_wider_profile(
             id_cols = .data$target,
-            names_from = .data$tf,
+            names_from = .data$source,
             values_from = .data$mor,
             values_fill = 0,
             to_matrix = TRUE,
@@ -105,62 +103,69 @@ run_scira <- function(mat,
         ) %>%
         .[shared_targets, ]
 
+    likelihood_mat <- network %>%
+        filter(.data$target %in% shared_targets) %>%
+        pivot_wider_profile(
+            id_cols = .data$target,
+            names_from = .data$source,
+            values_from = .data$likelihood,
+            values_fill = 0,
+            to_matrix = TRUE,
+            to_sparse = sparse
+        ) %>%
+        .[shared_targets, ]
+
+    weight_mat <- mor_mat * likelihood_mat
+
     if (center) {
         mat <- mat - rowMeans(mat, na.rm)
     }
 
-    list(mat = mat, mor_mat = mor_mat)
+    list(mat = mat, mor_mat = weight_mat)
 }
 
-#' Wrapper to execute run_scira() logic one finished preprocessing of data
+#' Wrapper to execute run_ulm() logic one finished preprocessing of data
 #'
 #' Fit a linear regression between the value of expression and the profile of its targets.
 #'
-#' @inheritParams run_scira
+#' @inheritParams run_ulm
 #' @param mor_mat
 #'
-#' @inherit run_scira return
+#' @inherit run_ulm return
 #' @keywords intern
 #' @noRd
-.scira_analysis <- function(mat, mor_mat, fast) {
-    scira_evaluate_model <- partial(
-        .f = .scira_evaluate_model,
+.ulm_analysis <- function(mat, mor_mat) {
+    ulm_evaluate_model <- partial(
+        .f = .ulm_evaluate_model,
         mat = mat,
-        mor_mat = mor_mat,
-        fast = fast
+        mor_mat = mor_mat
     )
 
     # Allocate the space for all combinations of sources and conditions
     # and evaluate the proposed model.
     expand_grid(
-        tf = colnames(mor_mat),
+        source = colnames(mor_mat),
         condition = colnames(mat)
     ) %>%
-        rowwise(.data$tf, .data$condition) %>%
-        summarise(
-            score = scira_evaluate_model(.data$tf, .data$condition),
-            .groups = "drop"
-        ) %>%
-        transmute(statistic = "scira", .data$tf, .data$condition, .data$score)
+        rowwise(.data$source, .data$condition) %>%
+        mutate(model = list(ulm_evaluate_model(.data$source, .data$condition)), statistic='ulm') %>%
+        unnest(model) %>%
+        select(statistic, source, condition, score, p_value)
 }
 
-#' Wrapper to run scira one tf (source) per sample (condition) at time
+#' Wrapper to run ulm one source (source) per sample (condition) at time
 #'
 #' @keywords internal
 #' @noRd
-.scira_evaluate_model <- function(source, condition, mat, mor_mat, fast) {
-    if (fast) {
-        speedlm.fit(
+.ulm_evaluate_model <- function(source, condition, mat, mor_mat) {
+    fit <- speedlm.fit(
             y = mat[, condition],
             X = cbind(1, mor_mat[, source])
         ) %>%
-            summary() %>%
-            pluck("coefficients", "t", 2, .default = NA)
-    } else {
-        lm(mat[, condition] ~ mor_mat[, source]) %>%
-            summary() %>%
-            coef() %>%
-            .[, "t value"] %>%
-            pluck(2, .default = NA)
-    }
+            summary()
+    score <- fit %>%
+        pluck("coefficients", "t", 2, .default = NA)
+    pval <- fit %>%
+        pluck("coefficients", "p.value", 2, .default = NA)
+    tibble(score=score, p_value=pval)
 }

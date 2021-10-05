@@ -26,27 +26,13 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-Transcriptome profiling followed by differential gene expression analysis often
-leads to lists of genes that are hard to analyze and interpret. Downstream
-analysis tools can be used to summarize deregulation events into a smaller set
-of biologically interpretable features. In particular, methods that estimate the
-activity of transcription factors (TFs) from gene expression are commonly used.
-It has been shown that the transcriptional targets of a TF yield a much more
-robust estimation of the TF activity than observing the expression of the TF
-itself.  Consequently, for the estimation of transcription factor activities,
-a network of transcriptional regulation is required in combination with a
-statistical algorithm that summarizes the expression of the target genes into
-a single activity score. Over the years, many different regulatory networks and
-statistical algorithms have been developed, mostly in a fixed combination of one
-network and one algorithm. To systematically evaluate both networks and
-algorithms, we developed decoupleR , an R package that allows users to apply
-efficiently any combination provided.
+Computational methods allow the extraction of mechanistic signatures from omics data based on prior knowledge resources, reducing the dimensionality of the data for increased statistical power and better interpretability. Here, we present decoupleR, a Bioconductor package containing different statistical methods to extract these signatures within a unified framework. decoupleR allows the user to flexibly test any method with any resource. It incorporates methods that take into account the sign and weight of network interactions.
 
 For more information about how this package has been used with real data,
-please check the following links:  
+please check the following links:
 
-- [Decoupling statistics and networks: a crowdsourced systematic assessment of transcription factor activity estimation from transcriptomics data](https://docs.google.com/document/d/1aYD3IF1tj7H6vUFqKnfHB6d6Trs_oit7umjk5mQDNZ0/edit).
-- [Creation of benchmarking pipelines](https://github.com/saezlab/decoupleR/tree/benchmark).
+- [decoupleR's manuscript repository](https://github.com/saezlab/decoupleR_manuscript)
+- [Creation of benchmarking pipelines](https://github.com/saezlab/decoupleRBench).
 
 ## Installation instructions
 
@@ -103,13 +89,12 @@ decouple(
     network = network,
     .source = "tf",
     .target = "target",
-    statistics = c("gsva", "mean", "pscira", "scira", "viper", "ora"),
+    statistics = c("gsva", "wmean", "wsum", "ulm", "ora"),
     args = list(
         gsva = list(verbose = FALSE),
-        mean = list(.mor = "mor", .likelihood = "likelihood"),
-        pscira = list(.mor = "mor"),
-        scira = list(.mor = "mor"),
-        viper = list(.mor = "mor", .likelihood = "likelihood", verbose = FALSE),
+        wmean = list(times=100),
+        wsum = list(times=100),
+        ulm = list(center=FALSE),
         ora = list()
     )
 )
@@ -122,14 +107,13 @@ Therefore, these are also exported and ready for use. All statistics follow the
 same design pattern and arguments, so moving between statistics could be very comfortable.
 
 ```{r}
-# viper call is equivalent to the one made by decouple() above.
-run_viper(
+# wmean call is equivalent to the one made by decouple() above.
+run_wmean(
     mat = mat,
     network = network,
     .source = "tf",
     .target = "target",
-    .likelihood = "likelihood",
-    verbose = FALSE
+    .likelihood = "likelihood"
 )
 ```
 

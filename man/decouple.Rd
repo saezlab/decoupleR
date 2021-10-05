@@ -12,7 +12,7 @@ decouple(
   statistics = c("udt", "mdt", "aucell", "wmean", "wsum", "ulm", "mlm", "viper",
     "gsva", "ora", "fgsea"),
   args = list(NULL),
-  consensus_score = T,
+  consensus_score = TRUE,
   include_time = FALSE,
   show_toy_call = FALSE
 )

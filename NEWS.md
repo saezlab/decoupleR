@@ -1,4 +1,4 @@
-# decoupleR 1.2.0
+# decoupleR 2.0.0
 
 ## Changes
 * Some method's names have been changed to make them easier to identify:

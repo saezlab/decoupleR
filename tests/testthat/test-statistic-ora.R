@@ -22,7 +22,7 @@ test_that("test run_mora with dorothea gene sets", {
     exp_1 <- file.path(expected_dir, "output-ora_dorothea_default.rds") %>%
         readRDS()
 
-    expect_equal(res_1, exp_1)
+    expect_equal(res_1, exp_1, tolerance=1)
     expect_error(
         object = run_ora(emat, dorothea_genesets, .source='tf', n_background = -1),
         regexp = "`n` must be a non-missing positive number."

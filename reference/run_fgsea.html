@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate multiple statistics with same input data — decouple • decoupleR</title>
+<title>Fast Gene Set Enrichment Analysis (FGSEA) — run_fgsea • decoupleR</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Evaluate multiple statistics with same input data — decouple" />
-<meta property="og:description" content="Calculate the source activity per sample out of a gene expression matrix by
-coupling a regulatory network with a variety of statistics." />
+<meta property="og:title" content="Fast Gene Set Enrichment Analysis (FGSEA) — run_fgsea" />
+<meta property="og:description" content="Calculates regulatory activities using FGSEA." />
 
 
 
@@ -137,27 +136,24 @@ coupling a regulatory network with a variety of statistics." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate multiple statistics with same input data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/decoupleR-decouple.R'><code>R/decoupleR-decouple.R</code></a></small>
-    <div class="hidden name"><code>decouple.Rd</code></div>
+    <h1>Fast Gene Set Enrichment Analysis (FGSEA)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/statistic-fgsea.R'><code>R/statistic-fgsea.R</code></a></small>
+    <div class="hidden name"><code>run_fgsea.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate the source activity per sample out of a gene expression matrix by
-coupling a regulatory network with a variety of statistics.</p>
+    <p>Calculates regulatory activities using FGSEA.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>decouple</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>run_fgsea</span><span class='op'>(</span>
   <span class='va'>mat</span>,
   <span class='va'>network</span>,
   .source <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>source</span>,
   .target <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>target</span>,
-  statistics <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"udt"</span>, <span class='st'>"mdt"</span>, <span class='st'>"aucell"</span>, <span class='st'>"wmean"</span>, <span class='st'>"wsum"</span>, <span class='st'>"ulm"</span>, <span class='st'>"mlm"</span>, <span class='st'>"viper"</span>,
-    <span class='st'>"gsva"</span>, <span class='st'>"ora"</span>, <span class='st'>"fgsea"</span><span class='op'>)</span>,
-  args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>,
-  consensus_score <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  include_time <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  show_toy_call <span class='op'>=</span> <span class='cn'>FALSE</span>
+  times <span class='op'>=</span> <span class='fl'>100</span>,
+  nproc <span class='op'>=</span> <span class='fl'>4</span>,
+  seed <span class='op'>=</span> <span class='fl'>42</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -183,28 +179,33 @@ in <code>network</code> <code>.target</code> column.</p></td>
       <td><p>Column with target nodes.</p></td>
     </tr>
     <tr>
-      <th>statistics</th>
-      <td><p>Statistical methods to be coupled.</p></td>
+      <th>times</th>
+      <td><p>How many permutations to do?</p></td>
     </tr>
     <tr>
-      <th>args</th>
-      <td><p>A list of argument-lists the same length as <code>statistics</code>
-(or length 1). The default argument, list(NULL), will be recycled to the
-same length as <code>statistics</code>, and will call each function with no arguments
-(apart from <code>mat</code>, <code>network</code>, <code>.source</code> and, <code>.target</code>).</p></td>
+      <th>nproc</th>
+      <td><p>Number of cores to use for computation.</p></td>
     </tr>
     <tr>
-      <th>consensus_score</th>
-      <td><p>Boolean whether to run a consensus score between
-methods. Obtained scores are -log10(p-values).</p></td>
+      <th>seed</th>
+      <td><p>A single value, interpreted as an integer, or NULL.</p></td>
     </tr>
     <tr>
-      <th>include_time</th>
-      <td><p>Should the time per statistic evaluated be informed?</p></td>
-    </tr>
-    <tr>
-      <th>show_toy_call</th>
-      <td><p>The call of each statistic must be informed?</p></td>
+      <th>...</th>
+      <td><p>Arguments passed on to <code><a href='https://rdrr.io/pkg/fgsea/man/fgseaMultilevel.html'>fgsea::fgseaMultilevel</a></code></p><dl>
+    <dt><code>sampleSize</code></dt><dd><p>The size of a random set of genes which in turn has size = pathwaySize</p></dd>
+    <dt><code>minSize</code></dt><dd><p>Minimal size of a gene set to test. All pathways below the threshold are excluded.</p></dd>
+    <dt><code>maxSize</code></dt><dd><p>Maximal size of a gene set to test. All pathways above the threshold are excluded.</p></dd>
+    <dt><code>eps</code></dt><dd><p>This parameter sets the boundary for calculating the p value.</p></dd>
+    <dt><code>scoreType</code></dt><dd><p>This parameter defines the GSEA score type. Possible options are ("std", "pos", "neg")</p></dd>
+    <dt><code>gseaParam</code></dt><dd><p>GSEA parameter value, all gene-level statis are raised to the power of `gseaParam`
+before calculation of GSEA enrichment scores.</p></dd>
+    <dt><code>BPPARAM</code></dt><dd><p>Parallelization parameter used in bplapply.
+Can be used to specify cluster to run. If not initialized explicitly or
+by setting `nproc` default value `bpparam()` is used.</p></dd>
+    <dt><code>absEps</code></dt><dd><p>deprecated, use `eps` parameter instead</p></dd>
+  
+</dl></td>
     </tr>
     </table>
 
@@ -212,20 +213,20 @@ methods. Obtained scores are -log10(p-values).</p></td>
 
     <p>A long format tibble of the enrichment scores for each source
 across the samples. Resulting tibble contains the following columns:</p><ol>
-<li><p><code>run_id</code>: Indicates the order in which the methods have been executed.</p></li>
 <li><p><code>statistic</code>: Indicates which method is associated with which score.</p></li>
 <li><p><code>source</code>: Source nodes of <code>network</code>.</p></li>
 <li><p><code>condition</code>: Condition representing each column of <code>mat</code>.</p></li>
 <li><p><code>score</code>: Regulatory activity (enrichment score).</p></li>
-<li><p><code>statistic_time</code>: If requested, internal execution time indicator.</p></li>
-<li><p><code>p_value</code>: p-value (if available) of the obtained score.</p></li>
 </ol>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function is a wrapper for the method <code><a href='https://rdrr.io/pkg/fgsea/man/fgsea.html'>fgsea::fgsea</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other decoupleR statistics: 
+<code><a href='decouple.html'>decouple</a>()</code>,
 <code><a href='run_aucell.html'>run_aucell</a>()</code>,
-<code><a href='run_fgsea.html'>run_fgsea</a>()</code>,
 <code><a href='run_gsva.html'>run_gsva</a>()</code>,
 <code><a href='run_mdt.html'>run_mdt</a>()</code>,
 <code><a href='run_mlm.html'>run_mlm</a>()</code>,
@@ -237,27 +238,26 @@ across the samples. Resulting tibble contains the following columns:</p><ol>
 <code><a href='run_wsum.html'>run_wsum</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>inputs_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, <span class='st'>"inputs"</span>, package <span class='op'>=</span> <span class='st'>"decoupleR"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>inputs_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, <span class='st'>"inputs"</span>, package <span class='op'>=</span> <span class='st'>"decoupleR"</span><span class='op'>)</span>
 
-    <span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-expr_matrix.rds"</span><span class='op'>)</span><span class='op'>)</span>
-    <span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-expr_matrix.rds"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
 
-    <span class='fu'>decouple</span><span class='op'>(</span>
-        mat <span class='op'>=</span> <span class='va'>mat</span>,
-        network <span class='op'>=</span> <span class='va'>network</span>,
-        .source <span class='op'>=</span> <span class='st'>"tf"</span>,
-        .target <span class='op'>=</span> <span class='st'>"target"</span>,
-        statistics <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gsva"</span>, <span class='st'>"wmean"</span>, <span class='st'>"wsum"</span>, <span class='st'>"ulm"</span>, <span class='st'>"aucell"</span><span class='op'>)</span>,
-        args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-            gsva <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
-            wmean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>.mor <span class='op'>=</span> <span class='st'>"mor"</span>, .likelihood <span class='op'>=</span> <span class='st'>"likelihood"</span><span class='op'>)</span>,
-            wsum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>.mor <span class='op'>=</span> <span class='st'>"mor"</span><span class='op'>)</span>,
-            ulm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>.mor <span class='op'>=</span> <span class='st'>"mor"</span><span class='op'>)</span>
-        <span class='op'>)</span>
-    <span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+<span class='fu'>run_fgsea</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, .source<span class='op'>=</span><span class='st'>'tf'</span>, nproc<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 40 × 5</span>
+#&gt;    statistic  source condition  score p_value
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> fgsea      FOXO4  GSM2753335 0.446  0.103 
+#&gt; <span style='color: #BCBCBC;'> 2</span> norm_fgsea FOXO4  GSM2753335 1.37   0.103 
+#&gt; <span style='color: #BCBCBC;'> 3</span> fgsea      NFIC   GSM2753335 0.342  0.204 
+#&gt; <span style='color: #BCBCBC;'> 4</span> norm_fgsea NFIC   GSM2753335 1.23   0.204 
+#&gt; <span style='color: #BCBCBC;'> 5</span> fgsea      RFXAP  GSM2753335 0.421  0.154 
+#&gt; <span style='color: #BCBCBC;'> 6</span> norm_fgsea RFXAP  GSM2753335 1.30   0.154 
+#&gt; <span style='color: #BCBCBC;'> 7</span> fgsea      SMAD3  GSM2753335 0.270  0.495 
+#&gt; <span style='color: #BCBCBC;'> 8</span> norm_fgsea SMAD3  GSM2753335 1.01   0.495 
+#&gt; <span style='color: #BCBCBC;'> 9</span> fgsea      TFAP2A GSM2753335 0.366  0.012<span style='text-decoration: underline;'>7</span>
+#&gt; <span style='color: #BCBCBC;'>10</span> norm_fgsea TFAP2A GSM2753335 1.56   0.012<span style='text-decoration: underline;'>7</span>
+#&gt; <span style='color: #949494;'># … with 30 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

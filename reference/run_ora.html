@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Over Representation Analysis - Fisher Exact Test — run_ora • decoupleR</title>
+<title>Over Representation Analysis (ORA) — run_ora • decoupleR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Over Representation Analysis - Fisher Exact Test — run_ora" />
-<meta property="og:description" content="Performs an over-representation analysis using stats::fisher.test()." />
+<meta property="og:title" content="Over Representation Analysis (ORA) — run_ora" />
+<meta property="og:description" content="Calculates regulatory activities using ORA." />
 
 
 
@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">decoupleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -136,23 +136,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Over Representation Analysis - Fisher Exact Test</h1>
+    <h1>Over Representation Analysis (ORA)</h1>
     <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/statistic-ora.R'><code>R/statistic-ora.R</code></a></small>
     <div class="hidden name"><code>run_ora.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Performs an over-representation analysis using <code><a href='https://rdrr.io/r/stats/fisher.test.html'>stats::fisher.test()</a></code>.</p>
+    <p>Calculates regulatory activities using ORA.</p>
     </div>
 
     <pre class="usage"><span class='fu'>run_ora</span><span class='op'>(</span>
   <span class='va'>mat</span>,
   <span class='va'>network</span>,
-  .source <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>tf</span>,
+  .source <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>source</span>,
   .target <span class='op'>=</span> <span class='va'>.data</span><span class='op'>$</span><span class='va'>target</span>,
   n_up <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>mat</span><span class='op'>)</span>,
   n_bottom <span class='op'>=</span> <span class='fl'>0</span>,
-  n_background <span class='op'>=</span> <span class='cn'>NULL</span>,
+  n_background <span class='op'>=</span> <span class='fl'>20000</span>,
   with_ties <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -246,23 +246,32 @@ and return the first <code>n</code> rows.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A long format tibble of the enrichment scores for each tf
+    <p>A long format tibble of the enrichment scores for each source
 across the samples. Resulting tibble contains the following columns:</p><ol>
 <li><p><code>statistic</code>: Indicates which method is associated with which score.</p></li>
-<li><p><code>tf</code>: Source nodes of <code>network</code>.</p></li>
+<li><p><code>source</code>: Source nodes of <code>network</code>.</p></li>
 <li><p><code>condition</code>: Condition representing each column of <code>mat</code>.</p></li>
 <li><p><code>score</code>: Regulatory activity (enrichment score).</p></li>
 </ol>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Performs an over-representation analysis using <code><a href='https://rdrr.io/r/stats/fisher.test.html'>stats::fisher.test()</a></code>.
+Obtained scores are -log10(p-values).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other decoupleR statistics: 
 <code><a href='decouple.html'>decouple</a>()</code>,
+<code><a href='run_aucell.html'>run_aucell</a>()</code>,
+<code><a href='run_fgsea.html'>run_fgsea</a>()</code>,
 <code><a href='run_gsva.html'>run_gsva</a>()</code>,
-<code><a href='run_mean.html'>run_mean</a>()</code>,
-<code><a href='run_pscira.html'>run_pscira</a>()</code>,
-<code><a href='run_scira.html'>run_scira</a>()</code>,
-<code><a href='run_viper.html'>run_viper</a>()</code></p></div>
+<code><a href='run_mdt.html'>run_mdt</a>()</code>,
+<code><a href='run_mlm.html'>run_mlm</a>()</code>,
+<code><a href='run_udt.html'>run_udt</a>()</code>,
+<code><a href='run_ulm.html'>run_ulm</a>()</code>,
+<code><a href='run_viper.html'>run_viper</a>()</code>,
+<code><a href='run_wmean.html'>run_wmean</a>()</code>,
+<code><a href='run_wsum.html'>run_wsum</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>inputs_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, <span class='st'>"inputs"</span>, package <span class='op'>=</span> <span class='st'>"decoupleR"</span><span class='op'>)</span>
@@ -270,31 +279,30 @@ across the samples. Resulting tibble contains the following columns:</p><ol>
 <span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-expr_matrix.rds"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>run_ora</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 20 x 9</span><span>
-#&gt;    statistic tf    condition   score estimate conf.low conf.high method
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'> 1</span><span> ora       FOXO4 GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  0.  </span><span style='color: #555555;'> </span><span>    </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'> 2</span><span> ora       FOXO4 GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  0.  </span><span style='color: #555555;'> </span><span>    </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'> 3</span><span> ora       FOXO4 GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  0.  </span><span style='color: #555555;'> </span><span>    </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'> 4</span><span> ora       FOXO4 GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  0.  </span><span style='color: #555555;'> </span><span>    </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'> 5</span><span> ora       NFIC  GSM27533… 0.001</span><span style='text-decoration: underline;'>51</span><span>        0  0.  </span><span style='color: #555555;'> </span><span>      0.059</span><span style='text-decoration: underline;'>1</span><span> Fishe…
-#&gt; </span><span style='color: #555555;'> 6</span><span> ora       NFIC  GSM27533… 0.001</span><span style='text-decoration: underline;'>51</span><span>        0  0.  </span><span style='color: #555555;'> </span><span>      0.059</span><span style='text-decoration: underline;'>1</span><span> Fishe…
-#&gt; </span><span style='color: #555555;'> 7</span><span> ora       NFIC  GSM27533… 0.001</span><span style='text-decoration: underline;'>51</span><span>        0  0.  </span><span style='color: #555555;'> </span><span>      0.059</span><span style='text-decoration: underline;'>1</span><span> Fishe…
-#&gt; </span><span style='color: #555555;'> 8</span><span> ora       NFIC  GSM27533… 0.001</span><span style='text-decoration: underline;'>51</span><span>        0  0.  </span><span style='color: #555555;'> </span><span>      0.059</span><span style='text-decoration: underline;'>1</span><span> Fishe…
-#&gt; </span><span style='color: #555555;'> 9</span><span> ora       RFXAP GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  0.  </span><span style='color: #555555;'> </span><span>    </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>10</span><span> ora       RFXAP GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  0.  </span><span style='color: #555555;'> </span><span>    </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>11</span><span> ora       RFXAP GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  0.  </span><span style='color: #555555;'> </span><span>    </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>12</span><span> ora       RFXAP GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  0.  </span><span style='color: #555555;'> </span><span>    </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>13</span><span> ora       SMAD3 GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  6.15</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-5</span><span>  </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>14</span><span> ora       SMAD3 GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  6.15</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-5</span><span>  </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>15</span><span> ora       SMAD3 GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  6.15</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-5</span><span>  </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>16</span><span> ora       SMAD3 GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  6.15</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-5</span><span>  </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>17</span><span> ora       TFAP… GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  1.02</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-4</span><span>  </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>18</span><span> ora       TFAP… GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  1.02</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-4</span><span>  </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>19</span><span> ora       TFAP… GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  1.02</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-4</span><span>  </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'>20</span><span> ora       TFAP… GSM27533… 1            </span><span style='color: #BB0000;'>Inf</span><span>  1.02</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-4</span><span>  </span><span style='color: #BB0000;'>Inf</span><span>      Fishe…
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: alternative </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
+<span class='fu'>run_ora</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, .source<span class='op'>=</span><span class='st'>'tf'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 × 5</span>
+#&gt;    statistic source condition  score p_value
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> ora       FOXO4  GSM2753335 0.477 0.333  
+#&gt; <span style='color: #BCBCBC;'> 2</span> ora       FOXO4  GSM2753336 0.477 0.333  
+#&gt; <span style='color: #BCBCBC;'> 3</span> ora       FOXO4  GSM2753337 0.477 0.333  
+#&gt; <span style='color: #BCBCBC;'> 4</span> ora       FOXO4  GSM2753338 0.477 0.333  
+#&gt; <span style='color: #BCBCBC;'> 5</span> ora       NFIC   GSM2753335 0.438 0.365  
+#&gt; <span style='color: #BCBCBC;'> 6</span> ora       NFIC   GSM2753336 0.438 0.365  
+#&gt; <span style='color: #BCBCBC;'> 7</span> ora       NFIC   GSM2753337 0.438 0.365  
+#&gt; <span style='color: #BCBCBC;'> 8</span> ora       NFIC   GSM2753338 0.438 0.365  
+#&gt; <span style='color: #BCBCBC;'> 9</span> ora       RFXAP  GSM2753335 0.477 0.333  
+#&gt; <span style='color: #BCBCBC;'>10</span> ora       RFXAP  GSM2753336 0.477 0.333  
+#&gt; <span style='color: #BCBCBC;'>11</span> ora       RFXAP  GSM2753337 0.477 0.333  
+#&gt; <span style='color: #BCBCBC;'>12</span> ora       RFXAP  GSM2753338 0.477 0.333  
+#&gt; <span style='color: #BCBCBC;'>13</span> ora       SMAD3  GSM2753335 1.13  0.074<span style='text-decoration: underline;'>8</span> 
+#&gt; <span style='color: #BCBCBC;'>14</span> ora       SMAD3  GSM2753336 1.13  0.074<span style='text-decoration: underline;'>8</span> 
+#&gt; <span style='color: #BCBCBC;'>15</span> ora       SMAD3  GSM2753337 1.13  0.074<span style='text-decoration: underline;'>8</span> 
+#&gt; <span style='color: #BCBCBC;'>16</span> ora       SMAD3  GSM2753338 1.13  0.074<span style='text-decoration: underline;'>8</span> 
+#&gt; <span style='color: #BCBCBC;'>17</span> ora       TFAP2A GSM2753335 2.12  0.007<span style='text-decoration: underline;'>64</span>
+#&gt; <span style='color: #BCBCBC;'>18</span> ora       TFAP2A GSM2753336 2.12  0.007<span style='text-decoration: underline;'>64</span>
+#&gt; <span style='color: #BCBCBC;'>19</span> ora       TFAP2A GSM2753337 2.12  0.007<span style='text-decoration: underline;'>64</span>
+#&gt; <span style='color: #BCBCBC;'>20</span> ora       TFAP2A GSM2753338 2.12  0.007<span style='text-decoration: underline;'>64</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -306,7 +314,7 @@ across the samples. Resulting tibble contains the following columns:</p><ol>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jesús Vélez, Christian H. Holland.</p>
+  <p>Developed by Jesús Vélez, Pau Badia-i-Mompel, Christian H. Holland.</p>
 </div>
 
 <div class="pkgdown">

@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">decoupleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -180,39 +180,76 @@
       <tr>
         
         <td>
-          <p><code><a href="run_gsva.html">run_gsva()</a></code> </p>
+          <p><code><a href="run_aucell.html">run_aucell()</a></code> </p>
         </td>
-        <td><p>GSVA wrapper</p></td>
+        <td><p>AUCell</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="run_mean.html">run_mean()</a></code> </p>
+          <p><code><a href="run_consensus.html">run_consensus()</a></code> </p>
         </td>
-        <td><p>Weighted mean</p></td>
+        <td><p>Function to generate a consensus score between methods from the
+result of decouple</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="run_fgsea.html">run_fgsea()</a></code> </p>
+        </td>
+        <td><p>Fast Gene Set Enrichment Analysis (FGSEA)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="run_gsva.html">run_gsva()</a></code> </p>
+        </td>
+        <td><p>Gene Set Variation Analysis (GSVA)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="run_mdt.html">run_mdt()</a></code> </p>
+        </td>
+        <td><p>Multivariate Decision Trees (MDT)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="run_mlm.html">run_mlm()</a></code> </p>
+        </td>
+        <td><p>Multivariate Linear Model (MLM)</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="run_ora.html">run_ora()</a></code> </p>
         </td>
-        <td><p>Over Representation Analysis - Fisher Exact Test</p></td>
+        <td><p>Over Representation Analysis (ORA)</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="run_pscira.html">run_pscira()</a></code> </p>
+          <p><code><a href="run_udt.html">run_udt()</a></code> </p>
         </td>
-        <td><p>PSCIRA (Permutation Single Cell Inference of Regulatory Activity)</p></td>
+        <td><p>Univariate Decision Tree (UDT)</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="run_scira.html">run_scira()</a></code> </p>
+          <p><code><a href="run_ulm.html">run_ulm()</a></code> </p>
         </td>
-        <td><p>SCIRA (Single Cell Inference of Regulatory Activity)</p></td>
+        <td><p>Univariate Linear Model (ULM)</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="run_viper.html">run_viper()</a></code> </p>
         </td>
-        <td><p>VIPER wrapper</p></td>
+        <td><p>Virtual Inference of Protein-activity by Enriched Regulon analysis (VIPER)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="run_wmean.html">run_wmean()</a></code> </p>
+        </td>
+        <td><p>Weighted Mean (WMEAN)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="run_wsum.html">run_wsum()</a></code> </p>
+        </td>
+        <td><p>Weighted Sum (WSUM)</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -235,7 +272,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="convert_to_.html">convert_to_()</a></code> <code><a href="convert_to_.html">convert_to_scira()</a></code> <code><a href="convert_to_.html">convert_to_pscira()</a></code> <code><a href="convert_to_.html">convert_to_mean()</a></code> <code><a href="convert_to_.html">convert_to_viper()</a></code> <code><a href="convert_to_.html">convert_to_gsva()</a></code> <code><a href="convert_to_.html">convert_to_ora()</a></code> </p>
+          <p><code><a href="convert_to_.html">convert_to_()</a></code> <code><a href="convert_to_.html">convert_to_aucell()</a></code> <code><a href="convert_to_.html">convert_to_ulm()</a></code> <code><a href="convert_to_.html">convert_to_mlm()</a></code> <code><a href="convert_to_.html">convert_to_wsum()</a></code> <code><a href="convert_to_.html">convert_to_wmean()</a></code> <code><a href="convert_to_.html">convert_to_viper()</a></code> <code><a href="convert_to_.html">convert_to_gsva()</a></code> <code><a href="convert_to_.html">convert_to_ora()</a></code> <code><a href="convert_to_.html">convert_to_fgsea()</a></code> </p>
         </td>
         <td><p>Convert a network to run under the method of interest.</p></td>
       </tr>
@@ -272,7 +309,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jesús Vélez, Christian H. Holland.</p>
+  <p>Developed by Jesús Vélez, Pau Badia-i-Mompel, Christian H. Holland.</p>
 </div>
 
 <div class="pkgdown">

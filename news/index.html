@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">decoupleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -139,12 +139,60 @@
       <small>Source: <a href='https://github.com/saezlab/decoupleR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="decoupler-0990" class="section level1">
-<h1 class="page-header" data-toc-text="0.99.0">
-<a href="#decoupler-0990" class="anchor"></a>decoupleR 0.99.0</h1>
+    <div id="decoupler-200" class="section level1">
+<h1 class="page-header" data-toc-text="2.0.0">
+<a href="#decoupler-200" class="anchor"></a>decoupleR 2.0.0</h1>
+<div id="changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes" class="anchor"></a>Changes</h2>
+<ul>
+<li>
+<p>Some method’s names have been changed to make them easier to identify:</p>
+<ul>
+<li>
+<code>pscira</code> now is called Weighted Sum (<code>wsum</code>).</li>
+<li>
+<code>mean</code> now is called Weighted Mean (<code>wmean</code>).</li>
+<li>
+<code>scira</code> now is called Univariate Linear Model (<code>ulm</code>).</li>
+</ul>
+</li>
+<li><p>The column name for <code>tf</code> in the output tibbles has been changed to <code>source</code>.</p></li>
+<li><p>Updated documentation for all methods.</p></li>
+<li><p>Updated vignette and README.</p></li>
+<li><p><code>decouple</code> function now accepts order mismatch between the list of methods and the list of methods’s arguments.</p></li>
+<li><p>Moved benchmark branch to a separate repository as its own package: <a href="https://github.com/saezlab/decoupleRBench" class="uri">https://github.com/saezlab/decoupleRBench</a></p></li>
+</ul>
+</div>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
+<ul>
+<li>
+<p>New methods added:</p>
+<ul>
+<li>Fast Gene Set Enrichment Analysis (<code>fgsea</code>).</li>
+<li>
+<code>AUCell</code>.</li>
+<li>Univariate Decision Tree (<code>udt</code>).</li>
+<li>Multivariate Decision Tree (<code>mdt</code>).</li>
+<li>Multivariate Linear Model (<code>mlm</code>).</li>
+</ul>
+</li>
+<li><p>New <code>decoupleR</code> manuscript repository: <a href="https://github.com/saezlab/decoupleR_manuscript" class="uri">https://github.com/saezlab/decoupleR_manuscript</a></p></li>
+<li><p>New <code>consensus</code> score based on <code><a href="https://rdrr.io/pkg/RobustRankAggreg/man/aggregateRanks.html">RobustRankAggreg::aggregateRanks()</a></code> added when running <code>decouple</code> with multiple methods.</p></li>
+<li><p>Methods based on permutations or statistical tests now return also a p-value for the obtained score (<code>fgsea</code>, <code>mlm</code>, <code>ora</code>, <code>ulm</code>, <code>viper</code>, <code>wmean</code> and <code>wsum</code>).</p></li>
+<li><p>New error added when network edges are duplicated.</p></li>
+<li><p>New error added when the input matrix contains NAs or Infs.</p></li>
+</ul>
+</div>
+</div>
+    <div id="decoupler-110" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.0">
+<a href="#decoupler-110" class="anchor"></a>decoupleR 1.1.0</h1>
+<div id="new-features-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features-1" class="anchor"></a>New features</h2>
 <p>All new features allow for <strong>tidy selection</strong>. Making it easier to evaluate different types of data for the same method. For instance, you can specify the columns to use as strings, integer position, symbol or expression.</p>
 <div id="methods" class="section level3">
 <h3 class="hasAnchor">
@@ -155,10 +203,10 @@
 <p>New family <code>decoupleR statists</code> for shared documentation is made up of:</p>
 <ul>
 <li>New <code><a href="../reference/run_gsva.html">run_gsva()</a></code> incorporate a convinient wrapper for <a href="https://rdrr.io/bioc/GSVA/man/gsva.html">GSVA::gsva()</a>.</li>
-<li>New <code><a href="../reference/run_mean.html">run_mean()</a></code> calculates both the unnormalized regulatory activity and the normalized (i.e. z-score) one based on an empirical distribution.</li>
+<li>New <code>run_mean()</code> calculates both the unnormalized regulatory activity and the normalized (i.e. z-score) one based on an empirical distribution.</li>
 <li>New <code><a href="../reference/run_ora.html">run_ora()</a></code> fisher exact test to calculate the regulatory activity.</li>
-<li>New <code><a href="../reference/run_pscira.html">run_pscira()</a></code> uses a logic equivalent to <code><a href="../reference/run_mean.html">run_mean()</a></code> with the difference that it does not accept a column of likelihood.</li>
-<li>New <code><a href="../reference/run_scira.html">run_scira()</a></code> calculates the regulatory activity through the coefficient <span class="math inline"><em>β</em><sub>1</sub></span> of an adjusted linear model.</li>
+<li>New <code>run_pscira()</code> uses a logic equivalent to <code>run_mean()</code> with the difference that it does not accept a column of likelihood.</li>
+<li>New <code>run_scira()</code> calculates the regulatory activity through the coefficient <span class="math inline"><em>β</em><sub>1</sub></span> of an adjusted linear model.</li>
 <li>New <code><a href="../reference/run_viper.html">run_viper()</a></code> incorporate a convinient wrapper for <a href="https://rdrr.io/bioc/viper/man/viper.html">viper::viper()</a>.</li>
 </ul>
 </li>
@@ -172,10 +220,10 @@
 <ul>
 <li>New <code><a href="../reference/convert_to_.html">convert_to_()</a></code> return the entry without modification.</li>
 <li>New <code><a href="../reference/convert_to_.html">convert_to_gsva()</a></code> return a list of regulons suitable for <a href="https://rdrr.io/bioc/GSVA/man/gsva.html">GSVA::gsva()</a>.</li>
-<li>New <code><a href="../reference/convert_to_.html">convert_to_mean()</a></code> return a tibble with four columns: <code>tf</code>, <code>target</code>, <code>mor</code> and <code>likelihood</code>.</li>
+<li>New <code>convert_to_mean()</code> return a tibble with four columns: <code>tf</code>, <code>target</code>, <code>mor</code> and <code>likelihood</code>.</li>
 <li>New <code><a href="../reference/convert_to_.html">convert_to_ora()</a></code> returns a named list of regulons; tf with associated targets.</li>
-<li>New <code><a href="../reference/convert_to_.html">convert_to_pscira()</a></code> returns a tibble with three columns: <code>tf</code>, <code>target</code> and <code>mor</code>.</li>
-<li>New <code><a href="../reference/convert_to_.html">convert_to_scira()</a></code> returns a tibble with three columns: <code>tf</code>, <code>target</code> and <code>mor</code>.</li>
+<li>New <code>convert_to_pscira()</code> returns a tibble with three columns: <code>tf</code>, <code>target</code> and <code>mor</code>.</li>
+<li>New <code>convert_to_scira()</code> returns a tibble with three columns: <code>tf</code>, <code>target</code> and <code>mor</code>.</li>
 <li>New <code><a href="../reference/convert_to_.html">convert_to_viper()</a></code> return a list of regulons suitable for <a href="https://rdrr.io/bioc/viper/man/viper.html">viper::viper()</a>
 </li>
 </ul>
@@ -197,7 +245,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jesús Vélez, Christian H. Holland.</p>
+  <p>Developed by Jesús Vélez, Pau Badia-i-Mompel, Christian H. Holland.</p>
 </div>
 
 <div class="pkgdown">

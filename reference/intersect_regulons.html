@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>decoupleR: decoupleR: Inferring biological activities from omics data using a collection of methods — decoupleR-package • decoupleR</title>
+<title>Intersect network target genes with expression matrix. — intersect_regulons • decoupleR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="decoupleR: decoupleR: Inferring biological activities from omics data using a collection of methods — decoupleR-package" />
-<meta property="og:description" content="Computational methods allow the extraction of mechanistic signatures from omics data based on prior knowledge resources, reducing the dimensionality of the data for increased statistical power and better interpretability. Here, we present decoupleR, a Bioconductor package containing different statistical methods to extract these signatures within a unified framework. decoupleR allows the user to flexibly test any method with any resource. It incorporates methods that take into account the sign and weight of network interactions. Using decoupleR, we evaluated the performance of contemporary methods on transcriptomic and phospho-proteomic perturbation experiments." />
+<meta property="og:title" content="Intersect network target genes with expression matrix. — intersect_regulons" />
+<meta property="og:description" content="Keep only edges which its target genes belong to the expression matrix." />
 
 
 
@@ -136,35 +136,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>decoupleR: decoupleR: Inferring biological activities from omics data using a collection of methods</h1>
-    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/decoupleR-package.R'><code>R/decoupleR-package.R</code></a></small>
-    <div class="hidden name"><code>decoupleR-package.Rd</code></div>
+    <h1>Intersect network target genes with expression matrix.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/decoupleR-pre.R'><code>R/decoupleR-pre.R</code></a></small>
+    <div class="hidden name"><code>intersect_regulons.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Computational methods allow the extraction of mechanistic signatures from omics data based on prior knowledge resources, reducing the dimensionality of the data for increased statistical power and better interpretability. Here, we present decoupleR, a Bioconductor package containing different statistical methods to extract these signatures within a unified framework. decoupleR allows the user to flexibly test any method with any resource. It incorporates methods that take into account the sign and weight of network interactions. Using decoupleR, we evaluated the performance of contemporary methods on transcriptomic and phospho-proteomic perturbation experiments.</p>
+    <p>Keep only edges which its target genes belong to the expression matrix.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>intersect_regulons</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, <span class='va'>.source</span>, <span class='va'>.target</span>, <span class='va'>minsize</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>mat</th>
+      <td><p>Matrix to evaluate (e.g. expression matrix).
+Target nodes in rows and conditions in columns.
+<code><a href='https://rdrr.io/r/base/colnames.html'>rownames(mat)</a></code> must have at least one intersection with the elements
+in <code>network</code> <code>.target</code> column.</p></td>
+    </tr>
+    <tr>
+      <th>network</th>
+      <td><p>Tibble or dataframe with edges and it's associated metadata.</p></td>
+    </tr>
+    <tr>
+      <th>.source</th>
+      <td><p>Column with source nodes.</p></td>
+    </tr>
+    <tr>
+      <th>.target</th>
+      <td><p>Column with target nodes.</p></td>
+    </tr>
+    <tr>
+      <th>minsize</th>
+      <td><p>Minimum number of targets per source allowed.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p><a href='https://saezlab.github.io/decoupleR/'>https://saezlab.github.io/decoupleR/</a></p></li>
-<li><p>Report bugs at <a href='https://github.com/saezlab/decoupleR/issues'>https://github.com/saezlab/decoupleR/issues</a></p></li>
-</ul>
+    <p>Filtered tibble.</p>
 
-</div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p><strong>Maintainer</strong>: Pau Badia-i-Mompel <a href='mailto:pau.badia@uni-heidelberg.de'>pau.badia@uni-heidelberg.de</a> (<a href='https://orcid.org/0000-0002-1004-3923'>ORCID</a>)</p>
-<p>Authors:</p><ul>
-<li><p>Jesús Vélez <a href='mailto:jvelezmagic@gmail.com'>jvelezmagic@gmail.com</a> (<a href='https://orcid.org/0000-0001-5128-3838'>ORCID</a>)</p></li>
-<li><p>Christian H. Holland <a href='mailto:cholland2408@gmail.com'>cholland2408@gmail.com</a> (<a href='https://orcid.org/0000-0002-3060-5786'>ORCID</a>)</p></li>
-</ul>
-
-
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>inputs_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, <span class='st'>"inputs"</span>, package <span class='op'>=</span> <span class='st'>"decoupleR"</span><span class='op'>)</span>
+<span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-expr_matrix.rds"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>intersect_regulons</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, minsize<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 150 × 5</span>
+#&gt; <span style='color: #949494;'># Groups:   tf [5]</span>
+#&gt;    tf    confidence target     mor likelihood
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> FOXO4 A          BCL2L11      1          1
+#&gt; <span style='color: #BCBCBC;'> 2</span> FOXO4 A          BCL6         1          1
+#&gt; <span style='color: #BCBCBC;'> 3</span> FOXO4 A          CDKN1A       1          1
+#&gt; <span style='color: #BCBCBC;'> 4</span> FOXO4 A          CDKN1B       1          1
+#&gt; <span style='color: #BCBCBC;'> 5</span> FOXO4 A          G6PC         1          1
+#&gt; <span style='color: #BCBCBC;'> 6</span> FOXO4 A          GADD45A      1          1
+#&gt; <span style='color: #BCBCBC;'> 7</span> FOXO4 A          IGFBP1       1          1
+#&gt; <span style='color: #BCBCBC;'> 8</span> FOXO4 A          PCK2         1          1
+#&gt; <span style='color: #BCBCBC;'> 9</span> FOXO4 A          PPARGC1A     1          1
+#&gt; <span style='color: #BCBCBC;'>10</span> FOXO4 A          RBL2         1          1
+#&gt; <span style='color: #949494;'># … with 140 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

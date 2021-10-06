@@ -37,19 +37,13 @@ library(RefManageR)
 bib <- c(
     R = citation(),
     BiocStyle = citation("BiocStyle")[1],
-    covr = citation("covr")[1],
-    decoupleR = citation("decoupleR")[1],
-    devtools = citation("devtools")[1],
-    GSVA = citation("GSVA")[1],
     knitr = citation("knitr")[1],
-    pkgdown = citation("pkgdown")[1],
-    rlang = citation("rlang")[1],
-    RefManageR = citation("RefManageR")[1],
     rmarkdown = citation("rmarkdown")[1],
     sessioninfo = citation("sessioninfo")[1],
-    styler = citation("styler")[1],
     testthat = citation("testthat")[1],
-    usethis = citation("usethis")[1],
+    RefManageR = citation("RefManageR")[1],
+    decoupleR = citation("decoupleR")[1],
+    GSVA = citation("GSVA")[1],
     viper = citation("viper")[1]
 )
 ```
@@ -158,6 +152,9 @@ mat <- file.path(inputs_dir, "input-expr_matrix.rds") %>%
 network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
     readRDS() %>%
     glimpse()
+
+# We recommend to intersect and set a minsize of targets
+network <- intersect_regulons(mat, network, tf, target, minsize=5)
 ```
 
 ## How to decouple?
@@ -298,23 +295,17 @@ viper_res <- decouple(
 
 ## Special thanks
 
-The `r Biocpkg("decoupleR")` package `r Citep(bib[["decoupleR"]])` was made
+The `r Biocpkg("decouopleR")` package `r Citep(bib[["decoupleR"]])` was made
 possible thanks to:
 
 * R `r Citep(bib[["R"]])`
 * `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])`
-* `r CRANpkg("covr")` `r Citep(bib[["covr"]])`
-* `r CRANpkg("devtools")` `r Citep(bib[["devtools"]])`
-* `r Biocpkg("GSVA")` `r Citep(bib[["GSVA"]])`
+* `r CRANpkg("knitcitations")` `r Citep(bib[["knitcitations"]])`
 * `r CRANpkg("knitr")` `r Citep(bib[["knitr"]])`
-* `r CRANpkg("pkgdown")` `r Citep(bib[["pkgdown"]])`
-* `r CRANpkg("rlang")` `r Citep(bib[["rlang"]])`
-* `r CRANpkg("RefManageR")` `r Citep(bib[["RefManageR"]])`
 * `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])`
 * `r CRANpkg("sessioninfo")` `r Citep(bib[["sessioninfo"]])`
-* `r CRANpkg("styler")` `r Citep(bib[["styler"]])`
 * `r CRANpkg("testthat")` `r Citep(bib[["testthat"]])`
-* `r CRANpkg("usethis")` `r Citep(bib[["usethis"]])`
+* `r Biocpkg("GSVA")` `r Citep(bib[["GSVA"]])`
 * `r Biocpkg("viper")` `r Citep(bib[["viper"]])`
 
 This package was developed using

@@ -2,24 +2,21 @@
 #' result of decouple
 #'
 #' @param df `decouple` data frame result
-#' @param condition Column name for sample names
-#' @param statistic Column name for statistic names
+#' @param include_time Should the time per statistic evaluated be informed?
 #'
-#' @return Updated tibble with the computed consensus score bewteen methods
+#' @return Updated tibble with the computed consensus score between methods
 #'
 #' @import purrr
 #' @import RobustRankAggreg
 #' @export
 run_consensus <- function(df,
-                          condition='condition',
-                          statistic='statistic',
                           include_time=FALSE
                           ){
   start_time <- Sys.time()
   # Split df by samples
   cond_names <- unique(df$condition)
   lst_conds <- df %>%
-    group_by(condition) %>%
+    group_by(.data$condition) %>%
     group_split()
   names(lst_conds) <- cond_names
 
@@ -29,12 +26,12 @@ run_consensus <- function(df,
     # Generate a sorted list of sources per method
     map(function(df){
       df %>%
-        group_by(statistic) %>%
+        group_by(.data$statistic) %>%
         group_split() %>%
         map(function(df){
           df %>%
-            arrange(desc(abs(score))) %>%
-            select(source) %>%
+            arrange(desc(abs(.data$score))) %>%
+            select(.data$source) %>%
             pull()
         })
     }) %>%
@@ -46,8 +43,8 @@ run_consensus <- function(df,
     # Transform back to tibble
     map2(., names(.), function(df, cond){
       as_tibble(df) %>%
-        rename('source' = Name, 'p_value' = Score) %>%
-        mutate(score= -log10(p_value),
+        rename('source' = .data$Name, 'p_value' = .data$Score) %>%
+        mutate(score= -log10(.data$p_value),
                statistic = 'consensus',
                condition = cond,
                run_id = run_id + 1

@@ -29,6 +29,9 @@ in \code{network} \code{.target} column.}
 \item{aucMaxRank}{Threshold to calculate the AUC.}
 
 \item{nproc}{Number of cores to use for computation.}
+
+\item{seed}{A single value, interpreted as an integer, or NULL for random
+number generation.}
 }
 \description{
 Calculates regulatory activities using Area Under the Curve (AUC) from AUCell
@@ -44,7 +47,7 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_aucell(mat, network, .source='tf')
+run_aucell(mat, network, .source='tf', nproc=1)
 }
 \seealso{
 Other decoupleR statistics: 

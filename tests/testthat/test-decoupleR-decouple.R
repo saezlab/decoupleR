@@ -37,7 +37,7 @@ statistics <- c(
 args <- list(
     udt = list(),
     mdt = list(),
-    aucell = list(),
+    aucell = list(nproc=1),
     wmean = list(),
     wsum = list(),
     ulm = list(),

@@ -88,9 +88,9 @@ run_ora <- function(mat,
         select(.data$source, .data$condition,
                p_value = .data$p.value, everything()
         ) %>%
-        mutate(score = -log10(p_value)) %>%
+        mutate(score = -log10(.data$p_value)) %>%
         add_column(statistic = "ora", .before = 1) %>%
-        select(statistic, source, condition, score, p_value)
+        select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
 }
 
 #' Fisher Exact Test

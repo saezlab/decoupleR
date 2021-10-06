@@ -8,7 +8,15 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @inheritDotParams viper::viper -eset -regulon -minsize
+#' @param verbose Logical, whether progression messages should be printed in
+#' the terminal.
+#' @param minsize Integer indicating the minimum number of targets allowed per
+#' regulon.
+#' @param pleiotropy Logical, whether correction for pleiotropic regulation
+#' should be performed.
+#' @param eset.filter Logical, whether the dataset should be limited only to
+#' the genes represented in the interactome .
+#' @inheritDotParams viper::viper -eset -regulon -verbose -minsize -pleiotropy -eset.filter
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
@@ -18,6 +26,7 @@
 #'  4. `score`: Regulatory activity (enrichment score).
 #' @family decoupleR statistics
 #' @export
+#'
 #' @import dplyr
 #' @import tibble
 #' @import purrr
@@ -62,5 +71,5 @@ run_viper <- function(mat,
         rownames_to_column("source") %>%
         pivot_longer(-.data$source, names_to = "condition", values_to = "score") %>%
         add_column(statistic = "viper", .before = 1) %>%
-        mutate(p_value = 2*pnorm(-abs(score)))
+        mutate(p_value = 2*stats::pnorm(-abs(.data$score)))
 }

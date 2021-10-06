@@ -53,6 +53,7 @@ Imports:
     RobustRankAggreg,
     fgsea (>= 1.15.4),
     AUCell,
+    SummarizedExperiment,
     doParallel,
     doRNG,
     doMC,
@@ -67,7 +68,6 @@ Suggests:
     rmarkdown,
     roxygen2,
     sessioninfo,
-    styler,
     testthat
 VignetteBuilder: 
     knitr

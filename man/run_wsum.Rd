@@ -57,21 +57,12 @@ across the samples. Resulting tibble contains the following columns:
 Calculates regulatory activities by computing the WSUM
 }
 \details{
-<<<<<<< HEAD:man/run_mean.Rd
-\code{run_mean()} calculates the activity score, but in addition, it takes
-advantage of the permutations used to calculate the \code{p-value}, to provide
-the normalized activity score and a corrected mean score.
-This is represented in the \code{statistic} column which will contain three
-values for each call to \code{run_mean()}; \strong{mean}, \strong{normalized_mean}, and
-\strong{corrected_mean}.
-=======
 Infers activity score for each regulator by weighting the molecular readouts
 of its targets by their mode of regulations and likelihoods. In addition, it
 runs permutations to calculate empirical p-values, providing normalized
 (z-score) and corrected activity (estimate * -log10(p-value)) scores. This is
 represented in the \code{statistic} column which will contain three values for
 each call to \code{run_wsum()}; \strong{wsum}, \strong{norm_wsum} and \strong{corr_wsum}.
->>>>>>> 079063fd42ac39301d8629ecfbdc606f5fe27cee:man/run_wsum.Rd
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

@@ -8,11 +8,10 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param force_ties Whether to force ties or not (results might not be
-#' reproducible in all systems).
 #' @param times How many permutations to do?
 #' @param nproc Number of cores to use for computation.
 #' @param seed A single value, interpreted as an integer, or NULL.
+#' @inheritDotParams fgsea::fgseaMultilevel -pathways -stats -nPermSimple -nproc
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
@@ -28,7 +27,7 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_fgsea(mat, network, .source='tf')
+#' run_fgsea(mat, network, .source='tf', nproc=1)
 run_fgsea <- function(mat,
                       network,
                       .source = .data$source,
@@ -60,8 +59,8 @@ run_fgsea <- function(mat,
   }, .id = "condition") %>%
     select(.data$pathway, .data$condition, .data$ES, .data$NES, .data$pval) %>%
     tidyr::pivot_longer(cols=c("ES","NES"), names_to ="statistic", values_to="score") %>%
-    mutate(statistic=if_else(statistic=='ES', 'fgsea', 'norm_fgsea')) %>%
-    rename('source'=pathway, 'p_value'=pval) %>%
-    select(statistic, source, condition, score, p_value) %>%
-    mutate(score = replace_na(score, 0))
+    mutate(statistic=if_else(.data$statistic=='ES', 'fgsea', 'norm_fgsea')) %>%
+    rename('source'=.data$pathway, 'p_value'=.data$pval) %>%
+    select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value) %>%
+    mutate(score = replace_na(.data$score, 0))
 }

@@ -33,8 +33,21 @@ in \code{network} \code{.target} column.}
 
 \item{seed}{A single value, interpreted as an integer, or NULL.}
 
-\item{force_ties}{Whether to force ties or not (results might not be
-reproducible in all systems).}
+\item{...}{
+  Arguments passed on to \code{\link[fgsea:fgseaMultilevel]{fgsea::fgseaMultilevel}}
+  \describe{
+    \item{\code{sampleSize}}{The size of a random set of genes which in turn has size = pathwaySize}
+    \item{\code{minSize}}{Minimal size of a gene set to test. All pathways below the threshold are excluded.}
+    \item{\code{maxSize}}{Maximal size of a gene set to test. All pathways above the threshold are excluded.}
+    \item{\code{eps}}{This parameter sets the boundary for calculating the p value.}
+    \item{\code{scoreType}}{This parameter defines the GSEA score type. Possible options are ("std", "pos", "neg")}
+    \item{\code{gseaParam}}{GSEA parameter value, all gene-level statis are raised to the power of `gseaParam`
+before calculation of GSEA enrichment scores.}
+    \item{\code{BPPARAM}}{Parallelization parameter used in bplapply.
+Can be used to specify cluster to run. If not initialized explicitly or
+by setting `nproc` default value `bpparam()` is used.}
+    \item{\code{absEps}}{deprecated, use `eps` parameter instead}
+  }}
 }
 \value{
 A long format tibble of the enrichment scores for each source
@@ -58,7 +71,7 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
-run_fgsea(mat, network, .source='tf')
+run_fgsea(mat, network, .source='tf', nproc=1)
 }
 \seealso{
 Other decoupleR statistics: 

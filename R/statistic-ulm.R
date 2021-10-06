@@ -149,8 +149,8 @@ run_ulm <- function(mat,
     ) %>%
         rowwise(.data$source, .data$condition) %>%
         mutate(model = list(ulm_evaluate_model(.data$source, .data$condition)), statistic='ulm') %>%
-        unnest(model) %>%
-        select(statistic, source, condition, score, p_value)
+        unnest(.data$model) %>%
+        select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
 }
 
 #' Wrapper to run ulm one source (source) per sample (condition) at time

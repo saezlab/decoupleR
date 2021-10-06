@@ -19,7 +19,7 @@ dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
 # Test for run_aucell function ---------------------------------------------
 
 test_that("test run_aucell with dorothea gene sets", {
-  res_1 <- run_aucell(emat, dorothea_genesets, .source='tf')
+  res_1 <- run_aucell(emat, dorothea_genesets, .source='tf', nproc=1)
   exp_1 <- file.path(expected_dir, "output-aucell_dorothea_default.rds") %>%
     readRDS()
 

@@ -64,8 +64,6 @@ Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}
 Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}.
 \item \code{convert_to_mlm()}
 Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}.
-\item \code{convert_to_nolea()}
-Returns a tibble with three columns: \code{source}, \code{target} and \code{mor}.
 \item \code{convert_to_viper()}
 Return a list of sources with associated targets suitable for \code{\link[viper:viper]{viper::viper()}}
 }
@@ -81,15 +79,14 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 
 convert_to_(network)
-convert_to_aucell(network, source, target)
-convert_to_gsva(network, source, target)
-convert_to_wmean(network, source, target, mor, likelihood)
-convert_to_ora(network, source, target)
-convert_to_wsum(network, source, target, mor)
-convert_to_ulm(network, source, target, mor)
-convert_to_mlm(network, source, target, mor)
-convert_to_nolea(network, source, target, mor)
-convert_to_viper(network, source, target, mor, likelihood)
+convert_to_aucell(network, tf, target)
+convert_to_gsva(network, tf, target)
+convert_to_wmean(network, tf, target, mor, likelihood)
+convert_to_ora(network, tf, target)
+convert_to_wsum(network, tf, target, mor)
+convert_to_ulm(network, tf, target, mor)
+convert_to_mlm(network, tf, target, mor)
+convert_to_viper(network, tf, target, mor, likelihood)
 }
 \seealso{
 \code{\link[=convert_f_defaults]{convert_f_defaults()}}

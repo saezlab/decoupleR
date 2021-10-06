@@ -7,7 +7,8 @@
     Message <message>
       run_udt(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
       run_mdt(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
-      run_aucell(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
+      run_aucell(mat = mat, network = dorothea_genesets, .source = tf, .target = target,
+      *   nproc = 1)
       run_wmean(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
       run_wsum(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
       run_ulm(mat = mat, network = dorothea_genesets, .source = tf, .target = target)

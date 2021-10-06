@@ -5,22 +5,15 @@
 \title{Function to generate a consensus score between methods from the
 result of decouple}
 \usage{
-run_consensus(
-  df,
-  condition = "condition",
-  statistic = "statistic",
-  include_time = FALSE
-)
+run_consensus(df, include_time = FALSE)
 }
 \arguments{
 \item{df}{\code{decouple} data frame result}
 
-\item{condition}{Column name for sample names}
-
-\item{statistic}{Column name for statistic names}
+\item{include_time}{Should the time per statistic evaluated be informed?}
 }
 \value{
-Updated tibble with the computed consensus score bewteen methods
+Updated tibble with the computed consensus score between methods
 }
 \description{
 Function to generate a consensus score between methods from the

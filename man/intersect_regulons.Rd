@@ -7,11 +7,18 @@
 intersect_regulons(mat, network, .source, .target, minsize)
 }
 \arguments{
+\item{mat}{Matrix to evaluate (e.g. expression matrix).
+Target nodes in rows and conditions in columns.
+\code{rownames(mat)} must have at least one intersection with the elements
+in \code{network} \code{.target} column.}
+
 \item{network}{Tibble or dataframe with edges and it's associated metadata.}
 
 \item{.source}{Column with source nodes.}
 
-\item{.target}{Maximum number of targets allowed per regulon.}
+\item{.target}{Column with target nodes.}
+
+\item{minsize}{Minimum number of targets per source allowed.}
 }
 \value{
 Filtered tibble.
@@ -23,5 +30,5 @@ Keep only edges which its target genes belong to the expression matrix.
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
-filter_regulons(mat, network, target)
+intersect_regulons(mat, network, tf, target, minsize=5)
 }

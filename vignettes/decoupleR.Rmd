@@ -152,6 +152,9 @@ mat <- file.path(inputs_dir, "input-expr_matrix.rds") %>%
 network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
     readRDS() %>%
     glimpse()
+
+# We recommend to intersect and set a minsize of targets
+network <- intersect_regulons(mat, network, tf, target, minsize=5)
 ```
 
 ## How to decouple?

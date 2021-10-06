@@ -146,8 +146,8 @@ run_mlm <- function(mat,
   ) %>%
     rowwise(.data$condition) %>%
     mutate(model = list(mlm_evaluate_model(.data$condition)), statistic='mlm') %>%
-    unnest(model) %>%
-    select(statistic, source, condition, score, p_value)
+    unnest(.data$model) %>%
+    select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
 }
 
 #' Wrapper to run mlm per sample (condition) at time

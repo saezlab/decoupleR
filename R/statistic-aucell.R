@@ -12,19 +12,22 @@
 #' @inheritParams .decoupler_network_format
 #' @param aucMaxRank Threshold to calculate the AUC.
 #' @param nproc Number of cores to use for computation.
+#' @param seed A single value, interpreted as an integer, or NULL for random
+#' number generation.
 #'
 #' @family decoupleR statistics
 #' @export
 #' @import dplyr
 #' @import tibble
 #' @import tidyr
+#' @import SummarizedExperiment
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_aucell(mat, network, .source='tf')
+#' run_aucell(mat, network, .source='tf', nproc=1)
 run_aucell <- function(mat,
                        network,
                        .source = .data$source,

@@ -8,6 +8,9 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
+#' @param verbose Gives information about each calculation step. Default: FALSE.
+#' @param method Method to employ in the estimation of gene-set enrichment.
+#' scores per sample. By default this is set to gsva (Hänzelmann et al, 2013).
 #' @inheritDotParams GSVA::gsva -expr -gset.idx.list
 #'
 #' @return A long format tibble of the enrichment scores for each source

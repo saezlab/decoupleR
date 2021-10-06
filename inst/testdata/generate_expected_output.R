@@ -59,7 +59,7 @@ run_mdt(emat, dorothea_genesets, .source='tf') %>%
     saveRDS(out_default$mdt)
 
 #----- run_aucell() ------------------------------------------------------------
-run_aucell(emat, dorothea_genesets, .source='tf') %>%
+run_aucell(emat, dorothea_genesets, .source='tf', nproc=1) %>%
     saveRDS(out_default$aucell)
 
 #----- run_wmean() -------------------------------------------------------------

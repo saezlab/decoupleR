@@ -99,7 +99,7 @@ decouple <- function(mat,
             if_else(include_time, .data$statistic_time, NULL),
             everything()
         ) %>%
-        mutate(run_id = as.numeric(run_id))
+        mutate(run_id = as.numeric(.data$run_id))
     if (consensus_score){
         df <- run_consensus(df, include_time=include_time)
     }

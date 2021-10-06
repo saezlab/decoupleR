@@ -27,8 +27,6 @@
 #'    Returns a tibble with three columns: `source`, `target` and `mor`.
 #' * `convert_to_mlm()`
 #'    Returns a tibble with three columns: `source`, `target` and `mor`.
-#' * `convert_to_nolea()`
-#'    Returns a tibble with three columns: `source`, `target` and `mor`.
 #' * `convert_to_viper()`
 #'    Return a list of sources with associated targets suitable for [viper::viper()]
 #'
@@ -44,15 +42,14 @@
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
 #' convert_to_(network)
-#' convert_to_aucell(network, source, target)
-#' convert_to_gsva(network, source, target)
-#' convert_to_wmean(network, source, target, mor, likelihood)
-#' convert_to_ora(network, source, target)
-#' convert_to_wsum(network, source, target, mor)
-#' convert_to_ulm(network, source, target, mor)
-#' convert_to_mlm(network, source, target, mor)
-#' convert_to_nolea(network, source, target, mor)
-#' convert_to_viper(network, source, target, mor, likelihood)
+#' convert_to_aucell(network, tf, target)
+#' convert_to_gsva(network, tf, target)
+#' convert_to_wmean(network, tf, target, mor, likelihood)
+#' convert_to_ora(network, tf, target)
+#' convert_to_wsum(network, tf, target, mor)
+#' convert_to_ulm(network, tf, target, mor)
+#' convert_to_mlm(network, tf, target, mor)
+#' convert_to_viper(network, tf, target, mor, likelihood)
 convert_to_ <- function(network) invisible(network)
 
 # aucell ---------------------------------------------------------------------
@@ -119,7 +116,7 @@ convert_to_mlm <- function(network, .source, .target, .mor = NULL, .likelihood =
     .check_quos_status({{ .source }}, {{ .target }},
                        .dots_names = c(".source", ".target")
     )
-    
+
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
@@ -459,7 +456,7 @@ convert_f_defaults <- function(.data,
 #' @noRd
 check_repeated_edges <- function(network){
     repeated <- network %>%
-        group_by(source, target) %>%
+        group_by(.data$source, .data$target) %>%
         filter(n()>1)
     if (nrow(repeated) > 1){
         stop('Network contains repeated edges, please remove them.')

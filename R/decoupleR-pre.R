@@ -22,3 +22,34 @@ filter_regulons <- function(network,
         filter(.data$n >= min_size, .data$n <= max_size) %>%
         select(-.data$n)
 }
+
+#' Intersect network target genes with expression matrix.
+#'
+#' Keep only edges which its target genes belong to the expression matrix.
+#' @inheritParams .decoupler_mat_format
+#' @inheritParams .decoupler_network_format
+#' @param minsize Minimum number of targets per source allowed.
+#'
+#' @return Filtered tibble.
+#' @export
+#' @examples
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#' intersect_regulons(mat, network, tf, target, minsize=5)
+intersect_regulons <- function(mat,
+                               network,
+                               .source,
+                               .target,
+                               minsize
+) {
+  .source<- as.name(substitute(.source))
+  .target<- as.name(substitute(.target))
+  .source <- enquo(.source)
+  .target <- enquo(.target)
+  targets <- rownames(mat)
+  network %>%
+    filter(!!.target %in% targets) %>%
+    group_by(!!.source) %>%
+    filter(n() >= minsize)
+}

@@ -1,6 +1,11 @@
-#' Over Representation Analysis - Fisher Exact Test
+#' Over Representation Analysis (ORA)
 #'
+#' @description
+#' Calculates regulatory activities using ORA.
+#'
+#' @details
 #' Performs an over-representation analysis using [stats::fisher.test()].
+#' Obtained scores are -log10(p-values).
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
@@ -15,10 +20,10 @@
 #'   and return the first `n` rows.
 #' @inheritDotParams stats::fisher.test -x -y
 #'
-#' @return A long format tibble of the enrichment scores for each tf
+#' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
-#'  2. `tf`: Source nodes of `network`.
+#'  2. `source`: Source nodes of `network`.
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #' @family decoupleR statistics
@@ -29,16 +34,19 @@
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #'
-#' run_ora(mat, network, tf, target)
+#' run_ora(mat, network, .source='tf')
 run_ora <- function(mat,
                     network,
-                    .source = .data$tf,
+                    .source = .data$source,
                     .target = .data$target,
                     n_up = nrow(mat),
                     n_bottom = 0,
-                    n_background = NULL,
+                    n_background = 20000,
                     with_ties = TRUE,
                     ...) {
+    # Check for NAs/Infs in mat
+    check_nas_infs(mat)
+
     # Before to start ---------------------------------------------------------
     regulons <- network %>%
         convert_to_ora({{ .source }}, {{ .target }})
@@ -58,7 +66,7 @@ run_ora <- function(mat,
 #' Wrapper to execute `run_ora()` logic one finished preprocessing of data
 #'
 #' @inheritParams run_ora
-#' @param regulons Named list; names from `.data$tf` and values
+#' @param regulons Named list; names from `.data$source` and values
 #'  from `.data$target`.
 #' @param targets Named list; names from columns of `mat` and
 #'  values from sliced data of `mat`.
@@ -67,20 +75,22 @@ run_ora <- function(mat,
 #' @keywords internal
 #' @noRd
 .ora_analysis <- function(regulons, targets, n_background, ...) {
-    expand_grid(tf = names(regulons), condition = names(targets)) %>%
-        rowwise(.data$tf, .data$condition) %>%
+    expand_grid(source = names(regulons), condition = names(targets)) %>%
+        rowwise(.data$source, .data$condition) %>%
         summarise(.ora_fisher_exact_test(
-            expected = regulons[[.data$tf]],
+            expected = regulons[[.data$source]],
             observed = targets[[.data$condition]],
             n_background = n_background,
             ...
         ),
         .groups = "drop"
         ) %>%
-        select(.data$tf, .data$condition,
-            score = .data$p.value, everything()
+        select(.data$source, .data$condition,
+               p_value = .data$p.value, everything()
         ) %>%
-        add_column(statistic = "ora", .before = 1)
+        mutate(score = -log10(.data$p_value)) %>%
+        add_column(statistic = "ora", .before = 1) %>%
+        select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
 }
 
 #' Fisher Exact Test
@@ -96,6 +106,7 @@ run_ora <- function(mat,
         .fn = stats::fisher.test,
         x = .ora_contingency_table(expected, observed, n_background),
         y = NULL,
+        alternative='greater',
         !!!list(...)
     ) %>%
         broom::glance()
@@ -129,25 +140,27 @@ run_ora <- function(mat,
 #' @keywords internal
 #' @noRd
 .ora_slice_targets <- function(mat, n_up, n_bottom, with_ties) {
-    mat %>%
-        as_tibble(rownames = "target") %>%
-        pivot_longer(
-            cols = -.data$target,
-            names_to = "condition",
-            values_to = "value"
-        ) %>%
-        group_by(.data$condition) %>%
-        {
-            bind_rows(
-                slice_max(., .data$value, n = n_up, with_ties = with_ties),
-                slice_min(., .data$value, n = n_bottom, with_ties = with_ties)
-            )
-        } %>%
-        summarise(
-            targets = set_names(list(.data$target), .data$condition[1]),
-            .groups = "drop"
-        ) %>%
-        pull(.data$targets)
+  mat %>%
+    as_tibble(rownames = "target") %>%
+    tidyr::pivot_longer(
+      cols = -.data$target,
+      names_to = "condition",
+      values_to = "value"
+    ) %>%
+    arrange(.data$condition, .data$value) %>%
+    group_by(.data$condition) %>%
+    {
+      bind_rows(
+        slice_tail(., n = n_up),
+        slice_head(., n = n_bottom)
+      )
+    } %>%
+    arrange(.data$condition) %>%
+    summarise(
+      targets = rlang::set_names(list(.data$target), .data$condition[1]),
+      .groups = "drop"
+    ) %>%
+    pull(.data$targets)
 }
 
 #' Check values of variables with n_prefix
@@ -162,7 +175,7 @@ run_ora <- function(mat,
 #' @keywords internal
 #' @noRd
 .ora_check_ns <- function(n_up, n_bottom, n_background, network, mat) {
-    if (is_null(n_background)) {
+    if (is.null(n_background)) {
         n_background <- network %>%
             pull(.data$target) %>%
             unique() %>%

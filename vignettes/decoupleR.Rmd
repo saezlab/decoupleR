@@ -80,7 +80,7 @@ BiocManager::install("saezlab/decoupleR")
 
 `r Biocpkg("decoupleR")` is based on many other packages and in particular in 
 those that have implemented the infrastructure needed for dealing with
-functional genomic analysis. That is, packages like `r Biocpkg("viper")` or 
+functional analysis. That is, packages like `r Biocpkg("viper")` or 
 `r Biocpkg("GSVA")`, among others. This in order to have a centralized place
 from which to apply different statistics to the same data set without the need
 and work that would require testing in isolation. Opening the possibility of
@@ -118,7 +118,7 @@ citation("decoupleR")
 ## Libraries
 
 `r Biocpkg("decoupleR")` provides different statistics to calculate the
-regulatory activity given an expression `matrix` and a `network`.
+regulatory activity given a `matrix` of molecular readouts and a `network`.
 It incorporates pre-existing methods to avoid recreating the wheel while
 implementing its own methods under an evaluation standard.
 Therefore, it provides flexibility when evaluating a data set with different
@@ -136,11 +136,11 @@ library(dplyr)
 ## Input data
 
 In order to use it, you first need to have a `matrix` where the rows represent
-the target nodes and the columns the different conditions in which they were
-evaluated. In addition, it is necessary to provide a `network` that contains at
-least two columns corresponding to the source and target nodes. It is noteworthy
-that certain methods will require specifying additional metadata columns. For
-instance, the mode of regulation (MoR) or the likelihood of the interaction.
+the target nodes and the columns the samples. In addition, it is necessary to 
+provide a prior knowledge `network` that contains at least two columns corresponding to the 
+source and target nodes. It is noteworthy that certain methods will require 
+specifying additional metadata columns. For instance, the mode of regulation 
+(MoR) or the likelihood of the interaction.
 
 ```{r read_example_data}
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -152,6 +152,9 @@ mat <- file.path(inputs_dir, "input-expr_matrix.rds") %>%
 network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
     readRDS() %>%
     glimpse()
+
+# We recommend to intersect and set a minsize of targets
+network <- intersect_regulons(mat, network, tf, target, minsize=5)
 ```
 
 ## How to decouple?
@@ -167,18 +170,12 @@ decouple(
     network = network,
     .source = "tf",
     .target = "target",
-    statistics = c("gsva", "mean", "pscira", "scira", "viper", "ora"),
+    statistics = c("gsva", "wmean", "mlm", "ora"),
     args = list(
         gsva = list(verbose = FALSE),
-        mean = list(.mor = "mor", .likelihood = "likelihood"),
-        pscira = list(.mor = "mor"),
-        scira = list(.mor = "mor"),
-        viper = list(
-            .mor = "mor",
-            .likelihood = "likelihood",
-            verbose = FALSE
-        ),
-        ora = list()
+        wmean = list(times = 100),
+        mlm = list(center=FALSE),
+        ora = list(n_up=300, n_bottom=300, n_background=20000)
     )
 ) %>%
     glimpse()

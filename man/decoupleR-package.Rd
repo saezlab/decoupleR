@@ -17,12 +17,20 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Pau Badia-i-Mompel \email{pau.badia@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-1004-3923}{ORCID})
+\strong{Maintainer}: Jesús Vélez \email{jvelezmagic@gmail.com} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
 
 Authors:
 \itemize{
-  \item Jesús Vélez \email{jvelezmagic@gmail.com} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
+  \item Pau Badia-i-Mompel \email{pau.badia@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-1004-3923}{ORCID})
+  \item Jana Braunger \email{jana.bc@gmx.de} (\href{https://orcid.org/0000-0003-0820-9987}{ORCID})
+  \item Celina Geiss \email{celina.geiss@stud.uni-heidelberg.de} (\href{https://orcid.org/0000-0002-8740-706X}{ORCID})
+  \item Daniel Dimitrov \email{daniel.dimitrov@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-5197-2112}{ORCID})
+  \item Sophia Müller-Dott \email{sophia.mueller-dott@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-9710-1865}{ORCID})
+  \item Petr Taus \email{petr.taus@ceitec.muni.cz} (\href{https://orcid.org/0000-0003-3764-9033}{ORCID})
+  \item Aurélien Dugourd \email{aurelien.dugourd@bioquant.uni-heidelberg.de} (\href{https://orcid.org/0000-0002-0714-028X}{ORCID})
   \item Christian H. Holland \email{cholland2408@gmail.com} (\href{https://orcid.org/0000-0002-3060-5786}{ORCID})
+  \item Ricardo O. Ramirez Flores \email{roramirezf@uni-heidelberg.de } (\href{https://orcid.org/0000-0003-0087-371X}{ORCID})
+  \item Julio Saez-Rodriguez \email{pub.saez@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-8552-8976}{ORCID})
 }
 
 }

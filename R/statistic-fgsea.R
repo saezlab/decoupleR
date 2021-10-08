@@ -62,5 +62,6 @@ run_fgsea <- function(mat,
     mutate(statistic=if_else(.data$statistic=='ES', 'fgsea', 'norm_fgsea')) %>%
     rename('source'=.data$pathway, 'p_value'=.data$pval) %>%
     select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value) %>%
-    mutate(score = replace_na(.data$score, 0))
+    mutate(score = replace_na(.data$score, Inf)) %>%
+    mutate(p_value = replace_na(.data$p_value, 1/times))
 }

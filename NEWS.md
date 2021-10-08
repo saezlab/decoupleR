@@ -30,7 +30,9 @@ https://github.com/saezlab/decoupleRBench
 * New `decoupleR` manuscript repository: https://github.com/saezlab/decoupleR_manuscript
 
 * New `consensus` score based on `RobustRankAggreg::aggregateRanks()` added when
-running `decouple` with multiple methods. 
+running `decouple` with multiple methods.
+
+* New statistic `corr_wmean` inside `wmean`. 
 
 * Methods based on permutations or statistical tests now return also a p-value 
 for the obtained score (`fgsea`, `mlm`, `ora`, `ulm`, `viper`, `wmean` and 

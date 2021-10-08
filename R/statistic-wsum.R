@@ -141,8 +141,11 @@ run_wsum <- function(mat,
                 .y = .data$value,
                 .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
             ),
-            c_p_value = ifelse(.data$p_value == 0, 1/length(.data$null_distribution), .data$p_value),
-            c_score = .data$value * (-log10(.data$c_p_value))
+            # Limit empirical p-value to lower bound 1/times and upper bound
+            # (times-1)/times
+            p_value = if_else(.data$p_value == 0, 1/times, .data$p_value),
+            p_value = if_else(.data$p_value == 1, (times-1)/times, .data$p_value),
+            c_score = .data$value * (-log10(.data$p_value))
         ) %>%
         # Reformat results
         select(-contains("null")) %>%

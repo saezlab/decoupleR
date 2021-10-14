@@ -6,7 +6,16 @@
 \alias{decoupleR-package}
 \title{decoupleR: decoupleR: Inferring biological activities from omics data using a collection of methods}
 \description{
-Computational methods allow the extraction of mechanistic signatures from omics data based on prior knowledge resources, reducing the dimensionality of the data for increased statistical power and better interpretability. Here, we present decoupleR, a Bioconductor package containing different statistical methods to extract these signatures within a unified framework. decoupleR allows the user to flexibly test any method with any resource. It incorporates methods that take into account the sign and weight of network interactions. Using decoupleR, we evaluated the performance of contemporary methods on transcriptomic and phospho-proteomic perturbation experiments.
+Computational methods allow the extraction of mechanistic signatures
+    from omics data based on prior knowledge resources, reducing the dimensionality 
+    of the data for increased statistical power and better interpretability. 
+    Here, we present decoupleR, a Bioconductor package containing different 
+    statistical methods to extract these signatures within a unified framework. 
+    decoupleR allows the user to flexibly test any method with any resource. 
+    It incorporates methods that take into account the sign and weight of 
+    network interactions. Using decoupleR, we evaluated the performance of 
+    contemporary methods on transcriptomic and phospho-proteomic perturbation 
+    experiments.
 }
 \seealso{
 Useful links:

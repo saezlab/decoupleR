@@ -468,6 +468,7 @@ check_repeated_edges <- function(network){
 #' @param mat Matrix in matrix format.
 #' @noRd
 check_nas_infs <- function(mat){
+    mat <- as.matrix(mat)
     if (any(is.infinite(mat) | is.na(mat))){
         stop('Mat contains NAs or Infs, please remove them.')
     }

@@ -155,16 +155,10 @@ run_mlm <- function(mat,
 #' @keywords internal
 #' @noRd
 .mlm_evaluate_model <- function(condition, mat, mor_mat) {
-  fit <- speedlm.fit(
-      y = mat[ , condition],
-      X = cbind(1, mor_mat)
-    ) %>%
+  #data <- cbind(data.frame(y=mat[ , condition]), mor_mat)
+  fit <- lm(mat[ , condition] ~ mor_mat) %>%
       summary()
-  scores <- fit %>%
-      pluck("coefficients", "t", .default = NA) %>%
-      .[-1]
-  pvals <- fit %>%
-    pluck("coefficients", "p.value", .default = NA) %>%
-    .[-1]
+  scores <- as.vector(fit$coefficients[,3][-1])
+  pvals <- as.vector(fit$coefficients[,4][-1])
   tibble(score=scores, p_value=pvals, source=colnames(mor_mat))
 }

@@ -148,7 +148,8 @@ run_ulm <- function(mat,
         condition = colnames(mat)
     ) %>%
         rowwise(.data$source, .data$condition) %>%
-        mutate(model = list(ulm_evaluate_model(.data$source, .data$condition)), statistic='ulm') %>%
+        mutate(model = list(ulm_evaluate_model(.data$source, .data$condition)), 
+               statistic='ulm', source=.data$source) %>%
         unnest(.data$model) %>%
         select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
 }
@@ -158,14 +159,10 @@ run_ulm <- function(mat,
 #' @keywords internal
 #' @noRd
 .ulm_evaluate_model <- function(source, condition, mat, mor_mat) {
-    fit <- speedlm.fit(
-            y = mat[, condition],
-            X = cbind(1, mor_mat[, source])
-        ) %>%
-            summary()
-    score <- fit %>%
-        pluck("coefficients", "t", 2, .default = NA)
-    pval <- fit %>%
-        pluck("coefficients", "p.value", 2, .default = NA)
-    tibble(score=score, p_value=pval)
+    #data <- cbind(data.frame(y=mat[ , condition]), mor_mat[, source])
+    fit <- lm(mat[ , condition] ~ mor_mat[, source]) %>%
+        summary()
+    scores <- as.vector(fit$coefficients[,3][-1])
+    pvals <- as.vector(fit$coefficients[,4][-1])
+    tibble(score=scores, p_value=pvals)
 }

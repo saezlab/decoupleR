@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Introduction to decoupleR • decoupleR</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -13,6 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to decoupleR">
 <meta property="og:description" content="decoupleR">
+<meta property="og:image" content="/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -371,7 +378,7 @@
 <div id="wallclock-time-spent-generating-the-vignette" class="section level3">
 <h3 class="hasAnchor">
 <a href="#wallclock-time-spent-generating-the-vignette" class="anchor"></a>Wallclock time spent generating the vignette</h3>
-<pre><code>#&gt; Time difference of 14.178 secs</code></pre>
+<pre><code>#&gt; Time difference of 14.091 secs</code></pre>
 </div>
 </div>
 <div id="session-information" class="section level2">
@@ -387,7 +394,7 @@
 #&gt;  collate  en_US.UTF-8                 
 #&gt;  ctype    en_US.UTF-8                 
 #&gt;  tz       UTC                         
-#&gt;  date     2021-10-19                  
+#&gt;  date     2021-10-21                  
 #&gt; 
 #&gt; ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  package              * version  date       lib source           
@@ -414,7 +421,7 @@
 #&gt;  cli                    3.0.1    2021-07-17 [2] RSPM (R 4.1.0)   
 #&gt;  crayon                 1.4.1    2021-02-08 [2] RSPM (R 4.1.0)   
 #&gt;  DBI                    1.1.1    2021-01-15 [1] RSPM (R 4.1.0)   
-#&gt;  decoupleR            * 1.99.1   2021-10-19 [1] Bioconductor     
+#&gt;  decoupleR            * 1.99.1   2021-10-21 [1] Bioconductor     
 #&gt;  DelayedArray           0.18.0   2021-05-19 [1] Bioconductor     
 #&gt;  DelayedMatrixStats     1.14.3   2021-08-26 [1] Bioconductor     
 #&gt;  desc                   1.4.0    2021-09-28 [2] RSPM (R 4.1.0)   
@@ -455,7 +462,7 @@
 #&gt;  matrixStats            0.61.0   2021-09-17 [1] RSPM (R 4.1.0)   
 #&gt;  memoise                2.0.0    2021-01-26 [2] RSPM (R 4.1.0)   
 #&gt;  mixtools               1.2.0    2020-02-07 [1] RSPM (R 4.1.0)   
-#&gt;  pillar                 1.6.3    2021-09-26 [2] RSPM (R 4.1.0)   
+#&gt;  pillar                 1.6.4    2021-10-18 [2] RSPM (R 4.1.0)   
 #&gt;  pkgconfig              2.0.3    2019-09-22 [2] RSPM (R 4.1.0)   
 #&gt;  pkgdown                1.6.1    2020-09-12 [1] RSPM (R 4.1.0)   
 #&gt;  plyr                   1.8.6    2020-03-03 [1] RSPM (R 4.1.0)   
@@ -471,7 +478,7 @@
 #&gt;  rhdf5                  2.36.0   2021-05-19 [1] Bioconductor     
 #&gt;  rhdf5filters           1.4.0    2021-05-19 [1] Bioconductor     
 #&gt;  Rhdf5lib               1.14.2   2021-07-06 [1] Bioconductor     
-#&gt;  rlang                  0.4.11   2021-04-30 [2] RSPM (R 4.1.0)   
+#&gt;  rlang                  0.4.12   2021-10-18 [2] RSPM (R 4.1.0)   
 #&gt;  rmarkdown              2.11     2021-09-14 [1] RSPM (R 4.1.0)   
 #&gt;  RobustRankAggreg       1.1      2013-06-03 [1] RSPM (R 4.1.0)   
 #&gt;  rpart                  4.1-15   2019-04-12 [3] CRAN (R 4.1.1)   
@@ -499,7 +506,7 @@
 #&gt;  vctrs                  0.3.8    2021-04-29 [2] RSPM (R 4.1.0)   
 #&gt;  viper                  1.26.0   2021-05-19 [1] Bioconductor     
 #&gt;  withr                  2.4.2    2021-04-18 [2] RSPM (R 4.1.0)   
-#&gt;  xfun                   0.26     2021-09-14 [2] RSPM (R 4.1.0)   
+#&gt;  xfun                   0.27     2021-10-18 [2] RSPM (R 4.1.0)   
 #&gt;  XML                    3.99-0.8 2021-09-17 [1] RSPM (R 4.1.0)   
 #&gt;  xml2                   1.3.2    2020-04-23 [2] RSPM (R 4.1.0)   
 #&gt;  xtable                 1.8-6    2020-06-19 [1] R-Forge (R 4.1.1)

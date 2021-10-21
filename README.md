@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# decoupleR
+# decoupleR <img src="logo.svg" align="right" width="120" />
 
 <!-- badges: start -->
 
@@ -117,17 +117,17 @@ decouple(
 )
 #> # A tibble: 200 × 6
 #>    run_id statistic source condition    score p_value
-#>    <chr>  <chr>     <chr>  <chr>        <dbl>   <dbl>
-#>  1 1      gsva      FOXO4  GSM2753335 -0.380       NA
-#>  2 1      gsva      FOXO4  GSM2753336 -0.300       NA
-#>  3 1      gsva      FOXO4  GSM2753337  0.239       NA
-#>  4 1      gsva      FOXO4  GSM2753338  0.0907      NA
-#>  5 1      gsva      NFIC   GSM2753335 -0.0845      NA
-#>  6 1      gsva      NFIC   GSM2753336  0.0778      NA
-#>  7 1      gsva      NFIC   GSM2753337 -0.260       NA
-#>  8 1      gsva      NFIC   GSM2753338  0.281       NA
-#>  9 1      gsva      RFXAP  GSM2753335 -0.810       NA
-#> 10 1      gsva      RFXAP  GSM2753336 -0.472       NA
+#>     <dbl> <chr>     <chr>  <chr>        <dbl>   <dbl>
+#>  1      1 gsva      FOXO4  GSM2753335 -0.380       NA
+#>  2      1 gsva      FOXO4  GSM2753336 -0.300       NA
+#>  3      1 gsva      FOXO4  GSM2753337  0.239       NA
+#>  4      1 gsva      FOXO4  GSM2753338  0.0907      NA
+#>  5      1 gsva      NFIC   GSM2753335 -0.0845      NA
+#>  6      1 gsva      NFIC   GSM2753336  0.0778      NA
+#>  7      1 gsva      NFIC   GSM2753337 -0.260       NA
+#>  8      1 gsva      NFIC   GSM2753338  0.281       NA
+#>  9      1 gsva      RFXAP  GSM2753335 -0.810       NA
+#> 10      1 gsva      RFXAP  GSM2753336 -0.472       NA
 #> # … with 190 more rows
 ```
 
@@ -150,10 +150,10 @@ run_wmean(
 #> # A tibble: 60 × 5
 #>    statistic  source condition  score p_value
 #>    <chr>      <chr>  <chr>      <dbl>   <dbl>
-#>  1 corr_wmean FOXO4  GSM2753335  5.94    0   
-#>  2 corr_wmean FOXO4  GSM2753336  5.97    0   
-#>  3 corr_wmean FOXO4  GSM2753337  6.36    0   
-#>  4 corr_wmean FOXO4  GSM2753338  6.40    0   
+#>  1 corr_wmean FOXO4  GSM2753335  9.13    0.01
+#>  2 corr_wmean FOXO4  GSM2753336  9.18    0.01
+#>  3 corr_wmean FOXO4  GSM2753337  9.77    0.01
+#>  4 corr_wmean FOXO4  GSM2753338  9.84    0.01
 #>  5 corr_wmean NFIC   GSM2753335  1.58    0.23
 #>  6 corr_wmean NFIC   GSM2753336  1.84    0.2 
 #>  7 corr_wmean NFIC   GSM2753337  1.23    0.27

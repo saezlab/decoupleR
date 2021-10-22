@@ -9,8 +9,8 @@ run_ora(
   network,
   .source = .data$source,
   .target = .data$target,
-  n_up = nrow(mat),
-  n_bottom = 0,
+  n_up = 300,
+  n_bottom = 300,
   n_background = 20000,
   with_ties = TRUE,
   ...

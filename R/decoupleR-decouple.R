@@ -58,9 +58,7 @@ decouple <- function(mat,
                      consensus_score = TRUE,
                      include_time = FALSE,
                      show_toy_call = FALSE) {
-    # Transform to matrix
-    mat = as.matrix(mat)
-
+    
     # Match statistic names with arguments
     for (stat in setdiff(statistics, names(args))) {
         args[[stat]] = list()

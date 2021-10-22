@@ -14,11 +14,14 @@ run_consensus <- function(df,
                           ){
   start_time <- Sys.time()
   # Split df by samples
-  cond_names <- unique(df$condition)
+  cond_names <- df %>% 
+    group_by(.data$condition) %>% 
+    group_keys() %>%
+    pull(condition)
   lst_conds <- df %>%
     group_by(.data$condition) %>%
-    group_split()
-  names(lst_conds) <- cond_names
+    group_split() %>%
+    setNames(cond_names)
 
   # Split each sample by method
   run_id <- max(df$run_id)

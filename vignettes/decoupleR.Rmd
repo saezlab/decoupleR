@@ -186,6 +186,57 @@ analyze them at your convenience, for example, by performing a [benchmark]().
 
 ## How it works?
 
+### Mapping statistics with arguments
+
+Internally, `decouple()` works through `purrr::map2_dfr()` to perform
+statistics and argument mapping. This comes with important points:
+
+- `statistics` and `args` can be unsorted vectors. `decouple` will
+  match the given `statistics` with the given `args`, and if a statistic 
+  doesn't have a matching `args` entry, it will run using the default 
+  parameters.
+- If an error occurs, copy the last line that was displayed with
+  `show_toy_call = TRUE` and execute it locally. Try to fix it and correct it
+  on the original call.
+
+See internal decouple calls and save results.
+
+```{r see only_stats}
+only_stats <- decouple(
+    mat = head(mat, 5000),
+    network = network,
+    .source = "tf",
+    .target = "target",
+    statistics = c("ora", "ulm", "gsva"),
+    consensus_score = FALSE,
+    show_toy_call = TRUE
+)
+```
+
+Run same but now with an unsorted argument.
+
+```{r in_args}
+add_args <- decouple(
+    mat = head(mat, 5000),
+    network = network,
+    .source = "tf",
+    .target = "target",
+    statistics = c('gsva', 'ora', 'ulm'),
+    args = list(
+        ora = list(n_up=300, n_bottom=300, n_background=20000),
+        ulm = list(center = F)
+    ),
+    consensus_score = FALSE,
+    show_toy_call = TRUE
+)
+```
+
+Now compare results and see there is not difference.
+
+```{r see_not_differences}
+all.equal(only_stats, add_args)
+```
+
 ### Mapping network columns
 
 To carry out the column mapping, `decoupleR` relies on the selection provided

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# decoupleR <img src="logo.svg" align="right" width="120" />
+# decoupleR <img src="inst/figures/logo.svg" align="right" width="120" />
 
 <!-- badges: start -->
 
@@ -91,6 +91,9 @@ network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
 #> $ target     <chr> "BCL2L11", "BCL6", "CDKN1A", "CDKN1B", "G6PC", "GADD45A", "…
 #> $ mor        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ likelihood <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+
+# Remove TFs with less than 5 targets in the input matrix
+network <- intersect_regulons(mat, network, tf, target, minsize = 5)
 ```
 
 ### Decouple wrapper

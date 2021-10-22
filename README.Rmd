@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# decoupleR <img src="logo.svg" align="right" width="120" />
+# decoupleR <img src="inst/figures/logo.svg" align="right" width="120" />
 
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
@@ -75,6 +75,9 @@ mat <- file.path(inputs_dir, "input-expr_matrix.rds") %>%
 network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
     readRDS() %>%
     dplyr::glimpse()
+
+# Remove TFs with less than 5 targets in the input matrix
+network <- intersect_regulons(mat, network, tf, target, minsize = 5)
 ```
 
 ### Decouple wrapper

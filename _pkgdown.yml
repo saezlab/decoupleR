@@ -36,4 +36,5 @@ reference:
   - title: Before to run statistics
     desc: >
     contents:
+      - intersect_regulons
       - filter_regulons

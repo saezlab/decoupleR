@@ -21,7 +21,7 @@ run_consensus <- function(df,
   lst_conds <- df %>%
     group_by(.data$condition) %>%
     group_split() %>%
-    setNames(cond_names)
+    stats::setNames(cond_names)
 
   # Split each sample by method
   run_id <- max(df$run_id)

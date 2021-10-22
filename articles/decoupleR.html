@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">decoupleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.99.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.99.5</span>
       </span>
     </div>
 
@@ -238,58 +238,47 @@
 <p>Internally, <code><a href="../reference/decouple.html">decouple()</a></code> works through <code><a href="https://purrr.tidyverse.org/reference/map2.html">purrr::map2_dfr()</a></code> to perform statistics and argument mapping. This comes with important points:</p>
 <ul>
 <li>
-<code>statistics</code> and <code>args</code> can be vectors of the same length. A vector of length 1 will be recycled. So, <strong>match</strong> is performed by <strong>position</strong> not by name. Using named vectors could be a good idea to make clear your intentions.</li>
-<li>You will lose track of which statistic you are running on a certain problem. To get around this, <code><a href="../reference/decouple.html">decouple()</a></code> works with expressions that are later evaluated. For example, it generates a toy call that represents what it is trying to run. You can show it with the option <code>show_toy_call = TRUE</code>.</li>
+<code>statistics</code> and <code>args</code> can be unsorted vectors. <code>decouple</code> will match the given <code>statistics</code> with the given <code>args</code>, and if a statistic doesn’t have a matching <code>args</code> entry, it will run using the default parameters.</li>
 <li>If an error occurs, copy the last line that was displayed with <code>show_toy_call = TRUE</code> and execute it locally. Try to fix it and correct it on the original call.</li>
 </ul>
-<p>Based on the previous points, they can take the generated toy calls and execute them independently, obtaining the same results as if you were executing <code><a href="../reference/decouple.html">decouple()</a></code>.</p>
-<p>See internal gsva calls and save results.</p>
+<p>See internal decouple calls and save results.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gsvas_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/decouple.html">decouple</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">only_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/decouple.html">decouple</a></span><span class="op">(</span>
     mat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mat</span>, <span class="fl">5000</span><span class="op">)</span>,
     network <span class="op">=</span> <span class="va">network</span>,
     .source <span class="op">=</span> <span class="st">"tf"</span>,
     .target <span class="op">=</span> <span class="st">"target"</span>,
-    statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gsva"</span><span class="op">)</span>,
-    args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-        gsva_default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,
-        gsva_minsize <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span>, ssgsea.norm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-    <span class="op">)</span>,
+    statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ora"</span>, <span class="st">"ulm"</span>, <span class="st">"gsva"</span><span class="op">)</span>,
+    consensus_score <span class="op">=</span> <span class="cn">FALSE</span>,
     show_toy_call <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
-<span class="co">#&gt; run_gsva(mat = &lt;dbl: 3.25126849315173, 0.282701000988389, -2.25335189925182,</span>
-<span class="co">#&gt; *   0.782272010478901, -4.57527999413918, ...&gt;, network = network, .source = "tf",</span>
-<span class="co">#&gt; * .target = "target")</span></code></pre></div>
-<p>Run same calls as provided by setting <code>show_toy_call = TRUE</code>.</p>
+<span class="co">#&gt; run_ora(mat = head(mat, 5000), network = network, .source = "tf", .target = "target")</span>
+<span class="co">#&gt; run_ulm(mat = head(mat, 5000), network = network, .source = "tf", .target = "target")</span>
+<span class="co">#&gt; run_gsva(mat = head(mat, 5000), network = network, .source = "tf", .target = "target")</span></code></pre></div>
+<p>Run same but now with an unsorted argument.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gsva_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_gsva.html">run_gsva</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">add_args</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/decouple.html">decouple</a></span><span class="op">(</span>
     mat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mat</span>, <span class="fl">5000</span><span class="op">)</span>,
     network <span class="op">=</span> <span class="va">network</span>,
     .source <span class="op">=</span> <span class="st">"tf"</span>,
     .target <span class="op">=</span> <span class="st">"target"</span>,
-    verbose <span class="op">=</span> <span class="cn">FALSE</span>
+    statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'gsva'</span>, <span class="st">'ora'</span>, <span class="st">'ulm'</span><span class="op">)</span>,
+    args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+        ora <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>n_up<span class="op">=</span><span class="fl">300</span>, n_bottom<span class="op">=</span><span class="fl">300</span>, n_background<span class="op">=</span><span class="fl">20000</span><span class="op">)</span>,
+        ulm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>center <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
+    <span class="op">)</span>,
+    consensus_score <span class="op">=</span> <span class="cn">FALSE</span>,
+    show_toy_call <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
-
-<span class="va">gsva_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_gsva.html">run_gsva</a></span><span class="op">(</span>
-    mat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mat</span>, <span class="fl">5000</span><span class="op">)</span>,
-    network <span class="op">=</span> <span class="va">network</span>,
-    .source <span class="op">=</span> <span class="st">"tf"</span>,
-    .target <span class="op">=</span> <span class="st">"target"</span>,
-    verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-    ssgsea.norm <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span>
-
-<span class="va">gsvas_res_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">gsva_1</span>, <span class="va">gsva_2</span>, .id <span class="op">=</span> <span class="st">"run_id"</span><span class="op">)</span></code></pre></div>
+<span class="co">#&gt; run_ora(mat = head(mat, 5000), network = network, .source = "tf", .target = "target",</span>
+<span class="co">#&gt; * n_up = 300, n_bottom = 300, n_background = 20000)</span>
+<span class="co">#&gt; run_ulm(mat = head(mat, 5000), network = network, .source = "tf", .target = "target",</span>
+<span class="co">#&gt; * center = FALSE)</span>
+<span class="co">#&gt; run_gsva(mat = head(mat, 5000), network = network, .source = "tf", .target = "target")</span></code></pre></div>
 <p>Now compare results and see there is not difference.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">gsvas_res</span>, <span class="va">gsvas_res_2</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Length mismatch: comparison on first 5 components"            </span>
-<span class="co">#&gt; [2] "Component \"run_id\": Modes: numeric, character"              </span>
-<span class="co">#&gt; [3] "Component \"run_id\": target is numeric, current is character"</span>
-<span class="co">#&gt; [4] "Component \"statistic\": 16 string mismatches"                </span>
-<span class="co">#&gt; [5] "Component \"source\": 12 string mismatches"                   </span>
-<span class="co">#&gt; [6] "Component \"condition\": 12 string mismatches"                </span>
-<span class="co">#&gt; [7] "Component \"score\": Mean relative difference: 1.989292"</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">only_stats</span>, <span class="va">add_args</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
 <div id="mapping-network-columns" class="section level3">
 <h3 class="hasAnchor">
@@ -323,9 +312,8 @@
     <span class="op">)</span>,
     show_toy_call <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
-<span class="co">#&gt; run_viper(mat = &lt;dbl: 3.25126849315173, 0.282701000988389, -2.25335189925182,</span>
-<span class="co">#&gt; *   0.782272010478901, -4.57527999413918, ...&gt;, network = network, .source = tf,</span>
-<span class="co">#&gt; * .target = "target", .mor = 4, .likelihood = "likelihood", verbose = FALSE)</span></code></pre></div>
+<span class="co">#&gt; run_viper(mat = mat, network = network, .source = tf, .target = "target",</span>
+<span class="co">#&gt; *   .mor = 4, .likelihood = "likelihood", verbose = FALSE)</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -374,7 +362,7 @@
 <div id="wallclock-time-spent-generating-the-vignette" class="section level3">
 <h3 class="hasAnchor">
 <a href="#wallclock-time-spent-generating-the-vignette" class="anchor"></a>Wallclock time spent generating the vignette</h3>
-<pre><code>#&gt; Time difference of 14.378 secs</code></pre>
+<pre><code>#&gt; Time difference of 13.799 secs</code></pre>
 </div>
 </div>
 <div id="session-information" class="section level2">
@@ -417,7 +405,7 @@
 #&gt;  cli                    3.0.1    2021-07-17 [2] RSPM (R 4.1.0)   
 #&gt;  crayon                 1.4.1    2021-02-08 [2] RSPM (R 4.1.0)   
 #&gt;  DBI                    1.1.1    2021-01-15 [1] RSPM (R 4.1.0)   
-#&gt;  decoupleR            * 1.99.4   2021-10-22 [1] Bioconductor     
+#&gt;  decoupleR            * 1.99.5   2021-10-22 [1] Bioconductor     
 #&gt;  DelayedArray           0.18.0   2021-05-19 [1] Bioconductor     
 #&gt;  DelayedMatrixStats     1.14.3   2021-08-26 [1] Bioconductor     
 #&gt;  desc                   1.4.0    2021-09-28 [2] RSPM (R 4.1.0)   

@@ -84,7 +84,7 @@ then the function sets its own null values for those columns." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">decoupleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
@@ -225,255 +225,263 @@ Return a list of sources with associated targets suitable for <code><a href='htt
     <div class='dont-index'><p><code><a href='convert_f_defaults.html'>convert_f_defaults()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>inputs_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, <span class='st'>"inputs"</span>, package <span class='op'>=</span> <span class='st'>"decoupleR"</span><span class='op'>)</span>
-
-<span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'>convert_to_</span><span class='op'>(</span><span class='va'>network</span><span class='op'>)</span>
-<span class='fu'>convert_to_aucell</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $FOXO4
-#&gt;  [1] "BCL2L11"  "BCL6"     "CDKN1A"   "CDKN1B"   "G6PC"     "GADD45A" 
-#&gt;  [7] "IGFBP1"   "PCK2"     "PPARGC1A" "RBL2"     "SCP2"     "SOD2"    
-#&gt; [13] "SPRY2"    "TNFSF10" 
-#&gt; 
-#&gt; $NFIC
-#&gt;  [1] "ALAS1"   "C4BPB"   "COL18A1" "COL1A1"  "CSH1"    "CYP17A1" "CYP1A1" 
-#&gt;  [8] "FABP7"   "GFAP"    "GTF3C1"  "GTF3C2"  "GUCY1B3" "HMGB1"   "HSD11B2"
-#&gt; [15] "ITGA5"   "JUN"     "MATN1"   "MYC"     "POLD2"   "POLE2"   "PROC"   
-#&gt; [22] "SLC2A4"  "SLC34A2" "SMUG1"   "TFAP2A"  "TFPI2"   "TP53"    "VWF"    
-#&gt; 
-#&gt; $RFXAP
-#&gt;  [1] "HLA-DMA"  "HLA-DMB"  "HLA-DOA"  "HLA-DOB"  "HLA-DPA1" "HLA-DPB1"
-#&gt;  [7] "HLA-DQA1" "HLA-DQA2" "HLA-DQB1" "HLA-DRA"  "HLA-DRB1" "HLA-DRB3"
-#&gt; [13] "HLA-DRB4" "HLA-DRB5"
-#&gt; 
-#&gt; $SMAD3
-#&gt;  [1] "AHR"      "ANKRD1"   "APOC3"    "BAMBI"    "BGLAP"    "CCND2"   
-#&gt;  [7] "CDKN1A"   "COL1A1"   "COL3A1"   "COL6A1"   "COL6A3"   "COL7A1"  
-#&gt; [13] "CYP17A1"  "EDN1"     "EPO"      "FOXP3"    "FSTL3"    "GLI2"    
-#&gt; [19] "ITGA11"   "JUN"      "MET"      "MMP9"     "MYC"      "POR"     
-#&gt; [25] "PTHLH"    "SERPINE1" "SMAD7"    "TERT"     "TGFB1"    "TIMP1"   
-#&gt; [31] "TNC"      "VEGFA"    "ZFP36"   
-#&gt; 
-#&gt; $TFAP2A
-#&gt;  [1] "ACHE"     "ADM"      "ADRA1A"   "ADRA2B"   "APP"      "BACE1"   
-#&gt;  [7] "BCL2"     "CCNB1"    "CDH1"     "CDKN1A"   "CFTR"     "CGA"     
-#&gt; [13] "CRABP2"   "CRX"      "CSH1"     "CYP11A1"  "DBH"      "EGFR"    
-#&gt; [19] "ERBB2"    "ETS1"     "F2R"      "FAS"      "FMR1"     "FOXA1"   
-#&gt; [25] "GALNT3"   "GAST"     "GPX4"     "GUSB"     "HGF"      "HIP1"    
-#&gt; [31] "HMOX1"    "HOXA4"    "HSD17B1"  "HTT"      "IGFBP5"   "KIT"     
-#&gt; [37] "KRT5"     "L1CAM"    "MIP"      "MMP2"     "MPG"      "MYC"     
-#&gt; [43] "NME3"     "NR3C1"    "OAT"      "PENK"     "PLAUR"    "POLD2"   
-#&gt; [49] "PRKCA"    "PTGS2"    "PVR"      "S100B"    "SERPINE1" "SLC19A1" 
-#&gt; [55] "SMPD1"    "SNAP91"   "SP1"      "SPRY2"    "TAF7"     "TH"      
-#&gt; [61] "TIMP2"    "VEGFA"   
-#&gt; </div><div class='input'><span class='fu'>convert_to_gsva</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $FOXO4
-#&gt;  [1] "BCL2L11"  "BCL6"     "CDKN1A"   "CDKN1B"   "G6PC"     "GADD45A" 
-#&gt;  [7] "IGFBP1"   "PCK2"     "PPARGC1A" "RBL2"     "SCP2"     "SOD2"    
-#&gt; [13] "SPRY2"    "TNFSF10" 
-#&gt; 
-#&gt; $NFIC
-#&gt;  [1] "ALAS1"   "C4BPB"   "COL18A1" "COL1A1"  "CSH1"    "CYP17A1" "CYP1A1" 
-#&gt;  [8] "FABP7"   "GFAP"    "GTF3C1"  "GTF3C2"  "GUCY1B3" "HMGB1"   "HSD11B2"
-#&gt; [15] "ITGA5"   "JUN"     "MATN1"   "MYC"     "POLD2"   "POLE2"   "PROC"   
-#&gt; [22] "SLC2A4"  "SLC34A2" "SMUG1"   "TFAP2A"  "TFPI2"   "TP53"    "VWF"    
-#&gt; 
-#&gt; $RFXAP
-#&gt;  [1] "HLA-DMA"  "HLA-DMB"  "HLA-DOA"  "HLA-DOB"  "HLA-DPA1" "HLA-DPB1"
-#&gt;  [7] "HLA-DQA1" "HLA-DQA2" "HLA-DQB1" "HLA-DRA"  "HLA-DRB1" "HLA-DRB3"
-#&gt; [13] "HLA-DRB4" "HLA-DRB5"
-#&gt; 
-#&gt; $SMAD3
-#&gt;  [1] "AHR"      "ANKRD1"   "APOC3"    "BAMBI"    "BGLAP"    "CCND2"   
-#&gt;  [7] "CDKN1A"   "COL1A1"   "COL3A1"   "COL6A1"   "COL6A3"   "COL7A1"  
-#&gt; [13] "CYP17A1"  "EDN1"     "EPO"      "FOXP3"    "FSTL3"    "GLI2"    
-#&gt; [19] "ITGA11"   "JUN"      "MET"      "MMP9"     "MYC"      "POR"     
-#&gt; [25] "PTHLH"    "SERPINE1" "SMAD7"    "TERT"     "TGFB1"    "TIMP1"   
-#&gt; [31] "TNC"      "VEGFA"    "ZFP36"   
-#&gt; 
-#&gt; $TFAP2A
-#&gt;  [1] "ACHE"     "ADM"      "ADRA1A"   "ADRA2B"   "APP"      "BACE1"   
-#&gt;  [7] "BCL2"     "CCNB1"    "CDH1"     "CDKN1A"   "CFTR"     "CGA"     
-#&gt; [13] "CRABP2"   "CRX"      "CSH1"     "CYP11A1"  "DBH"      "EGFR"    
-#&gt; [19] "ERBB2"    "ETS1"     "F2R"      "FAS"      "FMR1"     "FOXA1"   
-#&gt; [25] "GALNT3"   "GAST"     "GPX4"     "GUSB"     "HGF"      "HIP1"    
-#&gt; [31] "HMOX1"    "HOXA4"    "HSD17B1"  "HTT"      "IGFBP5"   "KIT"     
-#&gt; [37] "KRT5"     "L1CAM"    "MIP"      "MMP2"     "MPG"      "MYC"     
-#&gt; [43] "NME3"     "NR3C1"    "OAT"      "PENK"     "PLAUR"    "POLD2"   
-#&gt; [49] "PRKCA"    "PTGS2"    "PVR"      "S100B"    "SERPINE1" "SLC19A1" 
-#&gt; [55] "SMPD1"    "SNAP91"   "SP1"      "SPRY2"    "TAF7"     "TH"      
-#&gt; [61] "TIMP2"    "VEGFA"   
-#&gt; </div><div class='input'><span class='fu'>convert_to_wmean</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 151 × 4</span>
-#&gt;    source target     mor likelihood
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> FOXO4  BCL2L11      1          1
-#&gt; <span style='color: #BCBCBC;'> 2</span> FOXO4  BCL6         1          1
-#&gt; <span style='color: #BCBCBC;'> 3</span> FOXO4  CDKN1A       1          1
-#&gt; <span style='color: #BCBCBC;'> 4</span> FOXO4  CDKN1B       1          1
-#&gt; <span style='color: #BCBCBC;'> 5</span> FOXO4  G6PC         1          1
-#&gt; <span style='color: #BCBCBC;'> 6</span> FOXO4  GADD45A      1          1
-#&gt; <span style='color: #BCBCBC;'> 7</span> FOXO4  IGFBP1       1          1
-#&gt; <span style='color: #BCBCBC;'> 8</span> FOXO4  PCK2         1          1
-#&gt; <span style='color: #BCBCBC;'> 9</span> FOXO4  PPARGC1A     1          1
-#&gt; <span style='color: #BCBCBC;'>10</span> FOXO4  RBL2         1          1
-#&gt; <span style='color: #949494;'># … with 141 more rows</span></div><div class='input'><span class='fu'>convert_to_ora</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $FOXO4
-#&gt;  [1] "BCL2L11"  "BCL6"     "CDKN1A"   "CDKN1B"   "G6PC"     "GADD45A" 
-#&gt;  [7] "IGFBP1"   "PCK2"     "PPARGC1A" "RBL2"     "SCP2"     "SOD2"    
-#&gt; [13] "SPRY2"    "TNFSF10" 
-#&gt; 
-#&gt; $NFIC
-#&gt;  [1] "ALAS1"   "C4BPB"   "COL18A1" "COL1A1"  "CSH1"    "CYP17A1" "CYP1A1" 
-#&gt;  [8] "FABP7"   "GFAP"    "GTF3C1"  "GTF3C2"  "GUCY1B3" "HMGB1"   "HSD11B2"
-#&gt; [15] "ITGA5"   "JUN"     "MATN1"   "MYC"     "POLD2"   "POLE2"   "PROC"   
-#&gt; [22] "SLC2A4"  "SLC34A2" "SMUG1"   "TFAP2A"  "TFPI2"   "TP53"    "VWF"    
-#&gt; 
-#&gt; $RFXAP
-#&gt;  [1] "HLA-DMA"  "HLA-DMB"  "HLA-DOA"  "HLA-DOB"  "HLA-DPA1" "HLA-DPB1"
-#&gt;  [7] "HLA-DQA1" "HLA-DQA2" "HLA-DQB1" "HLA-DRA"  "HLA-DRB1" "HLA-DRB3"
-#&gt; [13] "HLA-DRB4" "HLA-DRB5"
-#&gt; 
-#&gt; $SMAD3
-#&gt;  [1] "AHR"      "ANKRD1"   "APOC3"    "BAMBI"    "BGLAP"    "CCND2"   
-#&gt;  [7] "CDKN1A"   "COL1A1"   "COL3A1"   "COL6A1"   "COL6A3"   "COL7A1"  
-#&gt; [13] "CYP17A1"  "EDN1"     "EPO"      "FOXP3"    "FSTL3"    "GLI2"    
-#&gt; [19] "ITGA11"   "JUN"      "MET"      "MMP9"     "MYC"      "POR"     
-#&gt; [25] "PTHLH"    "SERPINE1" "SMAD7"    "TERT"     "TGFB1"    "TIMP1"   
-#&gt; [31] "TNC"      "VEGFA"    "ZFP36"   
-#&gt; 
-#&gt; $TFAP2A
-#&gt;  [1] "ACHE"     "ADM"      "ADRA1A"   "ADRA2B"   "APP"      "BACE1"   
-#&gt;  [7] "BCL2"     "CCNB1"    "CDH1"     "CDKN1A"   "CFTR"     "CGA"     
-#&gt; [13] "CRABP2"   "CRX"      "CSH1"     "CYP11A1"  "DBH"      "EGFR"    
-#&gt; [19] "ERBB2"    "ETS1"     "F2R"      "FAS"      "FMR1"     "FOXA1"   
-#&gt; [25] "GALNT3"   "GAST"     "GPX4"     "GUSB"     "HGF"      "HIP1"    
-#&gt; [31] "HMOX1"    "HOXA4"    "HSD17B1"  "HTT"      "IGFBP5"   "KIT"     
-#&gt; [37] "KRT5"     "L1CAM"    "MIP"      "MMP2"     "MPG"      "MYC"     
-#&gt; [43] "NME3"     "NR3C1"    "OAT"      "PENK"     "PLAUR"    "POLD2"   
-#&gt; [49] "PRKCA"    "PTGS2"    "PVR"      "S100B"    "SERPINE1" "SLC19A1" 
-#&gt; [55] "SMPD1"    "SNAP91"   "SP1"      "SPRY2"    "TAF7"     "TH"      
-#&gt; [61] "TIMP2"    "VEGFA"   
-#&gt; </div><div class='input'><span class='fu'>convert_to_wsum</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 151 × 4</span>
-#&gt;    source target     mor likelihood
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> FOXO4  BCL2L11      1          1
-#&gt; <span style='color: #BCBCBC;'> 2</span> FOXO4  BCL6         1          1
-#&gt; <span style='color: #BCBCBC;'> 3</span> FOXO4  CDKN1A       1          1
-#&gt; <span style='color: #BCBCBC;'> 4</span> FOXO4  CDKN1B       1          1
-#&gt; <span style='color: #BCBCBC;'> 5</span> FOXO4  G6PC         1          1
-#&gt; <span style='color: #BCBCBC;'> 6</span> FOXO4  GADD45A      1          1
-#&gt; <span style='color: #BCBCBC;'> 7</span> FOXO4  IGFBP1       1          1
-#&gt; <span style='color: #BCBCBC;'> 8</span> FOXO4  PCK2         1          1
-#&gt; <span style='color: #BCBCBC;'> 9</span> FOXO4  PPARGC1A     1          1
-#&gt; <span style='color: #BCBCBC;'>10</span> FOXO4  RBL2         1          1
-#&gt; <span style='color: #949494;'># … with 141 more rows</span></div><div class='input'><span class='fu'>convert_to_ulm</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 151 × 4</span>
-#&gt;    source target     mor likelihood
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> FOXO4  BCL2L11      1          1
-#&gt; <span style='color: #BCBCBC;'> 2</span> FOXO4  BCL6         1          1
-#&gt; <span style='color: #BCBCBC;'> 3</span> FOXO4  CDKN1A       1          1
-#&gt; <span style='color: #BCBCBC;'> 4</span> FOXO4  CDKN1B       1          1
-#&gt; <span style='color: #BCBCBC;'> 5</span> FOXO4  G6PC         1          1
-#&gt; <span style='color: #BCBCBC;'> 6</span> FOXO4  GADD45A      1          1
-#&gt; <span style='color: #BCBCBC;'> 7</span> FOXO4  IGFBP1       1          1
-#&gt; <span style='color: #BCBCBC;'> 8</span> FOXO4  PCK2         1          1
-#&gt; <span style='color: #BCBCBC;'> 9</span> FOXO4  PPARGC1A     1          1
-#&gt; <span style='color: #BCBCBC;'>10</span> FOXO4  RBL2         1          1
-#&gt; <span style='color: #949494;'># … with 141 more rows</span></div><div class='input'><span class='fu'>convert_to_mlm</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 151 × 4</span>
-#&gt;    source target     mor likelihood
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> FOXO4  BCL2L11      1          1
-#&gt; <span style='color: #BCBCBC;'> 2</span> FOXO4  BCL6         1          1
-#&gt; <span style='color: #BCBCBC;'> 3</span> FOXO4  CDKN1A       1          1
-#&gt; <span style='color: #BCBCBC;'> 4</span> FOXO4  CDKN1B       1          1
-#&gt; <span style='color: #BCBCBC;'> 5</span> FOXO4  G6PC         1          1
-#&gt; <span style='color: #BCBCBC;'> 6</span> FOXO4  GADD45A      1          1
-#&gt; <span style='color: #BCBCBC;'> 7</span> FOXO4  IGFBP1       1          1
-#&gt; <span style='color: #BCBCBC;'> 8</span> FOXO4  PCK2         1          1
-#&gt; <span style='color: #BCBCBC;'> 9</span> FOXO4  PPARGC1A     1          1
-#&gt; <span style='color: #BCBCBC;'>10</span> FOXO4  RBL2         1          1
-#&gt; <span style='color: #949494;'># … with 141 more rows</span></div><div class='input'><span class='fu'>convert_to_viper</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $FOXO4
-#&gt; $FOXO4$tfmode
-#&gt;  BCL2L11     BCL6   CDKN1A   CDKN1B     G6PC  GADD45A   IGFBP1     PCK2 
-#&gt;        1        1        1        1        1        1        1        1 
-#&gt; PPARGC1A     RBL2     SCP2     SOD2    SPRY2  TNFSF10 
-#&gt;        1        1        1        1        1        1 
-#&gt; 
-#&gt; $FOXO4$likelihood
-#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-#&gt; 
-#&gt; 
-#&gt; $NFIC
-#&gt; $NFIC$tfmode
-#&gt;   ALAS1   C4BPB COL18A1  COL1A1    CSH1 CYP17A1  CYP1A1   FABP7    GFAP  GTF3C1 
-#&gt;       1       1       1       1       1       1      -1       1       1       1 
-#&gt;  GTF3C2 GUCY1B3   HMGB1 HSD11B2   ITGA5     JUN   MATN1     MYC   POLD2   POLE2 
-#&gt;       1       1       1       1      -1       1      -1       1       1       1 
-#&gt;    PROC  SLC2A4 SLC34A2   SMUG1  TFAP2A   TFPI2    TP53     VWF 
-#&gt;       1       1       1       1       1       1       1       1 
-#&gt; 
-#&gt; $NFIC$likelihood
-#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-#&gt; 
-#&gt; 
-#&gt; $RFXAP
-#&gt; $RFXAP$tfmode
-#&gt;  HLA-DMA  HLA-DMB  HLA-DOA  HLA-DOB HLA-DPA1 HLA-DPB1 HLA-DQA1 HLA-DQA2 
-#&gt;        1        1        1        1        1        1        1        1 
-#&gt; HLA-DQB1  HLA-DRA HLA-DRB1 HLA-DRB3 HLA-DRB4 HLA-DRB5 
-#&gt;        1        1        1        1        1        1 
-#&gt; 
-#&gt; $RFXAP$likelihood
-#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-#&gt; 
-#&gt; 
-#&gt; $SMAD3
-#&gt; $SMAD3$tfmode
-#&gt;      AHR   ANKRD1    APOC3    BAMBI    BGLAP    CCND2   CDKN1A   COL1A1 
-#&gt;        1        1        1        1        1        1        1        1 
-#&gt;   COL3A1   COL6A1   COL6A3   COL7A1  CYP17A1     EDN1      EPO    FOXP3 
-#&gt;        1        1        1        1       -1        1        1        1 
-#&gt;    FSTL3     GLI2   ITGA11      JUN      MET     MMP9      MYC      POR 
-#&gt;        1        1        1        1        1        1        1        1 
-#&gt;    PTHLH SERPINE1    SMAD7     TERT    TGFB1    TIMP1      TNC    VEGFA 
-#&gt;        1        1        1       -1       -1        1        1        1 
-#&gt;    ZFP36 
-#&gt;        1 
-#&gt; 
-#&gt; $SMAD3$likelihood
-#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-#&gt; 
-#&gt; 
-#&gt; $TFAP2A
-#&gt; $TFAP2A$tfmode
-#&gt;     ACHE      ADM   ADRA1A   ADRA2B      APP    BACE1     BCL2    CCNB1 
-#&gt;       -1        1        1        1        1        1       -1        1 
-#&gt;     CDH1   CDKN1A     CFTR      CGA   CRABP2      CRX     CSH1  CYP11A1 
-#&gt;        1        1        1        1        1        1        1        1 
-#&gt;      DBH     EGFR    ERBB2     ETS1      F2R      FAS     FMR1    FOXA1 
-#&gt;        1        1        1        1        1        1        1        1 
-#&gt;   GALNT3     GAST     GPX4     GUSB      HGF     HIP1    HMOX1    HOXA4 
-#&gt;        1        1        1        1       -1        1        1       -1 
-#&gt;  HSD17B1      HTT   IGFBP5      KIT     KRT5    L1CAM      MIP     MMP2 
-#&gt;       -1        1        1        1        1        1        1        1 
-#&gt;      MPG      MYC     NME3    NR3C1      OAT     PENK    PLAUR    POLD2 
-#&gt;        1        1        1        1        1        1        1        1 
-#&gt;    PRKCA    PTGS2      PVR    S100B SERPINE1  SLC19A1    SMPD1   SNAP91 
-#&gt;        1        1        1        1        1        1        1        1 
-#&gt;      SP1    SPRY2     TAF7       TH    TIMP2    VEGFA 
-#&gt;        1        1        1        1        1        1 
-#&gt; 
-#&gt; $TFAP2A$likelihood
-#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-#&gt; [39] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-#&gt; 
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>inputs_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, <span class='st'>"inputs"</span>, package <span class='op'>=</span> <span class='st'>"decoupleR"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>convert_to_</span><span class='op'>(</span><span class='va'>network</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>convert_to_aucell</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $FOXO4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "BCL2L11"  "BCL6"     "CDKN1A"   "CDKN1B"   "G6PC"     "GADD45A" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "IGFBP1"   "PCK2"     "PPARGC1A" "RBL2"     "SCP2"     "SOD2"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "SPRY2"    "TNFSF10" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $NFIC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "ALAS1"   "C4BPB"   "COL18A1" "COL1A1"  "CSH1"    "CYP17A1" "CYP1A1" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "FABP7"   "GFAP"    "GTF3C1"  "GTF3C2"  "GUCY1B3" "HMGB1"   "HSD11B2"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "ITGA5"   "JUN"     "MATN1"   "MYC"     "POLD2"   "POLE2"   "PROC"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [22] "SLC2A4"  "SLC34A2" "SMUG1"   "TFAP2A"  "TFPI2"   "TP53"    "VWF"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $RFXAP</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "HLA-DMA"  "HLA-DMB"  "HLA-DOA"  "HLA-DOB"  "HLA-DPA1" "HLA-DPB1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "HLA-DQA1" "HLA-DQA2" "HLA-DQB1" "HLA-DRA"  "HLA-DRB1" "HLA-DRB3"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "HLA-DRB4" "HLA-DRB5"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $SMAD3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "AHR"      "ANKRD1"   "APOC3"    "BAMBI"    "BGLAP"    "CCND2"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "CDKN1A"   "COL1A1"   "COL3A1"   "COL6A1"   "COL6A3"   "COL7A1"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "CYP17A1"  "EDN1"     "EPO"      "FOXP3"    "FSTL3"    "GLI2"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "ITGA11"   "JUN"      "MET"      "MMP9"     "MYC"      "POR"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "PTHLH"    "SERPINE1" "SMAD7"    "TERT"     "TGFB1"    "TIMP1"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "TNC"      "VEGFA"    "ZFP36"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $TFAP2A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "ACHE"     "ADM"      "ADRA1A"   "ADRA2B"   "APP"      "BACE1"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "BCL2"     "CCNB1"    "CDH1"     "CDKN1A"   "CFTR"     "CGA"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "CRABP2"   "CRX"      "CSH1"     "CYP11A1"  "DBH"      "EGFR"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "ERBB2"    "ETS1"     "F2R"      "FAS"      "FMR1"     "FOXA1"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "GALNT3"   "GAST"     "GPX4"     "GUSB"     "HGF"      "HIP1"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "HMOX1"    "HOXA4"    "HSD17B1"  "HTT"      "IGFBP5"   "KIT"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37] "KRT5"     "L1CAM"    "MIP"      "MMP2"     "MPG"      "MYC"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [43] "NME3"     "NR3C1"    "OAT"      "PENK"     "PLAUR"    "POLD2"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [49] "PRKCA"    "PTGS2"    "PVR"      "S100B"    "SERPINE1" "SLC19A1" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [55] "SMPD1"    "SNAP91"   "SP1"      "SPRY2"    "TAF7"     "TH"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [61] "TIMP2"    "VEGFA"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>convert_to_gsva</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $FOXO4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "BCL2L11"  "BCL6"     "CDKN1A"   "CDKN1B"   "G6PC"     "GADD45A" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "IGFBP1"   "PCK2"     "PPARGC1A" "RBL2"     "SCP2"     "SOD2"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "SPRY2"    "TNFSF10" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $NFIC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "ALAS1"   "C4BPB"   "COL18A1" "COL1A1"  "CSH1"    "CYP17A1" "CYP1A1" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "FABP7"   "GFAP"    "GTF3C1"  "GTF3C2"  "GUCY1B3" "HMGB1"   "HSD11B2"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "ITGA5"   "JUN"     "MATN1"   "MYC"     "POLD2"   "POLE2"   "PROC"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [22] "SLC2A4"  "SLC34A2" "SMUG1"   "TFAP2A"  "TFPI2"   "TP53"    "VWF"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $RFXAP</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "HLA-DMA"  "HLA-DMB"  "HLA-DOA"  "HLA-DOB"  "HLA-DPA1" "HLA-DPB1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "HLA-DQA1" "HLA-DQA2" "HLA-DQB1" "HLA-DRA"  "HLA-DRB1" "HLA-DRB3"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "HLA-DRB4" "HLA-DRB5"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $SMAD3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "AHR"      "ANKRD1"   "APOC3"    "BAMBI"    "BGLAP"    "CCND2"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "CDKN1A"   "COL1A1"   "COL3A1"   "COL6A1"   "COL6A3"   "COL7A1"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "CYP17A1"  "EDN1"     "EPO"      "FOXP3"    "FSTL3"    "GLI2"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "ITGA11"   "JUN"      "MET"      "MMP9"     "MYC"      "POR"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "PTHLH"    "SERPINE1" "SMAD7"    "TERT"     "TGFB1"    "TIMP1"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "TNC"      "VEGFA"    "ZFP36"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $TFAP2A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "ACHE"     "ADM"      "ADRA1A"   "ADRA2B"   "APP"      "BACE1"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "BCL2"     "CCNB1"    "CDH1"     "CDKN1A"   "CFTR"     "CGA"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "CRABP2"   "CRX"      "CSH1"     "CYP11A1"  "DBH"      "EGFR"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "ERBB2"    "ETS1"     "F2R"      "FAS"      "FMR1"     "FOXA1"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "GALNT3"   "GAST"     "GPX4"     "GUSB"     "HGF"      "HIP1"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "HMOX1"    "HOXA4"    "HSD17B1"  "HTT"      "IGFBP5"   "KIT"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37] "KRT5"     "L1CAM"    "MIP"      "MMP2"     "MPG"      "MYC"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [43] "NME3"     "NR3C1"    "OAT"      "PENK"     "PLAUR"    "POLD2"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [49] "PRKCA"    "PTGS2"    "PVR"      "S100B"    "SERPINE1" "SLC19A1" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [55] "SMPD1"    "SNAP91"   "SP1"      "SPRY2"    "TAF7"     "TH"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [61] "TIMP2"    "VEGFA"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>convert_to_wmean</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 151 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    source target     mor likelihood</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> FOXO4  BCL2L11      1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> FOXO4  BCL6         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> FOXO4  CDKN1A       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> FOXO4  CDKN1B       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> FOXO4  G6PC         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> FOXO4  GADD45A      1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> FOXO4  IGFBP1       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> FOXO4  PCK2         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> FOXO4  PPARGC1A     1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> FOXO4  RBL2         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 141 more rows</span></span>
+<span class='r-in'><span class='fu'>convert_to_ora</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $FOXO4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "BCL2L11"  "BCL6"     "CDKN1A"   "CDKN1B"   "G6PC"     "GADD45A" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "IGFBP1"   "PCK2"     "PPARGC1A" "RBL2"     "SCP2"     "SOD2"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "SPRY2"    "TNFSF10" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $NFIC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "ALAS1"   "C4BPB"   "COL18A1" "COL1A1"  "CSH1"    "CYP17A1" "CYP1A1" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "FABP7"   "GFAP"    "GTF3C1"  "GTF3C2"  "GUCY1B3" "HMGB1"   "HSD11B2"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "ITGA5"   "JUN"     "MATN1"   "MYC"     "POLD2"   "POLE2"   "PROC"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [22] "SLC2A4"  "SLC34A2" "SMUG1"   "TFAP2A"  "TFPI2"   "TP53"    "VWF"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $RFXAP</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "HLA-DMA"  "HLA-DMB"  "HLA-DOA"  "HLA-DOB"  "HLA-DPA1" "HLA-DPB1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "HLA-DQA1" "HLA-DQA2" "HLA-DQB1" "HLA-DRA"  "HLA-DRB1" "HLA-DRB3"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "HLA-DRB4" "HLA-DRB5"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $SMAD3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "AHR"      "ANKRD1"   "APOC3"    "BAMBI"    "BGLAP"    "CCND2"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "CDKN1A"   "COL1A1"   "COL3A1"   "COL6A1"   "COL6A3"   "COL7A1"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "CYP17A1"  "EDN1"     "EPO"      "FOXP3"    "FSTL3"    "GLI2"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "ITGA11"   "JUN"      "MET"      "MMP9"     "MYC"      "POR"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "PTHLH"    "SERPINE1" "SMAD7"    "TERT"     "TGFB1"    "TIMP1"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "TNC"      "VEGFA"    "ZFP36"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $TFAP2A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "ACHE"     "ADM"      "ADRA1A"   "ADRA2B"   "APP"      "BACE1"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "BCL2"     "CCNB1"    "CDH1"     "CDKN1A"   "CFTR"     "CGA"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "CRABP2"   "CRX"      "CSH1"     "CYP11A1"  "DBH"      "EGFR"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "ERBB2"    "ETS1"     "F2R"      "FAS"      "FMR1"     "FOXA1"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "GALNT3"   "GAST"     "GPX4"     "GUSB"     "HGF"      "HIP1"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "HMOX1"    "HOXA4"    "HSD17B1"  "HTT"      "IGFBP5"   "KIT"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37] "KRT5"     "L1CAM"    "MIP"      "MMP2"     "MPG"      "MYC"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [43] "NME3"     "NR3C1"    "OAT"      "PENK"     "PLAUR"    "POLD2"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [49] "PRKCA"    "PTGS2"    "PVR"      "S100B"    "SERPINE1" "SLC19A1" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [55] "SMPD1"    "SNAP91"   "SP1"      "SPRY2"    "TAF7"     "TH"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [61] "TIMP2"    "VEGFA"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>convert_to_wsum</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 151 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    source target     mor likelihood</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> FOXO4  BCL2L11      1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> FOXO4  BCL6         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> FOXO4  CDKN1A       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> FOXO4  CDKN1B       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> FOXO4  G6PC         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> FOXO4  GADD45A      1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> FOXO4  IGFBP1       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> FOXO4  PCK2         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> FOXO4  PPARGC1A     1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> FOXO4  RBL2         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 141 more rows</span></span>
+<span class='r-in'><span class='fu'>convert_to_ulm</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 151 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    source target     mor likelihood</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> FOXO4  BCL2L11      1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> FOXO4  BCL6         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> FOXO4  CDKN1A       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> FOXO4  CDKN1B       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> FOXO4  G6PC         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> FOXO4  GADD45A      1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> FOXO4  IGFBP1       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> FOXO4  PCK2         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> FOXO4  PPARGC1A     1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> FOXO4  RBL2         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 141 more rows</span></span>
+<span class='r-in'><span class='fu'>convert_to_mlm</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 151 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    source target     mor likelihood</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> FOXO4  BCL2L11      1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> FOXO4  BCL6         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> FOXO4  CDKN1A       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> FOXO4  CDKN1B       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> FOXO4  G6PC         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> FOXO4  GADD45A      1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> FOXO4  IGFBP1       1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> FOXO4  PCK2         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> FOXO4  PPARGC1A     1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> FOXO4  RBL2         1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 141 more rows</span></span>
+<span class='r-in'><span class='fu'>convert_to_viper</span><span class='op'>(</span><span class='va'>network</span>, <span class='va'>tf</span>, <span class='va'>target</span>, <span class='va'>mor</span>, <span class='va'>likelihood</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $FOXO4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $FOXO4$tfmode</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  BCL2L11     BCL6   CDKN1A   CDKN1B     G6PC  GADD45A   IGFBP1     PCK2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> PPARGC1A     RBL2     SCP2     SOD2    SPRY2  TNFSF10 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $FOXO4$likelihood</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $NFIC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $NFIC$tfmode</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ALAS1   C4BPB COL18A1  COL1A1    CSH1 CYP17A1  CYP1A1   FABP7    GFAP  GTF3C1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1       1       1       1       1       1      -1       1       1       1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  GTF3C2 GUCY1B3   HMGB1 HSD11B2   ITGA5     JUN   MATN1     MYC   POLD2   POLE2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1       1       1       1      -1       1      -1       1       1       1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    PROC  SLC2A4 SLC34A2   SMUG1  TFAP2A   TFPI2    TP53     VWF </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1       1       1       1       1       1       1       1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $NFIC$likelihood</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $RFXAP</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $RFXAP$tfmode</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  HLA-DMA  HLA-DMB  HLA-DOA  HLA-DOB HLA-DPA1 HLA-DPB1 HLA-DQA1 HLA-DQA2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> HLA-DQB1  HLA-DRA HLA-DRB1 HLA-DRB3 HLA-DRB4 HLA-DRB5 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $RFXAP$likelihood</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $SMAD3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $SMAD3$tfmode</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      AHR   ANKRD1    APOC3    BAMBI    BGLAP    CCND2   CDKN1A   COL1A1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   COL3A1   COL6A1   COL6A3   COL7A1  CYP17A1     EDN1      EPO    FOXP3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1       -1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    FSTL3     GLI2   ITGA11      JUN      MET     MMP9      MYC      POR </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    PTHLH SERPINE1    SMAD7     TERT    TGFB1    TIMP1      TNC    VEGFA </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1       -1       -1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    ZFP36 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $SMAD3$likelihood</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $TFAP2A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $TFAP2A$tfmode</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     ACHE      ADM   ADRA1A   ADRA2B      APP    BACE1     BCL2    CCNB1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       -1        1        1        1        1        1       -1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     CDH1   CDKN1A     CFTR      CGA   CRABP2      CRX     CSH1  CYP11A1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      DBH     EGFR    ERBB2     ETS1      F2R      FAS     FMR1    FOXA1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   GALNT3     GAST     GPX4     GUSB      HGF     HIP1    HMOX1    HOXA4 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1       -1        1        1       -1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  HSD17B1      HTT   IGFBP5      KIT     KRT5    L1CAM      MIP     MMP2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       -1        1        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      MPG      MYC     NME3    NR3C1      OAT     PENK    PLAUR    POLD2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    PRKCA    PTGS2      PVR    S100B SERPINE1  SLC19A1    SMPD1   SNAP91 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      SP1    SPRY2     TAF7       TH    TIMP2    VEGFA </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1        1        1        1        1        1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $TFAP2A$likelihood</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [39] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

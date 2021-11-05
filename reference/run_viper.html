@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">decoupleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
@@ -166,7 +166,7 @@
       <th>mat</th>
       <td><p>Matrix to evaluate (e.g. expression matrix).
 Target nodes in rows and conditions in columns.
-<code><a href='https://rdrr.io/r/base/colnames.html'>rownames(mat)</a></code> must have at least one intersection with the elements
+<code>rownames(mat)</code> must have at least one intersection with the elements
 in <code>network</code> <code>.target</code> column.</p></td>
     </tr>
     <tr>
@@ -253,35 +253,36 @@ across the samples. Resulting tibble contains the following columns:</p><ol>
 <code><a href='run_wsum.html'>run_wsum</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>inputs_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, <span class='st'>"inputs"</span>, package <span class='op'>=</span> <span class='st'>"decoupleR"</span><span class='op'>)</span>
-
-<span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-expr_matrix.rds"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'>run_viper</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, .source<span class='op'>=</span><span class='st'>'tf'</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 × 5</span>
-#&gt;    statistic source condition  score p_value
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> viper     FOXO4  GSM2753335 1.96  0.050<span style='text-decoration: underline;'>3</span> 
-#&gt; <span style='color: #BCBCBC;'> 2</span> viper     FOXO4  GSM2753336 2.00  0.045<span style='text-decoration: underline;'>9</span> 
-#&gt; <span style='color: #BCBCBC;'> 3</span> viper     FOXO4  GSM2753337 2.38  0.017<span style='text-decoration: underline;'>3</span> 
-#&gt; <span style='color: #BCBCBC;'> 4</span> viper     FOXO4  GSM2753338 2.41  0.016<span style='text-decoration: underline;'>1</span> 
-#&gt; <span style='color: #BCBCBC;'> 5</span> viper     NFIC   GSM2753335 0.740 0.459  
-#&gt; <span style='color: #BCBCBC;'> 6</span> viper     NFIC   GSM2753336 0.892 0.372  
-#&gt; <span style='color: #BCBCBC;'> 7</span> viper     NFIC   GSM2753337 0.579 0.562  
-#&gt; <span style='color: #BCBCBC;'> 8</span> viper     NFIC   GSM2753338 0.738 0.461  
-#&gt; <span style='color: #BCBCBC;'> 9</span> viper     RFXAP  GSM2753335 1.14  0.256  
-#&gt; <span style='color: #BCBCBC;'>10</span> viper     RFXAP  GSM2753336 2.25  0.024<span style='text-decoration: underline;'>6</span> 
-#&gt; <span style='color: #BCBCBC;'>11</span> viper     RFXAP  GSM2753337 3.04  0.002<span style='text-decoration: underline;'>37</span>
-#&gt; <span style='color: #BCBCBC;'>12</span> viper     RFXAP  GSM2753338 3.26  0.001<span style='text-decoration: underline;'>13</span>
-#&gt; <span style='color: #BCBCBC;'>13</span> viper     SMAD3  GSM2753335 0.831 0.406  
-#&gt; <span style='color: #BCBCBC;'>14</span> viper     SMAD3  GSM2753336 1.04  0.297  
-#&gt; <span style='color: #BCBCBC;'>15</span> viper     SMAD3  GSM2753337 1.50  0.133  
-#&gt; <span style='color: #BCBCBC;'>16</span> viper     SMAD3  GSM2753338 1.72  0.084<span style='text-decoration: underline;'>6</span> 
-#&gt; <span style='color: #BCBCBC;'>17</span> viper     TFAP2A GSM2753335 1.96  0.050<span style='text-decoration: underline;'>0</span> 
-#&gt; <span style='color: #BCBCBC;'>18</span> viper     TFAP2A GSM2753336 2.27  0.022<span style='text-decoration: underline;'>9</span> 
-#&gt; <span style='color: #BCBCBC;'>19</span> viper     TFAP2A GSM2753337 2.50  0.012<span style='text-decoration: underline;'>5</span> 
-#&gt; <span style='color: #BCBCBC;'>20</span> viper     TFAP2A GSM2753338 2.79  0.005<span style='text-decoration: underline;'>24</span></div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>inputs_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, <span class='st'>"inputs"</span>, package <span class='op'>=</span> <span class='st'>"decoupleR"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-expr_matrix.rds"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>inputs_dir</span>, <span class='st'>"input-dorothea_genesets.rds"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>run_viper</span><span class='op'>(</span><span class='va'>mat</span>, <span class='va'>network</span>, .source<span class='op'>=</span><span class='st'>'tf'</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 20 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    statistic source condition  score p_value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> viper     FOXO4  GSM2753335 1.96  0.050<span style='text-decoration: underline;'>3</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> viper     FOXO4  GSM2753336 2.00  0.045<span style='text-decoration: underline;'>9</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> viper     FOXO4  GSM2753337 2.38  0.017<span style='text-decoration: underline;'>3</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> viper     FOXO4  GSM2753338 2.41  0.016<span style='text-decoration: underline;'>1</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> viper     NFIC   GSM2753335 0.740 0.459  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> viper     NFIC   GSM2753336 0.892 0.372  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> viper     NFIC   GSM2753337 0.579 0.562  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> viper     NFIC   GSM2753338 0.738 0.461  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> viper     RFXAP  GSM2753335 1.14  0.256  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> viper     RFXAP  GSM2753336 2.25  0.024<span style='text-decoration: underline;'>6</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span> viper     RFXAP  GSM2753337 3.04  0.002<span style='text-decoration: underline;'>37</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span> viper     RFXAP  GSM2753338 3.26  0.001<span style='text-decoration: underline;'>13</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span> viper     SMAD3  GSM2753335 0.831 0.406  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span> viper     SMAD3  GSM2753336 1.04  0.297  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>15</span> viper     SMAD3  GSM2753337 1.50  0.133  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>16</span> viper     SMAD3  GSM2753338 1.72  0.084<span style='text-decoration: underline;'>6</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>17</span> viper     TFAP2A GSM2753335 1.96  0.050<span style='text-decoration: underline;'>0</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>18</span> viper     TFAP2A GSM2753336 2.27  0.022<span style='text-decoration: underline;'>9</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>19</span> viper     TFAP2A GSM2753337 2.50  0.012<span style='text-decoration: underline;'>5</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>20</span> viper     TFAP2A GSM2753338 2.79  0.005<span style='text-decoration: underline;'>24</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

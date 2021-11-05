@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">decoupleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
@@ -178,16 +178,16 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">inputs_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"testdata"</span>, <span class="st">"inputs"</span>, package <span class="op">=</span> <span class="st">"decoupleR"</span><span class="op">)</span>
 
-<span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-expr_matrix.rds"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-expr_matrix.rds"</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt;  num [1:18490, 1:4] 3.251 0.283 -2.253 0.782 -4.575 ...</span>
 <span class="co">#&gt;  - attr(*, "dimnames")=List of 2</span>
 <span class="co">#&gt;   ..$ : chr [1:18490] "A1BG" "A1CF" "A2M" "A2ML1" ...</span>
 <span class="co">#&gt;   ..$ : chr [1:4] "GSM2753335" "GSM2753336" "GSM2753337" "GSM2753338"</span>
 
-<span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-dorothea_genesets.rds"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-dorothea_genesets.rds"</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 151</span>
 <span class="co">#&gt; Columns: 5</span>
@@ -217,7 +217,7 @@
         mlm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>center<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,
         ora <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>n_up<span class="op">=</span><span class="fl">300</span>, n_bottom<span class="op">=</span><span class="fl">300</span>, n_background<span class="op">=</span><span class="fl">20000</span><span class="op">)</span>
     <span class="op">)</span>
-<span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 140</span>
 <span class="co">#&gt; Columns: 6</span>
@@ -291,7 +291,7 @@
 </ul>
 <p>Let’s see an example. Input network has the following columns:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">network</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">network</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "tf"         "confidence" "target"     "mor"        "likelihood"</span></code></pre></div>
 <p>We can use the way we like to do the mapping, even a combination of ways to do it. This applies not only to the decouple function, but to all functions of the <code>decoupleR statistics</code> family, identifiable by the <code>run_</code> prefix.</p>
@@ -334,7 +334,7 @@
 <li>
 <em><a href="https://CRAN.R-project.org/package=rmarkdown">rmarkdown</a></em> (Allaire, Xie, McPherson, Luraschi, Ushey, Atkins, Wickham, Cheng, Chang, and Iannone, 2021)</li>
 <li>
-<em><a href="https://CRAN.R-project.org/package=sessioninfo">sessioninfo</a></em> (Csárdi, core, Wickham, Chang, Flight, Müller, and Hester, 2018)</li>
+<em><a href="https://CRAN.R-project.org/package=sessioninfo">sessioninfo</a></em> (Wickham, Chang, Flight, Müller, and Hester, 2021)</li>
 <li>
 <em><a href="https://CRAN.R-project.org/package=testthat">testthat</a></em> (Wickham, 2011)</li>
 <li>
@@ -362,145 +362,150 @@
 <div id="wallclock-time-spent-generating-the-vignette" class="section level3">
 <h3 class="hasAnchor">
 <a href="#wallclock-time-spent-generating-the-vignette" class="anchor"></a>Wallclock time spent generating the vignette</h3>
-<pre><code>#&gt; Time difference of 13.799 secs</code></pre>
+<pre><code>#&gt; Time difference of 11.229 secs</code></pre>
 </div>
 </div>
 <div id="session-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h2>
-<pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
-#&gt;  setting  value                       
+<pre><code>#&gt; ─ Session info  ──────────────────────────────────────────────────────────────────────────────────────────────────────
+#&gt;  hash: flag: Senegal, floppy disk, crossed fingers: light skin tone
+#&gt; 
+#&gt;  setting  value
 #&gt;  version  R version 4.1.1 (2021-08-10)
-#&gt;  os       Ubuntu 20.04.3 LTS          
-#&gt;  system   x86_64, linux-gnu           
-#&gt;  ui       X11                         
-#&gt;  language (EN)                        
-#&gt;  collate  en_US.UTF-8                 
-#&gt;  ctype    en_US.UTF-8                 
-#&gt;  tz       UTC                         
-#&gt;  date     2021-10-22                  
+#&gt;  os       Ubuntu 20.04.3 LTS
+#&gt;  system   x86_64, linux-gnu
+#&gt;  ui       X11
+#&gt;  language (EN)
+#&gt;  collate  en_US.UTF-8
+#&gt;  ctype    en_US.UTF-8
+#&gt;  tz       UTC
+#&gt;  date     2021-11-05
+#&gt;  pandoc   2.11.4 @ /usr/local/bin/ (via rmarkdown)
 #&gt; 
 #&gt; ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────
-#&gt;  package              * version  date       lib source           
-#&gt;  annotate               1.70.0   2021-05-19 [1] Bioconductor     
-#&gt;  AnnotationDbi          1.54.1   2021-06-08 [1] Bioconductor     
-#&gt;  backports              1.2.1    2020-12-09 [1] RSPM (R 4.1.0)   
-#&gt;  beachmat               2.8.1    2021-08-12 [1] Bioconductor     
-#&gt;  Biobase                2.52.0   2021-05-19 [1] Bioconductor     
-#&gt;  BiocGenerics           0.38.0   2021-05-19 [1] Bioconductor     
-#&gt;  BiocManager            1.30.16  2021-06-15 [2] CRAN (R 4.1.1)   
-#&gt;  BiocParallel           1.26.2   2021-08-22 [1] Bioconductor     
-#&gt;  BiocSingular           1.8.1    2021-06-08 [1] Bioconductor     
-#&gt;  BiocStyle            * 2.20.2   2021-06-17 [1] Bioconductor     
-#&gt;  Biostrings             2.60.2   2021-08-05 [1] Bioconductor     
-#&gt;  bit                    4.0.4    2020-08-04 [1] RSPM (R 4.1.0)   
-#&gt;  bit64                  4.0.5    2020-08-30 [1] RSPM (R 4.1.0)   
-#&gt;  bitops                 1.0-7    2021-04-24 [1] RSPM (R 4.1.0)   
-#&gt;  blob                   1.2.2    2021-07-23 [1] RSPM (R 4.1.0)   
-#&gt;  bookdown               0.24     2021-09-02 [1] RSPM (R 4.1.0)   
-#&gt;  broom                  0.7.9    2021-07-27 [1] RSPM (R 4.1.0)   
-#&gt;  bslib                  0.3.1    2021-10-06 [1] RSPM (R 4.1.0)   
-#&gt;  cachem                 1.0.6    2021-08-19 [2] RSPM (R 4.1.0)   
-#&gt;  class                  7.3-19   2021-05-03 [3] CRAN (R 4.1.1)   
-#&gt;  cli                    3.0.1    2021-07-17 [2] RSPM (R 4.1.0)   
-#&gt;  crayon                 1.4.1    2021-02-08 [2] RSPM (R 4.1.0)   
-#&gt;  DBI                    1.1.1    2021-01-15 [1] RSPM (R 4.1.0)   
-#&gt;  decoupleR            * 1.99.5   2021-10-22 [1] Bioconductor     
-#&gt;  DelayedArray           0.18.0   2021-05-19 [1] Bioconductor     
-#&gt;  DelayedMatrixStats     1.14.3   2021-08-26 [1] Bioconductor     
-#&gt;  desc                   1.4.0    2021-09-28 [2] RSPM (R 4.1.0)   
-#&gt;  digest                 0.6.28   2021-09-23 [2] RSPM (R 4.1.0)   
-#&gt;  dplyr                * 1.0.7    2021-06-18 [2] RSPM (R 4.1.0)   
-#&gt;  e1071                  1.7-9    2021-09-16 [1] RSPM (R 4.1.0)   
-#&gt;  ellipsis               0.3.2    2021-04-29 [2] RSPM (R 4.1.0)   
-#&gt;  evaluate               0.14     2019-05-28 [2] RSPM (R 4.1.0)   
-#&gt;  fansi                  0.5.0    2021-05-25 [2] RSPM (R 4.1.0)   
-#&gt;  fastmap                1.1.0    2021-01-25 [2] RSPM (R 4.1.0)   
-#&gt;  fs                     1.5.0    2020-07-31 [2] RSPM (R 4.1.0)   
-#&gt;  generics               0.1.0    2020-10-31 [2] RSPM (R 4.1.0)   
-#&gt;  GenomeInfoDb           1.28.4   2021-09-05 [1] Bioconductor     
-#&gt;  GenomeInfoDbData       1.2.6    2021-10-06 [1] Bioconductor     
-#&gt;  GenomicRanges          1.44.0   2021-05-19 [1] Bioconductor     
-#&gt;  glue                   1.4.2    2020-08-27 [2] RSPM (R 4.1.0)   
-#&gt;  graph                  1.70.0   2021-05-19 [1] Bioconductor     
-#&gt;  GSEABase               1.54.0   2021-05-19 [1] Bioconductor     
-#&gt;  GSVA                   1.40.1   2021-06-06 [1] Bioconductor     
-#&gt;  HDF5Array              1.20.0   2021-05-19 [1] Bioconductor     
-#&gt;  htmltools              0.5.2    2021-08-25 [1] RSPM (R 4.1.0)   
-#&gt;  httr                   1.4.2    2020-07-20 [2] RSPM (R 4.1.0)   
-#&gt;  IRanges                2.26.0   2021-05-19 [1] Bioconductor     
-#&gt;  irlba                  2.3.3    2019-02-05 [1] RSPM (R 4.1.0)   
-#&gt;  jquerylib              0.1.4    2021-04-26 [1] RSPM (R 4.1.0)   
-#&gt;  jsonlite               1.7.2    2020-12-09 [2] RSPM (R 4.1.0)   
-#&gt;  KEGGREST               1.32.0   2021-05-19 [1] Bioconductor     
-#&gt;  kernlab                0.9-29   2019-11-12 [1] RSPM (R 4.1.0)   
-#&gt;  KernSmooth             2.23-20  2021-05-03 [3] CRAN (R 4.1.1)   
-#&gt;  knitr                  1.36     2021-09-29 [2] RSPM (R 4.1.0)   
-#&gt;  lattice                0.20-45  2021-09-22 [3] RSPM (R 4.1.0)   
-#&gt;  lifecycle              1.0.1    2021-09-24 [2] RSPM (R 4.1.0)   
-#&gt;  lubridate              1.8.0    2021-10-07 [1] RSPM (R 4.1.0)   
-#&gt;  magrittr               2.0.1    2020-11-17 [2] RSPM (R 4.1.0)   
-#&gt;  MASS                   7.3-54   2021-05-03 [3] CRAN (R 4.1.1)   
-#&gt;  Matrix                 1.3-4    2021-06-01 [3] CRAN (R 4.1.1)   
-#&gt;  MatrixGenerics         1.4.3    2021-08-26 [1] Bioconductor     
-#&gt;  matrixStats            0.61.0   2021-09-17 [1] RSPM (R 4.1.0)   
-#&gt;  memoise                2.0.0    2021-01-26 [2] RSPM (R 4.1.0)   
-#&gt;  mixtools               1.2.0    2020-02-07 [1] RSPM (R 4.1.0)   
-#&gt;  pillar                 1.6.4    2021-10-18 [2] RSPM (R 4.1.0)   
-#&gt;  pkgconfig              2.0.3    2019-09-22 [2] RSPM (R 4.1.0)   
-#&gt;  pkgdown                1.6.1    2020-09-12 [1] RSPM (R 4.1.0)   
-#&gt;  plyr                   1.8.6    2020-03-03 [1] RSPM (R 4.1.0)   
-#&gt;  png                    0.1-7    2013-12-03 [1] RSPM (R 4.1.0)   
-#&gt;  proxy                  0.4-26   2021-06-07 [1] RSPM (R 4.1.0)   
-#&gt;  purrr                  0.3.4    2020-04-17 [2] RSPM (R 4.1.0)   
-#&gt;  R6                     2.5.1    2021-08-19 [2] RSPM (R 4.1.0)   
-#&gt;  ragg                   1.1.3    2021-06-09 [1] RSPM (R 4.1.0)   
-#&gt;  ranger                 0.13.1   2021-07-14 [1] RSPM (R 4.1.0)   
-#&gt;  Rcpp                   1.0.7    2021-07-07 [1] RSPM (R 4.1.0)   
-#&gt;  RCurl                  1.98-1.5 2021-09-17 [1] RSPM (R 4.1.0)   
-#&gt;  RefManageR           * 1.3.0    2020-11-13 [1] RSPM (R 4.1.0)   
-#&gt;  rhdf5                  2.36.0   2021-05-19 [1] Bioconductor     
-#&gt;  rhdf5filters           1.4.0    2021-05-19 [1] Bioconductor     
-#&gt;  Rhdf5lib               1.14.2   2021-07-06 [1] Bioconductor     
-#&gt;  rlang                  0.4.12   2021-10-18 [2] RSPM (R 4.1.0)   
-#&gt;  rmarkdown              2.11     2021-09-14 [1] RSPM (R 4.1.0)   
-#&gt;  RobustRankAggreg       1.1      2013-06-03 [1] RSPM (R 4.1.0)   
-#&gt;  rpart                  4.1-15   2019-04-12 [3] CRAN (R 4.1.1)   
-#&gt;  rprojroot              2.0.2    2020-11-15 [2] RSPM (R 4.1.0)   
-#&gt;  RSQLite                2.2.8    2021-08-21 [1] RSPM (R 4.1.0)   
-#&gt;  rsvd                   1.0.5    2021-04-16 [1] RSPM (R 4.1.0)   
-#&gt;  S4Vectors              0.30.2   2021-10-03 [1] Bioconductor     
-#&gt;  sass                   0.4.0    2021-05-12 [1] RSPM (R 4.1.0)   
-#&gt;  ScaledMatrix           1.0.0    2021-05-19 [1] Bioconductor     
-#&gt;  segmented              1.3-4    2021-04-22 [1] RSPM (R 4.1.0)   
-#&gt;  sessioninfo            1.1.1    2018-11-05 [2] RSPM (R 4.1.0)   
-#&gt;  SingleCellExperiment   1.14.1   2021-05-21 [1] Bioconductor     
-#&gt;  sparseMatrixStats      1.4.2    2021-08-08 [1] Bioconductor     
-#&gt;  speedglm               0.3-3    2021-01-08 [1] RSPM (R 4.1.0)   
-#&gt;  stringi                1.7.5    2021-10-04 [2] RSPM (R 4.1.0)   
-#&gt;  stringr                1.4.0    2019-02-10 [2] RSPM (R 4.1.0)   
-#&gt;  SummarizedExperiment   1.22.0   2021-05-19 [1] Bioconductor     
-#&gt;  survival               3.2-13   2021-08-24 [3] RSPM (R 4.1.0)   
-#&gt;  systemfonts            1.0.3    2021-10-13 [1] RSPM (R 4.1.0)   
-#&gt;  textshaping            0.3.6    2021-10-13 [1] RSPM (R 4.1.0)   
-#&gt;  tibble                 3.1.5    2021-09-30 [2] RSPM (R 4.1.0)   
-#&gt;  tidyr                  1.1.4    2021-09-27 [2] RSPM (R 4.1.0)   
-#&gt;  tidyselect             1.1.1    2021-04-30 [2] RSPM (R 4.1.0)   
-#&gt;  utf8                   1.2.2    2021-07-24 [2] RSPM (R 4.1.0)   
-#&gt;  vctrs                  0.3.8    2021-04-29 [2] RSPM (R 4.1.0)   
-#&gt;  viper                  1.26.0   2021-05-19 [1] Bioconductor     
-#&gt;  withr                  2.4.2    2021-04-18 [2] RSPM (R 4.1.0)   
-#&gt;  xfun                   0.27     2021-10-18 [2] RSPM (R 4.1.0)   
-#&gt;  XML                    3.99-0.8 2021-09-17 [1] RSPM (R 4.1.0)   
-#&gt;  xml2                   1.3.2    2020-04-23 [2] RSPM (R 4.1.0)   
+#&gt;  package              * version  date (UTC) lib source
+#&gt;  annotate               1.70.0   2021-05-19 [1] Bioconductor
+#&gt;  AnnotationDbi          1.54.1   2021-06-08 [1] Bioconductor
+#&gt;  backports              1.3.0    2021-10-27 [1] RSPM (R 4.1.0)
+#&gt;  beachmat               2.8.1    2021-08-12 [1] Bioconductor
+#&gt;  Biobase                2.52.0   2021-05-19 [1] Bioconductor
+#&gt;  BiocGenerics           0.38.0   2021-05-19 [1] Bioconductor
+#&gt;  BiocManager            1.30.16  2021-06-15 [2] CRAN (R 4.1.1)
+#&gt;  BiocParallel           1.26.2   2021-08-22 [1] Bioconductor
+#&gt;  BiocSingular           1.8.1    2021-06-08 [1] Bioconductor
+#&gt;  BiocStyle            * 2.20.2   2021-06-17 [1] Bioconductor
+#&gt;  Biostrings             2.60.2   2021-08-05 [1] Bioconductor
+#&gt;  bit                    4.0.4    2020-08-04 [1] RSPM (R 4.1.0)
+#&gt;  bit64                  4.0.5    2020-08-30 [1] RSPM (R 4.1.0)
+#&gt;  bitops                 1.0-7    2021-04-24 [1] RSPM (R 4.1.0)
+#&gt;  blob                   1.2.2    2021-07-23 [1] RSPM (R 4.1.0)
+#&gt;  bookdown               0.24     2021-09-02 [1] RSPM (R 4.1.0)
+#&gt;  broom                  0.7.10   2021-10-31 [1] RSPM (R 4.1.0)
+#&gt;  bslib                  0.3.1    2021-10-06 [1] RSPM (R 4.1.0)
+#&gt;  cachem                 1.0.6    2021-08-19 [2] RSPM (R 4.1.0)
+#&gt;  class                  7.3-19   2021-05-03 [3] CRAN (R 4.1.1)
+#&gt;  cli                    3.1.0    2021-10-27 [2] RSPM (R 4.1.0)
+#&gt;  crayon                 1.4.2    2021-10-29 [2] RSPM (R 4.1.0)
+#&gt;  DBI                    1.1.1    2021-01-15 [1] RSPM (R 4.1.0)
+#&gt;  decoupleR            * 2.1.0    2021-11-05 [1] Bioconductor
+#&gt;  DelayedArray           0.18.0   2021-05-19 [1] Bioconductor
+#&gt;  DelayedMatrixStats     1.14.3   2021-08-26 [1] Bioconductor
+#&gt;  desc                   1.4.0    2021-09-28 [2] RSPM (R 4.1.0)
+#&gt;  digest                 0.6.28   2021-09-23 [2] RSPM (R 4.1.0)
+#&gt;  dplyr                * 1.0.7    2021-06-18 [2] RSPM (R 4.1.0)
+#&gt;  e1071                  1.7-9    2021-09-16 [1] RSPM (R 4.1.0)
+#&gt;  ellipsis               0.3.2    2021-04-29 [2] RSPM (R 4.1.0)
+#&gt;  evaluate               0.14     2019-05-28 [2] RSPM (R 4.1.0)
+#&gt;  fansi                  0.5.0    2021-05-25 [2] RSPM (R 4.1.0)
+#&gt;  fastmap                1.1.0    2021-01-25 [2] RSPM (R 4.1.0)
+#&gt;  fs                     1.5.0    2020-07-31 [2] RSPM (R 4.1.0)
+#&gt;  generics               0.1.1    2021-10-25 [2] RSPM (R 4.1.0)
+#&gt;  GenomeInfoDb           1.28.4   2021-09-05 [1] Bioconductor
+#&gt;  GenomeInfoDbData       1.2.6    2021-11-05 [1] Bioconductor
+#&gt;  GenomicRanges          1.44.0   2021-05-19 [1] Bioconductor
+#&gt;  glue                   1.4.2    2020-08-27 [2] RSPM (R 4.1.0)
+#&gt;  graph                  1.70.0   2021-05-19 [1] Bioconductor
+#&gt;  GSEABase               1.54.0   2021-05-19 [1] Bioconductor
+#&gt;  GSVA                   1.40.1   2021-06-06 [1] Bioconductor
+#&gt;  HDF5Array              1.20.0   2021-05-19 [1] Bioconductor
+#&gt;  htmltools              0.5.2    2021-08-25 [1] RSPM (R 4.1.0)
+#&gt;  httr                   1.4.2    2020-07-20 [2] RSPM (R 4.1.0)
+#&gt;  IRanges                2.26.0   2021-05-19 [1] Bioconductor
+#&gt;  irlba                  2.3.3    2019-02-05 [1] RSPM (R 4.1.0)
+#&gt;  jquerylib              0.1.4    2021-04-26 [1] RSPM (R 4.1.0)
+#&gt;  jsonlite               1.7.2    2020-12-09 [2] RSPM (R 4.1.0)
+#&gt;  KEGGREST               1.32.0   2021-05-19 [1] Bioconductor
+#&gt;  kernlab                0.9-29   2019-11-12 [1] RSPM (R 4.1.0)
+#&gt;  KernSmooth             2.23-20  2021-05-03 [3] CRAN (R 4.1.1)
+#&gt;  knitr                  1.36     2021-09-29 [2] RSPM (R 4.1.0)
+#&gt;  lattice                0.20-45  2021-09-22 [3] RSPM (R 4.1.0)
+#&gt;  lifecycle              1.0.1    2021-09-24 [2] RSPM (R 4.1.0)
+#&gt;  lubridate              1.8.0    2021-10-07 [1] RSPM (R 4.1.0)
+#&gt;  magrittr               2.0.1    2020-11-17 [2] RSPM (R 4.1.0)
+#&gt;  MASS                   7.3-54   2021-05-03 [3] CRAN (R 4.1.1)
+#&gt;  Matrix                 1.3-4    2021-06-01 [3] CRAN (R 4.1.1)
+#&gt;  MatrixGenerics         1.4.3    2021-08-26 [1] Bioconductor
+#&gt;  matrixStats            0.61.0   2021-09-17 [1] RSPM (R 4.1.0)
+#&gt;  memoise                2.0.0    2021-01-26 [2] RSPM (R 4.1.0)
+#&gt;  mixtools               1.2.0    2020-02-07 [1] RSPM (R 4.1.0)
+#&gt;  pillar                 1.6.4    2021-10-18 [2] RSPM (R 4.1.0)
+#&gt;  pkgconfig              2.0.3    2019-09-22 [2] RSPM (R 4.1.0)
+#&gt;  pkgdown                1.6.1    2020-09-12 [1] RSPM (R 4.1.0)
+#&gt;  plyr                   1.8.6    2020-03-03 [1] RSPM (R 4.1.0)
+#&gt;  png                    0.1-7    2013-12-03 [1] RSPM (R 4.1.0)
+#&gt;  proxy                  0.4-26   2021-06-07 [1] RSPM (R 4.1.0)
+#&gt;  purrr                  0.3.4    2020-04-17 [2] RSPM (R 4.1.0)
+#&gt;  R6                     2.5.1    2021-08-19 [2] RSPM (R 4.1.0)
+#&gt;  ragg                   1.2.0    2021-10-30 [1] RSPM (R 4.1.0)
+#&gt;  ranger                 0.13.1   2021-07-14 [1] RSPM (R 4.1.0)
+#&gt;  Rcpp                   1.0.7    2021-07-07 [1] RSPM (R 4.1.0)
+#&gt;  RCurl                  1.98-1.5 2021-09-17 [1] RSPM (R 4.1.0)
+#&gt;  RefManageR           * 1.3.0    2020-11-13 [1] RSPM (R 4.1.0)
+#&gt;  rhdf5                  2.36.0   2021-05-19 [1] Bioconductor
+#&gt;  rhdf5filters           1.4.0    2021-05-19 [1] Bioconductor
+#&gt;  Rhdf5lib               1.14.2   2021-07-06 [1] Bioconductor
+#&gt;  rlang                  0.4.12   2021-10-18 [2] RSPM (R 4.1.0)
+#&gt;  rmarkdown              2.11     2021-09-14 [1] RSPM (R 4.1.0)
+#&gt;  RobustRankAggreg       1.1      2013-06-03 [1] RSPM (R 4.1.0)
+#&gt;  rpart                  4.1-15   2019-04-12 [3] CRAN (R 4.1.1)
+#&gt;  rprojroot              2.0.2    2020-11-15 [2] RSPM (R 4.1.0)
+#&gt;  RSQLite                2.2.8    2021-08-21 [1] RSPM (R 4.1.0)
+#&gt;  rsvd                   1.0.5    2021-04-16 [1] RSPM (R 4.1.0)
+#&gt;  S4Vectors              0.30.2   2021-10-03 [1] Bioconductor
+#&gt;  sass                   0.4.0    2021-05-12 [1] RSPM (R 4.1.0)
+#&gt;  ScaledMatrix           1.0.0    2021-05-19 [1] Bioconductor
+#&gt;  segmented              1.3-4    2021-04-22 [1] RSPM (R 4.1.0)
+#&gt;  sessioninfo            1.2.1    2021-11-02 [2] RSPM (R 4.1.0)
+#&gt;  SingleCellExperiment   1.14.1   2021-05-21 [1] Bioconductor
+#&gt;  sparseMatrixStats      1.4.2    2021-08-08 [1] Bioconductor
+#&gt;  speedglm               0.3-3    2021-01-08 [1] RSPM (R 4.1.0)
+#&gt;  stringi                1.7.5    2021-10-04 [2] RSPM (R 4.1.0)
+#&gt;  stringr                1.4.0    2019-02-10 [2] RSPM (R 4.1.0)
+#&gt;  SummarizedExperiment   1.22.0   2021-05-19 [1] Bioconductor
+#&gt;  survival               3.2-13   2021-08-24 [3] RSPM (R 4.1.0)
+#&gt;  systemfonts            1.0.3    2021-10-13 [1] RSPM (R 4.1.0)
+#&gt;  textshaping            0.3.6    2021-10-13 [1] RSPM (R 4.1.0)
+#&gt;  tibble                 3.1.5    2021-09-30 [2] RSPM (R 4.1.0)
+#&gt;  tidyr                  1.1.4    2021-09-27 [2] RSPM (R 4.1.0)
+#&gt;  tidyselect             1.1.1    2021-04-30 [2] RSPM (R 4.1.0)
+#&gt;  utf8                   1.2.2    2021-07-24 [2] RSPM (R 4.1.0)
+#&gt;  vctrs                  0.3.8    2021-04-29 [2] RSPM (R 4.1.0)
+#&gt;  viper                  1.26.0   2021-05-19 [1] Bioconductor
+#&gt;  withr                  2.4.2    2021-04-18 [2] RSPM (R 4.1.0)
+#&gt;  xfun                   0.27     2021-10-18 [2] RSPM (R 4.1.0)
+#&gt;  XML                    3.99-0.8 2021-09-17 [1] RSPM (R 4.1.0)
+#&gt;  xml2                   1.3.2    2020-04-23 [2] RSPM (R 4.1.0)
 #&gt;  xtable                 1.8-6    2020-06-19 [1] R-Forge (R 4.1.1)
-#&gt;  XVector                0.32.0   2021-05-19 [1] Bioconductor     
-#&gt;  yaml                   2.2.1    2020-02-01 [2] RSPM (R 4.1.0)   
-#&gt;  zlibbioc               1.38.0   2021-05-19 [1] Bioconductor     
+#&gt;  XVector                0.32.0   2021-05-19 [1] Bioconductor
+#&gt;  yaml                   2.2.1    2020-02-01 [2] RSPM (R 4.1.0)
+#&gt;  zlibbioc               1.38.0   2021-05-19 [1] Bioconductor
 #&gt; 
-#&gt; [1] /__w/_temp/Library
-#&gt; [2] /usr/local/lib/R/site-library
-#&gt; [3] /usr/local/lib/R/library</code></pre>
+#&gt;  [1] /__w/_temp/Library
+#&gt;  [2] /usr/local/lib/R/site-library
+#&gt;  [3] /usr/local/lib/R/library
+#&gt; 
+#&gt; ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
 </div>
 </div>
 <div id="bibliography" class="section level1">
@@ -518,22 +523,22 @@
 <a id="bib-badiaimompel2021decoupler"></a><a href="#cite-badiaimompel2021decoupler">[3]</a><cite> P. Badia-i-Mompel, J. Vélez, J. Braunger, et al. “decoupleR: Inferring biological activities from omics data using a collection of methods”. In: <em>X</em> (2021).</cite>
 </p>
 <p>
-<a id="bib-csrdi2018sessioninfo"></a><a href="#cite-csrdi2018sessioninfo">[4]</a><cite> G. Csárdi, R. core, H. Wickham, et al. <em>sessioninfo: R Session Information</em>. R package version 1.1.1. 2018. URL: <a href="https://github.com/r-lib/sessioninfo#readme">https://github.com/r-lib/sessioninfo#readme</a>.</cite>
+<a id="bib-hanzelmann2013gsva"></a><a href="#cite-hanzelmann2013gsva">[4]</a><cite> S. Hänzelmann, R. Castelo, and J. Guinney. “GSVA: gene set variation analysis for microarray and RNA-Seq data”. In: <em>BMC Bioinformatics</em> 14 (2013), p. 7. DOI: <a href="https://doi.org/10.1186/1471-2105-14-7">10.1186/1471-2105-14-7</a>. URL: <a href="http://www.biomedcentral.com/1471-2105/14/7">http://www.biomedcentral.com/1471-2105/14/7</a>.</cite>
 </p>
 <p>
-<a id="bib-hanzelmann2013gsva"></a><a href="#cite-hanzelmann2013gsva">[5]</a><cite> S. Hänzelmann, R. Castelo, and J. Guinney. “GSVA: gene set variation analysis for microarray and RNA-Seq data”. In: <em>BMC Bioinformatics</em> 14 (2013), p. 7. DOI: <a href="https://doi.org/10.1186/1471-2105-14-7">10.1186/1471-2105-14-7</a>. URL: <a href="http://www.biomedcentral.com/1471-2105/14/7">http://www.biomedcentral.com/1471-2105/14/7</a>.</cite>
+<a id="bib-mclean2017refmanager"></a><a href="#cite-mclean2017refmanager">[5]</a><cite> M. W. McLean. “RefManageR: Import and Manage BibTeX and BibLaTeX References in R”. In: <em>The Journal of Open Source Software</em> (2017). DOI: <a href="https://doi.org/10.21105/joss.00338">10.21105/joss.00338</a>.</cite>
 </p>
 <p>
-<a id="bib-mclean2017refmanager"></a><a href="#cite-mclean2017refmanager">[6]</a><cite> M. W. McLean. “RefManageR: Import and Manage BibTeX and BibLaTeX References in R”. In: <em>The Journal of Open Source Software</em> (2017). DOI: <a href="https://doi.org/10.21105/joss.00338">10.21105/joss.00338</a>.</cite>
+<a id="bib-ole2021biocstyle"></a><a href="#cite-ole2021biocstyle">[6]</a><cite> A. Oleś. <em>BiocStyle: Standard styles for vignettes and other Bioconductor documents</em>. R package version 2.20.2. 2021. URL: <a href="https://github.com/Bioconductor/BiocStyle">https://github.com/Bioconductor/BiocStyle</a>.</cite>
 </p>
 <p>
-<a id="bib-ole2021biocstyle"></a><a href="#cite-ole2021biocstyle">[7]</a><cite> A. Oleś. <em>BiocStyle: Standard styles for vignettes and other Bioconductor documents</em>. R package version 2.20.2. 2021. URL: <a href="https://github.com/Bioconductor/BiocStyle">https://github.com/Bioconductor/BiocStyle</a>.</cite>
+<a id="bib-2021language"></a><a href="#cite-2021language">[7]</a><cite> R Core Team. <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing. Vienna, Austria, 2021. URL: <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</cite>
 </p>
 <p>
-<a id="bib-2021language"></a><a href="#cite-2021language">[8]</a><cite> R Core Team. <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing. Vienna, Austria, 2021. URL: <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</cite>
+<a id="bib-wickham2011testthat"></a><a href="#cite-wickham2011testthat">[8]</a><cite> H. Wickham. “testthat: Get Started with Testing”. In: <em>The R Journal</em> 3 (2011), pp. 5–10. URL: <a href="https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf">https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf</a>.</cite>
 </p>
 <p>
-<a id="bib-wickham2011testthat"></a><a href="#cite-wickham2011testthat">[9]</a><cite> H. Wickham. “testthat: Get Started with Testing”. In: <em>The R Journal</em> 3 (2011), pp. 5–10. URL: <a href="https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf">https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf</a>.</cite>
+<a id="bib-wickham2021sessioninfo"></a><a href="#cite-wickham2021sessioninfo">[9]</a><cite> H. Wickham, W. Chang, R. Flight, et al. <em>sessioninfo: R Session Information</em>. <a href="https://github.com/r-lib/sessioninfo#readme" class="uri">https://github.com/r-lib/sessioninfo#readme</a>, <a href="https://r-lib.github.io/sessioninfo/" class="uri">https://r-lib.github.io/sessioninfo/</a>. 2021.</cite>
 </p>
 <p>
 <a id="bib-xie2021knitr"></a><a href="#cite-xie2021knitr">[10]</a><cite> Y. Xie. <em>knitr: A General-Purpose Package for Dynamic Report Generation in R</em>. R package version 1.36. 2021. URL: <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>.</cite>

@@ -83,7 +83,7 @@ the columns from names_from and the values from values_from." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">decoupleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
@@ -224,39 +224,39 @@ decreasing the number of rows.</p>
 the <code>id_cols</code> parameter is a single selector.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
-    tf <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"tf_1"</span>, <span class='st'>"tf_1"</span>, <span class='st'>"tf_2"</span>, <span class='st'>"tf_2"</span><span class='op'>)</span>,
-    gene <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gene_1"</span>, <span class='st'>"gene_2"</span>, <span class='st'>"gene_1"</span>, <span class='st'>"gene_2"</span><span class='op'>)</span>,
-    mor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='co'># Return a tibble</span>
-<span class='fu'>pivot_wider_profile</span><span class='op'>(</span>
-    data <span class='op'>=</span> <span class='va'>df</span>,
-    id_cols <span class='op'>=</span> <span class='va'>tf</span>,
-    names_from <span class='op'>=</span> <span class='va'>gene</span>,
-    values_from <span class='op'>=</span> <span class='va'>mor</span>
-<span class='op'>)</span>
-
-<span class='co'># Return a matrix</span>
-<span class='fu'>pivot_wider_profile</span><span class='op'>(</span>
-    data <span class='op'>=</span> <span class='va'>df</span>,
-    id_cols <span class='op'>=</span> <span class='va'>tf</span>,
-    names_from <span class='op'>=</span> <span class='va'>gene</span>,
-    values_from <span class='op'>=</span> <span class='va'>mor</span>,
-    to_matrix <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-<span class='co'># Return a sparse Matrix of class "dgCMatrix"</span>
-<span class='fu'>pivot_wider_profile</span><span class='op'>(</span>
-    data <span class='op'>=</span> <span class='va'>df</span>,
-    id_cols <span class='op'>=</span> <span class='va'>tf</span>,
-    names_from <span class='op'>=</span> <span class='va'>gene</span>,
-    values_from <span class='op'>=</span> <span class='va'>mor</span>,
-    to_sparse <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span></span>
+<span class='r-in'>    tf <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"tf_1"</span>, <span class='st'>"tf_1"</span>, <span class='st'>"tf_2"</span>, <span class='st'>"tf_2"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    gene <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gene_1"</span>, <span class='st'>"gene_2"</span>, <span class='st'>"gene_1"</span>, <span class='st'>"gene_2"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    mor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Return a tibble</span></span>
+<span class='r-in'><span class='fu'>pivot_wider_profile</span><span class='op'>(</span></span>
+<span class='r-in'>    data <span class='op'>=</span> <span class='va'>df</span>,</span>
+<span class='r-in'>    id_cols <span class='op'>=</span> <span class='va'>tf</span>,</span>
+<span class='r-in'>    names_from <span class='op'>=</span> <span class='va'>gene</span>,</span>
+<span class='r-in'>    values_from <span class='op'>=</span> <span class='va'>mor</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Return a matrix</span></span>
+<span class='r-in'><span class='fu'>pivot_wider_profile</span><span class='op'>(</span></span>
+<span class='r-in'>    data <span class='op'>=</span> <span class='va'>df</span>,</span>
+<span class='r-in'>    id_cols <span class='op'>=</span> <span class='va'>tf</span>,</span>
+<span class='r-in'>    names_from <span class='op'>=</span> <span class='va'>gene</span>,</span>
+<span class='r-in'>    values_from <span class='op'>=</span> <span class='va'>mor</span>,</span>
+<span class='r-in'>    to_matrix <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># Return a sparse Matrix of class "dgCMatrix"</span></span>
+<span class='r-in'><span class='fu'>pivot_wider_profile</span><span class='op'>(</span></span>
+<span class='r-in'>    data <span class='op'>=</span> <span class='va'>df</span>,</span>
+<span class='r-in'>    id_cols <span class='op'>=</span> <span class='va'>tf</span>,</span>
+<span class='r-in'>    names_from <span class='op'>=</span> <span class='va'>gene</span>,</span>
+<span class='r-in'>    values_from <span class='op'>=</span> <span class='va'>mor</span>,</span>
+<span class='r-in'>    to_sparse <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -32,7 +32,8 @@ For more information about how this package has been used with real data,
 please check the following links:
 
 - [decoupleR's manuscript repository](https://github.com/saezlab/decoupleR_manuscript)
-- [Creation of benchmarking pipelines](https://github.com/saezlab/decoupleRBench).
+- [Creation of benchmarking pipelines](https://github.com/saezlab/decoupleRBench)
+- [Example of Kinase and TF activity estimation](https://saezlab.github.io/kinase_tf_mini_tuto/)
 
 ## Installation instructions
 

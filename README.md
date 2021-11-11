@@ -36,7 +36,9 @@ data, please check the following links:
 -   [decoupleR’s manuscript
     repository](https://github.com/saezlab/decoupleR_manuscript)
 -   [Creation of benchmarking
-    pipelines](https://github.com/saezlab/decoupleRBench).
+    pipelines](https://github.com/saezlab/decoupleRBench)
+-   [Example of Kinase and TF activity
+    estimation](https://saezlab.github.io/kinase_tf_mini_tuto/)
 
 ## Installation instructions
 
@@ -153,10 +155,10 @@ run_wmean(
 #> # A tibble: 60 × 5
 #>    statistic  source condition  score p_value
 #>    <chr>      <chr>  <chr>      <dbl>   <dbl>
-#>  1 corr_wmean FOXO4  GSM2753335  9.13    0.01
-#>  2 corr_wmean FOXO4  GSM2753336  9.18    0.01
-#>  3 corr_wmean FOXO4  GSM2753337  9.77    0.01
-#>  4 corr_wmean FOXO4  GSM2753338  9.84    0.01
+#>  1 corr_wmean FOXO4  GSM2753335  5.94    0   
+#>  2 corr_wmean FOXO4  GSM2753336  5.97    0   
+#>  3 corr_wmean FOXO4  GSM2753337  6.36    0   
+#>  4 corr_wmean FOXO4  GSM2753338  6.40    0   
 #>  5 corr_wmean NFIC   GSM2753335  1.58    0.23
 #>  6 corr_wmean NFIC   GSM2753336  1.84    0.2 
 #>  7 corr_wmean NFIC   GSM2753337  1.23    0.27

@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>decoupleR: Inferring biological activities from omics data using a collection of methods • decoupleR</title>
+<title>decoupleR: Ensemble of computational methods to infer biological activities from omics data • decoupleR</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="decoupleR: Inferring biological activities from omics data using a collection of methods">
+<script src="pkgdown.js"></script><meta property="og:title" content="decoupleR: Ensemble of computational methods to infer biological activities from omics data">
 <meta property="og:description" content="Computational methods allow the extraction of mechanistic signatures
     from omics data based on prior knowledge resources, reducing the dimensionality 
     of the data for increased statistical power and better interpretability. 
@@ -101,7 +101,7 @@
   <div class="contents col-md-9">
 <div id="decoupler-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#decoupler-" class="anchor"></a>decoupleR <img src="inst/figures/logo.svg" align="right" width="120">
+<a href="#decoupler-" class="anchor"></a>decoupleR <img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/logo.svg?raw=1" align="right" width="120">
 </h1></div>
 <!-- badges: start -->
 
@@ -109,6 +109,7 @@
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
 <p>Computational methods allow the extraction of mechanistic signatures from omics data based on prior knowledge resources, reducing the dimensionality of the data for increased statistical power and better interpretability. Here, we present decoupleR, a Bioconductor package containing different statistical methods to extract these signatures within a unified framework. decoupleR allows the user to flexibly test any method with any resource. It incorporates methods that take into account the sign and weight of network interactions.</p>
+<p><img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/graphical_abstract.png?raw=1" align="center" width="800"></p>
 <p>For more information about how this package has been used with real data, please check the following links:</p>
 <ul>
 <li><a href="https://github.com/saezlab/decoupleR_manuscript">decoupleR’s manuscript repository</a></li>
@@ -217,10 +218,10 @@
 <span class="co">#&gt; # A tibble: 60 × 5</span>
 <span class="co">#&gt;    statistic  source condition  score p_value</span>
 <span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 corr_wmean FOXO4  GSM2753335  5.94    0   </span>
-<span class="co">#&gt;  2 corr_wmean FOXO4  GSM2753336  5.97    0   </span>
-<span class="co">#&gt;  3 corr_wmean FOXO4  GSM2753337  6.36    0   </span>
-<span class="co">#&gt;  4 corr_wmean FOXO4  GSM2753338  6.40    0   </span>
+<span class="co">#&gt;  1 corr_wmean FOXO4  GSM2753335  9.13    0.01</span>
+<span class="co">#&gt;  2 corr_wmean FOXO4  GSM2753336  9.18    0.01</span>
+<span class="co">#&gt;  3 corr_wmean FOXO4  GSM2753337  9.77    0.01</span>
+<span class="co">#&gt;  4 corr_wmean FOXO4  GSM2753338  9.84    0.01</span>
 <span class="co">#&gt;  5 corr_wmean NFIC   GSM2753335  1.58    0.23</span>
 <span class="co">#&gt;  6 corr_wmean NFIC   GSM2753336  1.84    0.2 </span>
 <span class="co">#&gt;  7 corr_wmean NFIC   GSM2753337  1.23    0.27</span>
@@ -228,16 +229,12 @@
 <span class="co">#&gt;  9 corr_wmean RFXAP  GSM2753335  3.61    0.11</span>
 <span class="co">#&gt; 10 corr_wmean RFXAP  GSM2753336  6.51    0.04</span>
 <span class="co">#&gt; # … with 50 more rows</span></code></pre></div>
-<!-- ## Citation -->
-<!-- Below is the citation output from using `citation('decoupleR')` in R. Please -->
-<!-- run this yourself to check for any updates on how to cite __decoupleR__. -->
-<!-- ```{r 'citation', eval = requireNamespace('decoupleR')} -->
-<!-- print(citation("decoupleR"), bibtex = TRUE) -->
-<!-- ``` -->
-<!-- Please note that the `decoupleR` was only made possible thanks to many other R -->
-<!-- and bioinformatics software authors, which are cited either in the vignettes -->
-<!-- and/or the paper(s) describing this package. -->
 </div>
+</div>
+<div id="citation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#citation" class="anchor"></a>Citation</h2>
+<p>Badia-i-Mompel P., Vélez J., Braunger J., Geiss C., Dimitrov D., Müller-Dott S., Taus P., Dugourd A., Holland C.H., Ramirez Flores R.O. and Saez-Rodriguez J. 2021. decoupleR: Ensemble of computational methods to infer biological activities from omics data. bioRxiv. <a href="https://doi.org/10.1101/2021.11.04.46727" class="uri">https://doi.org/10.1101/2021.11.04.46727</a></p>
 </div>
 <div id="contributing-to-decoupler" class="section level2">
 <h2 class="hasAnchor">

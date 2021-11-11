@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# decoupleR <img src="inst/figures/logo.svg" align="right" width="120" />
+# decoupleR <img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/logo.svg?raw=1" align="right" width="120" />
 
 <!-- badges: start -->
 
@@ -29,6 +29,8 @@ containing different statistical methods to extract these signatures
 within a unified framework. decoupleR allows the user to flexibly test
 any method with any resource. It incorporates methods that take into
 account the sign and weight of network interactions.
+
+<img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/graphical_abstract.png?raw=1" align="center" width="800">
 
 For more information about how this package has been used with real
 data, please check the following links:
@@ -155,10 +157,10 @@ run_wmean(
 #> # A tibble: 60 × 5
 #>    statistic  source condition  score p_value
 #>    <chr>      <chr>  <chr>      <dbl>   <dbl>
-#>  1 corr_wmean FOXO4  GSM2753335  5.94    0   
-#>  2 corr_wmean FOXO4  GSM2753336  5.97    0   
-#>  3 corr_wmean FOXO4  GSM2753337  6.36    0   
-#>  4 corr_wmean FOXO4  GSM2753338  6.40    0   
+#>  1 corr_wmean FOXO4  GSM2753335  9.13    0.01
+#>  2 corr_wmean FOXO4  GSM2753336  9.18    0.01
+#>  3 corr_wmean FOXO4  GSM2753337  9.77    0.01
+#>  4 corr_wmean FOXO4  GSM2753338  9.84    0.01
 #>  5 corr_wmean NFIC   GSM2753335  1.58    0.23
 #>  6 corr_wmean NFIC   GSM2753336  1.84    0.2 
 #>  7 corr_wmean NFIC   GSM2753337  1.23    0.27
@@ -168,15 +170,13 @@ run_wmean(
 #> # … with 50 more rows
 ```
 
-<!-- ## Citation -->
-<!-- Below is the citation output from using `citation('decoupleR')` in R. Please -->
-<!-- run this yourself to check for any updates on how to cite __decoupleR__. -->
-<!-- ```{r 'citation', eval = requireNamespace('decoupleR')} -->
-<!-- print(citation("decoupleR"), bibtex = TRUE) -->
-<!-- ``` -->
-<!-- Please note that the `decoupleR` was only made possible thanks to many other R -->
-<!-- and bioinformatics software authors, which are cited either in the vignettes -->
-<!-- and/or the paper(s) describing this package. -->
+## Citation
+
+Badia-i-Mompel P., Vélez J., Braunger J., Geiss C., Dimitrov D.,
+Müller-Dott S., Taus P., Dugourd A., Holland C.H., Ramirez Flores R.O.
+and Saez-Rodriguez J. 2021. decoupleR: Ensemble of computational methods
+to infer biological activities from omics data. bioRxiv.
+<https://doi.org/10.1101/2021.11.04.46727>
 
 ## Contributing to decoupleR
 

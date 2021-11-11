@@ -64,7 +64,8 @@ run_mlm <- function(mat,
     # Model evaluation --------------------------------------------------------
   {
     .mlm_analysis(.$mat, .$mor_mat)
-  }
+  } %>%
+    ungroup()
 }
 
 # Helper functions ------------------------------------------------------

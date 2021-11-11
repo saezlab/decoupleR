@@ -65,7 +65,8 @@ run_ulm <- function(mat,
         # Model evaluation --------------------------------------------------------
         {
             .ulm_analysis(.$mat, .$mor_mat)
-        }
+        } %>%
+        ungroup()
 }
 
 # Helper functions ------------------------------------------------------

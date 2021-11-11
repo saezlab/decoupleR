@@ -88,7 +88,7 @@ run_mlm <- function(mat,
     network$target
   )
 
-  mat <- mat[shared_targets, ]
+  mat <- mat[shared_targets, , drop=FALSE]
 
   mor_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
@@ -100,7 +100,7 @@ run_mlm <- function(mat,
       to_matrix = TRUE,
       to_sparse = sparse
     ) %>%
-    .[shared_targets, ]
+    .[shared_targets, , drop=FALSE]
 
   likelihood_mat <- network %>%
     filter(.data$target %in% shared_targets) %>%
@@ -112,7 +112,7 @@ run_mlm <- function(mat,
       to_matrix = TRUE,
       to_sparse = sparse
     ) %>%
-    .[shared_targets, ]
+    .[shared_targets, , drop=FALSE]
 
   weight_mat <- mor_mat * likelihood_mat
 

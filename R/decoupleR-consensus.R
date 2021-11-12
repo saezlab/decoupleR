@@ -1,6 +1,8 @@
+#' Consensus score between methods
+#' @description 
 #' Function to generate a consensus score between methods from the
-#' result of decouple
-#'
+#' result of the `decouple` function.
+#' 
 #' @param df `decouple` data frame result
 #' @param include_time Should the time per statistic evaluated be informed?
 #'

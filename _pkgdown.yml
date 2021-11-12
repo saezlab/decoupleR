@@ -33,8 +33,7 @@ reference:
     contents:
       - convert_f_defaults
       - starts_with("convert_to_")
-  - title: Before to run statistics
+  - title: Before to run methods
     desc: >
     contents:
       - intersect_regulons
-      - filter_regulons

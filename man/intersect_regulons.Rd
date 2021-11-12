@@ -2,7 +2,7 @@
 % Please edit documentation in R/decoupleR-pre.R
 \name{intersect_regulons}
 \alias{intersect_regulons}
-\title{Intersect network target genes with expression matrix.}
+\title{Intersect network target features with input matrix.}
 \usage{
 intersect_regulons(mat, network, .source, .target, minsize)
 }
@@ -24,7 +24,7 @@ in \code{network} \code{.target} column.}
 Filtered tibble.
 }
 \description{
-Keep only edges which its target genes belong to the expression matrix.
+Keep only edges which its target features belong to the input matrix.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

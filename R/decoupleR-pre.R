@@ -1,31 +1,24 @@
-#' Filter network by size of regulons
+#' Show methods
 #'
-#' Keep only sources which satisfied the condition `min_size >= n <= max_size`,
-#' where `n` denotes the number of targets per source.
+#' Prints the methods available in decoupleR. The first column correspond to
+#' the function name in decoupleR and the second to the method's full name.
 #'
-#' @inheritParams .decoupler_network_format
-#' @param min_size Minimum number of targets allowed per regulon.
-#' @param max_size Maximum number of targets allowed per regulon.
-#'
-#' @return Filtered tibble.
 #' @export
 #' @examples
-#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
-#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
-#' filter_regulons(network, .source = tf, min_size = 30, max_size = 50)
-filter_regulons <- function(network,
-                            .source,
-                            min_size = 1,
-                            max_size = Inf) {
-    network %>%
-        add_count({{ .source }}, wt = NULL) %>%
-        filter(.data$n >= min_size, .data$n <= max_size) %>%
-        select(-.data$n)
+#' show_methods()
+show_methods <- function(){
+  db <- tools::Rd_db("decoupleR")
+  db <- db[grep("run_*", names(db), value = TRUE)]
+  dplyr::bind_rows(lapply(db, function(fun){
+    name <- tools:::.Rd_get_metadata(fun, 'name')
+    title <- tools:::.Rd_get_metadata(fun, 'title')
+    tibble::tibble(Function=name, Name=title)
+  }))
 }
 
-#' Intersect network target genes with expression matrix.
+#' Intersect network target features with input matrix.
 #'
-#' Keep only edges which its target genes belong to the expression matrix.
+#' Keep only edges which its target features belong to the input matrix.
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
 #' @param minsize Minimum number of targets per source allowed.

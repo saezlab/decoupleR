@@ -1,7 +1,7 @@
 Type: Package
 Package: decoupleR
 Title: decoupleR: Ensemble of computational methods to infer biological activities from omics data
-Version: 2.1.1
+Version: 2.1.2
 Authors@R: 
     c(person(given = "Pau",
              family = "Badia-i-Mompel",
@@ -66,9 +66,10 @@ Description: Computational methods allow the extraction of mechanistic signature
     statistical methods to extract these signatures within a unified framework. 
     decoupleR allows the user to flexibly test any method with any resource. 
     It incorporates methods that take into account the sign and weight of 
-    network interactions. Using decoupleR, we evaluated the performance of 
-    contemporary methods on transcriptomic and phospho-proteomic perturbation 
-    experiments.
+    network interactions. decoupleR can be used with any omic, as long as its 
+    features can be linked to a biological process based on prior knowledge. 
+    For example, in trasncriptomics gene sets regulated by a transcription 
+    factor, or in phospho-proteomics phosphosites that are targeted by a kinase.
 License: GPL-3
 URL: https://saezlab.github.io/decoupleR/
 BugReports: https://github.com/saezlab/decoupleR/issues

@@ -2,8 +2,7 @@
 % Please edit documentation in R/decoupleR-consensus.R
 \name{run_consensus}
 \alias{run_consensus}
-\title{Function to generate a consensus score between methods from the
-result of decouple}
+\title{Consensus score between methods}
 \usage{
 run_consensus(df, include_time = FALSE)
 }
@@ -17,5 +16,5 @@ Updated tibble with the computed consensus score between methods
 }
 \description{
 Function to generate a consensus score between methods from the
-result of decouple
+result of the \code{decouple} function.
 }

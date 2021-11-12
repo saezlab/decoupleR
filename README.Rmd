@@ -26,7 +26,17 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-Computational methods allow the extraction of mechanistic signatures from omics data based on prior knowledge resources, reducing the dimensionality of the data for increased statistical power and better interpretability. Here, we present decoupleR, a Bioconductor package containing different statistical methods to extract these signatures within a unified framework. decoupleR allows the user to flexibly test any method with any resource. It incorporates methods that take into account the sign and weight of network interactions.
+Many methods allow us to extract biological activities from omics data using 
+information from prior knowledge resources, reducing the dimensionality for 
+increased statistical power and better interpretability. 
+Here, we present decoupleR, a Bioconductor package containing different 
+statistical methods to extract these signatures within a unified framework. 
+decoupleR allows the user to flexibly test any method with any resource. 
+It incorporates methods that take into account the sign and weight of 
+network interactions. decoupleR can be used with any omic, as long as its 
+features can be linked to a biological process based on prior knowledge. 
+For example, in transcriptomics gene sets regulated by a transcription 
+factor, or in phospho-proteomics phosphosites that are targeted by a kinase.
 
 <img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/graphical_abstract.png?raw=1" align="center" width="800">
 
@@ -42,7 +52,7 @@ please check the following links:
 Get the latest stable `R` release from
 [CRAN](http://cran.r-project.org/). 
 
-Then install `decoupleR` using from [Bioconductor](http://bioconductor.org/) the
+Then install **decoupleR** using from [Bioconductor](http://bioconductor.org/) the
 following code:
 
 ```{r bioconductor_install, eval=FALSE}
@@ -58,13 +68,23 @@ BiocManager::valid()
 
 Then install development version from [GitHub](https://github.com/) with:
 
-```{r github_installation, eval = FALSE}
+```{r github_installation_bioc, eval = FALSE}
 BiocManager::install("saezlab/decoupleR")
 ```
 
+Or with:
+
+```{r github_installation_devt, eval = FALSE}
+devtools::install_github("saezlab/decoupleR")
+```
 ## Usage
 
-### Load packaga and data
+### Load package and data
+We first load the test data included inside **decoupleR**. It consist of a matrix 
+(`mat`) with logFC coming from transcriptomics, and a collection of transcription
+factors that target gene sets with a certain mode of regulation (either positive
+or negative).
+
 
 ```{r usage-load_data, message=FALSE}
 library(decoupleR)
@@ -78,16 +98,51 @@ mat <- file.path(inputs_dir, "input-expr_matrix.rds") %>%
 network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
     readRDS() %>%
     dplyr::glimpse()
+```
 
+**Important**: Before running any method in **decoupleR**, we recommend the user to
+intersect their prior knowledge with their input matrix using 
+`intersect_regulons`. This allows to filter out "regulons" (biological processes)
+with less than a minimum number of target features. We recommend to set this 
+value (`minsize`) to at least 5:
+
+```{r usage-intersect_regulons, message=FALSE}
 # Remove TFs with less than 5 targets in the input matrix
 network <- intersect_regulons(mat, network, tf, target, minsize = 5)
 ```
 
+### Methods
+To check how many methods are currently available in **decoupleR**, run:
+
+```{r usage-show_methods}
+show_methods()
+```
+
+Function is the function name in **decoupleR** and Name is the full name of each
+method. To check how to use individual methods, for example `mlm`, run 
+`?run_mlm`.
+
+All methods follow the same design pattern and arguments, so moving between 
+methods should be easy. Here is an example with `mlm`:
+
+```{r usage-run_mlm}
+run_mlm(
+    mat = mat,
+    network = network,
+    .source = "tf",
+    .target = "target",
+    .mor = "mor",
+    .likelihood = "likelihood"
+)
+```
+
 ### Decouple wrapper
 
-`decouple()` allows access to all **decoupleR** available statistics in one place.
+Moreover, **decoupleR** allows to run multiple methods at the same time with the
+function `decouple()`.
 Statistic functions inside **decoupleR** always return a tidy tibble that can be
-easily processed with the tools provide by the [tidyverse ecosystem](https://www.tidyverse.org/).
+easily processed with the tools provide by the 
+[tidyverse ecosystem](https://www.tidyverse.org/).
 
 ```{r usage-decouple_function, message=FALSE}
 decouple(
@@ -95,33 +150,18 @@ decouple(
     network = network,
     .source = "tf",
     .target = "target",
-    statistics = c("gsva", "wmean", "wsum", "ulm", "ora"),
+    statistics = c("mlm", "wmean", "ulm", "ora"),
     args = list(
-        gsva = list(verbose = FALSE),
+        mlm = list(center=FALSE),
         wmean = list(times=100),
-        wsum = list(times=100),
         ulm = list(center=FALSE),
-        ora = list()
-    )
+        ora = list(n_up=150, n_bottom=0)
+    ),
+    consensus_score = TRUE
 )
 ```
 
-### Individual parts
-
-In turn, we recognize that the use of individual statistics may be of interest.
-Therefore, these are also exported and ready for use. All statistics follow the
-same design pattern and arguments, so moving between statistics could be very comfortable.
-
-```{r}
-# wmean call is equivalent to the one made by decouple() above.
-run_wmean(
-    mat = mat,
-    network = network,
-    .source = "tf",
-    .target = "target",
-    .likelihood = "likelihood"
-)
-```
+It can generate a consensus score between the methods if `consensus_score = TRUE`.
 
 ## Citation
 Badia-i-Mompel P., Vélez J., Braunger J., Geiss C., Dimitrov D., Müller-Dott S., Taus P., Dugourd A., Holland

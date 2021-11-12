@@ -59,16 +59,16 @@ Authors@R:
              email = "pub.saez@uni-heidelberg.de",
              comment = c(ORCID = "0000-0002-8552-8976"))
              )
-Description: Computational methods allow the extraction of mechanistic signatures
-    from omics data based on prior knowledge resources, reducing the dimensionality 
-    of the data for increased statistical power and better interpretability. 
+Description: Many methods allow us to extract biological activities from omics 
+    data using information from prior knowledge resources, reducing the 
+    dimensionality for increased statistical power and better interpretability. 
     Here, we present decoupleR, a Bioconductor package containing different 
     statistical methods to extract these signatures within a unified framework. 
     decoupleR allows the user to flexibly test any method with any resource. 
     It incorporates methods that take into account the sign and weight of 
     network interactions. decoupleR can be used with any omic, as long as its 
     features can be linked to a biological process based on prior knowledge. 
-    For example, in trasncriptomics gene sets regulated by a transcription 
+    For example, in transcriptomics gene sets regulated by a transcription 
     factor, or in phospho-proteomics phosphosites that are targeted by a kinase.
 License: GPL-3
 URL: https://saezlab.github.io/decoupleR/

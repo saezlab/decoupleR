@@ -4,7 +4,7 @@
 \name{decoupleR-package}
 \alias{decoupleR}
 \alias{decoupleR-package}
-\title{decoupleR: decoupleR: Inferring biological activities from omics data using a collection of methods}
+\title{decoupleR: decoupleR: Ensemble of computational methods to infer biological activities from omics data}
 \description{
 Computational methods allow the extraction of mechanistic signatures from omics data based on prior knowledge resources, reducing the dimensionality of the data for increased statistical power and better interpretability. Here, we present decoupleR, a Bioconductor package containing different statistical methods to extract these signatures within a unified framework. decoupleR allows the user to flexibly test any method with any resource. It incorporates methods that take into account the sign and weight of network interactions. Using decoupleR, we evaluated the performance of contemporary methods on transcriptomic and phospho-proteomic perturbation experiments.
 }
@@ -17,11 +17,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jesús Vélez \email{jvelezmagic@gmail.com} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
+\strong{Maintainer}: Pau Badia-i-Mompel \email{pau.badia@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-1004-3923}{ORCID})
 
 Authors:
 \itemize{
-  \item Pau Badia-i-Mompel \email{pau.badia@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-1004-3923}{ORCID})
+  \item Jesús Vélez \email{jvelezmagic@gmail.com} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
   \item Jana Braunger \email{jana.bc@gmx.de} (\href{https://orcid.org/0000-0003-0820-9987}{ORCID})
   \item Celina Geiss \email{celina.geiss@stud.uni-heidelberg.de} (\href{https://orcid.org/0000-0002-8740-706X}{ORCID})
   \item Daniel Dimitrov \email{daniel.dimitrov@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-5197-2112}{ORCID})

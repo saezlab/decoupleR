@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DecoupleR mat format — .decoupler_mat_format • decoupleR</title>
+<title>Show methods — show_methods • decoupleR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="DecoupleR mat format — .decoupler_mat_format" />
-<meta property="og:description" content="DecoupleR mat format" />
+<meta property="og:title" content="Show methods — show_methods" />
+<meta property="og:description" content="Prints the methods available in decoupleR. The first column correspond to
+the function name in decoupleR and the second to the method's full name." />
 
 
 
@@ -136,33 +137,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>DecoupleR mat format</h1>
-    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/utils-decoupler-formats.R'><code>R/utils-decoupler-formats.R</code></a></small>
-    <div class="hidden name"><code>dot-decoupler_mat_format.Rd</code></div>
+    <h1>Show methods</h1>
+    <small class="dont-index">Source: <a href='https://github.com/saezlab/decoupleR/blob/master/R/decoupleR-pre.R'><code>R/decoupleR-pre.R</code></a></small>
+    <div class="hidden name"><code>show_methods.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>DecoupleR mat format</p>
+    <p>Prints the methods available in decoupleR. The first column correspond to
+the function name in decoupleR and the second to the method's full name.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>show_methods</span><span class='op'>(</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>mat</th>
-      <td><p>Matrix to evaluate (e.g. expression matrix).
-Target nodes in rows and conditions in columns.
-<code>rownames(mat)</code> must have at least one intersection with the elements
-in <code>network</code> <code>.target</code> column.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other decoupleR formats: 
-<code><a href='.decoupler_network_format.html'>.decoupler_network_format</a></code></p></div>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='r-in'><span class='fu'>show_methods</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 12 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Function      Name                                                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                                          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> run_aucell    AUCell                                                         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> run_consensus Consensus score between methods                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> run_fgsea     Fast Gene Set Enrichment Analysis (FGSEA)                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> run_gsva      Gene Set Variation Analysis (GSVA)                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> run_mdt       Multivariate Decision Trees (MDT)                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> run_mlm       Multivariate Linear Model (MLM)                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> run_ora       Over Representation Analysis (ORA)                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> run_udt       Univariate Decision Tree (UDT)                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> run_ulm       Univariate Linear Model (ULM)                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> run_viper     Virtual Inference of Protein-activity by Enriched Regulon anal…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span> run_wmean     Weighted Mean (WMEAN)                                          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span> run_wsum      Weighted Sum (WSUM)                                            </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

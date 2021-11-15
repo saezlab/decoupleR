@@ -120,6 +120,12 @@ run_mlm <- function(mat,
   if (center) {
     mat <- mat - rowMeans(mat, na.rm)
   }
+  # Check if duplicated sources
+  n_dups <- sum(duplicated(t(weight_mat)))
+  if (n_dups > 0) {
+    stop(stringr::str_glue('After intersecting mat and network, {n_dups} sources in the network have the exact same targets.
+      Cannot fit a linear model with equal covariables, please remove them.'))
+  }
 
   list(mat = mat, mor_mat = weight_mat)
 }

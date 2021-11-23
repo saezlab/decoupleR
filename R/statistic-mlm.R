@@ -167,5 +167,11 @@ run_mlm <- function(mat,
       summary()
   scores <- as.vector(fit$coefficients[,3][-1])
   pvals <- as.vector(fit$coefficients[,4][-1])
-  tibble(score=scores, p_value=pvals, source=colnames(mor_mat))
+  sources <- colnames(mor_mat)
+  diff_n <- length(sources) - length(scores)
+  if (diff_n > 0) {
+    stop(stringr::str_glue('After intersecting mat and network, at least {diff_n} sources in the network are colinear with other sources.
+      Cannot fit a linear model with colinear covariables, please remove them.'))
+  }
+  tibble(score=scores, p_value=pvals, source=sources)
 }

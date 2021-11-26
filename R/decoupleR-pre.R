@@ -9,9 +9,10 @@
 show_methods <- function(){
   db <- tools::Rd_db("decoupleR")
   db <- db[grep("run_*", names(db), value = TRUE)]
+  get_Rd_metadata <- utils::getFromNamespace (".Rd_get_metadata", "tools")
   dplyr::bind_rows(lapply(db, function(fun){
-    name <- tools:::.Rd_get_metadata(fun, 'name')
-    title <- tools:::.Rd_get_metadata(fun, 'title')
+    name <- get_Rd_metadata(fun, 'name')
+    title <- get_Rd_metadata(fun, 'title')
     tibble::tibble(Function=name, Name=title)
   }))
 }
@@ -56,6 +57,11 @@ intersect_regulons <- function(mat,
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
+#' @param sparse Deprecated parameter.
+#' @param na.rm Should missing values (including NaN) be omitted from the
+#'  calculations of [base::rowMeans()]?
+#' @param center Logical value indicating if `mat` must be centered by
+#' [base::rowMeans()].
 #'
 #' @return A named list of matrices to evaluate in methods that fit models, like
 #'  `.mlm_analysis()`.

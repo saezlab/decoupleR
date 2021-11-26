@@ -19,7 +19,7 @@ run_consensus <- function(df,
   cond_names <- df %>% 
     group_by(.data$condition) %>% 
     group_keys() %>%
-    pull(condition)
+    pull(.data$condition)
   lst_conds <- df %>%
     group_by(.data$condition) %>%
     group_split() %>%

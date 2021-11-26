@@ -70,7 +70,7 @@ Description: Many methods allow us to extract biological activities from omics
     features can be linked to a biological process based on prior knowledge. 
     For example, in transcriptomics gene sets regulated by a transcription 
     factor, or in phospho-proteomics phosphosites that are targeted by a kinase.
-License: GPL-3
+License: GPL-3 + file LICENSE
 URL: https://saezlab.github.io/decoupleR/
 BugReports: https://github.com/saezlab/decoupleR/issues
 Depends: 

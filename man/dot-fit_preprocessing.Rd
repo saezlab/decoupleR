@@ -13,6 +13,14 @@
 Target nodes in rows and conditions in columns.
 \code{rownames(mat)} must have at least one intersection with the elements
 in \code{network} \code{.target} column.}
+
+\item{center}{Logical value indicating if \code{mat} must be centered by
+\code{\link[base:colSums]{base::rowMeans()}}.}
+
+\item{na.rm}{Should missing values (including NaN) be omitted from the
+calculations of \code{\link[base:colSums]{base::rowMeans()}}?}
+
+\item{sparse}{Deprecated parameter.}
 }
 \value{
 A named list of matrices to evaluate in methods that fit models, like

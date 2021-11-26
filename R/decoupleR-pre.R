@@ -46,3 +46,58 @@ intersect_regulons <- function(mat,
     group_by(!!.source) %>%
     filter(n() >= minsize)
 }
+
+#' Pre-processing for methods that fit models
+#'
+#' - Get only the intersection of target features between `mat` and `network`.
+#' - Transform tidy `network` into `matrix` representation with `mor` as value.
+#' - If `center` is true, then the expression values are centered by the
+#'   mean of expression across the samples.
+#'
+#' @inheritParams .decoupler_mat_format
+#' @inheritParams .decoupler_network_format
+#'
+#' @return A named list of matrices to evaluate in methods that fit models, like
+#'  `.mlm_analysis()`.
+#'  - mat: Features as rows and samples as columns.
+#'  - mor_mat: Features as rows and columns as source.
+#' @export
+.fit_preprocessing <- function(network, mat, center, na.rm, sparse) {
+  shared_targets <- intersect(
+    rownames(mat),
+    network$target
+  )
+  
+  mat <- mat[shared_targets, , drop=FALSE]
+  
+  mor_mat <- network %>%
+    filter(.data$target %in% shared_targets) %>%
+    pivot_wider_profile(
+      id_cols = .data$target,
+      names_from = .data$source,
+      values_from = .data$mor,
+      values_fill = 0,
+      to_matrix = TRUE,
+      to_sparse = FALSE
+    ) %>%
+    .[shared_targets, , drop=FALSE]
+  
+  likelihood_mat <- network %>%
+    filter(.data$target %in% shared_targets) %>%
+    pivot_wider_profile(
+      id_cols = .data$target,
+      names_from = .data$source,
+      values_from = .data$likelihood,
+      values_fill = 0,
+      to_matrix = TRUE
+    ) %>%
+    .[shared_targets, , drop=FALSE]
+  
+  weight_mat <- mor_mat * likelihood_mat
+  
+  if (center) {
+    mat <- mat - rowMeans(mat, na.rm)
+  }
+  
+  list(mat = mat, mor_mat = weight_mat)
+}

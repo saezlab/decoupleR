@@ -90,6 +90,7 @@ get_profile_of <- function(data, sources, values_fill = NA) {
 #' @import tibble
 #' @import tidyr
 #' @importFrom Matrix Matrix
+#' @export
 #' @examples
 #' \dontrun{
 #' df <- tibble::tibble(

@@ -34,8 +34,7 @@ in \code{network} \code{.target} column.}
 
 \item{.likelihood}{Column with edge likelihood.}
 
-\item{sparse}{Logical value indicating if the generated profile matrix
-should be sparse.}
+\item{sparse}{Deprecated parameter.}
 
 \item{center}{Logical value indicating if \code{mat} must be centered by
 \code{\link[base:colSums]{base::rowMeans()}}.}

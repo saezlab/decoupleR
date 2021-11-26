@@ -12,8 +12,7 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param sparse Logical value indicating if the generated profile matrix
-#'  should be sparse.
+#' @param sparse Deprecated parameter.
 #' @param center Logical value indicating if `mat` must be centered by
 #' [base::rowMeans()].
 #' @param na.rm Should missing values (including NaN) be omitted from the
@@ -64,69 +63,13 @@ run_udt <- function(mat,
     convert_to_ulm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
 
   # Preprocessing -----------------------------------------------------------
-  .udt_preprocessing(network, mat, center, na.rm, sparse) %>%
+  .fit_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
   {
     withr::with_seed(seed, {
       .udt_analysis(.$mat, .$mor_mat, min_n)
     })
   }
-}
-
-# Helper functions ------------------------------------------------------
-#' udt preprocessing
-#'
-#' - Get only the intersection of target genes between `mat` and `network`.
-#' - Transform tidy `network` into `matrix` representation with `mor` as value.
-#' - If `center` is true, then the expression values are centered by the
-#'   mean of expression across the conditions.
-#'
-#' @inheritParams run_udt
-#'
-#' @return A named list of matrices to evaluate in `.udt_analysis()`.
-#'  - mat: Genes as rows and conditions as columns.
-#'  - mor_mat: Genes as rows and columns as source.
-#' @keywords intern
-#' @noRd
-.udt_preprocessing <- function(network, mat, center, na.rm, sparse) {
-  shared_targets <- intersect(
-    rownames(mat),
-    network$target
-  )
-
-  mat <- mat[shared_targets, , drop=FALSE]
-
-  mor_mat <- network %>%
-    filter(.data$target %in% shared_targets) %>%
-    pivot_wider_profile(
-      id_cols = .data$target,
-      names_from = .data$source,
-      values_from = .data$mor,
-      values_fill = 0,
-      to_matrix = TRUE,
-      to_sparse = sparse
-    ) %>%
-    .[shared_targets, , drop=FALSE]
-
-  likelihood_mat <- network %>%
-    filter(.data$target %in% shared_targets) %>%
-    pivot_wider_profile(
-      id_cols = .data$target,
-      names_from = .data$source,
-      values_from = .data$likelihood,
-      values_fill = 0,
-      to_matrix = TRUE,
-      to_sparse = sparse
-    ) %>%
-    .[shared_targets, , drop=FALSE]
-
-  weight_mat <- mor_mat * likelihood_mat
-
-  if (center) {
-    mat <- mat - rowMeans(mat, na.rm)
-  }
-
-  list(mat = mat, mor_mat = weight_mat)
 }
 
 #' Wrapper to execute run_udt() logic once finished preprocessing of data

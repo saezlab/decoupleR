@@ -1,7 +1,7 @@
 pandoc: 2.11.4
-pkgdown: 1.6.1
+pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   decoupleR: decoupleR.html
-last_built: 2021-11-26T12:36Z
+last_built: 2021-12-03T14:54Z
 

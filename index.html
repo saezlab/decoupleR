@@ -35,6 +35,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -54,12 +56,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="articles/decoupleR.html">Get started</a>
 </li>
 <li>
@@ -71,19 +67,19 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/saezlab/decoupleR/">
+  <a href="https://github.com/saezlab/decoupleR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://twitter.com/saezlab">
+  <a href="https://twitter.com/saezlab" class="external-link">
     <span class="fab fa-twitter fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="http://www.saezlab.org">
+  <a href="http://www.saezlab.org" class="external-link">
     <span class="fas fa-university"></span>
      
   </a>
@@ -100,68 +96,67 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="decoupler-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#decoupler-" class="anchor"></a>decoupleR <img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/logo.svg?raw=1" align="right" width="120">
+<div class="section level1">
+<div class="page-header"><h1 id="decoupler-">decoupleR <img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/logo.svg?raw=1" align="right" width="120"><a class="anchor" aria-label="anchor" href="#decoupler-"></a>
 </h1></div>
 <!-- badges: start -->
 
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
 <p>Many methods allow us to extract biological activities from omics data using information from prior knowledge resources, reducing the dimensionality for increased statistical power and better interpretability. Here, we present decoupleR, a Bioconductor package containing different statistical methods to extract these signatures within a unified framework. decoupleR allows the user to flexibly test any method with any resource. It incorporates methods that take into account the sign and weight of network interactions. decoupleR can be used with any omic, as long as its features can be linked to a biological process based on prior knowledge. For example, in transcriptomics gene sets regulated by a transcription factor, or in phospho-proteomics phosphosites that are targeted by a kinase.</p>
 <p><img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/graphical_abstract.png?raw=1" align="center" width="800"></p>
 <p>For more information about how this package has been used with real data, please check the following links:</p>
 <ul>
-<li><a href="https://github.com/saezlab/decoupleR_manuscript">decoupleR’s manuscript repository</a></li>
-<li><a href="https://github.com/saezlab/decoupleRBench">Creation of benchmarking pipelines</a></li>
-<li><a href="https://saezlab.github.io/kinase_tf_mini_tuto/">Example of Kinase and TF activity estimation</a></li>
+<li><a href="https://github.com/saezlab/decoupleR_manuscript" class="external-link">decoupleR’s manuscript repository</a></li>
+<li><a href="https://github.com/saezlab/decoupleRBench" class="external-link">Creation of benchmarking pipelines</a></li>
+<li><a href="https://saezlab.github.io/kinase_tf_mini_tuto/" class="external-link">Example of Kinase and TF activity estimation</a></li>
 </ul>
 </div>
-<div id="installation-instructions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation-instructions" class="anchor"></a>Installation instructions</h2>
-<p>Get the latest stable <code>R</code> release from <a href="http://cran.r-project.org/">CRAN</a>.</p>
-<p>Then install <strong>decoupleR</strong> using from <a href="http://bioconductor.org/">Bioconductor</a> the following code:</p>
+<div class="section level2">
+<h2 id="installation-instructions">Installation instructions<a class="anchor" aria-label="anchor" href="#installation-instructions"></a>
+</h2>
+<p>Get the latest stable <code>R</code> release from <a href="http://cran.r-project.org/" class="external-link">CRAN</a>.</p>
+<p>Then install <strong>decoupleR</strong> using from <a href="http://bioconductor.org/" class="external-link">Bioconductor</a> the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 <span class="op">}</span>
 
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"decoupleR"</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"decoupleR"</span><span class="op">)</span>
 
 <span class="co"># Check that you have a valid Bioconductor installation</span>
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/valid.html">valid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Then install development version from <a href="https://github.com/">GitHub</a> with:</p>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/valid.html" class="external-link">valid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Then install development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"saezlab/decoupleR"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"saezlab/decoupleR"</span><span class="op">)</span></code></pre></div>
 <p>Or with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"saezlab/decoupleR"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"saezlab/decoupleR"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
-<div id="load-package-and-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#load-package-and-data" class="anchor"></a>Load package and data</h3>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<div class="section level3">
+<h3 id="load-package-and-data">Load package and data<a class="anchor" aria-label="anchor" href="#load-package-and-data"></a>
+</h3>
 <p>We first load the test data included inside <strong>decoupleR</strong>. It consist of a matrix (<code>mat</code>) with logFC coming from transcriptomics, and a collection of transcription factors that target gene sets with a certain mode of regulation (either positive or negative).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://saezlab.github.io/decoupleR/">decoupleR</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://saezlab.github.io/decoupleR/" class="external-link">decoupleR</a></span><span class="op">)</span>
 
-<span class="va">inputs_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"testdata"</span>, <span class="st">"inputs"</span>, package <span class="op">=</span> <span class="st">"decoupleR"</span><span class="op">)</span>
+<span class="va">inputs_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"testdata"</span>, <span class="st">"inputs"</span>, package <span class="op">=</span> <span class="st">"decoupleR"</span><span class="op">)</span>
 
-<span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-expr_matrix.rds"</span><span class="op">)</span> <span class="op"><a href="reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-expr_matrix.rds"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt;  num [1:18490, 1:4] 3.251 0.283 -2.253 0.782 -4.575 ...</span>
 <span class="co">#&gt;  - attr(*, "dimnames")=List of 2</span>
 <span class="co">#&gt;   ..$ : chr [1:18490] "A1BG" "A1CF" "A2M" "A2ML1" ...</span>
 <span class="co">#&gt;   ..$ : chr [1:4] "GSM2753335" "GSM2753336" "GSM2753337" "GSM2753338"</span>
 
-<span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-dorothea_genesets.rds"</span><span class="op">)</span> <span class="op"><a href="reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-dorothea_genesets.rds"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 151</span>
 <span class="co">#&gt; Columns: 5</span>
 <span class="co">#&gt; $ tf         &lt;chr&gt; "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO…</span>
@@ -174,9 +169,9 @@
 <code class="sourceCode R"><span class="co"># Remove TFs with less than 5 targets in the input matrix</span>
 <span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/intersect_regulons.html">intersect_regulons</a></span><span class="op">(</span><span class="va">mat</span>, <span class="va">network</span>, <span class="va">tf</span>, <span class="va">target</span>, minsize <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="methods" class="section level3">
-<h3 class="hasAnchor">
-<a href="#methods" class="anchor"></a>Methods</h3>
+<div class="section level3">
+<h3 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a>
+</h3>
 <p>To check how many methods are currently available in <strong>decoupleR</strong>, run:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/show_methods.html">show_methods</a></span><span class="op">(</span><span class="op">)</span>
@@ -230,22 +225,22 @@
 <span class="co">#&gt; 19 mlm       TFAP2A GSM2753338 1.28  0.204  </span>
 <span class="co">#&gt; 20 mlm       RFXAP  GSM2753338 2.72  0.00742</span></code></pre></div>
 </div>
-<div id="decouple-wrapper" class="section level3">
-<h3 class="hasAnchor">
-<a href="#decouple-wrapper" class="anchor"></a>Decouple wrapper</h3>
-<p>Moreover, <strong>decoupleR</strong> allows to run multiple methods at the same time with the function <code><a href="reference/decouple.html">decouple()</a></code>. Statistic functions inside <strong>decoupleR</strong> always return a tidy tibble that can be easily processed with the tools provide by the <a href="https://www.tidyverse.org/">tidyverse ecosystem</a>.</p>
+<div class="section level3">
+<h3 id="decouple-wrapper">Decouple wrapper<a class="anchor" aria-label="anchor" href="#decouple-wrapper"></a>
+</h3>
+<p>Moreover, <strong>decoupleR</strong> allows to run multiple methods at the same time with the function <code><a href="reference/decouple.html">decouple()</a></code>. Statistic functions inside <strong>decoupleR</strong> always return a tidy tibble that can be easily processed with the tools provide by the <a href="https://www.tidyverse.org/" class="external-link">tidyverse ecosystem</a>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/decouple.html">decouple</a></span><span class="op">(</span>
     mat <span class="op">=</span> <span class="va">mat</span>,
     network <span class="op">=</span> <span class="va">network</span>,
     .source <span class="op">=</span> <span class="st">"tf"</span>,
     .target <span class="op">=</span> <span class="st">"target"</span>,
-    statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mlm"</span>, <span class="st">"wmean"</span>, <span class="st">"ulm"</span>, <span class="st">"ora"</span><span class="op">)</span>,
-    args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-        mlm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>center<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,
-        wmean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>times<span class="op">=</span><span class="fl">100</span><span class="op">)</span>,
-        ulm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>center<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,
-        ora <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>n_up<span class="op">=</span><span class="fl">150</span>, n_bottom<span class="op">=</span><span class="fl">0</span><span class="op">)</span>
+    statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mlm"</span>, <span class="st">"wmean"</span>, <span class="st">"ulm"</span>, <span class="st">"ora"</span><span class="op">)</span>,
+    args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+        mlm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>center<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,
+        wmean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>times<span class="op">=</span><span class="fl">100</span><span class="op">)</span>,
+        ulm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>center<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,
+        ora <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_up<span class="op">=</span><span class="fl">150</span>, n_bottom<span class="op">=</span><span class="fl">0</span><span class="op">)</span>
     <span class="op">)</span>,
     consensus_score <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
@@ -266,92 +261,96 @@
 <p>It can generate a consensus score between the methods if <code>consensus_score = TRUE</code>.</p>
 </div>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
-<p>Badia-i-Mompel P., Vélez J., Braunger J., Geiss C., Dimitrov D., Müller-Dott S., Taus P., Dugourd A., Holland C.H., Ramirez Flores R.O. and Saez-Rodriguez J. 2021. decoupleR: Ensemble of computational methods to infer biological activities from omics data. bioRxiv. <a href="https://doi.org/10.1101/2021.11.04.467271" class="uri">https://doi.org/10.1101/2021.11.04.467271</a></p>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>Badia-i-Mompel P., Vélez J., Braunger J., Geiss C., Dimitrov D., Müller-Dott S., Taus P., Dugourd A., Holland C.H., Ramirez Flores R.O. and Saez-Rodriguez J. 2021. decoupleR: Ensemble of computational methods to infer biological activities from omics data. bioRxiv. <a href="https://doi.org/10.1101/2021.11.04.467271" class="external-link uri">https://doi.org/10.1101/2021.11.04.467271</a></p>
 </div>
-<div id="contributing-to-decoupler" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contributing-to-decoupler" class="anchor"></a>Contributing to decoupleR</h2>
-<p>Are you interested in adding a new statistical method or collaborating in the development of internal tools that allow the extension of the package? Please check out our <a href="https://saezlab.github.io/decoupleR/CONTRIBUTING.html">contribution guide</a>.</p>
+<div class="section level2">
+<h2 id="contributing-to-decoupler">Contributing to decoupleR<a class="anchor" aria-label="anchor" href="#contributing-to-decoupler"></a>
+</h2>
+<p>Are you interested in adding a new statistical method or collaborating in the development of internal tools that allow the extension of the package? Please check out our <a href="https://saezlab.github.io/decoupleR/CONTRIBUTING.html" class="external-link">contribution guide</a>.</p>
 <hr>
-<p>Please note that this project is released with a <a href="https://saezlab.github.io/decoupleR/CODE_OF_CONDUCT">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+<p>Please note that this project is released with a <a href="https://saezlab.github.io/decoupleR/CODE_OF_CONDUCT" class="external-link">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/decoupleR">https://​www.bioconductor.org/​packages/​decoupleR</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/saezlab/decoupleR/">https://​github.com/​saezlab/​decoupleR/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/saezlab/decoupleR/issues">https://​github.com/​saezlab/​decoupleR/​issues</a>
-</li>
+<li><a href="https://www.bioconductor.org/packages/decoupleR" class="external-link">View on Bioconductor</a></li>
+<li><a href="https://github.com/saezlab/decoupleR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/saezlab/decoupleR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a> + file <a href="LICENSE-text.html">LICENSE</a>
+<a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a> + file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing decoupleR</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Pau Badia-i-Mompel <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1004-3923" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Jesús Vélez <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5128-3838" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Jana Braunger <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-0820-9987" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Celina Geiss <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-8740-706X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Daniel Dimitrov <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-5197-2112" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Sophia Müller-Dott <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-9710-1865" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Petr Taus <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3764-9033" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Aurélien Dugourd <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0714-028X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Christian H. Holland <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3060-5786" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Ricardo O. Ramirez Flores <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-0087-371X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Julio Saez-Rodriguez <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-8552-8976" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html#citation">Citing decoupleR</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></li>
-<li><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/decoupleR"><img src="http://www.bioconductor.org/shields/build/release/bioc/decoupleR.svg" alt="BioC status"></a></li>
-<li><a href="https://bioconductor.org/checkResults/devel/bioc-LATEST/decoupleR"><img src="http://www.bioconductor.org/shields/build/devel/bioc/decoupleR.svg" alt="BioC dev status"></a></li>
-<li><a href="https://github.com/saezlab/decoupleR/actions"><img src="https://github.com/saezlab/decoupleR/workflows/R-CMD-check-bioc/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/gh/saezlab/decoupleR?branch=master"><img src="https://codecov.io/gh/saezlab/decoupleR/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://github.com/saezlab/decoupleR/issues"><img src="https://img.shields.io/github/issues/saezlab/decoupleR" alt="GitHub issues"></a></li>
+<li>Pau Badia-i-Mompel <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1004-3923" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Jesús Vélez <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5128-3838" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Jana Braunger <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-0820-9987" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Celina Geiss <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-8740-706X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Daniel Dimitrov <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-5197-2112" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Sophia Müller-Dott <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-9710-1865" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Petr Taus <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3764-9033" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Aurélien Dugourd <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0714-028X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Christian H. Holland <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3060-5786" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Ricardo O. Ramirez Flores <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-0087-371X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Julio Saez-Rodriguez <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-8552-8976" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing" class="external-link"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></li>
+<li><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/decoupleR" class="external-link"><img src="http://www.bioconductor.org/shields/build/release/bioc/decoupleR.svg" alt="BioC status"></a></li>
+<li><a href="https://bioconductor.org/checkResults/devel/bioc-LATEST/decoupleR" class="external-link"><img src="http://www.bioconductor.org/shields/build/devel/bioc/decoupleR.svg" alt="BioC dev status"></a></li>
+<li><a href="https://github.com/saezlab/decoupleR/actions" class="external-link"><img src="https://github.com/saezlab/decoupleR/workflows/R-CMD-check-bioc/badge.svg" alt="R build status"></a></li>
+<li><a href="https://codecov.io/gh/saezlab/decoupleR?branch=master" class="external-link"><img src="https://codecov.io/gh/saezlab/decoupleR/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/saezlab/decoupleR/issues" class="external-link"><img src="https://img.shields.io/github/issues/saezlab/decoupleR" alt="GitHub issues"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Pau Badia-i-Mompel, Jesús Vélez, Jana Braunger, Celina Geiss, Daniel Dimitrov, Sophia Müller-Dott, Petr Taus, Aurélien Dugourd, Christian H. Holland, Ricardo O. Ramirez Flores, Julio Saez-Rodriguez.</p>
+  <p></p>
+<p>Developed by Pau Badia-i-Mompel, Jesús Vélez, Jana Braunger, Celina Geiss, Daniel Dimitrov, Sophia Müller-Dott, Petr Taus, Aurélien Dugourd, Christian H. Holland, Ricardo O. Ramirez Flores, Julio Saez-Rodriguez.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -359,6 +358,8 @@
 
   
 
+
+  
 
   </body>
 </html>

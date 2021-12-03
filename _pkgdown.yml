@@ -36,4 +36,7 @@ reference:
   - title: Before to run methods
     desc: >
     contents:
+      - show_methods
       - intersect_regulons
+      - check_corr
+      - .fit_preprocessing

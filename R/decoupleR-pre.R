@@ -132,20 +132,20 @@ check_corr <- function(network,
   
   network <- network %>% 
     dplyr::mutate(weight = (!!mor)*(!!likelihood)) %>% 
-    dplyr::select(!!source, !!target, weight)
+    dplyr::select(!!source, !!target, .data$weight)
   network_wide <- network %>%
-    tidyr::pivot_wider(names_from = !!target, values_from = weight, values_fill = 0) %>%
+    tidyr::pivot_wider(names_from = !!target, values_from = .data$weight, values_fill = 0) %>%
     tibble::column_to_rownames(.source)
   
-  cor_source <- cor(t(network_wide))
+  cor_source <- stats::cor(t(network_wide))
   cor_source[lower.tri(cor_source, diag = TRUE)] <- NA
   
   cor_source <- cor_source %>% 
     as.data.frame() %>% 
     tibble::rownames_to_column(.source) %>%
     tidyr::pivot_longer(!(!!source), names_to = paste0(.source, ".2"), values_to = "correlation") %>%
-    dplyr::filter(!is.na(correlation)) %>% 
-    dplyr::arrange(desc(correlation))
+    dplyr::filter(!is.na(.data$correlation)) %>% 
+    dplyr::arrange(desc(.data$correlation))
   cor_source
 }
 

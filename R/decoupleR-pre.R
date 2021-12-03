@@ -107,3 +107,45 @@ intersect_regulons <- function(mat,
   
   list(mat = mat, mor_mat = weight_mat)
 }
+
+#' Check correlation (colinearity) 
+#'
+#' Checks the correlation across the regulators in a network.
+#' @inheritParams .decoupler_network_format
+#'
+#' @return Correlation pairs tibble.
+#' @export
+#' @examples
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#' check_corr(network, .source='tf')
+check_corr <- function(network, 
+                        .source = "source",
+                        .target = "target", 
+                        .mor = "mor", 
+                        .likelihood = "likelihood"){
+  
+  source <- as.symbol(.source)
+  target <- as.symbol(.target)
+  mor <- as.symbol(.mor)
+  likelihood <- as.symbol(.likelihood)
+  
+  network <- network %>% 
+    dplyr::mutate(weight = (!!mor)*(!!likelihood)) %>% 
+    dplyr::select(!!source, !!target, weight)
+  network_wide <- network %>%
+    tidyr::pivot_wider(names_from = !!target, values_from = weight, values_fill = 0) %>%
+    tibble::column_to_rownames(.source)
+  
+  cor_source <- cor(t(network_wide))
+  cor_source[lower.tri(cor_source, diag = TRUE)] <- NA
+  
+  cor_source <- cor_source %>% 
+    as.data.frame() %>% 
+    tibble::rownames_to_column(.source) %>%
+    tidyr::pivot_longer(!(!!source), names_to = paste0(.source, ".2"), values_to = "correlation") %>%
+    dplyr::filter(!is.na(correlation)) %>% 
+    dplyr::arrange(desc(correlation))
+  cor_source
+}
+

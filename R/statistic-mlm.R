@@ -108,7 +108,9 @@ run_mlm <- function(mat,
   diff_n <- length(sources) - length(scores)
   if (diff_n > 0) {
     stop(stringr::str_glue('After intersecting mat and network, at least {diff_n} sources in the network are colinear with other sources.
-      Cannot fit a linear model with colinear covariables, please remove them.'))
+      Cannot fit a linear model with colinear covariables, please remove them.
+      Please run decoupleR::check_corr to see what regulators are correlated.
+      Anything above 0.5 correlation should be removed.'))
   }
   tibble(score=scores, p_value=pvals, source=sources)
 }

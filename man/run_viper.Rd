@@ -13,8 +13,8 @@ run_viper(
   .likelihood = .data$likelihood,
   verbose = FALSE,
   minsize = 0,
-  pleiotropy = T,
-  eset.filter = F,
+  pleiotropy = TRUE,
+  eset.filter = FALSE,
   ...
 )
 }

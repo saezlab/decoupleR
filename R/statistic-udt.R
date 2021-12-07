@@ -108,7 +108,7 @@ run_udt <- function(mat,
 #' @keywords internal
 #' @noRd
 .udt_evaluate_model <- function(source, condition, mat, mor_mat, min_n) {
-  data <- tibble(x = mat[, condition, drop=F] , y = mor_mat[, source])
+  data <- tibble(x = mat[, condition, drop=FALSE] , y = mor_mat[, source])
   score <- rpart::rpart(y~x, data, minsplit=min_n) %>% pluck("variable.importance")
 
   if (is.null(score)) {

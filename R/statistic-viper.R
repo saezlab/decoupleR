@@ -46,8 +46,8 @@ run_viper <- function(mat,
                       .likelihood = .data$likelihood,
                       verbose = FALSE,
                       minsize = 0,
-                      pleiotropy = T,
-                      eset.filter = F,
+                      pleiotropy = TRUE,
+                      eset.filter = FALSE,
                       ...) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)

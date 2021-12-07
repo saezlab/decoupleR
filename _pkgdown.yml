@@ -1,8 +1,8 @@
 destination: docs
 
 template:
+  bootstrap: 5
   params:
-    bootstrap: 5
     ganalytics: UA-119440867-11
 
 development:

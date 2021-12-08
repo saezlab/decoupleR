@@ -1,10 +1,9 @@
 ---
 title: "Introduction to decoupleR"
 author:
-  - name: Jesús Vélez
+  - name: Jesús Vélez-Santiago
     affiliation:
     - National Autonomous University of Mexico
-    email: jvelezmagic@gmail.com
 output: 
   BiocStyle::html_document:
     self_contained: true

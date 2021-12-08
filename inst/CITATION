@@ -2,7 +2,7 @@ citHeader("To cite decoupleR in publications, please use:")
 
 citEntry(entry = "article",
   author = personList(as.person("Pau Badia-i-Mompel"),
-                      as.person("Jesús Vélez"),
+                      as.person("Jesús Vélez-Santiago"),
                       as.person("Jana Braunger"),
                       as.person("Celina Geiss"),
                       as.person("Daniel Dimitrov"),

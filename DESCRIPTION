@@ -9,7 +9,7 @@ Authors@R:
              email = "pau.badia@uni-heidelberg.de",
              comment = c(ORCID = "0000-0002-1004-3923")),
       person(given = "Jesús",
-             family = "Vélez",
+             family = "Vélez-Santiago",
              role = c("aut"),
              email = "jvelezmagic@gmail.com",
              comment = c(ORCID = "0000-0001-5128-3838")),

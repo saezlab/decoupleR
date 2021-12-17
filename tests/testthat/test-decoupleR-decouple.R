@@ -78,7 +78,7 @@ test_that("decouple same results as independent functions", {
         readRDS() %>%
         dplyr::arrange(.data$statistic, .data$source, .data$condition)
 
-    expect_equal(res_decouple_defaults, exp_decouple_defaults, tolerance=1)
+    expect_equal(res_decouple_defaults, exp_decouple_defaults, tolerance=0.01)
 })
 
 test_that("see expected toy call", {

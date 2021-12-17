@@ -27,5 +27,5 @@ test_that("test run_wmean with dorothea gene sets", {
         run_wmean(emat, dorothea_genesets, .source='tf', times = 1),
         "Parameter 'times' must be greater than or equal to 2, but 1 was passed."
     )
-    expect_equal(res_1, exp_1, tolerance=1)
+    expect_equal(res_1, exp_1, tolerance=0.01)
 })

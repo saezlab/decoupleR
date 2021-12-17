@@ -13,6 +13,7 @@ run_ora(
   n_bottom = 300,
   n_background = 20000,
   with_ties = TRUE,
+  seed = 42,
   ...
 )
 }
@@ -40,6 +41,9 @@ the total number of unique targets in the union of \code{mat} and \code{network}
 \item{with_ties}{Should ties be kept together? The default, \code{TRUE},
 may return more rows than you request. Use \code{FALSE} to ignore ties,
 and return the first \code{n} rows.}
+
+\item{seed}{A single value, interpreted as an integer, or NULL for random
+number generation.}
 
 \item{...}{
   Arguments passed on to \code{\link[stats:fisher.test]{stats::fisher.test}}

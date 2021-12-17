@@ -18,6 +18,8 @@
 #' @param with_ties Should ties be kept together? The default, `TRUE`,
 #'  may return more rows than you request. Use `FALSE` to ignore ties,
 #'   and return the first `n` rows.
+#' @param seed A single value, interpreted as an integer, or NULL for random
+#'  number generation.
 #' @inheritDotParams stats::fisher.test -x -y
 #'
 #' @return A long format tibble of the enrichment scores for each source
@@ -43,6 +45,7 @@ run_ora <- function(mat,
                     n_bottom = 300,
                     n_background = 20000,
                     with_ties = TRUE,
+                    seed = 42,
                     ...) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
@@ -56,7 +59,9 @@ run_ora <- function(mat,
     n_bottom <- ns[2]
     n_background <- ns[3]
 
-    targets <- .ora_slice_targets(mat, n_up, n_bottom, with_ties)
+    withr::with_seed(seed, {
+      targets <- .ora_slice_targets(mat, n_up, n_bottom, with_ties)
+    })
 
     # Run analysis ------------------------------------------------------------
     .ora_analysis(regulons, targets, n_background, ...)
@@ -147,12 +152,13 @@ run_ora <- function(mat,
       names_to = "condition",
       values_to = "value"
     ) %>%
-    arrange(.data$condition, .data$value) %>%
+    mutate(rand=stats::rnorm(n())) %>% 
+    arrange(.data$condition, .data$value, .data$rand) %>%
     group_by(.data$condition) %>%
     {
       bind_rows(
-        slice_tail(., n = n_up),
-        slice_head(., n = n_bottom)
+        slice_max(., .data$value, n = n_up, with_ties = with_ties),
+        slice_min(., .data$value, n = n_bottom, with_ties = with_ties)
       )
     } %>%
     arrange(.data$condition) %>%

@@ -23,5 +23,5 @@ test_that("test run_aucell with dorothea gene sets", {
   exp_1 <- file.path(expected_dir, "output-aucell_dorothea_default.rds") %>%
     readRDS()
 
-  expect_equal(res_1, exp_1, tolerance=1)
+  expect_equal(res_1, exp_1, tolerance=0.01)
 })

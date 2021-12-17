@@ -21,7 +21,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Jesús Vélez \email{jvelezmagic@gmail.com} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
+  \item Jesús Vélez-Santiago \email{jvelezmagic@gmail.com} (\href{https://orcid.org/0000-0001-5128-3838}{ORCID})
   \item Jana Braunger \email{jana.bc@gmx.de} (\href{https://orcid.org/0000-0003-0820-9987}{ORCID})
   \item Celina Geiss \email{celina.geiss@stud.uni-heidelberg.de} (\href{https://orcid.org/0000-0002-8740-706X}{ORCID})
   \item Daniel Dimitrov \email{daniel.dimitrov@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-5197-2112}{ORCID})

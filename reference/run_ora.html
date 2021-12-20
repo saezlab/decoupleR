@@ -81,6 +81,7 @@
   n_bottom <span class="op">=</span> <span class="fl">300</span>,
   n_background <span class="op">=</span> <span class="fl">20000</span>,
   with_ties <span class="op">=</span> <span class="cn">TRUE</span>,
+  seed <span class="op">=</span> <span class="fl">42</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -111,6 +112,9 @@ the total number of unique targets in the union of <code>mat</code> and <code>ne
 <dd><p>Should ties be kept together? The default, <code>TRUE</code>,
 may return more rows than you request. Use <code>FALSE</code> to ignore ties,
 and return the first <code>n</code> rows.</p></dd>
+<dt>seed</dt>
+<dd><p>A single value, interpreted as an integer, or NULL for random
+number generation.</p></dd>
 <dt>...</dt>
 <dd><p>Arguments passed on to <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">stats::fisher.test</a></code></p><dl><dt><code>workspace</code></dt>
 <dd><p>an integer specifying the size of the workspace
@@ -211,26 +215,26 @@ Obtained scores are -log10(p-values).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    statistic source condition   score p_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ora       FOXO4  GSM2753335 0.459   0.347 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ora       FOXO4  GSM2753336 0.459   0.347 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> ora       FOXO4  GSM2753337 0.459   0.347 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> ora       FOXO4  GSM2753338 1.19    0.064<span style="text-decoration: underline;">4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> ora       NFIC   GSM2753335 0.241   0.574 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> ora       NFIC   GSM2753336 0.241   0.574 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> ora       NFIC   GSM2753337 0.241   0.574 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> ora       NFIC   GSM2753338 0.689   0.205 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ora       RFXAP  GSM2753335 0       1     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> ora       RFXAP  GSM2753336 0       1     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> ora       RFXAP  GSM2753337 0.459   0.347 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> ora       RFXAP  GSM2753338 1.19    0.064<span style="text-decoration: underline;">4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> ora       SMAD3  GSM2753335 0.584   0.260 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> ora       SMAD3  GSM2753336 0.584   0.260 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> ora       SMAD3  GSM2753337 0.584   0.260 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> ora       SMAD3  GSM2753338 1.78    0.016<span style="text-decoration: underline;">5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> ora       TFAP2A GSM2753335 0.253   0.559 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> ora       TFAP2A GSM2753336 0.071<span style="text-decoration: underline;">0</span>  0.849 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> ora       TFAP2A GSM2753337 0.253   0.559 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span> ora       TFAP2A GSM2753338 0.545   0.285 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ora       FOXO4  GSM2753335 0.032<span style="text-decoration: underline;">3</span>   0.928</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ora       FOXO4  GSM2753336 0.022<span style="text-decoration: underline;">0</span>   0.951</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> ora       FOXO4  GSM2753337 0.071<span style="text-decoration: underline;">7</span>   0.848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> ora       FOXO4  GSM2753338 0.266    0.542</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> ora       NFIC   GSM2753335 0.054<span style="text-decoration: underline;">6</span>   0.882</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> ora       NFIC   GSM2753336 0.087<span style="text-decoration: underline;">0</span>   0.818</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> ora       NFIC   GSM2753337 0.053<span style="text-decoration: underline;">8</span>   0.883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> ora       NFIC   GSM2753338 0.153    0.703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ora       RFXAP  GSM2753335 0        1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> ora       RFXAP  GSM2753336 0        1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> ora       RFXAP  GSM2753337 0.071<span style="text-decoration: underline;">7</span>   0.848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> ora       RFXAP  GSM2753338 0.266    0.542</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> ora       SMAD3  GSM2753335 0.161    0.691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> ora       SMAD3  GSM2753336 0.101    0.792</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> ora       SMAD3  GSM2753337 0.095<span style="text-decoration: underline;">5</span>   0.803</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> ora       SMAD3  GSM2753338 0.395    0.403</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> ora       TFAP2A GSM2753335 0.298    0.504</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> ora       TFAP2A GSM2753336 0.105    0.785</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> ora       TFAP2A GSM2753337 0.169    0.677</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span> ora       TFAP2A GSM2753338 0.169    0.678</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

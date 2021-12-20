@@ -36,7 +36,7 @@ statistics <- c(
 # Arguments for statistics; same order as statistics vector.
 args <- list(
     udt = list(),
-    mdt = list(),
+    mdt = list(trees=1000),
     aucell = list(nproc=1),
     wmean = list(),
     wsum = list(),

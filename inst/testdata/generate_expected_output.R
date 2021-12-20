@@ -55,7 +55,7 @@ run_udt(emat, dorothea_genesets, .source='tf') %>%
     saveRDS(out_default$udt)
 
 #----- run_mdt() ---------------------------------------------------------------
-run_mdt(emat, dorothea_genesets, .source='tf') %>%
+run_mdt(emat, dorothea_genesets, .source='tf', trees=1000) %>%
     saveRDS(out_default$mdt)
 
 #----- run_aucell() ------------------------------------------------------------

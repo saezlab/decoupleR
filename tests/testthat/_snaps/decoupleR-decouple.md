@@ -6,7 +6,8 @@
       }
     Message <message>
       run_udt(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
-      run_mdt(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
+      run_mdt(mat = mat, network = dorothea_genesets, .source = tf, .target = target,
+      *   trees = 1000)
       run_aucell(mat = mat, network = dorothea_genesets, .source = tf, .target = target,
       *   nproc = 1)
       run_wmean(mat = mat, network = dorothea_genesets, .source = tf, .target = target)

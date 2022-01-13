@@ -48,10 +48,8 @@ intersect_regulons <- function(mat,
     filter(n() >= minsize)
 }
 
-#' Pre-processing for methods that fit models
+#' Pre-processing for methods that fit networks.
 #'
-#' - Get only the intersection of target features between `mat` and `network`.
-#' - Transform tidy `network` into `matrix` representation with `mor` as value.
 #' - If `center` is true, then the expression values are centered by the
 #'   mean of expression across the samples.
 #'
@@ -69,43 +67,27 @@ intersect_regulons <- function(mat,
 #'  - mor_mat: Features as rows and columns as source.
 #' @export
 .fit_preprocessing <- function(network, mat, center, na.rm, sparse) {
-  shared_targets <- intersect(
-    rownames(mat),
-    network$target
-  )
-  
-  mat <- mat[shared_targets, , drop=FALSE]
-  
-  mor_mat <- network %>%
-    filter(.data$target %in% shared_targets) %>%
-    pivot_wider_profile(
-      id_cols = .data$target,
-      names_from = .data$source,
-      values_from = .data$mor,
-      values_fill = 0,
-      to_matrix = TRUE,
-      to_sparse = FALSE
-    ) %>%
-    .[shared_targets, , drop=FALSE]
-  
-  likelihood_mat <- network %>%
-    filter(.data$target %in% shared_targets) %>%
-    pivot_wider_profile(
-      id_cols = .data$target,
-      names_from = .data$source,
-      values_from = .data$likelihood,
-      values_fill = 0,
-      to_matrix = TRUE
-    ) %>%
-    .[shared_targets, , drop=FALSE]
-  
-  weight_mat <- mor_mat * likelihood_mat
+  # Create empty mor_mat from original feature universe from mat, then fill in
+  sources <- unique(network$source)
+  targets <- rownames(mat)
+  mor_mat <- matrix(0, ncol = length(sources), nrow=nrow(mat))
+  colnames(mor_mat) <- sources
+  rownames(mor_mat) <- targets
+  weights <- network$mor * network$likelihood
+  for (i in 1:nrow(network)) {
+    .source <- network$source[[i]]
+    .target <- network$target[[i]]
+    .weight <- weights[[i]]
+    if (.target %in% targets) {
+      mor_mat[[.target,.source]] <- .weight
+    }
+  }
   
   if (center) {
     mat <- mat - rowMeans(mat, na.rm)
   }
   
-  list(mat = mat, mor_mat = weight_mat)
+  list(mat = mat, mor_mat = mor_mat)
 }
 
 #' Check correlation (colinearity) 

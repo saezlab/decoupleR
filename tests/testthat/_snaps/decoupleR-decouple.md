@@ -15,7 +15,8 @@
       run_ulm(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
       run_viper(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
       run_gsva(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
-      run_ora(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
+      run_ora(mat = mat, network = dorothea_genesets, .source = tf, .target = target,
+      *   n_up = 300, n_bottom = 300)
       run_fgsea(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
       run_mlm(mat = mat, network = dorothea_genesets, .source = tf, .target = target)
     Output

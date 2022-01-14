@@ -34,3 +34,9 @@ Renames a given network to these column names: .source, .target, .mor,
 .likelihood. If .mor or .likelihood are not provided, then the function sets
 them to default values.
 }
+\examples{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+rename_net(network, tf, target, mor, likelihood)
+}

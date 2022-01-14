@@ -58,7 +58,13 @@ intersect_regulons <- function(mat,
 #'
 #' @return Filtered network.
 #' @export
-filt_minsize <- function(mat_f_names, network, minsize=5){
+#' @examples 
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#' network <- rename_net(network, tf, target, mor, likelihood)
+#' filt_minsize(rownames(mat), network, minsize = 5)
+filt_minsize <- function(mat_f_names, network, minsize = 5){
   # Find shared targets
   shared_targets <- intersect(
     mat_f_names,
@@ -103,6 +109,12 @@ filt_minsize <- function(mat_f_names, network, minsize=5){
 #'  - mat: Features as rows and samples as columns.
 #'  - mor_mat: Features as rows and columns as source.
 #' @export
+#' @examples
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#' network <- rename_net(network, tf, target, mor, likelihood)
+#' .fit_preprocessing(network, mat, center = F, na.rm = F, sparse = F)
 .fit_preprocessing <- function(network, mat, center, na.rm, sparse) {
   # Create empty mor_mat from original feature universe from mat, then fill in
   sources <- unique(network$source)

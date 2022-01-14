@@ -11,6 +11,25 @@
 #' @import purrr
 #' @import RobustRankAggreg
 #' @export
+#' @examples
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#'
+#' results <- decouple(
+#'    mat = mat,
+#'    network = network,
+#'    .source = "tf",
+#'    .target = "target",
+#'    statistics = c("wmean", "ulm"),
+#'    args = list(
+#'             wmean = list(.mor = "mor", .likelihood = "likelihood"),
+#'             ulm = list(.mor = "mor", .likelihood = "likelihood")
+#'         ),
+#'    consensus_score = F
+#'    )
+#' run_consensus(results)
+#' }
 run_consensus <- function(df,
                           include_time=FALSE
                           ){

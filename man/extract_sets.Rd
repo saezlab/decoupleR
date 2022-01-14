@@ -12,3 +12,10 @@ extract_sets(network)
 \description{
 Extracts feature sets from a renamed network (see \link{rename_net}).
 }
+\examples{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+network <- rename_net(network, tf, target, mor, likelihood)
+extract_sets(network)
+}

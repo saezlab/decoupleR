@@ -10,6 +10,11 @@
 #' @param def_lik Default value for .likelihood when not provided.
 #' 
 #' @export
+#' @examples 
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#' rename_net(network, tf, target, mor, likelihood)
 rename_net <- function(network,
                        .source,
                        .target,
@@ -40,6 +45,13 @@ rename_net <- function(network,
 #' @inheritParams .decoupler_network_format
 #' 
 #' @export
+#' 
+#' @examples 
+#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#' network <- rename_net(network, tf, target, mor, likelihood)
+#' extract_sets(network)
 extract_sets <- function(network) {
     network %>%
         group_by(.data$source) %>%

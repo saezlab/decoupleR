@@ -5,6 +5,8 @@
 #' 
 #' @param df `decouple` data frame result
 #' @param include_time Should the time per statistic evaluated be informed?
+#' @param seed A single value, interpreted as an integer, or NULL for random
+#'  number generation.
 #'
 #' @return Updated tibble with the computed consensus score between methods
 #'
@@ -30,7 +32,8 @@
 #'    )
 #' run_consensus(results)
 run_consensus <- function(df,
-                          include_time=FALSE
+                          include_time=FALSE,
+                          seed=42
                           ){
   start_time <- Sys.time()
   # Split df by samples
@@ -45,35 +48,38 @@ run_consensus <- function(df,
 
   # Split each sample by method
   run_id <- max(df$run_id)
-  consensus <- lst_conds %>%
-    # Generate a sorted list of sources per method
-    map(function(df){
-      df %>%
-        group_by(.data$statistic) %>%
-        group_split() %>%
-        map(function(df){
-          df %>%
-            arrange(desc(abs(.data$score))) %>%
-            select(.data$source) %>%
-            pull()
-        })
-    }) %>%
-    # Compute ranks
-    map(function(lst){
-      RobustRankAggreg::rankMatrix(lst) %>%
-        RobustRankAggreg::aggregateRanks(rmat = .)
-    }) %>%
-    # Transform back to tibble
-    map2(., names(.), function(df, cond){
-      as_tibble(df) %>%
-        rename('source' = .data$Name, 'p_value' = .data$Score) %>%
-        mutate(score= -log10(.data$p_value),
-               statistic = 'consensus',
-               condition = cond,
-               run_id = run_id + 1
-        )
-    }) %>%
-    bind_rows()
+  withr::with_seed(seed, {
+    consensus <- lst_conds %>%
+      # Generate a sorted list of sources per method
+      map(function(df){
+        df %>%
+          group_by(.data$statistic) %>%
+          group_split() %>%
+          map(function(df){
+            df %>%
+              mutate(rand=stats::rnorm(n())) %>% 
+              arrange(desc(abs(.data$score)), .data$rand) %>%
+              select(.data$source) %>%
+              pull()
+          })
+      }) %>%
+      # Compute ranks
+      map(function(lst){
+        RobustRankAggreg::rankMatrix(lst) %>%
+          RobustRankAggreg::aggregateRanks(rmat = .)
+      }) %>%
+      # Transform back to tibble
+      map2(., names(.), function(df, cond){
+        as_tibble(df) %>%
+          rename('source' = .data$Name, 'p_value' = .data$Score) %>%
+          mutate(score= -log10(.data$p_value),
+                 statistic = 'consensus',
+                 condition = cond,
+                 run_id = run_id + 1
+          )
+      }) %>%
+      bind_rows()
+  })
 
   if (include_time) {
     consensus <- consensus %>%

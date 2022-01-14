@@ -26,10 +26,9 @@
 #'             wmean = list(.mor = "mor", .likelihood = "likelihood"),
 #'             ulm = list(.mor = "mor", .likelihood = "likelihood")
 #'         ),
-#'    consensus_score = F
+#'    consensus_score = FALSE
 #'    )
 #' run_consensus(results)
-#' }
 run_consensus <- function(df,
                           include_time=FALSE
                           ){

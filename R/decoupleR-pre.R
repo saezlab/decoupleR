@@ -114,7 +114,7 @@ filt_minsize <- function(mat_f_names, network, minsize = 5){
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 #' network <- rename_net(network, tf, target, mor, likelihood)
-#' .fit_preprocessing(network, mat, center = F, na.rm = F, sparse = F)
+#' .fit_preprocessing(network, mat, center = FALSE, na.rm = FALSE, sparse = FALSE)
 .fit_preprocessing <- function(network, mat, center, na.rm, sparse) {
   # Create empty mor_mat from original feature universe from mat, then fill in
   sources <- unique(network$source)

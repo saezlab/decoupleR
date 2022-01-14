@@ -41,5 +41,5 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
 network <- rename_net(network, tf, target, mor, likelihood)
-.fit_preprocessing(network, mat, center = F, na.rm = F, sparse = F)
+.fit_preprocessing(network, mat, center = FALSE, na.rm = FALSE, sparse = FALSE)
 }

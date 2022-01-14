@@ -35,7 +35,6 @@
 #' @import tibble
 #' @import tidyr
 #' @importFrom stats coef lm summary.lm
-#' @importFrom speedglm speedlm.fit
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'

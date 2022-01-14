@@ -34,7 +34,6 @@
 #' @import tibble
 #' @import tidyr
 #' @importFrom stats coef lm summary.lm
-#' @importFrom speedglm speedlm.fit
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -102,7 +101,6 @@ run_mlm <- function(mat,
 #' @keywords internal
 #' @noRd
 .mlm_evaluate_model <- function(condition, mat, mor_mat) {
-  #data <- cbind(data.frame(y=mat[ , condition]), mor_mat)
   fit <- lm(mat[ , condition] ~ mor_mat) %>%
       summary()
   scores <- as.vector(fit$coefficients[,3][-1])

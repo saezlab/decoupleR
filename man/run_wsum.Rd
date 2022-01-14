@@ -42,6 +42,8 @@ number generation.}
 \item{sparse}{Should the matrices used for the calculation be sparse?}
 
 \item{randomize_type}{How to randomize the expression matrix.}
+
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 }
 \value{
 A long format tibble of the enrichment scores for each source

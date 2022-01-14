@@ -26,6 +26,7 @@
 #' @param nproc Number of cores to use for computation.
 #' @param seed A single value, interpreted as an integer, or NULL for random
 #'  number generation.
+#' @param minsize Integer indicating the minimum number of targets per source.
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:

@@ -20,6 +20,7 @@
 #'   and return the first `n` rows.
 #' @param seed A single value, interpreted as an integer, or NULL for random
 #'  number generation.
+#' @param minsize Integer indicating the minimum number of targets per source.
 #' @inheritDotParams stats::fisher.test -x -y
 #'
 #' @return A long format tibble of the enrichment scores for each source

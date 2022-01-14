@@ -46,6 +46,8 @@ and return the first \code{n} rows.}
 \item{seed}{A single value, interpreted as an integer, or NULL for random
 number generation.}
 
+\item{minsize}{Integer indicating the minimum number of targets per source.}
+
 \item{...}{
   Arguments passed on to \code{\link[stats:fisher.test]{stats::fisher.test}}
   \describe{

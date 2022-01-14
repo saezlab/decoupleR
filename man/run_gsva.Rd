@@ -32,6 +32,8 @@ in \code{network} \code{.target} column.}
 \item{method}{Method to employ in the estimation of gene-set enrichment.
 scores per sample. By default this is set to gsva (Hänzelmann et al, 2013).}
 
+\item{minsize}{Integer indicating the minimum number of targets per source.}
+
 \item{...}{
   Arguments passed on to \code{\link[GSVA:gsva]{GSVA::gsva}}
   \describe{

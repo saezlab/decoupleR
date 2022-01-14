@@ -10,12 +10,11 @@
 #' @inheritParams .decoupler_network_format
 #' @param verbose Logical, whether progression messages should be printed in
 #' the terminal.
-#' @param minsize Integer indicating the minimum number of targets allowed per
-#' regulon.
 #' @param pleiotropy Logical, whether correction for pleiotropic regulation
 #' should be performed.
 #' @param eset.filter Logical, whether the dataset should be limited only to
-#' the genes represented in the interactome .
+#' the genes represented in the interactome.
+#' @param minsize Integer indicating the minimum number of targets per source.
 #' @inheritDotParams viper::viper -eset -regulon -verbose -minsize -pleiotropy -eset.filter
 #'
 #' @return A long format tibble of the enrichment scores for each source

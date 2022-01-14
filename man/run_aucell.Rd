@@ -33,6 +33,8 @@ in \code{network} \code{.target} column.}
 
 \item{seed}{A single value, interpreted as an integer, or NULL for random
 number generation.}
+
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 }
 \description{
 Calculates regulatory activities using Area Under the Curve (AUC) from AUCell

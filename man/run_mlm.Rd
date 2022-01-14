@@ -40,6 +40,8 @@ in \code{network} \code{.target} column.}
 
 \item{na.rm}{Should missing values (including NaN) be omitted from the
 calculations of \code{\link[base:colSums]{base::rowMeans()}}?}
+
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 }
 \value{
 A long format tibble of the enrichment scores for each source

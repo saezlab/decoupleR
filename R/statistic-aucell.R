@@ -14,6 +14,7 @@
 #' @param nproc Number of cores to use for computation.
 #' @param seed A single value, interpreted as an integer, or NULL for random
 #' number generation.
+#' @param minsize Integer indicating the minimum number of targets per source.
 #'
 #' @family decoupleR statistics
 #' @export

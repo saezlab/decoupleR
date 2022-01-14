@@ -18,6 +18,7 @@
 #' [base::rowMeans()].
 #' @param na.rm Should missing values (including NaN) be omitted from the
 #'  calculations of [base::rowMeans()]?
+#' @param minsize Integer indicating the minimum number of targets per source.
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:

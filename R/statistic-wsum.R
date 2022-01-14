@@ -18,6 +18,7 @@
 #'  number generation.
 #' @param sparse Should the matrices used for the calculation be sparse?
 #' @param randomize_type How to randomize the expression matrix.
+#' @param minsize Integer indicating the minimum number of targets per source.
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:

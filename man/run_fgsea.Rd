@@ -34,6 +34,8 @@ in \code{network} \code{.target} column.}
 
 \item{seed}{A single value, interpreted as an integer, or NULL.}
 
+\item{minsize}{Integer indicating the minimum number of targets per source.}
+
 \item{...}{
   Arguments passed on to \code{\link[fgsea:fgseaMultilevel]{fgsea::fgseaMultilevel}}
   \describe{

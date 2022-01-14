@@ -48,6 +48,8 @@ are required for the node to be split further.}
 
 \item{seed}{A single value, interpreted as an integer, or NULL for random
 number generation.}
+
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 }
 \value{
 A long format tibble of the enrichment scores for each source

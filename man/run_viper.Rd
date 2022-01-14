@@ -37,14 +37,13 @@ in \code{network} \code{.target} column.}
 \item{verbose}{Logical, whether progression messages should be printed in
 the terminal.}
 
-\item{minsize}{Integer indicating the minimum number of targets allowed per
-regulon.}
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 
 \item{pleiotropy}{Logical, whether correction for pleiotropic regulation
 should be performed.}
 
 \item{eset.filter}{Logical, whether the dataset should be limited only to
-the genes represented in the interactome .}
+the genes represented in the interactome.}
 
 \item{...}{
   Arguments passed on to \code{\link[viper:viper]{viper::viper}}

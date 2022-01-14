@@ -11,6 +11,7 @@
 #' @param times How many permutations to do?
 #' @param nproc Number of cores to use for computation.
 #' @param seed A single value, interpreted as an integer, or NULL.
+#' @param minsize Integer indicating the minimum number of targets per source.
 #' @inheritDotParams fgsea::fgseaMultilevel -pathways -stats -nPermSimple -nproc
 #'
 #' @return A long format tibble of the enrichment scores for each source

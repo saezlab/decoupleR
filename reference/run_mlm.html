@@ -81,7 +81,8 @@
   .likelihood <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">likelihood</span>,
   sparse <span class="op">=</span> <span class="cn">FALSE</span>,
   center <span class="op">=</span> <span class="cn">FALSE</span>,
-  na.rm <span class="op">=</span> <span class="cn">FALSE</span>
+  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,
+  minsize <span class="op">=</span> <span class="fl">5</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -110,6 +111,8 @@ in <code>network</code> <code>.target</code> column.</p></dd>
 <dt>na.rm</dt>
 <dd><p>Should missing values (including NaN) be omitted from the
 calculations of <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">base::rowMeans()</a></code>?</p></dd>
+<dt>minsize</dt>
+<dd><p>Integer indicating the minimum number of targets per source.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>

@@ -79,7 +79,8 @@
   .target <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">target</span>,
   aucMaxRank <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="fl">0.05</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">rankings</span><span class="op">)</span><span class="op">)</span>,
   nproc <span class="op">=</span> <span class="fl">4</span>,
-  seed <span class="op">=</span> <span class="fl">42</span>
+  seed <span class="op">=</span> <span class="fl">42</span>,
+  minsize <span class="op">=</span> <span class="fl">5</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -103,6 +104,8 @@ in <code>network</code> <code>.target</code> column.</p></dd>
 <dt>seed</dt>
 <dd><p>A single value, interpreted as an integer, or NULL for random
 number generation.</p></dd>
+<dt>minsize</dt>
+<dd><p>Integer indicating the minimum number of targets per source.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

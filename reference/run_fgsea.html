@@ -80,6 +80,7 @@
   times <span class="op">=</span> <span class="fl">100</span>,
   nproc <span class="op">=</span> <span class="fl">4</span>,
   seed <span class="op">=</span> <span class="fl">42</span>,
+  minsize <span class="op">=</span> <span class="fl">5</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -103,6 +104,8 @@ in <code>network</code> <code>.target</code> column.</p></dd>
 <dd><p>Number of cores to use for computation.</p></dd>
 <dt>seed</dt>
 <dd><p>A single value, interpreted as an integer, or NULL.</p></dd>
+<dt>minsize</dt>
+<dd><p>Integer indicating the minimum number of targets per source.</p></dd>
 <dt>...</dt>
 <dd><p>Arguments passed on to <code><a href="https://rdrr.io/pkg/fgsea/man/fgseaMultilevel.html" class="external-link">fgsea::fgseaMultilevel</a></code></p><dl><dt><code>sampleSize</code></dt>
 <dd><p>The size of a random set of genes which in turn has size = pathwaySize</p></dd>

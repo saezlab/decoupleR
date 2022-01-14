@@ -37,9 +37,6 @@
     <loc>https://saezlab.github.io/decoupleR/reference/convert_f_defaults.html</loc>
   </url>
   <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/convert_to_.html</loc>
-  </url>
-  <url>
     <loc>https://saezlab.github.io/decoupleR/reference/decouple.html</loc>
   </url>
   <url>
@@ -53,6 +50,12 @@
   </url>
   <url>
     <loc>https://saezlab.github.io/decoupleR/reference/dot-fit_preprocessing.html</loc>
+  </url>
+  <url>
+    <loc>https://saezlab.github.io/decoupleR/reference/extract_sets.html</loc>
+  </url>
+  <url>
+    <loc>https://saezlab.github.io/decoupleR/reference/filt_minsize.html</loc>
   </url>
   <url>
     <loc>https://saezlab.github.io/decoupleR/reference/get_profile_of.html</loc>
@@ -71,6 +74,9 @@
   </url>
   <url>
     <loc>https://saezlab.github.io/decoupleR/reference/randomize_matrix.html</loc>
+  </url>
+  <url>
+    <loc>https://saezlab.github.io/decoupleR/reference/rename_net.html</loc>
   </url>
   <url>
     <loc>https://saezlab.github.io/decoupleR/reference/run_aucell.html</loc>

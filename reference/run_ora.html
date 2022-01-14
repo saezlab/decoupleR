@@ -82,6 +82,7 @@
   n_background <span class="op">=</span> <span class="fl">20000</span>,
   with_ties <span class="op">=</span> <span class="cn">TRUE</span>,
   seed <span class="op">=</span> <span class="fl">42</span>,
+  minsize <span class="op">=</span> <span class="fl">5</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -115,6 +116,8 @@ and return the first <code>n</code> rows.</p></dd>
 <dt>seed</dt>
 <dd><p>A single value, interpreted as an integer, or NULL for random
 number generation.</p></dd>
+<dt>minsize</dt>
+<dd><p>Integer indicating the minimum number of targets per source.</p></dd>
 <dt>...</dt>
 <dd><p>Arguments passed on to <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">stats::fisher.test</a></code></p><dl><dt><code>workspace</code></dt>
 <dd><p>an integer specifying the size of the workspace

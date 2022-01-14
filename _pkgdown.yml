@@ -35,11 +35,13 @@ reference:
     desc: >
     contents:
       - convert_f_defaults
-      - starts_with("convert_to_")
+      - rename_net
+      - extract_sets
   - title: Before to run methods
     desc: >
     contents:
       - show_methods
       - intersect_regulons
       - check_corr
+      - filt_minsize
       - .fit_preprocessing

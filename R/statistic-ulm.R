@@ -43,21 +43,24 @@
 #'
 #' run_ulm(mat, network, .source='tf')
 run_ulm <- function(mat,
-                      network,
-                      .source = .data$source,
-                      .target = .data$target,
-                      .mor = .data$mor,
-                      .likelihood = .data$likelihood,
-                      sparse = FALSE,
-                      center = FALSE,
-                      na.rm = FALSE) {
+                    network,
+                    .source = .data$source,
+                    .target = .data$target,
+                    .mor = .data$mor,
+                    .likelihood = .data$likelihood,
+                    sparse = FALSE,
+                    center = FALSE,
+                    na.rm = FALSE,
+                    minsize = 5
+                    ) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
     # Convert to standard tibble: source-target-mor.
     network <- network %>%
-        convert_to_ulm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+        rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    network <- filt_minsize(rownames(mat), network, minsize)
 
     # Preprocessing -----------------------------------------------------------
     .fit_preprocessing(network, mat, center, na.rm, sparse) %>%

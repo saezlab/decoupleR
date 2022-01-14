@@ -12,7 +12,7 @@ run_viper(
   .mor = .data$mor,
   .likelihood = .data$likelihood,
   verbose = FALSE,
-  minsize = 0,
+  minsize = 5,
   pleiotropy = TRUE,
   eset.filter = FALSE,
   ...

@@ -13,7 +13,8 @@ run_ulm(
   .likelihood = .data$likelihood,
   sparse = FALSE,
   center = FALSE,
-  na.rm = FALSE
+  na.rm = FALSE,
+  minsize = 5
 )
 }
 \arguments{

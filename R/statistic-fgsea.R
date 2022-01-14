@@ -35,12 +35,15 @@ run_fgsea <- function(mat,
                       times = 100,
                       nproc = 4,
                       seed = 42,
+                      minsize = 5,
                       ...) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
-
-  regulons <- network %>%
-    convert_to_fgsea({{ .source }}, {{ .target }})
+  
+  network <- network %>%
+    rename_net({{ .source }}, {{ .target }})
+  network <- filt_minsize(rownames(mat), network, minsize)
+  regulons <- extract_sets(network)
 
   conditions <- colnames(mat) %>%
     set_names()

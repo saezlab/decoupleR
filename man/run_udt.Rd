@@ -15,7 +15,8 @@ run_udt(
   center = FALSE,
   na.rm = FALSE,
   min_n = 20,
-  seed = 42
+  seed = 42,
+  minsize = 5
 )
 }
 \arguments{

@@ -52,7 +52,8 @@ run_udt <- function(mat,
                     center = FALSE,
                     na.rm = FALSE,
                     min_n = 20,
-                    seed = 42
+                    seed = 42,
+                    minsize = 5
 ) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
@@ -60,7 +61,8 @@ run_udt <- function(mat,
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
-    convert_to_ulm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+  network <- filt_minsize(rownames(mat), network, minsize)
 
   # Preprocessing -----------------------------------------------------------
   .fit_preprocessing(network, mat, center, na.rm, sparse) %>%

@@ -49,7 +49,9 @@ run_wmean <- function(mat,
                      times = 100,
                      seed = 42,
                      sparse = TRUE,
-                     randomize_type = "rows") {
+                     randomize_type = "rows",
+                     minsize = 5
+                     ) {
     # Before to start ---------------------------------------------------------
     if (times < 2) {
         rlang::abort(message = stringr::str_glue("Parameter 'times' must be greater than or equal to 2, but {times} was passed."))
@@ -59,7 +61,8 @@ run_wmean <- function(mat,
     check_nas_infs(mat)
 
     network <- network %>%
-        convert_to_wmean({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+        rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    network <- filt_minsize(rownames(mat), network, minsize)
 
     # Preprocessing -----------------------------------------------------------
 

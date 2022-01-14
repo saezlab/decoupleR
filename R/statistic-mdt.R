@@ -59,7 +59,8 @@ run_mdt <- function(mat,
                     trees = 10,
                     min_n = 20,
                     nproc = 4,
-                    seed = 42
+                    seed = 42,
+                    minsize = 5
 ) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
@@ -67,7 +68,8 @@ run_mdt <- function(mat,
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
-    convert_to_mlm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+  network <- filt_minsize(rownames(mat), network, minsize)
 
   # Preprocessing -----------------------------------------------------------
   .fit_preprocessing(network, mat, center, na.rm, sparse) %>%

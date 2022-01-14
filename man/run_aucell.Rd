@@ -11,7 +11,8 @@ run_aucell(
   .target = .data$target,
   aucMaxRank = ceiling(0.05 * nrow(rankings)),
   nproc = 4,
-  seed = 42
+  seed = 42,
+  minsize = 5
 )
 }
 \arguments{

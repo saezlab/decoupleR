@@ -1,300 +1,46 @@
-# main convert_to_ --------------------------------------------------------
-
-#' Convert a network to run under the method of interest.
+#' Rename network
 #'
 #' @description
-#' Convert a long-format network to the suggested standard for the
-#' specified `run_{statistic}()`. If the default parameters are not modified,
-#' then the function sets its own null values for those columns.
-#'
+#' Renames a given network to these column names: .source, .target, .mor, 
+#' .likelihood. If .mor or .likelihood are not provided, then the function sets 
+#' them to default values.
+#' 
 #' @inheritParams .decoupler_network_format
-#'
-#' @return
-#'
-#' + `convert_to_`
-#'    Return same as input.
-#' * `convert_to_aucell()`
-#'    Return a named list of sources with associated targets.
-#' * `convert_to_gsva()`
-#'    Return a list of sources with associated targets suitable for [GSVA::gsva()].
-#' * `convert_to_wmean()`
-#'    Return a tibble with four columns: `source`, `target`, `mor` and `likelihood`.
-#' * `convert_to_ora()`
-#'    Return a named list of sources with associated targets.
-#' * `convert_to_wsum()`
-#'    Returns a tibble with three columns: `source`, `target` and `mor`.
-#' * `convert_to_ulm()`
-#'    Returns a tibble with three columns: `source`, `target` and `mor`.
-#' * `convert_to_mlm()`
-#'    Returns a tibble with three columns: `source`, `target` and `mor`.
-#' * `convert_to_viper()`
-#'    Return a list of sources with associated targets suitable for [viper::viper()]
-#'
-#' @name convert_to_
-#' @rdname convert_to_
-#' @family convert_to_ variants
-#'
-#' @seealso [convert_f_defaults()]
+#' @param def_mor Default value for .mor when not provided.
+#' @param def_lik Default value for .likelihood when not provided.
+#' 
 #' @export
-#' @examples
-#' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
-#'
-#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
-#'
-#' convert_to_(network)
-#' convert_to_aucell(network, tf, target)
-#' convert_to_gsva(network, tf, target)
-#' convert_to_wmean(network, tf, target, mor, likelihood)
-#' convert_to_ora(network, tf, target)
-#' convert_to_wsum(network, tf, target, mor)
-#' convert_to_ulm(network, tf, target, mor)
-#' convert_to_mlm(network, tf, target, mor)
-#' convert_to_viper(network, tf, target, mor, likelihood)
-convert_to_ <- function(network) invisible(network)
-
-# aucell ---------------------------------------------------------------------
-
-#' @rdname convert_to_
-#'
-#' @inheritParams run_aucell
-#'
-#' @family convert_to_ variants
-#' @export
-convert_to_aucell <- function(network, .source, .target) {
-    .check_quos_status({{ .source }}, {{ .target }},
-                       .dots_names = c(".source", ".target")
-    )
-
-    network <- network %>%
-        convert_f_defaults(
-            source = {{ .source }},
-            target = {{ .target }}
-        )
-    check_repeated_edges(network)
-    network %>%
-        group_by(.data$source) %>%
-        summarise(
-            regulons = set_names(list(.data$target), .data$source[1]),
-            .groups = "drop"
-        ) %>%
-        pull(.data$regulons)
-}
-
-# ulm, mlm and wsum ------------------------------------------------------
-
-#' @rdname convert_to_
-#'
-#' @inheritParams run_ulm
-#'
-#' @family convert_to_ variants
-#' @export
-convert_to_ulm <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }},
-                       .dots_names = c(".source", ".target")
-    )
-
-    network <- network %>%
-        convert_f_defaults(
-            source = {{ .source }},
-            target = {{ .target }},
-            mor = {{ .mor }},
-            likelihood = {{ .likelihood }},
-            .def_col_val = c(mor = 0, likelihood = 1)
-        )
-    check_repeated_edges(network)
-    network %>%
-        mutate(mor = sign(.data$mor))
-}
-
-#' @rdname convert_to_
-#'
-#' @inheritParams run_mlm
-#'
-#' @family convert_to_ variants
-#' @export
-convert_to_mlm <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }},
-                       .dots_names = c(".source", ".target")
-    )
-
-    network <- network %>%
-        convert_f_defaults(
-            source = {{ .source }},
-            target = {{ .target }},
-            mor = {{ .mor }},
-            likelihood = {{ .likelihood }},
-            .def_col_val = c(mor = 0, likelihood = 1)
-        )
-    check_repeated_edges(network)
-    network %>%
-        mutate(mor = sign(.data$mor))
-}
-
-#' @rdname convert_to_
-#'
-#' @inheritParams run_wsum
-#'
-#' @family convert_to_ variants
-#' @export
-convert_to_wsum <- function(network, .source, .target, .mor = NULL, .likelihood = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }},
-                       .dots_names = c(".source", ".target")
-    )
-
-    network <- network %>%
-        convert_f_defaults(
-            source = {{ .source }},
-            target = {{ .target }},
-            mor = {{ .mor }},
-            likelihood = {{ .likelihood }},
-            .def_col_val = c(mor = 0, likelihood = 1)
-        )
-    check_repeated_edges(network)
-    network %>%
-        mutate(mor = sign(.data$mor))
-}
-
-# wmean --------------------------------------------------------------------
-
-#' @rdname convert_to_
-#'
-#' @inheritParams run_wmean
-#'
-#' @family convert_to_ variants
-#' @export
-convert_to_wmean <- function(network,
-                             .source,
-                             .target,
-                             .mor = NULL,
-                             .likelihood = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }},
-                       .dots_names = c(".source", ".target")
-    )
-
-    network <- network %>%
-        convert_f_defaults(
-            source = {{ .source }},
-            target = {{ .target }},
-            mor = {{ .mor }},
-            likelihood = {{ .likelihood }},
-            .def_col_val = c(mor = 0, likelihood = 1)
-        )
-    check_repeated_edges(network)
-    network %>%
-        mutate(mor = sign(.data$mor))
-}
-
-# viper -------------------------------------------------------------------
-
-#' @rdname convert_to_
-#'
-#' @inheritParams run_viper
-#'
-#' @family convert_to_ variants
-#' @export
-convert_to_viper <- function(network,
-                             .source,
-                             .target,
-                             .mor = NULL,
-                             .likelihood = NULL) {
-    .check_quos_status({{ .source }}, {{ .target }},
-                       .dots_names = c(".source", ".target")
-    )
-
-    network <- network %>%
-        convert_f_defaults(
-            source = {{ .source }},
-            target = {{ .target }},
-            mor = {{ .mor }},
-            likelihood = {{ .likelihood }},
-            .def_col_val = c(mor = 0, likelihood = 1)
-        )
-    check_repeated_edges(network)
-    network %>%
-        mutate(mor = sign(.data$mor)) %>%
-        split(.$source) %>%
-        map(~ {
-            list(
-                tfmode = set_names(.x$mor, .x$target),
-                likelihood = .x$likelihood
-            )
-        })
-}
-
-# gsva --------------------------------------------------------------------
-
-#' @rdname convert_to_
-#'
-#' @inheritParams run_gsva
-#'
-#' @family convert_to_ variants
-#' @export
-convert_to_gsva <- function(network, .source, .target) {
-    .check_quos_status({{ .source }}, {{ .target }},
-                       .dots_names = c(".source", ".target")
-    )
-
-    network <- network %>%
-        convert_f_defaults(
-            source = {{ .source }},
-            target = {{ .target }}
-        )
-    check_repeated_edges(network)
-    network %>%
-        group_by(.data$source) %>%
-        summarise(
-            regulons = set_names(list(.data$target), .data$source[1]),
-            .groups = "drop"
-        ) %>%
-        pull(.data$regulons)
-}
-
-# ora ---------------------------------------------------------------------
-
-#' @rdname convert_to_
-#'
-#' @inheritParams run_ora
-#'
-#' @family convert_to_ variants
-#' @export
-convert_to_ora <- function(network, .source, .target) {
-    .check_quos_status({{ .source }}, {{ .target }},
-                       .dots_names = c(".source", ".target")
-    )
-
-    network <- network %>%
-        convert_f_defaults(
-            source = {{ .source }},
-            target = {{ .target }}
-        )
-    check_repeated_edges(network)
-    network %>%
-        group_by(.data$source) %>%
-        summarise(
-            regulons = set_names(list(.data$target), .data$source[1]),
-            .groups = "drop"
-        ) %>%
-        pull(.data$regulons)
-}
-
-# fgsea -------------------------------------------------------------------
-
-#' @rdname convert_to_
-#'
-#' @inheritParams run_fgsea
-#'
-#' @export
-#' @family convert_to_ variants
-convert_to_fgsea <- function(network, .source, .target) {
-    .check_quos_status({{ .source }}, {{ .target }},
+rename_net <- function(network,
+                       .source,
+                       .target,
+                       .mor = NULL,
+                       .likelihood = NULL,
+                       def_mor = 1,
+                       def_lik = 1) {
+    .check_quos_status({{ .source }}, {{ .target }}, 
                        .dots_names = c(".source", ".target"))
-
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
-            target = {{ .target }}
+            target = {{ .target }},
+            mor = {{ .mor }},
+            likelihood = {{ .likelihood }},
+            .def_col_val = c(mor = def_mor, likelihood = def_lik)
         )
     check_repeated_edges(network)
+    check_signs(network)
+    network
+}
+
+#' Extract sets
+#'
+#' @description
+#' Extracts feature sets from a renamed network (see [decoupleR::rename_net]).
+#' 
+#' @inheritParams .decoupler_network_format
+#' 
+#' @export
+extract_sets <- function(network) {
     network %>%
         group_by(.data$source) %>%
         summarise(
@@ -460,6 +206,22 @@ check_repeated_edges <- function(network){
         filter(n()>1)
     if (nrow(repeated) > 1){
         stop('Network contains repeated edges, please remove them.')
+    }
+}
+
+#' Check if .mor and .likelihood columns contain valid values
+#'
+#' @param network Network in tibble format.
+#' @noRd
+check_signs <- function(network){
+    if(any(abs(network$mor) != 1)){
+        stop('.mor column in network contains values different from -1 or 1. To
+             assign weights, place them in the .likelihood column as their 
+             absolute value.')
+    }
+    if(any(sign(network$likelihood) == -1)){
+        stop('.likelihood column in network contains negative values. To assign 
+        negative weights, place a -1 in the .mor column.')
     }
 }
 

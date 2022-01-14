@@ -83,7 +83,6 @@ Imports:
     Matrix,
     purrr,
     rlang,
-    speedglm,
     stats,
     stringr,
     tibble,

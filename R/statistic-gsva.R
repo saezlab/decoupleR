@@ -34,13 +34,16 @@ run_gsva <- function(mat,
                      .target = .data$target,
                      verbose = FALSE,
                      method = "gsva",
+                     minsize = 5,
                      ...) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
-    regulons <- network %>%
-        convert_to_gsva({{ .source }}, {{ .target }})
+    network <- network %>%
+        rename_net({{ .source }}, {{ .target }})
+    network <- filt_minsize(rownames(mat), network, minsize)
+    regulons <- extract_sets(network)
 
     # Analysis ----------------------------------------------------------------
     exec(

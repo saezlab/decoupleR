@@ -48,6 +48,42 @@ intersect_regulons <- function(mat,
     filter(n() >= minsize)
 }
 
+#' Filter sources with minsize targets
+#'
+#' Filter sources of a net with less than minsize targets
+#'
+#' @param mat_f_names Feature names of mat.
+#' @inheritParams .decoupler_network_format
+#'
+#' @return Filtered network.
+#' @export
+filt_minsize <- function(mat_f_names, network, minsize=5){
+  # Find shared targets
+  shared_targets <- intersect(
+    mat_f_names,
+    network$target
+  )
+  
+  # Find sizes of sources after intersect and filter by minsize
+  sources <- network %>%
+    dplyr::filter(.data$target %in% shared_targets) %>%
+    dplyr::group_by(source) %>%
+    dplyr::summarise(n=dplyr::n()) %>%
+    dplyr::filter(.data$n >= minsize) %>%
+    dplyr::pull(.data$source)
+  
+  # Filter sources
+   network <- network %>%
+    dplyr::filter(.data$source %in% sources)
+   
+   if (nrow(network) == 0) {
+     stop(stringr::str_glue('Network is empty after intersecting it with mat and
+     filtering it by sources with at least {minsize} targets. Make sure mat and 
+     network have shared target features or reduce the number assigned to minsize'))
+   }
+   return(network)
+}
+
 #' Pre-processing for methods that fit networks.
 #'
 #' - If `center` is true, then the expression values are centered by the

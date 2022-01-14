@@ -11,6 +11,7 @@ run_gsva(
   .target = .data$target,
   verbose = FALSE,
   method = "gsva",
+  minsize = 5,
   ...
 )
 }

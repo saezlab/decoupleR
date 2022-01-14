@@ -46,13 +46,16 @@ run_ora <- function(mat,
                     n_background = 20000,
                     with_ties = TRUE,
                     seed = 42,
+                    minsize = 5,
                     ...) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
-    regulons <- network %>%
-        convert_to_ora({{ .source }}, {{ .target }})
+    network <- network %>%
+      rename_net({{ .source }}, {{ .target }})
+    network <- filt_minsize(rownames(mat), network, minsize)
+    regulons <- extract_sets(network)
 
     ns <- .ora_check_ns(n_up, n_bottom, n_background, network, mat)
     n_up <- ns[1]

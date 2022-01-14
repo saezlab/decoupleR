@@ -14,6 +14,7 @@ run_ora(
   n_background = 20000,
   with_ties = TRUE,
   seed = 42,
+  minsize = 5,
   ...
 )
 }

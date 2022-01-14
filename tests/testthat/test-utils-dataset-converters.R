@@ -119,7 +119,3 @@ test_that("missing quos", {
         class = "quo_null_error"
     )
 })
-
-test_that("convert_to return same", {
-    expect_equal(convert_to_(dorothea_genesets), dorothea_genesets)
-})

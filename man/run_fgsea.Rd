@@ -12,6 +12,7 @@ run_fgsea(
   times = 100,
   nproc = 4,
   seed = 42,
+  minsize = 5,
   ...
 )
 }

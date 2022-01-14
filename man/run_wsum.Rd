@@ -14,7 +14,8 @@ run_wsum(
   times = 100,
   seed = 42,
   sparse = TRUE,
-  randomize_type = "rows"
+  randomize_type = "rows",
+  minsize = 5
 )
 }
 \arguments{

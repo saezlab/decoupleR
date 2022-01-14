@@ -17,7 +17,8 @@ run_mdt(
   trees = 10,
   min_n = 20,
   nproc = 4,
-  seed = 42
+  seed = 42,
+  minsize = 5
 )
 }
 \arguments{

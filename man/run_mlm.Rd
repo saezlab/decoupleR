@@ -13,7 +13,8 @@ run_mlm(
   .likelihood = .data$likelihood,
   sparse = FALSE,
   center = FALSE,
-  na.rm = FALSE
+  na.rm = FALSE,
+  minsize = 5
 )
 }
 \arguments{

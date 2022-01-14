@@ -45,7 +45,7 @@ run_viper <- function(mat,
                       .mor = .data$mor,
                       .likelihood = .data$likelihood,
                       verbose = FALSE,
-                      minsize = 0,
+                      minsize = 5,
                       pleiotropy = TRUE,
                       eset.filter = FALSE,
                       ...) {
@@ -54,7 +54,17 @@ run_viper <- function(mat,
 
     # Before to start ---------------------------------------------------------
     network <- network %>%
-        convert_to_viper({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+        rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    network <- filt_minsize(rownames(mat), network, minsize)
+    network <- network %>%
+        dplyr::mutate(mor = sign(.data$mor)) %>%
+        split(.$source) %>%
+        purrr::map(~ {
+            list(
+                tfmode = purrr::set_names(.x$mor, .x$target),
+                likelihood = .x$likelihood
+            )
+        })
 
     # Analysis ----------------------------------------------------------------
     exec(

@@ -41,15 +41,17 @@
 #'
 #' run_wsum(mat, network, .source='tf')
 run_wsum <- function(mat,
-                      network,
-                      .source = .data$source,
-                      .target = .data$target,
-                      .mor = .data$mor,
-                      .likelihood = .data$likelihood,
-                      times = 100,
-                      seed = 42,
-                      sparse = TRUE,
-                      randomize_type = "rows") {
+                     network,
+                     .source = .data$source,
+                     .target = .data$target,
+                     .mor = .data$mor,
+                     .likelihood = .data$likelihood,
+                     times = 100,
+                     seed = 42,
+                     sparse = TRUE,
+                     randomize_type = "rows",
+                     minsize = 5
+                     ) {
     # Before to start ---------------------------------------------------------
     if (times < 2) {
         rlang::abort(message = stringr::str_glue("Parameter 'times' must be greater than or equal to 2, but {times} was passed."))
@@ -59,7 +61,8 @@ run_wsum <- function(mat,
     check_nas_infs(mat)
 
     network <- network %>%
-        convert_to_wsum({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+        rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    network <- filt_minsize(rownames(mat), network, minsize)
 
     # Preprocessing -----------------------------------------------------------
 

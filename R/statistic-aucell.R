@@ -34,14 +34,17 @@ run_aucell <- function(mat,
                        .target = .data$target,
                        aucMaxRank = ceiling(0.05 * nrow(rankings)),
                        nproc = 4,
-                       seed = 42
+                       seed = 42,
+                       minsize = 5
 ) {
   # Before to start ---------------------------------------------------------
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
 
   network <- network %>%
-    convert_to_aucell({{ .source }}, {{ .target }})
+    rename_net({{ .source }}, {{ .target }})
+  network <- filt_minsize(rownames(mat), network, minsize)
+  network <- extract_sets(network)
 
   # Convert to absolute values
   mat <- abs(mat)

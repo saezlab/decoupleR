@@ -54,6 +54,7 @@ intersect_regulons <- function(mat,
 #'
 #' @param mat_f_names Feature names of mat.
 #' @inheritParams .decoupler_network_format
+#' @param minsize Integer indicating the minimum number of targets per source.
 #'
 #' @return Filtered network.
 #' @export

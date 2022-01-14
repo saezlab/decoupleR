@@ -10,6 +10,8 @@ filt_minsize(mat_f_names, network, minsize = 5)
 \item{mat_f_names}{Feature names of mat.}
 
 \item{network}{Tibble or dataframe with edges and it's associated metadata.}
+
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 }
 \value{
 Filtered network.

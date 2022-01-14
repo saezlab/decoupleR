@@ -40,7 +40,6 @@
 #' @import dplyr
 #' @import purrr
 #' @import tibble
-#' @import ranger
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'

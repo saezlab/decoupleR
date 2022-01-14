@@ -78,7 +78,6 @@ Depends:
 Imports:
     broom,
     dplyr,
-    GSVA,
     magrittr,
     Matrix,
     purrr,
@@ -88,15 +87,16 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
-    viper,
     withr,
-    RobustRankAggreg,
+    RobustRankAggreg
+Suggests: 
+    GSVA,
+    viper,
     fgsea (>= 1.15.4),
     AUCell,
     SummarizedExperiment,
     rpart,
-    ranger
-Suggests: 
+    ranger,
     BiocStyle,
     covr,
     knitr,

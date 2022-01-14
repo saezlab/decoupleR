@@ -35,7 +35,6 @@
 #' @import dplyr
 #' @import purrr
 #' @import tibble
-#' @import rpart
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'

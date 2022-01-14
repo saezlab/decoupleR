@@ -21,7 +21,6 @@
 #' @import dplyr
 #' @import tibble
 #' @import tidyr
-#' @import SummarizedExperiment
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'

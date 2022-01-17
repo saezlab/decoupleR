@@ -1,4 +1,53 @@
-# decoupleR 2.0.0
+# decoupleR 2.1.
+
+## Changes
+* Added `minsize` argument to all methods, set to 5 by default. Sources 
+containing less than this value of targets in the input mat will be removed 
+from the  calculations.
+
+* `ulm`/`mlm`/`udt`/`mdt` methods:
+    * Changed how they processed the input network. Before the model 
+    matrix only contained the intersection of features between mat and 
+    network's targets, now it incorporates all features coming from mat 
+    ensuring a more robust prediction. Prediction values may change slightly 
+    from older versions. 
+    * Deprecated `sparse` argument. 
+    
+* `ora` method:
+    * Now takes top 5% features as default input instead of 300 up and bottom 
+    features.
+    * Added seed to randomly break ties
+    
+* `consensus` method: 
+    * Added seed to randomly break ties.
+
+* Discarded `filter_regulons` function.
+
+* Moved major dependencies to Suggest to reduce the number of dependencies 
+needed.
+
+* Updated README by adding:
+    * Kinase inference example
+    * Graphical abstract
+    * Manuscript and citation
+    * New vignette style
+
+## New features
+* Added `show_methods` function, it shows how many statistics are currently 
+available.
+
+* Added `check_corr` function, it shows how correlated regulators in a network 
+are. It can be used to check for co-linearity for `mlm` and `mdt`. 
+
+* Added new error for `mlm` when co-variables are co-linear (regulators are too 
+correlated to fit a model).
+
+## Bugfixes
+* `ulm`, `mlm`, `mdt` and `udt` now accept matrices with one column as input. 
+
+* Results from `ulm` and `mlm` now correctly return un-grouped.
+
+# decoupleR 2.0
 
 ## Changes
 * Some method's names have been changed to make them easier to identify:
@@ -42,7 +91,7 @@ for the obtained score (`fgsea`, `mlm`, `ora`, `ulm`, `viper`, `wmean` and
 
 * New error added when the input matrix contains NAs or Infs. 
 
-# decoupleR 1.1.0
+# decoupleR 1.1
 
 ## New features
 

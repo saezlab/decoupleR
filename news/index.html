@@ -66,9 +66,50 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="2.0.0" id="decoupler-200">decoupleR 2.0.0<a class="anchor" aria-label="anchor" href="#decoupler-200"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.1" id="decoupler-21">decoupleR 2.1.<a class="anchor" aria-label="anchor" href="#decoupler-21"></a></h2>
 <div class="section level3">
-<h3 id="changes-2-0-0">Changes<a class="anchor" aria-label="anchor" href="#changes-2-0-0"></a></h3>
+<h3 id="changes-2-1">Changes<a class="anchor" aria-label="anchor" href="#changes-2-1"></a></h3>
+<ul><li><p>Added <code>minsize</code> argument to all methods, set to 5 by default. Sources containing less than this value of targets in the input mat will be removed from the calculations.</p></li>
+<li>
+<p><code>ulm</code>/<code>mlm</code>/<code>udt</code>/<code>mdt</code> methods:</p>
+<ul><li>Changed how they processed the input network. Before the model matrix only contained the intersection of features between mat and network’s targets, now it incorporates all features coming from mat ensuring a more robust prediction. Prediction values may change slightly from older versions.</li>
+<li>Deprecated <code>sparse</code> argument.</li>
+</ul></li>
+<li>
+<p><code>ora</code> method:</p>
+<ul><li>Now takes top 5% features as default input instead of 300 up and bottom features.</li>
+<li>Added seed to randomly break ties</li>
+</ul></li>
+<li>
+<p><code>consensus</code> method:</p>
+<ul><li>Added seed to randomly break ties.</li>
+</ul></li>
+<li><p>Discarded <code>filter_regulons</code> function.</p></li>
+<li><p>Moved major dependencies to Suggest to reduce the number of dependencies needed.</p></li>
+<li>
+<p>Updated README by adding:</p>
+<ul><li>Kinase inference example</li>
+<li>Graphical abstract</li>
+<li>Manuscript and citation</li>
+<li>New vignette style</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-2-1">New features<a class="anchor" aria-label="anchor" href="#new-features-2-1"></a></h3>
+<ul><li><p>Added <code>show_methods</code> function, it shows how many statistics are currently available.</p></li>
+<li><p>Added <code>check_corr</code> function, it shows how correlated regulators in a network are. It can be used to check for co-linearity for <code>mlm</code> and <code>mdt</code>.</p></li>
+<li><p>Added new error for <code>mlm</code> when co-variables are co-linear (regulators are too correlated to fit a model).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bugfixes-2-1">Bugfixes<a class="anchor" aria-label="anchor" href="#bugfixes-2-1"></a></h3>
+<ul><li><p><code>ulm</code>, <code>mlm</code>, <code>mdt</code> and <code>udt</code> now accept matrices with one column as input.</p></li>
+<li><p>Results from <code>ulm</code> and <code>mlm</code> now correctly return un-grouped.</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.0" id="decoupler-20">decoupleR 2.0<a class="anchor" aria-label="anchor" href="#decoupler-20"></a></h2>
+<div class="section level3">
+<h3 id="changes-2-0">Changes<a class="anchor" aria-label="anchor" href="#changes-2-0"></a></h3>
 <ul><li>
 <p>Some method’s names have been changed to make them easier to identify:</p>
 <ul><li>
@@ -85,7 +126,7 @@
 <li><p>Moved benchmark branch to a separate repository as its own package: <a href="https://github.com/saezlab/decoupleRBench" class="external-link uri">https://github.com/saezlab/decoupleRBench</a></p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-2-0-0">New features<a class="anchor" aria-label="anchor" href="#new-features-2-0-0"></a></h3>
+<h3 id="new-features-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-2-0"></a></h3>
 <ul><li>
 <p>New methods added:</p>
 <ul><li>Fast Gene Set Enrichment Analysis (<code>fgsea</code>).</li>
@@ -104,12 +145,12 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1.0" id="decoupler-110">decoupleR 1.1.0<a class="anchor" aria-label="anchor" href="#decoupler-110"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1" id="decoupler-11">decoupleR 1.1<a class="anchor" aria-label="anchor" href="#decoupler-11"></a></h2>
 <div class="section level3">
-<h3 id="new-features-1-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
+<h3 id="new-features-1-1">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1"></a></h3>
 <p>All new features allow for <strong>tidy selection</strong>. Making it easier to evaluate different types of data for the same method. For instance, you can specify the columns to use as strings, integer position, symbol or expression.</p>
 <div class="section level4">
-<h4 id="methods-1-1-0">Methods<a class="anchor" aria-label="anchor" href="#methods-1-1-0"></a></h4>
+<h4 id="methods-1-1">Methods<a class="anchor" aria-label="anchor" href="#methods-1-1"></a></h4>
 <ul><li><p>New <code><a href="../reference/decouple.html">decouple()</a></code> integrates the various member functions of the <code>decoupleR statistics</code> for centralized evaluation.</p></li>
 <li>
 <p>New family <code>decoupleR statists</code> for shared documentation is made up of:</p>
@@ -122,7 +163,7 @@
 </ul></li>
 </ul></div>
 <div class="section level4">
-<h4 id="converters-1-1-0">Converters<a class="anchor" aria-label="anchor" href="#converters-1-1-0"></a></h4>
+<h4 id="converters-1-1">Converters<a class="anchor" aria-label="anchor" href="#converters-1-1"></a></h4>
 <ul><li>New functions family <code>convert_to_ variants</code> that allows the conversion of data to a standard format.
 <ul><li>New <code>convert_to_()</code> return the entry without modification.</li>
 <li>New <code>convert_to_gsva()</code> return a list of regulons suitable for <a href="https://rdrr.io/bioc/GSVA/man/gsva.html" class="external-link">GSVA::gsva()</a>.</li>

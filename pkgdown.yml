@@ -3,7 +3,7 @@ pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   decoupleR: decoupleR.html
-last_built: 2022-01-14T14:54Z
+last_built: 2022-01-17T09:05Z
 urls:
   reference: https://saezlab.github.io/decoupleR/reference
   article: https://saezlab.github.io/decoupleR/articles

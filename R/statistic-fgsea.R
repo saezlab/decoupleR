@@ -46,6 +46,10 @@ run_fgsea <- function(mat,
   network <- filt_minsize(rownames(mat), network, minsize)
   regulons <- extract_sets(network)
 
+  if (is.null(colnames(mat))){
+    colnames(mat) <- 1:ncol(mat)
+  }
+  
   conditions <- colnames(mat) %>%
     set_names()
 

@@ -136,6 +136,10 @@ filt_minsize <- function(mat_f_names, network, minsize = 5){
     mat <- mat - rowMeans(mat, na.rm)
   }
   
+  if (is.null(colnames(mat))){
+    colnames(mat) <- 1:ncol(mat)
+  }
+  
   list(mat = mat, mor_mat = mor_mat)
 }
 

@@ -1,9 +1,9 @@
 pandoc: 2.11.4
-pkgdown: 2.0.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   decoupleR: decoupleR.html
-last_built: 2022-01-17T09:05Z
+last_built: 2022-01-21T17:18Z
 urls:
   reference: https://saezlab.github.io/decoupleR/reference
   article: https://saezlab.github.io/decoupleR/articles

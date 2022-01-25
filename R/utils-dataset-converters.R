@@ -33,7 +33,7 @@ rename_net <- function(network,
             .def_col_val = c(mor = def_mor, likelihood = def_lik)
         )
     check_repeated_edges(network)
-    check_signs(network)
+    check_likelihood(network)
     network
 }
 
@@ -221,19 +221,16 @@ check_repeated_edges <- function(network){
     }
 }
 
-#' Check if .mor and .likelihood columns contain valid values
+#' Check if .likelihood columns contain valid values
 #'
 #' @param network Network in tibble format.
 #' @noRd
-check_signs <- function(network){
-    if(any(abs(network$mor) != 1)){
-        stop('.mor column in network contains values different from -1 or 1. To
-             assign weights, place them in the .likelihood column as their 
-             absolute value.')
-    }
-    if(any(sign(network$likelihood) == -1)){
-        stop('.likelihood column in network contains negative values. To assign 
-        negative weights, place a -1 in the .mor column.')
+check_likelihood <- function(network){
+    if(any(0 > network$likelihood | 1 < network$likelihood)){
+        stop('.likelihood column in network contains values outside the range of
+             [0,1]. The likelihood parametter represents the probability (1-pval) 
+             of that interaction. Please, set them accordingly. If in doubt, 
+             leave them to 1 and instead set the weight in the .mor column.')
     }
 }
 

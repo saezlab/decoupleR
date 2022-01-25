@@ -56,7 +56,7 @@ run_viper <- function(mat,
         rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
     network <- filt_minsize(rownames(mat), network, minsize)
     network <- network %>%
-        dplyr::mutate(mor = sign(.data$mor)) %>%
+        dplyr::mutate(mor = .data$mor) %>%
         split(.$source) %>%
         purrr::map(~ {
             list(

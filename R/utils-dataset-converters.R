@@ -1,27 +1,25 @@
 #' Rename network
 #'
 #' @description
-#' Renames a given network to these column names: .source, .target, .mor, 
-#' .likelihood. If .mor or .likelihood are not provided, then the function sets 
-#' them to default values.
+#' Renames a given network to these column names: .source, .target, .mor, If 
+#' .mor is not provided, then the function sets them to default values.
 #' 
 #' @inheritParams .decoupler_network_format
 #' @param def_mor Default value for .mor when not provided.
-#' @param def_lik Default value for .likelihood when not provided.
 #' 
 #' @export
 #' @examples 
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 #' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
-#' rename_net(network, tf, target, mor, likelihood)
+#' rename_net(network, tf, target, mor)
 rename_net <- function(network,
                        .source,
                        .target,
                        .mor = NULL,
                        .likelihood = NULL,
-                       def_mor = 1,
-                       def_lik = 1) {
+                       def_mor = 1) {
+    
     .check_quos_status({{ .source }}, {{ .target }}, 
                        .dots_names = c(".source", ".target"))
     network <- network %>%
@@ -30,10 +28,13 @@ rename_net <- function(network,
             target = {{ .target }},
             mor = {{ .mor }},
             likelihood = {{ .likelihood }},
-            .def_col_val = c(mor = def_mor, likelihood = def_lik)
+            .def_col_val = c(mor = def_mor, likelihood=1)
         )
+    if (any(network$likelihood != 1)) {
+        warning(".likelihood argument is deprecated, it will be set to 1. From now
+                on, weights of regulation should go into the .mor column.")
+    }
     check_repeated_edges(network)
-    check_likelihood(network)
     network
 }
 
@@ -218,19 +219,6 @@ check_repeated_edges <- function(network){
         filter(n()>1)
     if (nrow(repeated) > 1){
         stop('Network contains repeated edges, please remove them.')
-    }
-}
-
-#' Check if .likelihood columns contain valid values
-#'
-#' @param network Network in tibble format.
-#' @noRd
-check_likelihood <- function(network){
-    if(any(0 > network$likelihood | 1 < network$likelihood)){
-        stop('.likelihood column in network contains values outside the range of
-             [0,1]. The likelihood parametter represents the probability (1-pval) 
-             of that interaction. Please, set them accordingly. If in doubt, 
-             leave them to 1 and instead set the weight in the .mor column.')
     }
 }
 

@@ -10,8 +10,7 @@ rename_net(
   .target,
   .mor = NULL,
   .likelihood = NULL,
-  def_mor = 1,
-  def_lik = 1
+  def_mor = 1
 )
 }
 \arguments{
@@ -26,17 +25,14 @@ rename_net(
 \item{.likelihood}{Column with edge likelihood.}
 
 \item{def_mor}{Default value for .mor when not provided.}
-
-\item{def_lik}{Default value for .likelihood when not provided.}
 }
 \description{
-Renames a given network to these column names: .source, .target, .mor,
-.likelihood. If .mor or .likelihood are not provided, then the function sets
-them to default values.
+Renames a given network to these column names: .source, .target, .mor, If
+.mor is not provided, then the function sets them to default values.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
 network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
-rename_net(network, tf, target, mor, likelihood)
+rename_net(network, tf, target, mor)
 }

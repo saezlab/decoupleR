@@ -55,6 +55,15 @@ run_viper <- function(mat,
     network <- network %>%
         rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
     network <- filt_minsize(rownames(mat), network, minsize)
+    # Normalize mor between -1 and 1
+    network <- network %>%
+        dplyr::group_by(source) %>%
+        dplyr::group_modify(function(.x, .y){
+            n_max <- max(abs(.x$mor))
+            .x$mor <- .x$mor / n_max
+            .x
+        })
+    # Transform to viper format
     network <- network %>%
         dplyr::mutate(mor = .data$mor) %>%
         split(.$source) %>%

@@ -33,7 +33,7 @@ in \code{network} \code{.target} column.}
 
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
-\item{.likelihood}{Column with edge likelihood.}
+\item{.likelihood}{Deprecated argument. Now it will always be set to 1.}
 
 \item{sparse}{Deprecated parameter.}
 

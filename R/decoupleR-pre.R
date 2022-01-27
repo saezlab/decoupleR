@@ -158,15 +158,15 @@ check_corr <- function(network,
                         .source = "source",
                         .target = "target", 
                         .mor = "mor", 
-                        .likelihood = "likelihood"){
+                        .likelihood = NULL){
   
   source <- as.symbol(.source)
   target <- as.symbol(.target)
   mor <- as.symbol(.mor)
-  likelihood <- as.symbol(.likelihood)
   
-  network <- network %>% 
-    dplyr::mutate(weight = (!!mor)*(!!likelihood)) %>% 
+  network <- network %>%
+    dplyr::mutate(likelihood=1) %>%
+    dplyr::mutate(weight = (!!mor)*.data$likelihood) %>% 
     dplyr::select(!!source, !!target, .data$weight)
   network_wide <- network %>%
     tidyr::pivot_wider(names_from = !!target, values_from = .data$weight, values_fill = 0) %>%
@@ -184,3 +184,40 @@ check_corr <- function(network,
   cor_source
 }
 
+#' Generate a toy `mat` and `network`.
+#' 
+#' @param n_samples Number of samples to simulate.
+#' @param seed A single value, interpreted as an integer, or NULL for random
+#'  number generation.
+#'
+#' @return List containing `mat` and `network`.
+#' @export
+#' @examples
+#' data <- get_toy_data()
+#' mat <- data$mat
+#' network <- data$network
+get_toy_data <- function(n_samples = 24, seed = 42){
+  network <- tibble::tibble(
+    source = c('T1','T1','T1','T2','T2','T2','T3','T3','T3','T3'),
+    target = c('G01','G02','G03','G06','G07','G08','G06','G07','G08','G11'),
+    mor = c(1,1,0.7,1,0.5,1,-0.5,-3,-1,1)
+  )
+  
+  n_features <- 12
+  n <- round(n_samples/2)
+  res = n_samples %% 2
+  r1 <- c(8,8,8,8,0,0,0,0,0,0,0,0)
+  r2 <- c(0,0,0,0,8,8,8,8,0,0,0,0)
+  rep(matrix(r1, ncol=12),n)
+  matrix(c(rep(r1, n), ncol=12, nrow=12))
+  matrix(c(rep(r1, n),rep(r2, n)), ncol = 24)
+  mat <- matrix(c(rep(r1,n),rep(r2,n)), nrow=12)
+  withr::with_seed(seed, {
+    rand <- matrix(abs(stats::rnorm(dim(mat)[1]*dim(mat)[2])), nrow=12)
+  })
+  mat <- mat + rand
+  rownames(mat) <- c('G01','G02','G03','G04','G05','G06','G07','G08','G09','G10','G11','G12')
+  colnames(mat) <- lapply(1:dim(mat)[2], function(i){paste0('S',sprintf("%02d", i))})
+  
+  return(list(mat=mat, network=network))
+}

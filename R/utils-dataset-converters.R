@@ -22,6 +22,9 @@ rename_net <- function(network,
     
     .check_quos_status({{ .source }}, {{ .target }}, 
                        .dots_names = c(".source", ".target"))
+    if (!'likelihood' %in% colnames(network)){
+        network <- network %>% mutate(likelihood=1)
+    }
     network <- network %>%
         convert_f_defaults(
             source = {{ .source }},
@@ -35,6 +38,7 @@ rename_net <- function(network,
                 on, weights of regulation should go into the .mor column.")
     }
     check_repeated_edges(network)
+    network <- network %>% mutate(likelihood=1)
     network
 }
 

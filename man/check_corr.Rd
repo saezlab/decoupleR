@@ -9,7 +9,7 @@ check_corr(
   .source = "source",
   .target = "target",
   .mor = "mor",
-  .likelihood = "likelihood"
+  .likelihood = NULL
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ check_corr(
 
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
-\item{.likelihood}{Column with edge likelihood.}
+\item{.likelihood}{Deprecated argument. Now it will always be set to 1.}
 }
 \value{
 Correlation pairs tibble.

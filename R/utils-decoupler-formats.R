@@ -32,7 +32,7 @@ NULL
 #' @param .source Column with source nodes.
 #' @param .target Column with target nodes.
 #' @param .mor Column with edge mode of regulation (i.e. mor).
-#' @param .likelihood Column with edge likelihood.
+#' @param .likelihood Deprecated argument. Now it will always be set to 1.
 #'
 #' @details
 #' * All the attributes to be mapped are prefixed by `.`

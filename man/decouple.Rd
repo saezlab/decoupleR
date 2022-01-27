@@ -14,7 +14,8 @@ decouple(
   args = list(NULL),
   consensus_score = TRUE,
   include_time = FALSE,
-  show_toy_call = FALSE
+  show_toy_call = FALSE,
+  minsize = 5
 )
 }
 \arguments{
@@ -42,6 +43,8 @@ methods. Obtained scores are -log10(p-values).}
 \item{include_time}{Should the time per statistic evaluated be informed?}
 
 \item{show_toy_call}{The call of each statistic must be informed?}
+
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 }
 \value{
 A long format tibble of the enrichment scores for each source

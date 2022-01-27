@@ -13,7 +13,7 @@
 
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
-\item{.likelihood}{Column with edge likelihood.}
+\item{.likelihood}{Deprecated argument. Now it will always be set to 1.}
 }
 \description{
 A network passed to any \code{run_} method in the package must contain at

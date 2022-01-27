@@ -13,6 +13,7 @@
 #' @param consensus_score Boolean whether to run a consensus score between
 #' methods. Obtained scores are -log10(p-values).
 #' @param include_time Should the time per statistic evaluated be informed?
+#' @param minsize Integer indicating the minimum number of targets per source.
 #' @param show_toy_call The call of each statistic must be informed?
 #'
 #' @return A long format tibble of the enrichment scores for each source
@@ -57,7 +58,8 @@ decouple <- function(mat,
                      args = list(NULL),
                      consensus_score = TRUE,
                      include_time = FALSE,
-                     show_toy_call = FALSE) {
+                     show_toy_call = FALSE,
+                     minsize = 5) {
     
     # Match statistic names with arguments
     for (stat in setdiff(statistics, names(args))) {
@@ -87,6 +89,7 @@ decouple <- function(mat,
         mat_symbol = {{ mat_symbol }},
         network_symbol = {{ network_symbol }},
         include_time = include_time,
+        minsize = minsize,
         show_toy_call = show_toy_call,
         .id = "run_id"
     ) %>%
@@ -172,7 +175,10 @@ decouple <- function(mat,
                               mat_symbol,
                               network_symbol,
                               include_time,
+                              minsize,
                               show_toy_call) {
+    # Overwrite minsize
+    args[['minsize']] <- minsize
     .toy_call <- expr(
         (!!fn)(
             mat = {{ mat_symbol }},

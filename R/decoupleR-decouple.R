@@ -67,6 +67,11 @@ decouple <- function(mat,
     }
     args <- args[names(args) %in% statistics]
     statistics <- statistics[match(names(args),statistics)]
+    
+    # Overwrite minsize
+    for (name in names(args)) {
+        args[[name]][['minsize']] <- minsize
+    }
 
     # Match statistics to couple ----------------------------------------------
     statistics <- .select_statistics(statistics)
@@ -177,8 +182,6 @@ decouple <- function(mat,
                               include_time,
                               minsize,
                               show_toy_call) {
-    # Overwrite minsize
-    args[['minsize']] <- minsize
     .toy_call <- expr(
         (!!fn)(
             mat = {{ mat_symbol }},

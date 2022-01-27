@@ -180,7 +180,7 @@
 <p><img src="decoupleR_files/figure-html/show_matrix-1.png" width="700"></p>
 <p>Here we can see that some genes seem to be more expressed in one group of samples than in the other and vice-versa. Ideally, we would like to capture these differences in gene programs into interpretable biological entities. In this example we will do it by summarizing these differences in expression into transcription factor activities.</p>
 <p>The toy data also contains a simple net consisting of 3 transcription factors (Ts) with specific regulation to target genes (either positive or negative). This network can be visualized like a graph. Green edges are positive regulation (activation), red edges are negative regulation (inactivation):</p>
-<p><img src="../inst/figures/net_plot.png" align="center" width="800"></p>
+<p><img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/net_plot.png?raw=1" align="center" width="600"></p>
 <p>According to this network, the first population of samples should show high activity for T1 and T3, while the second one only for T3.</p>
 </div>
 <div class="section level3">
@@ -293,7 +293,8 @@
   <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">mat_gsea</span>, cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_cols <span class="op">=</span> <span class="cn">F</span>, cellwidth <span class="op">=</span> <span class="fl">15</span>, cellheight <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></code></pre></div>
-<p><img src="decoupleR_files/figure-html/res_gsea-1.png" width="700"> We can observe that for transcription factors T1 and T2, the obtained activities can distinguish the two sample populations. T3, according to the prior knowledge network it is a repressor and its activity should be down for the second population of samples. This happens because <code>gsea</code> cannot model weights when inferring biological activities.</p>
+<p><img src="decoupleR_files/figure-html/res_gsea-1.png" width="700"></p>
+<p>We can observe that for transcription factors T1 and T2, the obtained activities can distinguish the two sample populations. T3, according to the prior knowledge network it is a repressor and its activity should be down for the second population of samples. This happens because <code>gsea</code> cannot model weights when inferring biological activities.</p>
 <p>When weights are available, we definitely recommend using any of the methods that model weights to get better estimates, like <code>ulm</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Transform to matrix</span>

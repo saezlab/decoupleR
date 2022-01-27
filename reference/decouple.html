@@ -18,7 +18,7 @@ coupling a regulatory network with a variety of statistics."><meta property="og:
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +85,8 @@ coupling a regulatory network with a variety of statistics.</p>
   args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span>,
   consensus_score <span class="op">=</span> <span class="cn">TRUE</span>,
   include_time <span class="op">=</span> <span class="cn">FALSE</span>,
-  show_toy_call <span class="op">=</span> <span class="cn">FALSE</span>
+  show_toy_call <span class="op">=</span> <span class="cn">FALSE</span>,
+  minsize <span class="op">=</span> <span class="fl">5</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -116,6 +117,8 @@ methods. Obtained scores are -log10(p-values).</p></dd>
 <dd><p>Should the time per statistic evaluated be informed?</p></dd>
 <dt>show_toy_call</dt>
 <dd><p>The call of each statistic must be informed?</p></dd>
+<dt>minsize</dt>
+<dd><p>Integer indicating the minimum number of targets per source.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>

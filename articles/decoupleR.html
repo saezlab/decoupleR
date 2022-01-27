@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="decoupleR">
-<title>Introduction to decoupleR • decoupleR</title>
+<title>decoupleR - Ensemble of methods to infer biological activities • decoupleR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to decoupleR">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="decoupleR - Ensemble of methods to infer biological activities">
 <meta property="og:description" content="decoupleR">
 <meta property="og:image" content="https://saezlab.github.io/decoupleR/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -39,7 +39,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,281 +93,262 @@
 
 <div class="row">
   <main id="main"><div class="page-header">
-      <img src="../logo.svg" class="logo" alt=""><h1>Introduction to decoupleR</h1>
-                        <h4 data-toc-skip class="author">Jesús Vélez-Santiago</h4>
+      <img src="../logo.svg" class="logo" alt=""><h1>decoupleR - Ensemble of methods to infer biological activities</h1>
+                        <h4 data-toc-skip class="author">Pau Badia-i-Mompel</h4>
+            <address class="author_afil">
+      Heidelberg Universiy<br><h4 data-toc-skip class="author">Jesús Vélez-Santiago</h4>
             <address class="author_afil">
       National Autonomous University of Mexico<br><small class="dont-index">Source: <a href="https://github.com/saezlab/decoupleR/blob/HEAD/vignettes/decoupleR.Rmd" class="external-link"><code>vignettes/decoupleR.Rmd</code></a></small>
       <div class="d-none name"><code>decoupleR.Rmd</code></div>
     </address>
+</address>
 </div>
 
     
     
 <div class="section level2">
-<h2 id="basics">Basics<a class="anchor" aria-label="anchor" href="#basics"></a>
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<div class="section level3">
-<h3 id="install-decoupler">Install <code>decoupleR</code><a class="anchor" aria-label="anchor" href="#install-decoupler"></a>
-</h3>
-<p><code>R</code> is an open-source statistical environment which can be easily modified to enhance its functionality via packages. <em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> is an <code>R</code> package available via the <a href="http://bioconductor.org" class="external-link">Bioconductor</a> repository for packages. <code>R</code> can be installed on any operating system from <a href="https://cran.r-project.org/" class="external-link">CRAN</a> after which you can install <em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> by using the following commands in your <code>R</code> session:</p>
+<p><em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> is an R package distributed as part of the Bioconductor project. To install the package, start R and enter:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
     <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 <span class="op">}</span>
 
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"decoupleR"</span><span class="op">)</span>
-
-<span class="co"># Check that you have a valid Bioconductor installation</span>
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/valid.html" class="external-link">valid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"decoupleR"</span><span class="op">)</span></code></pre></div>
+<p>Alternatively, you can instead install the latest development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"saezlab/decoupleR"</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="required-knowledge">Required knowledge<a class="anchor" aria-label="anchor" href="#required-knowledge"></a>
-</h3>
-<p><em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with functional analysis. That is, packages like <em><a href="https://bioconductor.org/packages/3.13/viper" class="external-link">viper</a></em> or <em><a href="https://bioconductor.org/packages/3.13/GSVA" class="external-link">GSVA</a></em>, among others. This in order to have a centralized place from which to apply different statistics to the same data set without the need and work that would require testing in isolation. Opening the possibility of developing benchmarks that can grow easily.</p>
-</div>
-<div class="section level3">
-<h3 id="asking-for-help">Asking for help<a class="anchor" aria-label="anchor" href="#asking-for-help"></a>
-</h3>
-<p>As package developers, we try to explain clearly how to use our packages and in which order to use the functions. But <code>R</code> and <code>Bioconductor</code> have a steep learning curve so it is critical to learn where to ask for help. We would like to highlight the <a href="https://support.bioconductor.org/" class="external-link">Bioconductor support site</a> as the main resource for getting help: remember to use the <code>decoupleR</code> tag and check <a href="https://support.bioconductor.org/t/decoupleR/" class="external-link">the older posts</a>. Other alternatives are available such as creating GitHub issues and tweeting. However, please note that if you want to receive help you should adhere to the <a href="http://www.bioconductor.org/help/support/posting-guide/" class="external-link">posting guidelines</a>. It is particularly critical that you provide a small reproducible example and your session information so package developers can track down the source of the error.</p>
-</div>
-<div class="section level3">
-<h3 id="citing-decoupler">Citing <code>decoupleR</code><a class="anchor" aria-label="anchor" href="#citing-decoupler"></a>
-</h3>
-<p>We hope that <em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> will be useful for your research. Please use the following information to cite the package and the overall approach. Thank you!</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"decoupleR"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; To cite decoupleR in publications, please use:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Badia-i-Mompel P., Vélez J., Braunger J., Geiss C., Dimitrov D.,</span>
-<span class="co">#&gt;   Müller-Dott S., Taus P., Dugourd A., Holland C.H., Ramirez Flores</span>
-<span class="co">#&gt;   R.O.  and Saez-Rodriguez J. 2021. decoupleR: Ensemble of</span>
-<span class="co">#&gt;   computational methods to infer biological activities from omics data.</span>
-<span class="co">#&gt;   bioRxiv.  https://doi.org/10.1101/2021.11.04.46727</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; A BibTeX entry for LaTeX users is</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   @Article{,</span>
-<span class="co">#&gt;     author = {Pau Badia-i-Mompel and Jesús Vélez-Santiago and Jana Braunger and Celina Geiss and Daniel Dimitrov and Sophia Müller-Dott and Petr Taus and Aurelien Dugourd and Christian H. Holland and Ricardo O. Ramirez Flores and Julio Saez-Rodriguez},</span>
-<span class="co">#&gt;     title = {decoupleR: Ensemble of computational methods to infer biological activities from omics data},</span>
-<span class="co">#&gt;     journal = {bioRxiv},</span>
-<span class="co">#&gt;     year = {2021},</span>
-<span class="co">#&gt;     doi = {https://doi.org/10.1101/2021.11.04.467271},</span>
-<span class="co">#&gt;   }</span></code></pre></div>
-</div>
-</div>
 <div class="section level2">
-<h2 id="quick-start-to-using-to-decoupler">Quick start to using to <code>decoupleR</code><a class="anchor" aria-label="anchor" href="#quick-start-to-using-to-decoupler"></a>
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
+<p><em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> (Badia-i-Mompel, Vélez-Santiago, Braunger, Geiss, Dimitrov, Müller-Dott, Taus, Dugourd, Holland, Flores, and Saez-Rodriguez, 2021) contains different statistical methods to extract biological activities from omics data using prior knowledge. Some of them are:</p>
+<ul>
+<li>AUCell: (Aibar, Bravo Gonzalez-Blas, Moerman, Huynh-Thu, Imrichova, Hulselmans, Rambow, Marine, Geurts, Aerts, van den Oord, Kalender Atak, Wouters, and Aerts, 2017)</li>
+<li>Fast GSEA: (Korotkevich, Sukhov, and Sergushichev, 2019)</li>
+<li>GSVA: (H{ä}nzelmann, Castelo, and Guinney, 2013)</li>
+<li>viper: (Alvarez, Shen, Giorgi, Lachmann, Ding, Ye, and Califano, 2016)</li>
+</ul>
+<p>In this vignette we showcase how to use it with some toy data.</p>
 <div class="section level3">
 <h3 id="libraries">Libraries<a class="anchor" aria-label="anchor" href="#libraries"></a>
 </h3>
-<p><em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> provides different statistics to calculate the regulatory activity given a <code>matrix</code> of molecular readouts and a <code>network</code>. It incorporates pre-existing methods to avoid recreating the wheel while implementing its own methods under an evaluation standard. Therefore, it provides flexibility when evaluating a data set with different statistics.</p>
-<p>Since inputs and outputs are always tibbles (i.e. special data frames), incorporating <em><a href="https://github.com/tidyverse/dplyr" class="external-link">dplyr</a></em> into your workflow can be useful for manipulating results, but it is not necessary.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p><em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> can be imported as:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://saezlab.github.io/decoupleR/">decoupleR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></code></pre></div>
+
+<span class="co"># Extra libraries</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="input-data">Input data<a class="anchor" aria-label="anchor" href="#input-data"></a>
 </h3>
-<p>In order to use it, you first need to have a <code>matrix</code> where the rows represent the target nodes and the columns the samples. In addition, it is necessary to provide a prior knowledge <code>network</code> that contains at least two columns corresponding to the source and target nodes. It is noteworthy that certain methods will require specifying additional metadata columns. For instance, the mode of regulation (MoR) or the likelihood of the interaction.</p>
+<p><em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> needs a matrix (<code>mat</code>) of any molecular readouts (gene expression, logFC, p-values, etc.) and a <code>network</code> that relates target features (genes, proteins, etc.) to “source” biological entities (pathways, transcription factors, molecular processes, etc.). Some methods also require the mode of regulation (MoR) for each interaction, defined as negative or positive weights.</p>
+<p>To get an example data-set, run:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_toy_data.html">get_toy_data</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">mat</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">mat</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mat</span>,<span class="fl">5</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
+<span class="co">#&gt;           S01       S02       S03        S04      S05</span>
+<span class="co">#&gt; G01 9.3709584 9.3888607 9.8951935  8.7844590 8.431446</span>
+<span class="co">#&gt; G02 8.5646982 8.2787888 8.4304691  8.8509076 8.655648</span>
+<span class="co">#&gt; G03 8.3631284 8.1333213 8.2572694 10.4142076 8.321925</span>
+<span class="co">#&gt; G04 8.6328626 8.6359504 9.7631631  8.0361226 8.783839</span>
+<span class="co">#&gt; G05 0.4042683 0.2842529 0.4600974  0.2059986 1.575728</span>
+
+<span class="va">network</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">network</span>
+<span class="va">network</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 3</span></span>
+<span class="co">#&gt;    source target   mor</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> T1     G01      1  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> T1     G02      1  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> T1     G03      0.7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> T2     G06      1  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> T2     G07      0.5</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> T2     G08      1  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> T3     G06     -<span style="color: #BB0000;">0.5</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> T3     G07     -<span style="color: #BB0000;">3</span>  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> T3     G08     -<span style="color: #BB0000;">1</span>  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> T3     G11      1</span></code></pre></div>
+<p>This example consists of two small populations of samples (S, cols) with different gene expression patterns (G, rows):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">inputs_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"testdata"</span>, <span class="st">"inputs"</span>, package <span class="op">=</span> <span class="st">"decoupleR"</span><span class="op">)</span>
-
-<span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-expr_matrix.rds"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:18490, 1:4] 3.251 0.283 -2.253 0.782 -4.575 ...</span>
-<span class="co">#&gt;  - attr(*, "dimnames")=List of 2</span>
-<span class="co">#&gt;   ..$ : chr [1:18490] "A1BG" "A1CF" "A2M" "A2ML1" ...</span>
-<span class="co">#&gt;   ..$ : chr [1:4] "GSM2753335" "GSM2753336" "GSM2753337" "GSM2753338"</span>
-
-<span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-dorothea_genesets.rds"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 151</span>
-<span class="co">#&gt; Columns: 5</span>
-<span class="co">#&gt; $ tf         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO4", "FOXO…</span>
-<span class="co">#&gt; $ confidence <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A",…</span>
-<span class="co">#&gt; $ target     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "BCL2L11", "BCL6", "CDKN1A", "CDKN1B", "G6PC", "GADD45A", "…</span>
-<span class="co">#&gt; $ mor        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span>
-<span class="co">#&gt; $ likelihood <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span>
-
-<span class="co"># We recommend to intersect and set a minsize of targets</span>
-<span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/intersect_regulons.html">intersect_regulons</a></span><span class="op">(</span><span class="va">mat</span>, <span class="va">network</span>, <span class="va">tf</span>, <span class="va">target</span>, minsize<span class="op">=</span><span class="fl">5</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">mat</span>, cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_cols <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
+<p><img src="decoupleR_files/figure-html/show_matrix-1.png" width="700"></p>
+<p>Here we can see that some genes seem to be more expressed in one group of samples than in the other and vice-versa. Ideally, we would like to capture these differences in gene programs into interpretable biological entities. In this example we will do it by summarizing these differences in expression into transcription factor activities.</p>
+<p>The toy data also contains a simple net consisting of 3 transcription factors (Ts) with specific regulation to target genes (either positive or negative). This network can be visualized like a graph. Green edges are positive regulation (activation), red edges are negative regulation (inactivation):</p>
+<p><img src="../inst/figures/net_plot.png" align="center" width="800"></p>
+<p>According to this network, the first population of samples should show high activity for T1 and T3, while the second one only for T3.</p>
 </div>
 <div class="section level3">
-<h3 id="how-to-decouple">How to decouple?<a class="anchor" aria-label="anchor" href="#how-to-decouple"></a>
+<h3 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a>
 </h3>
-<p>Once the data is loaded, you are one step away from achieving decoupling. This step corresponds to specifying which statistics you want to run. For more information about the defined statistics and their parameters, you can execute <code>?decouple()</code>.</p>
+<p><em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> contains several methods. To check how many are available, run:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/decouple.html">decouple</a></span><span class="op">(</span>
-    mat <span class="op">=</span> <span class="va">mat</span>,
-    network <span class="op">=</span> <span class="va">network</span>,
-    .source <span class="op">=</span> <span class="st">"tf"</span>,
-    .target <span class="op">=</span> <span class="st">"target"</span>,
-    statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gsva"</span>, <span class="st">"wmean"</span>, <span class="st">"mlm"</span>, <span class="st">"ora"</span><span class="op">)</span>,
-    args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-        gsva <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,
-        wmean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>times <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,
-        mlm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>center<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,
-        ora <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_up<span class="op">=</span><span class="fl">300</span>, n_bottom<span class="op">=</span><span class="fl">300</span>, n_background<span class="op">=</span><span class="fl">20000</span><span class="op">)</span>
-    <span class="op">)</span>
-<span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 140</span>
-<span class="co">#&gt; Columns: 6</span>
-<span class="co">#&gt; $ run_id    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span>
-<span class="co">#&gt; $ statistic <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "gsva", "gsva", "gsva", "gsva", "gsva", "gsva", "gsva", "gsv…</span>
-<span class="co">#&gt; $ source    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "FOXO4", "FOXO4", "FOXO4", "FOXO4", "NFIC", "NFIC", "NFIC", …</span>
-<span class="co">#&gt; $ condition <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "GSM2753335", "GSM2753336", "GSM2753337", "GSM2753338", "GSM…</span>
-<span class="co">#&gt; $ score     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> -0.38043080, -0.29999174, 0.23887789, 0.09071077, -0.0845213…</span>
-<span class="co">#&gt; $ p_value   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></code></pre></div>
-<p>Done, you have applied different statistics to the same data set, now you can analyze them at your convenience, for example, by performing a <a href="">benchmark</a>.</p>
-</div>
-<div class="section level3">
-<h3 id="how-it-works">How it works?<a class="anchor" aria-label="anchor" href="#how-it-works"></a>
-</h3>
-<div class="section level4">
-<h4 id="mapping-statistics-with-arguments">Mapping statistics with arguments<a class="anchor" aria-label="anchor" href="#mapping-statistics-with-arguments"></a>
-</h4>
-<p>Internally, <code><a href="../reference/decouple.html">decouple()</a></code> works through <code><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">purrr::map2_dfr()</a></code> to perform statistics and argument mapping. This comes with important points:</p>
+<code class="sourceCode R"><span class="fu"><a href="../reference/show_methods.html">show_methods</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 2</span></span>
+<span class="co">#&gt;    Function      Name                                                           </span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                          </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> run_aucell    AUCell                                                         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> run_consensus Consensus score between methods                                </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> run_fgsea     Fast Gene Set Enrichment Analysis (FGSEA)                      </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> run_gsva      Gene Set Variation Analysis (GSVA)                             </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> run_mdt       Multivariate Decision Trees (MDT)                              </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> run_mlm       Multivariate Linear Model (MLM)                                </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> run_ora       Over Representation Analysis (ORA)                             </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> run_udt       Univariate Decision Tree (UDT)                                 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> run_ulm       Univariate Linear Model (ULM)                                  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> run_viper     Virtual Inference of Protein-activity by Enriched Regulon anal…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> run_wmean     Weighted Mean (WMEAN)                                          </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> run_wsum      Weighted Sum (WSUM)</span></code></pre></div>
+<p>Each method models biological activities in a different manner, sometimes returning more than one estimate or providing significance of the estimation. To know what each method returns, please check their documentation like this <code><a href="../reference/run_mlm.html">?run_mlm</a></code>.</p>
+<p>To have a unified framework, all methods have these shared arguments:</p>
 <ul>
 <li>
-<code>statistics</code> and <code>args</code> can be unsorted vectors. <code>decouple</code> will match the given <code>statistics</code> with the given <code>args</code>, and if a statistic doesn’t have a matching <code>args</code> entry, it will run using the default parameters.</li>
-<li>If an error occurs, copy the last line that was displayed with <code>show_toy_call = TRUE</code> and execute it locally. Try to fix it and correct it on the original call.</li>
+<code>mat</code> : input matrix of molecular readouts.</li>
+<li>
+<code>network</code> : input prior knowledge information relating molecular features to biological entities.</li>
+<li>
+<code>.source</code>,<code>.target</code> and <code>.mor</code> : column names where to extract the information from <code>network</code>.
+<ul>
+<li>
+<code>.source</code> refers to the biological entities.</li>
+<li>
+<code>.target</code> refers to the molecular features.</li>
+<li>
+<code>.mor</code> refers to the “strength” of the interaction (if available, else 1s will be used).</li>
 </ul>
-<p>See internal decouple calls and save results.</p>
+</li>
+<li>
+<code>minsize</code> : Minimum of target features per biological entity (5 by default). If less, sources are removed. This filtering prevents obtaining noisy activities from biological entities with very few matching target features in <code>mattrix</code>.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="running-methods">Running methods<a class="anchor" aria-label="anchor" href="#running-methods"></a>
+</h3>
+<div class="section level4">
+<h4 id="individual-methods">Individual methods<a class="anchor" aria-label="anchor" href="#individual-methods"></a>
+</h4>
+<p>As an example, let’s first run the Gene Set Enrichment Analysis method (<code>gsea</code>), one of the most well-known statistics:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">only_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/decouple.html">decouple</a></span><span class="op">(</span>
-    mat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mat</span>, <span class="fl">5000</span><span class="op">)</span>,
-    network <span class="op">=</span> <span class="va">network</span>,
-    .source <span class="op">=</span> <span class="st">"tf"</span>,
-    .target <span class="op">=</span> <span class="st">"target"</span>,
-    statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ora"</span>, <span class="st">"ulm"</span>, <span class="st">"gsva"</span><span class="op">)</span>,
-    consensus_score <span class="op">=</span> <span class="cn">FALSE</span>,
-    show_toy_call <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-<span class="co">#&gt; run_ora(mat = ^head(mat, 5000), network = ^network, .source = ^"tf", .target = </span>
-<span class="co">#&gt; * ^"target")</span>
-<span class="co">#&gt; run_ulm(mat = ^head(mat, 5000), network = ^network, .source = ^"tf", .target = </span>
-<span class="co">#&gt; * ^"target")</span>
-<span class="co">#&gt; run_gsva(mat = ^head(mat, 5000), network = ^network, .source = ^"tf", .target = </span>
-<span class="co">#&gt; * ^"target")</span></code></pre></div>
-<p>Run same but now with an unsorted argument.</p>
+<code class="sourceCode R"><span class="va">res_gsea</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_fgsea.html">run_fgsea</a></span><span class="op">(</span><span class="va">mat</span>, <span class="va">network</span>, .source<span class="op">=</span><span class="st">'source'</span>, .target<span class="op">=</span><span class="st">'target'</span>, nproc<span class="op">=</span><span class="fl">1</span>, minsize <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+<span class="va">res_gsea</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 144 × 5</span></span>
+<span class="co">#&gt;    statistic  source condition   score p_value</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> fgsea      T1     S01         0.889  0.075<span style="text-decoration: underline;">5</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> norm_fgsea T1     S01         1.24   0.075<span style="text-decoration: underline;">5</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> fgsea      T2     S01        -<span style="color: #BB0000;">0.667</span>  0.548 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> norm_fgsea T2     S01        -<span style="color: #BB0000;">1.11</span>   0.548 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> fgsea      T3     S01        -<span style="color: #BB0000;">0.75</span>   0.01  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> norm_fgsea T3     S01       <span style="color: #BB0000;">Inf</span>      0.01  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> fgsea      T1     S02         0.889  0.076<span style="text-decoration: underline;">4</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> norm_fgsea T1     S02         1.29   0.076<span style="text-decoration: underline;">4</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> fgsea      T2     S02         0      0.977 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> norm_fgsea T2     S02         0      0.977 </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 134 more rows</span></span></code></pre></div>
+<p>All methods return a result data-frame containing:</p>
+<ul>
+<li>
+<code>statistic</code>: name of the statistic. Depending on the method, there can be more than one per method.</li>
+<li>
+<code>source</code>: name of the biological entity.</li>
+<li>
+<code>condition</code>: sample name.</li>
+<li>
+<code>score</code>: inferred biological activity.</li>
+<li>
+<code>p_value</code>: if available, significance of the inferred activity.</li>
+</ul>
+<p>In the case of <code>gsea</code>, it returns a simple estimate of activities (<code>fgsea</code>), a normalized estimate (<code>norm_fgsea</code>) and p-values after doing permutations.</p>
+<p>Other methods can return different things, for example <code>ulm</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">add_args</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/decouple.html">decouple</a></span><span class="op">(</span>
-    mat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mat</span>, <span class="fl">5000</span><span class="op">)</span>,
-    network <span class="op">=</span> <span class="va">network</span>,
-    .source <span class="op">=</span> <span class="st">"tf"</span>,
-    .target <span class="op">=</span> <span class="st">"target"</span>,
-    statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'gsva'</span>, <span class="st">'ora'</span>, <span class="st">'ulm'</span><span class="op">)</span>,
-    args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-        ora <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_up<span class="op">=</span><span class="fl">300</span>, n_bottom<span class="op">=</span><span class="fl">300</span>, n_background<span class="op">=</span><span class="fl">20000</span><span class="op">)</span>,
-        ulm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>center <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
-    <span class="op">)</span>,
-    consensus_score <span class="op">=</span> <span class="cn">FALSE</span>,
-    show_toy_call <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-<span class="co">#&gt; run_ora(mat = ^head(mat, 5000), network = ^network, .source = ^"tf", .target = </span>
-<span class="co">#&gt; * ^"target", n_up = 300, n_bottom = 300, n_background = 20000)</span>
-<span class="co">#&gt; run_ulm(mat = ^head(mat, 5000), network = ^network, .source = ^"tf", .target = </span>
-<span class="co">#&gt; * ^"target", center = FALSE)</span>
-<span class="co">#&gt; run_gsva(mat = ^head(mat, 5000), network = ^network, .source = ^"tf", .target = </span>
-<span class="co">#&gt; * ^"target")</span></code></pre></div>
-<p>Now compare results and see there is not difference.</p>
+<code class="sourceCode R"><span class="va">res_ulm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ulm.html">run_ulm</a></span><span class="op">(</span><span class="va">mat</span>, <span class="va">network</span>, .source<span class="op">=</span><span class="st">'source'</span>, .target<span class="op">=</span><span class="st">'target'</span>, .mor<span class="op">=</span><span class="st">'mor'</span>, minsize <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+<span class="va">res_ulm</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 72 × 5</span></span>
+<span class="co">#&gt;    statistic source condition score  p_value</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ulm       T1     S01        4.21 0.001<span style="text-decoration: underline;">80</span> </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> ulm       T1     S02        4.07 0.002<span style="text-decoration: underline;">24</span> </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> ulm       T1     S03        3.85 0.003<span style="text-decoration: underline;">19</span> </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> ulm       T1     S04        4.60 0.000<span style="text-decoration: underline;">979</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> ulm       T1     S05        3.90 0.002<span style="text-decoration: underline;">98</span> </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> ulm       T1     S06        3.66 0.004<span style="text-decoration: underline;">42</span> </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> ulm       T1     S07        4.31 0.001<span style="text-decoration: underline;">53</span> </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ulm       T1     S08        4.65 0.000<span style="text-decoration: underline;">902</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ulm       T1     S09        4.49 0.001<span style="text-decoration: underline;">17</span> </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ulm       T1     S10        4.07 0.002<span style="text-decoration: underline;">25</span> </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 62 more rows</span></span></code></pre></div>
+<p>In this case, <code>ulm</code> returns just an estimate (<code>ulm</code>) and its associated p-values. Each method can return different statistics, we recommend to check their documentation to know more about them.</p>
+<p>Let us plot the obtained results, first for <code>gsea</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">only_stats</span>, <span class="va">add_args</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Component \"score\": Mean relative difference: 0.2941331"  </span>
-<span class="co">#&gt; [2] "Component \"p_value\": Mean relative difference: 0.2965894"</span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="mapping-network-columns">Mapping network columns<a class="anchor" aria-label="anchor" href="#mapping-network-columns"></a>
-</h4>
-<p>To carry out the column mapping, <code>decoupleR</code> relies on the selection provided by the <em><a href="https://github.com/tidyverse/tidyselect" class="external-link">tidyselect</a></em> package. Some of the selection it provides are:</p>
-<ul>
-<li>Symbols</li>
-<li>Strings</li>
-<li>Position</li>
-</ul>
-<p>Let’s see an example. Input network has the following columns:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">network</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] "tf"         "confidence" "target"     "mor"        "likelihood"</span></code></pre></div>
-<p>We can use the way we like to do the mapping, even a combination of ways to do it. This applies not only to the decouple function, but to all functions of the <code>decoupleR statistics</code> family, identifiable by the <code>run_</code> prefix.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">this_column</span> <span class="op">&lt;-</span> <span class="st">"target"</span>
-<span class="va">viper_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/decouple.html">decouple</a></span><span class="op">(</span>
-    mat <span class="op">=</span> <span class="va">mat</span>,
-    network <span class="op">=</span> <span class="va">network</span>,
-    .source <span class="op">=</span> <span class="va">tf</span>,
-    .target <span class="op">=</span> <span class="op">!</span><span class="op">!</span><span class="va">this_column</span>,
-    statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"viper"</span><span class="op">)</span>,
-    args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-        viper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-            .mor <span class="op">=</span> <span class="fl">4</span>,
-            .likelihood <span class="op">=</span> <span class="st">"likelihood"</span>,
-            verbose <span class="op">=</span> <span class="cn">FALSE</span>
-        <span class="op">)</span>
-    <span class="op">)</span>,
-    show_toy_call <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-<span class="co">#&gt; run_viper(mat = ^mat, network = ^network, .source = ^tf, .target = ^"target",</span>
-<span class="co">#&gt; *   .mor = 4, .likelihood = "likelihood", verbose = FALSE)</span></code></pre></div>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="reproducibility">Reproducibility<a class="anchor" aria-label="anchor" href="#reproducibility"></a>
-</h2>
-<div class="section level3">
-<h3 id="special-thanks">Special thanks<a class="anchor" aria-label="anchor" href="#special-thanks"></a>
-</h3>
-<p>The <em><a href="https://bioconductor.org/packages/3.13/decouopleR" class="external-link">decouopleR</a></em> package (Badia-i-Mompel, Vélez-Santiago, Braunger, Geiss, Dimitrov, Müller-Dott, Taus, Dugourd, Holland, Flores, and Saez-Rodriguez, 2021) was made possible thanks to:</p>
-<ul>
-<li>R (R Core Team, 2021)</li>
-<li>
-<em><a href="https://bioconductor.org/packages/3.13/BiocStyle" class="external-link">BiocStyle</a></em> (Oleś, 2021)</li>
-<li><em><a href="https://CRAN.R-project.org/package=knitcitations" class="external-link">knitcitations</a></em></li>
-<li>
-<em><a href="https://CRAN.R-project.org/package=knitr" class="external-link">knitr</a></em> (Xie, 2021)</li>
-<li>
-<em><a href="https://CRAN.R-project.org/package=rmarkdown" class="external-link">rmarkdown</a></em> (Allaire, Xie, McPherson, Luraschi, Ushey, Atkins, Wickham, Cheng, Chang, and Iannone, 2021)</li>
-<li>
-<em><a href="https://CRAN.R-project.org/package=sessioninfo" class="external-link">sessioninfo</a></em> (Wickham, Chang, Flight, Müller, and Hester, 2021)</li>
-<li>
-<em><a href="https://CRAN.R-project.org/package=testthat" class="external-link">testthat</a></em> (Wickham, 2011)</li>
-<li>
-<em><a href="https://bioconductor.org/packages/3.13/GSVA" class="external-link">GSVA</a></em> (H{ä}nzelmann, Castelo, and Guinney, 2013)</li>
-<li>
-<em><a href="https://bioconductor.org/packages/3.13/viper" class="external-link">viper</a></em> (Alvarez, Shen, Giorgi, Lachmann, Ding, Ye, and Califano, 2016)</li>
-</ul>
-<p>This package was developed using <em><a href="https://github.com/lcolladotor/biocthis" class="external-link">biocthis</a></em>.</p>
-</div>
-<div class="section level3">
-<h3 id="vignette">Vignette<a class="anchor" aria-label="anchor" href="#vignette"></a>
-</h3>
-<div class="section level4">
-<h4 id="create">Create<a class="anchor" aria-label="anchor" href="#create"></a>
-</h4>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Create the vignette</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/rmarkdown" class="external-link">rmarkdown</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">render</a></span><span class="op">(</span><span class="st">"decoupleR.Rmd"</span>, <span class="st">"BiocStyle::html_document"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># Transform to matrix</span>
+<span class="va">mat_gsea</span> <span class="op">&lt;-</span> <span class="va">res_gsea</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">==</span><span class="st">'fgsea'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/pivot_wider_profile.html">pivot_wider_profile</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="va">source</span>, names_from <span class="op">=</span> <span class="va">condition</span>, 
+                      values_from <span class="op">=</span> <span class="va">score</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># Extract the R code</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"decoupleR.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">mat_gsea</span>, cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_cols <span class="op">=</span> <span class="cn">F</span>, cellwidth <span class="op">=</span> <span class="fl">15</span>, cellheight <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></code></pre></div>
+<p><img src="decoupleR_files/figure-html/res_gsea-1.png" width="700"> We can observe that for transcription factors T1 and T2, the obtained activities can distinguish the two sample populations. T3, according to the prior knowledge network it is a repressor and its activity should be down for the second population of samples. This happens because <code>gsea</code> cannot model weights when inferring biological activities.</p>
+<p>When weights are available, we definitely recommend using any of the methods that model weights to get better estimates, like <code>ulm</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Transform to matrix</span>
+<span class="va">mat_ulm</span> <span class="op">&lt;-</span> <span class="va">res_ulm</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">==</span><span class="st">'ulm'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/pivot_wider_profile.html">pivot_wider_profile</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="va">source</span>, names_from <span class="op">=</span> <span class="va">condition</span>, 
+                      values_from <span class="op">=</span> <span class="va">score</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">mat_ulm</span>, cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_cols <span class="op">=</span> <span class="cn">F</span>, cellwidth <span class="op">=</span> <span class="fl">15</span>, cellheight <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></code></pre></div>
+<p><img src="decoupleR_files/figure-html/res_ulm-1.png" width="700"></p>
+<p>Since <code>ulm</code> models weights when estimating biological activities, it correctly assigns T3 as inactive in the second population of samples.</p>
 </div>
 <div class="section level4">
-<h4 id="wallclock-time-spent-generating-the-vignette">Wallclock time spent generating the vignette<a class="anchor" aria-label="anchor" href="#wallclock-time-spent-generating-the-vignette"></a>
+<h4 id="multiple-methods">Multiple methods<a class="anchor" aria-label="anchor" href="#multiple-methods"></a>
 </h4>
-<pre><code><span class="co">#&gt; Time difference of 11.56 secs</span></code></pre>
+<p><em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> also allows to run multiple methods at the same time. Moreover, it computes a consensus score based on the obtained rankings of the biological activities across methods, called <code>consensus</code>.</p>
+<p>To run all methods available at the same time use the function <code>decouple</code>. Specific arguments to specific packages can be passed using the variable <code>args</code>. For more information check <code><a href="../reference/decouple.html">?decouple</a></code>.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res_decouple</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/decouple.html">decouple</a></span><span class="op">(</span><span class="va">mat</span>, 
+                         <span class="va">network</span>, 
+                         .source<span class="op">=</span><span class="st">'source'</span>, 
+                         .target<span class="op">=</span><span class="st">'target'</span>,
+                         args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+                           aucell <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>nproc<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,
+                           fgsea <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>nproc<span class="op">=</span><span class="fl">1</span><span class="op">)</span>
+                         <span class="op">)</span>,
+                         minsize <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+<span class="va">res_decouple</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,224 × 6</span></span>
+<span class="co">#&gt;    run_id statistic source condition score p_value</span>
+<span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      1 aucell    T1     S01         <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">NA</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      1 aucell    T1     S02         <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">NA</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      1 aucell    T1     S03         <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">NA</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      1 aucell    T1     S04         <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">NA</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      1 aucell    T1     S05         <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">NA</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      1 aucell    T1     S06         <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">NA</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      1 aucell    T1     S07         <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">NA</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      1 aucell    T1     S08         <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">NA</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      1 aucell    T1     S09         <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">NA</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      1 aucell    T1     S10         <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">NA</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 1,214 more rows</span></span></code></pre></div>
+<p>Let us see the result for the consensus score in the previous <code>decouple</code> run:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Transform to matrix</span>
+<span class="va">mat_consensus</span> <span class="op">&lt;-</span> <span class="va">res_decouple</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">==</span><span class="st">'consensus'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/pivot_wider_profile.html">pivot_wider_profile</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="va">source</span>, names_from <span class="op">=</span> <span class="va">condition</span>, 
+                      values_from <span class="op">=</span> <span class="va">score</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">mat_consensus</span>, cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_cols <span class="op">=</span> <span class="cn">F</span>, cellwidth <span class="op">=</span> <span class="fl">15</span>, cellheight <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></code></pre></div>
+<p><img src="decoupleR_files/figure-html/res_decouple-1.png" width="700"></p>
+<p>As before, we can observe that T1 and T2 can separate our two populations. However, methods seem to disagree for T3 enrichment.</p>
 </div>
 </div>
 <div class="section level3">
@@ -390,6 +371,7 @@
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">package             </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version </span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span>
 <span class="co">#&gt;  annotate               1.70.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  AnnotationDbi          1.54.1   <span style="color: #555555;">2021-06-08</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
+<span class="co">#&gt;  AUCell                 1.14.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  backports              1.4.1    <span style="color: #555555;">2021-12-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  beachmat               2.8.1    <span style="color: #555555;">2021-08-12</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  Biobase                2.52.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
@@ -409,9 +391,11 @@
 <span class="co">#&gt;  cachem                 1.0.6    <span style="color: #555555;">2021-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  class                  7.3-20   <span style="color: #555555;">2022-01-13</span> <span style="color: #555555;">[3]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  cli                    3.1.1    <span style="color: #555555;">2022-01-20</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  colorspace             2.0-3    <span style="color: #555555;">2022-01-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">R-Forge (R 4.1.1)</span></span>
 <span class="co">#&gt;  crayon                 1.4.2    <span style="color: #555555;">2021-10-29</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  data.table             1.14.2   <span style="color: #555555;">2021-09-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  DBI                    1.1.2    <span style="color: #555555;">2021-12-20</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
-<span class="co">#&gt;  decoupleR            * 2.1.4    <span style="color: #555555;">2022-01-27</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
+<span class="co">#&gt;  decoupleR            * 2.1.5    <span style="color: #555555;">2022-01-27</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  DelayedArray           0.18.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  DelayedMatrixStats     1.14.3   <span style="color: #555555;">2021-08-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  desc                   1.4.0    <span style="color: #555555;">2021-09-28</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
@@ -422,17 +406,24 @@
 <span class="co">#&gt;  evaluate               0.14     <span style="color: #555555;">2019-05-28</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  fansi                  1.0.2    <span style="color: #555555;">2022-01-14</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  fastmap                1.1.0    <span style="color: #555555;">2021-01-25</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  fastmatch              1.1-3    <span style="color: #555555;">2021-07-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  fgsea                  1.18.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  fs                     1.5.2    <span style="color: #555555;">2021-12-08</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  generics               0.1.1    <span style="color: #555555;">2021-10-25</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  GenomeInfoDb           1.28.4   <span style="color: #555555;">2021-09-05</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  GenomeInfoDbData       1.2.6    <span style="color: #555555;">2022-01-13</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  GenomicRanges          1.44.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
+<span class="co">#&gt;  ggplot2                3.3.5    <span style="color: #555555;">2021-06-25</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  glue                   1.6.1    <span style="color: #555555;">2022-01-22</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  graph                  1.70.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
+<span class="co">#&gt;  gridExtra              2.3      <span style="color: #555555;">2017-09-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  GSEABase               1.54.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  GSVA                   1.40.1   <span style="color: #555555;">2021-06-06</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
+<span class="co">#&gt;  gtable                 0.3.0    <span style="color: #555555;">2019-03-25</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  HDF5Array              1.20.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
+<span class="co">#&gt;  highr                  0.9      <span style="color: #555555;">2021-04-16</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  htmltools              0.5.2    <span style="color: #555555;">2021-08-25</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  httpuv                 1.6.5    <span style="color: #555555;">2022-01-05</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  httr                   1.4.2    <span style="color: #555555;">2020-07-20</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  IRanges                2.26.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  irlba                  2.3.5    <span style="color: #555555;">2021-12-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
@@ -442,6 +433,7 @@
 <span class="co">#&gt;  kernlab                0.9-29   <span style="color: #555555;">2019-11-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  KernSmooth             2.23-20  <span style="color: #555555;">2021-05-03</span> <span style="color: #555555;">[3]</span> <span style="color: #555555;">CRAN (R 4.1.1)</span></span>
 <span class="co">#&gt;  knitr                  1.37     <span style="color: #555555;">2021-12-16</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  later                  1.3.0    <span style="color: #555555;">2021-08-18</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  lattice                0.20-45  <span style="color: #555555;">2021-09-22</span> <span style="color: #555555;">[3]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  lifecycle              1.0.1    <span style="color: #555555;">2021-09-24</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  lubridate              1.8.0    <span style="color: #555555;">2021-10-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
@@ -451,16 +443,25 @@
 <span class="co">#&gt;  MatrixGenerics         1.4.3    <span style="color: #555555;">2021-08-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  matrixStats            0.61.0   <span style="color: #555555;">2021-09-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  memoise                2.0.1    <span style="color: #555555;">2021-11-26</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  mime                   0.12     <span style="color: #555555;">2021-09-28</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  mixtools               1.2.0    <span style="color: #555555;">2020-02-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  munsell                0.5.0    <span style="color: #555555;">2018-06-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  pheatmap             * 1.0.12   <span style="color: #555555;">2019-01-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  pillar                 1.6.5    <span style="color: #555555;">2022-01-25</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  pkgconfig              2.0.3    <span style="color: #555555;">2019-09-22</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  pkgdown                2.0.2    <span style="color: #555555;">2022-01-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  plyr                   1.8.6    <span style="color: #555555;">2020-03-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  png                    0.1-7    <span style="color: #555555;">2013-12-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  promises               1.2.0.1  <span style="color: #555555;">2021-02-11</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  proxy                  0.4-26   <span style="color: #555555;">2021-06-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  purrr                  0.3.4    <span style="color: #555555;">2020-04-17</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  R.methodsS3            1.8.1    <span style="color: #555555;">2020-08-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  R.oo                   1.24.0   <span style="color: #555555;">2020-08-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  R.utils                2.11.0   <span style="color: #555555;">2021-09-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  R6                     2.5.1    <span style="color: #555555;">2021-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  ragg                   1.2.1    <span style="color: #555555;">2021-12-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  ranger                 0.13.1   <span style="color: #555555;">2021-07-14</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  RColorBrewer           1.1-2    <span style="color: #555555;">2014-12-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  Rcpp                   1.0.8    <span style="color: #555555;">2022-01-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  RCurl                  1.98-1.5 <span style="color: #555555;">2021-09-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  RefManageR           * 1.3.0    <span style="color: #555555;">2020-11-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
@@ -470,14 +471,17 @@
 <span class="co">#&gt;  rlang                  0.4.12   <span style="color: #555555;">2021-10-18</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  rmarkdown              2.11     <span style="color: #555555;">2021-09-14</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  RobustRankAggreg       1.1      <span style="color: #555555;">2013-06-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  rpart                  4.1.16   <span style="color: #555555;">2022-01-24</span> <span style="color: #555555;">[3]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  rprojroot              2.0.2    <span style="color: #555555;">2020-11-15</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  RSQLite                2.2.9    <span style="color: #555555;">2021-12-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  rsvd                   1.0.5    <span style="color: #555555;">2021-04-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  S4Vectors              0.30.2   <span style="color: #555555;">2021-10-03</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  sass                   0.4.0    <span style="color: #555555;">2021-05-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  ScaledMatrix           1.0.0    <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
+<span class="co">#&gt;  scales                 1.1.1    <span style="color: #555555;">2020-05-11</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  segmented              1.3-4    <span style="color: #555555;">2021-04-22</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  sessioninfo            1.2.2    <span style="color: #555555;">2021-12-06</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  shiny                  1.7.1    <span style="color: #555555;">2021-10-02</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  SingleCellExperiment   1.14.1   <span style="color: #555555;">2021-05-21</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  sparseMatrixStats      1.4.2    <span style="color: #555555;">2021-08-08</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  stringi                1.7.6    <span style="color: #555555;">2021-11-29</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
@@ -511,10 +515,8 @@
 <div class="section level2">
 <h2 id="bibliography">Bibliography<a class="anchor" aria-label="anchor" href="#bibliography"></a>
 </h2>
-<p>This vignette was generated using <em><a href="https://bioconductor.org/packages/3.13/BiocStyle" class="external-link">BiocStyle</a></em> (Oleś, 2021) with <em><a href="https://CRAN.R-project.org/package=knitr" class="external-link">knitr</a></em> (Xie, 2021) and <em><a href="https://CRAN.R-project.org/package=rmarkdown" class="external-link">rmarkdown</a></em> (Allaire, Xie, McPherson, et al., 2021) running behind the scenes.</p>
-<p>Citations made with <em><a href="https://CRAN.R-project.org/package=RefManageR" class="external-link">RefManageR</a></em> (McLean, 2017).</p>
 <p>
-<a id="bib-allaire2021rmarkdown"></a><a href="#cite-allaire2021rmarkdown">[1]</a><cite> J. Allaire, Y. Xie, J. McPherson, et al. <em>rmarkdown: Dynamic Documents for R</em>. R package version 2.11. 2021. URL: <a href="https://github.com/rstudio/rmarkdown" class="external-link">https://github.com/rstudio/rmarkdown</a>.</cite>
+<a id="bib-aibar2017scenic"></a><a href="#cite-aibar2017scenic">[1]</a><cite> S. Aibar, C. Bravo Gonzalez-Blas, T. Moerman, et al. “SCENIC: Single-Cell Regulatory Network Inference And Clustering”. In: <em>Nature Methods</em> 14 (2017), pp. 1083-1086. DOI: <a href="https://doi.org/10.1038/nmeth.4463" class="external-link">10.1038/nmeth.4463</a>.</cite>
 </p>
 <p>
 <a id="bib-alvarez2016functional"></a><a href="#cite-alvarez2016functional">[2]</a><cite> M. J. Alvarez, Y. Shen, F. M. Giorgi, et al. “Functional characterization of somatic mutations in cancer using network-based inference of protein activity”. In: <em>Nature genetics</em> 48.8 (2016), pp. 838–47.</cite>
@@ -526,22 +528,7 @@
 <a id="bib-hanzelmann2013gsva"></a><a href="#cite-hanzelmann2013gsva">[4]</a><cite> S. Hänzelmann, R. Castelo, and J. Guinney. “GSVA: gene set variation analysis for microarray and RNA-Seq data”. In: <em>BMC Bioinformatics</em> 14 (2013), p. 7. DOI: <a href="https://doi.org/10.1186/1471-2105-14-7" class="external-link">10.1186/1471-2105-14-7</a>. URL: <a href="http://www.biomedcentral.com/1471-2105/14/7" class="external-link">http://www.biomedcentral.com/1471-2105/14/7</a>.</cite>
 </p>
 <p>
-<a id="bib-mclean2017refmanager"></a><a href="#cite-mclean2017refmanager">[5]</a><cite> M. W. McLean. “RefManageR: Import and Manage BibTeX and BibLaTeX References in R”. In: <em>The Journal of Open Source Software</em> (2017). DOI: <a href="https://doi.org/10.21105/joss.00338" class="external-link">10.21105/joss.00338</a>.</cite>
-</p>
-<p>
-<a id="bib-ole2021biocstyle"></a><a href="#cite-ole2021biocstyle">[6]</a><cite> A. Oleś. <em>BiocStyle: Standard styles for vignettes and other Bioconductor documents</em>. R package version 2.20.2. 2021. URL: <a href="https://github.com/Bioconductor/BiocStyle" class="external-link">https://github.com/Bioconductor/BiocStyle</a>.</cite>
-</p>
-<p>
-<a id="bib-2021language"></a><a href="#cite-2021language">[7]</a><cite> R Core Team. <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing. Vienna, Austria, 2021. URL: <a href="https://www.R-project.org/" class="external-link">https://www.R-project.org/</a>.</cite>
-</p>
-<p>
-<a id="bib-wickham2011testthat"></a><a href="#cite-wickham2011testthat">[8]</a><cite> H. Wickham. “testthat: Get Started with Testing”. In: <em>The R Journal</em> 3 (2011), pp. 5–10. URL: <a href="https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf" class="external-link">https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf</a>.</cite>
-</p>
-<p>
-<a id="bib-wickham2021sessioninfo"></a><a href="#cite-wickham2021sessioninfo">[9]</a><cite> H. Wickham, W. Chang, R. Flight, et al. <em>sessioninfo: R Session Information</em>. <a href="https://github.com/r-lib/sessioninfo#readme" class="external-link uri">https://github.com/r-lib/sessioninfo#readme</a>, <a href="https://r-lib.github.io/sessioninfo/" class="external-link uri">https://r-lib.github.io/sessioninfo/</a>. 2021.</cite>
-</p>
-<p>
-<a id="bib-xie2021knitr"></a><a href="#cite-xie2021knitr">[10]</a><cite> Y. Xie. <em>knitr: A General-Purpose Package for Dynamic Report Generation in R</em>. R package version 1.37. 2021. URL: <a href="https://yihui.org/knitr/" class="external-link">https://yihui.org/knitr/</a>.</cite>
+<a id="bib-korotkevich2019fast"></a><a href="#cite-korotkevich2019fast">[5]</a><cite> G. Korotkevich, V. Sukhov, and A. Sergushichev. “Fast gene set enrichment analysis”. In: <em>bioRxiv</em> (2019). DOI: <a href="https://doi.org/10.1101/060012" class="external-link">10.1101/060012</a>. URL: <a href="http://biorxiv.org/content/early/2016/06/20/060012" class="external-link">http://biorxiv.org/content/early/2016/06/20/060012</a>.</cite>
 </p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

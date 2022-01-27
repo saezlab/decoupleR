@@ -4,16 +4,7 @@
     <loc>https://saezlab.github.io/decoupleR/404.html</loc>
   </url>
   <url>
-    <loc>https://saezlab.github.io/decoupleR/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/CONTRIBUTING.html</loc>
-  </url>
-  <url>
     <loc>https://saezlab.github.io/decoupleR/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/SUPPORT.html</loc>
   </url>
   <url>
     <loc>https://saezlab.github.io/decoupleR/articles/decoupleR.html</loc>
@@ -59,6 +50,9 @@
   </url>
   <url>
     <loc>https://saezlab.github.io/decoupleR/reference/get_profile_of.html</loc>
+  </url>
+  <url>
+    <loc>https://saezlab.github.io/decoupleR/reference/get_toy_data.html</loc>
   </url>
   <url>
     <loc>https://saezlab.github.io/decoupleR/reference/index.html</loc>

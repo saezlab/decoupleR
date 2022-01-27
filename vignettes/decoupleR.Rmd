@@ -1,6 +1,9 @@
 ---
-title: "Introduction to decoupleR"
+title: "decoupleR - Ensemble of methods to infer biological activities"
 author:
+  - name: Pau Badia-i-Mompel
+    affiliation:
+    - Heidelberg Universiy
   - name: Jesús Vélez-Santiago
     affiliation:
     - National Autonomous University of Mexico
@@ -34,29 +37,17 @@ library(RefManageR)
 
 # Write bibliography information
 bib <- c(
-    R = citation(),
-    BiocStyle = citation("BiocStyle")[1],
-    knitr = citation("knitr")[1],
-    rmarkdown = citation("rmarkdown")[1],
-    sessioninfo = citation("sessioninfo")[1],
-    testthat = citation("testthat")[1],
-    RefManageR = citation("RefManageR")[1],
     decoupleR = citation("decoupleR")[1],
+    AUCell = citation("AUCell")[1],
+    fgsea = citation("fgsea")[1],
     GSVA = citation("GSVA")[1],
     viper = citation("viper")[1]
 )
 ```
 
-# Basics
-
-## Install `decoupleR`
-
-`R` is an open-source statistical environment which can be easily modified to
-enhance its functionality via packages. `r Biocpkg("decoupleR")` is an `R`
-package available via the [Bioconductor](http://bioconductor.org) repository 
-for packages. `R` can be installed on any operating system from
-[CRAN](https://cran.r-project.org/) after which you can install
-`r Biocpkg("decoupleR")` by using the following commands in your `R` session:
+# Installation
+`r Biocpkg("decoupleR")` is an R package distributed as part of the Bioconductor
+project. To install the package, start R and enter:
 
 ```{r bioconductor_install, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
@@ -64,258 +55,205 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 }
 
 BiocManager::install("decoupleR")
-
-# Check that you have a valid Bioconductor installation
-BiocManager::valid()
 ```
 
-You can install the development version from [GitHub](https://github.com/) with:
+Alternatively, you can instead install the latest development version from [GitHub](https://github.com/) with:
 
 ```{r github_install, eval=FALSE}
 BiocManager::install("saezlab/decoupleR")
 ```
 
-## Required knowledge
+# Usage
+`r Biocpkg("decoupleR")` `r Citep(bib[["decoupleR"]])` contains different 
+statistical methods to extract biological activities from omics data using prior
+knowledge. Some of them are:
 
-`r Biocpkg("decoupleR")` is based on many other packages and in particular in 
-those that have implemented the infrastructure needed for dealing with
-functional analysis. That is, packages like `r Biocpkg("viper")` or 
-`r Biocpkg("GSVA")`, among others. This in order to have a centralized place
-from which to apply different statistics to the same data set without the need
-and work that would require testing in isolation. Opening the possibility of
-developing benchmarks that can grow easily.
+* AUCell: `r Citep(bib[["AUCell"]])`
+* Fast GSEA: `r Citep(bib[["fgsea"]])` 
+* GSVA: `r Citep(bib[["GSVA"]])`
+* viper: `r Citep(bib[["viper"]])`
 
-## Asking for help
-
-As package developers, we try to explain clearly how to use our packages and in
-which order to use the functions. But `R` and `Bioconductor` have a steep
-learning curve so it is critical to learn where to ask for help.
-We would like to highlight the
-[Bioconductor support site](https://support.bioconductor.org/) as the main
-resource for getting help: remember to use the `decoupleR` tag and check 
-[the older posts](https://support.bioconductor.org/t/decoupleR/).
-Other alternatives are available such as creating GitHub issues and tweeting.
-However, please note that if you want to receive help you should adhere to the
-[posting guidelines](http://www.bioconductor.org/help/support/posting-guide/).
-It is particularly critical that you provide a small reproducible example and
-your session information so package developers can track down the source of
-the error.
-
-## Citing `decoupleR`
-
-We hope that `r Biocpkg("decoupleR")` will be useful for your research.
-Please use the following information to cite the package and the overall
-approach. Thank you!
-
-```{r decoupleR citation}
-citation("decoupleR")
-```
-
-
-# Quick start to using to `decoupleR`
+In this vignette we showcase how to use it with some toy data.
 
 ## Libraries
 
-`r Biocpkg("decoupleR")` provides different statistics to calculate the
-regulatory activity given a `matrix` of molecular readouts and a `network`.
-It incorporates pre-existing methods to avoid recreating the wheel while
-implementing its own methods under an evaluation standard.
-Therefore, it provides flexibility when evaluating a data set with different
-statistics.
-  
-Since inputs and outputs are always tibbles (i.e. special data frames),
-incorporating `r Githubpkg("tidyverse/dplyr","dplyr")` into your workflow can
-be useful for manipulating results, but it is not necessary.
+`r Biocpkg("decoupleR")` can be imported as:
 
 ```{r load_library, message=FALSE}
 library(decoupleR)
+
+# Extra libraries
 library(dplyr)
+library(pheatmap)
 ```
 
 ## Input data
+`r Biocpkg("decoupleR")` needs a matrix (`mat`) of any molecular readouts (gene 
+expression, logFC, p-values, etc.) and a `network` that relates target 
+features (genes, proteins, etc.) to "source" biological entities (pathways, 
+transcription factors, molecular processes, etc.). Some methods also require 
+the mode of regulation (MoR) for each interaction, defined as negative or 
+positive weights.
 
-In order to use it, you first need to have a `matrix` where the rows represent
-the target nodes and the columns the samples. In addition, it is necessary to 
-provide a prior knowledge `network` that contains at least two columns corresponding to the 
-source and target nodes. It is noteworthy that certain methods will require 
-specifying additional metadata columns. For instance, the mode of regulation 
-(MoR) or the likelihood of the interaction.
+To get an example data-set, run:
 
 ```{r read_example_data}
-inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+data <- get_toy_data()
 
-mat <- file.path(inputs_dir, "input-expr_matrix.rds") %>%
-    readRDS() %>%
-    glimpse()
+mat <- data$mat
+head(mat,5)[,1:5]
 
-network <- file.path(inputs_dir, "input-dorothea_genesets.rds") %>%
-    readRDS() %>%
-    glimpse()
-
-# We recommend to intersect and set a minsize of targets
-network <- intersect_regulons(mat, network, tf, target, minsize=5)
+network <- data$network
+network
 ```
 
-## How to decouple?
+This example consists of two small populations of samples (S, cols) with 
+different gene expression patterns (G, rows):
 
-Once the data is loaded, you are one step away from achieving decoupling.
-This step corresponds to specifying which statistics you want to run.
-For more information about the defined statistics and their parameters,
-you can execute `?decouple()`.
-
-```{r usage-decouple_function, message=TRUE}
-decouple(
-    mat = mat,
-    network = network,
-    .source = "tf",
-    .target = "target",
-    statistics = c("gsva", "wmean", "mlm", "ora"),
-    args = list(
-        gsva = list(verbose = FALSE),
-        wmean = list(times = 100),
-        mlm = list(center=FALSE),
-        ora = list(n_up=300, n_bottom=300, n_background=20000)
-    )
-) %>%
-    glimpse()
+```{r show_matrix, message=TRUE}
+pheatmap(mat, cluster_rows = F, cluster_cols = F)
 ```
 
-Done, you have applied different statistics to the same data set, now you can
-analyze them at your convenience, for example, by performing a [benchmark]().
+Here we can see that some genes seem to be more expressed in one group of 
+samples than in the other and vice-versa. Ideally, we would like to capture 
+these differences in gene programs into interpretable biological entities. 
+In this example we will do it by summarizing these differences in expression 
+into transcription factor activities.
 
-## How it works?
+The toy data also contains a simple net consisting of 3 transcription factors 
+(Ts) with specific regulation to target genes (either positive or negative).
+This network can be visualized like a graph. Green edges are positive regulation
+(activation), red edges are negative regulation (inactivation):
 
-### Mapping statistics with arguments
+<img src="../inst/figures/net_plot.png" align="center" width="800">
 
-Internally, `decouple()` works through `purrr::map2_dfr()` to perform
-statistics and argument mapping. This comes with important points:
+According to this network, the first population of samples should show high 
+activity for T1 and T3, while the second one only for T3.
 
-- `statistics` and `args` can be unsorted vectors. `decouple` will
-  match the given `statistics` with the given `args`, and if a statistic 
-  doesn't have a matching `args` entry, it will run using the default 
-  parameters.
-- If an error occurs, copy the last line that was displayed with
-  `show_toy_call = TRUE` and execute it locally. Try to fix it and correct it
-  on the original call.
+## Methods
+`r Biocpkg("decoupleR")` contains several methods. To check how many are 
+available, run:
+```{r usage-show_methods, message=TRUE}
+show_methods()
+```
+Each method models biological activities in a different manner, sometimes 
+returning more than one estimate or providing significance of the estimation. 
+To know what each method returns, please check their documentation like this
+`?run_mlm`.
 
-See internal decouple calls and save results.
+To have a unified framework, all methods have these shared arguments:
 
-```{r see only_stats}
-only_stats <- decouple(
-    mat = head(mat, 5000),
-    network = network,
-    .source = "tf",
-    .target = "target",
-    statistics = c("ora", "ulm", "gsva"),
-    consensus_score = FALSE,
-    show_toy_call = TRUE
-)
+* `mat` : input matrix of molecular readouts.
+* `network` : input prior knowledge information relating molecular features to biological entities.
+* `.source`,`.target` and `.mor` : column names where to extract the information from `network`. 
+    * `.source` refers to the biological entities.
+    * `.target` refers to the molecular features.
+    * `.mor` refers to the "strength" of the interaction (if available, else 1s will be used).
+* `minsize` : Minimum of target features per biological entity (5 by default). If less, sources are removed. This filtering prevents obtaining noisy activities from biological entities with very few matching target features in `mattrix`.
+
+## Running methods
+
+### Individual methods
+
+As an example, let’s first run the Gene Set Enrichment Analysis method (`gsea`), 
+one of the most well-known statistics:
+```{r usage-fgsea, message=TRUE}
+res_gsea <- run_fgsea(mat, network, .source='source', .target='target', nproc=1, minsize = 0)
+res_gsea
 ```
 
-Run same but now with an unsorted argument.
+All methods return a result data-frame containing:
 
-```{r in_args}
-add_args <- decouple(
-    mat = head(mat, 5000),
-    network = network,
-    .source = "tf",
-    .target = "target",
-    statistics = c('gsva', 'ora', 'ulm'),
-    args = list(
-        ora = list(n_up=300, n_bottom=300, n_background=20000),
-        ulm = list(center = F)
-    ),
-    consensus_score = FALSE,
-    show_toy_call = TRUE
-)
+* `statistic`: name of the statistic. Depending on the method, there can be more than one per method.
+* `source`: name of the biological entity.
+* `condition`: sample name.
+* `score`: inferred biological activity.
+* `p_value`: if available, significance of the inferred activity.
+
+In the case of `gsea`, it returns a simple estimate of activities (`fgsea`), 
+a normalized estimate (`norm_fgsea`) and p-values after doing permutations.
+
+Other methods can return different things, for example `ulm`:
+```{r usage-ulm, message=TRUE}
+res_ulm <- run_ulm(mat, network, .source='source', .target='target', .mor='mor', minsize = 0)
+res_ulm
 ```
 
-Now compare results and see there is not difference.
+In this case, `ulm` returns just an estimate (`ulm`) and its associated p-values. 
+Each method can return different statistics, we recommend to check their 
+documentation to know more about them.
 
-```{r see_not_differences}
-all.equal(only_stats, add_args)
+Let us plot the obtained results, first for `gsea`:
+```{r res_gsea, message=TRUE}
+# Transform to matrix
+mat_gsea <- res_gsea %>%
+  filter(statistic=='fgsea') %>%
+  pivot_wider_profile(id_cols = source, names_from = condition, 
+                      values_from = score) %>%
+  as.matrix()
+
+pheatmap(mat_gsea, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheight = 40)
+```
+We can observe that for transcription factors T1 and T2, the obtained activities
+can distinguish the two sample populations. T3, according to the prior knowledge
+network it is a repressor and its activity should be down for the second 
+population of samples. This happens because `gsea` cannot model weights when 
+inferring biological activities. 
+
+When weights are available, we definitely recommend using 
+any of the methods that model weights to get better estimates, like `ulm`:
+
+```{r res_ulm, message=TRUE}
+# Transform to matrix
+mat_ulm <- res_ulm %>%
+  filter(statistic=='ulm') %>%
+  pivot_wider_profile(id_cols = source, names_from = condition, 
+                      values_from = score) %>%
+  as.matrix()
+
+pheatmap(mat_ulm, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheight = 40)
 ```
 
-### Mapping network columns
+Since `ulm` models weights when estimating biological activities, it correctly
+assigns T3 as inactive in the second population of samples.
 
-To carry out the column mapping, `decoupleR` relies on the selection provided
-by the `r Githubpkg("tidyverse/tidyselect","tidyselect")` package.
-Some of the selection it provides are:
+### Multiple methods
 
-- Symbols
-- Strings
-- Position
+`r Biocpkg("decoupleR")` also allows to run multiple methods at the same time. 
+Moreover, it computes a consensus score based on the obtained rankings of the 
+biological activities across methods, called `consensus`.
 
-Let's see an example. Input network has the following columns:
-```{r show_columns}
-network %>%
-    colnames()
+To run all methods available at the same time use the function `decouple`. 
+Specific arguments to specific packages can be passed using the variable `args`.
+For more information check `?decouple`.
+```{r usage-decouple, message=TRUE}
+res_decouple <- decouple(mat, 
+                         network, 
+                         .source='source', 
+                         .target='target',
+                         args = list(
+                           aucell = list(nproc=1),
+                           fgsea = list(nproc=1)
+                         ),
+                         minsize = 0)
+res_decouple
 ```
 
-We can use the way we like to do the mapping, even a combination of ways to do
-it. This applies not only to the decouple function, but to all functions of
-the `decoupleR statistics` family, identifiable by the `run_` prefix.
+Let us see the result for the consensus score in the previous `decouple` run:
+```{r res_decouple, message=TRUE}
+# Transform to matrix
+mat_consensus <- res_decouple %>%
+  filter(statistic=='consensus') %>%
+  pivot_wider_profile(id_cols = source, names_from = condition, 
+                      values_from = score) %>%
+  as.matrix()
 
-```{r}
-this_column <- "target"
-viper_res <- decouple(
-    mat = mat,
-    network = network,
-    .source = tf,
-    .target = !!this_column,
-    statistics = c("viper"),
-    args = list(
-        viper = list(
-            .mor = 4,
-            .likelihood = "likelihood",
-            verbose = FALSE
-        )
-    ),
-    show_toy_call = TRUE
-)
+pheatmap(mat_consensus, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheight = 40)
 ```
 
-# Reproducibility
+As before, we can observe that T1 and T2 can separate our two populations. 
+However, methods seem to disagree for T3 enrichment.
 
-## Special thanks
-
-The `r Biocpkg("decouopleR")` package `r Citep(bib[["decoupleR"]])` was made
-possible thanks to:
-
-* R `r Citep(bib[["R"]])`
-* `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])`
-* `r CRANpkg("knitcitations")` `r Citep(bib[["knitcitations"]])`
-* `r CRANpkg("knitr")` `r Citep(bib[["knitr"]])`
-* `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])`
-* `r CRANpkg("sessioninfo")` `r Citep(bib[["sessioninfo"]])`
-* `r CRANpkg("testthat")` `r Citep(bib[["testthat"]])`
-* `r Biocpkg("GSVA")` `r Citep(bib[["GSVA"]])`
-* `r Biocpkg("viper")` `r Citep(bib[["viper"]])`
-
-This package was developed using
-`r BiocStyle::Githubpkg("lcolladotor/biocthis")`.
-
-## Vignette
-
-### Create
-
-```{r create_vignette, eval=FALSE}
-# Create the vignette
-library(rmarkdown)
-system.time(render("decoupleR.Rmd", "BiocStyle::html_document"))
-
-# Extract the R code
-library(knitr)
-knit("decoupleR.Rmd", tangle = TRUE)
-```
-
-### Wallclock time spent generating the vignette
-
-```{r reproduce_time, echo=FALSE}
-# Processing time in seconds
-total_time <- diff(c(start_time, Sys.time()))
-round(total_time, digits = 3)
-```
 
 ## Session information
 
@@ -325,13 +263,6 @@ sessioninfo::session_info()
 ```
 
 # Bibliography
-
-This vignette was generated using `r Biocpkg("BiocStyle")` 
-`r Citep(bib[["BiocStyle"]])` with `r CRANpkg("knitr")`
-`r Citep(bib[["knitr"]])` and `r CRANpkg("rmarkdown")`
-`r Citep(bib[["rmarkdown"]])` running behind the scenes.
-
-Citations made with `r CRANpkg('RefManageR')` `r Citep(bib[['RefManageR']])`.
 
 ```{r vignetteBiblio, results = "asis", echo = FALSE, warning = FALSE, message = FALSE}
 ## Print bibliography

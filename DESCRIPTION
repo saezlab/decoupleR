@@ -105,6 +105,7 @@ Suggests:
     rmarkdown,
     roxygen2,
     sessioninfo,
+    pheatmap,
     testthat
 VignetteBuilder: 
     knitr

@@ -8,22 +8,6 @@ dorothea_genesets <- readRDS(
 
 # convert_f_defaults ------------------------------------------------------
 
-test_that("convert_f_defaults tidy-evaluation", {
-    res_1 <- convert_f_defaults(
-        .data = dorothea_genesets,
-        .tf = tf, # Indirect symbols
-        .confidence = expr(confidence), # Expr (within functions this would be enquo or quo).
-        .target = sym("target"), # Direct symbols
-        .mor = "mor", # Strings
-        .likelihood = 5 # Positions
-    )
-
-    exp_1 <- dorothea_genesets %>%
-        rename_with(~ paste0(".", .x))
-
-    expect_equal(res_1, exp_1)
-})
-
 test_that("convert_f_defaults (select-transmute)-like property", {
     res_1 <- convert_f_defaults(
         .data = dorothea_genesets,

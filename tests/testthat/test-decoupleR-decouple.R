@@ -80,13 +80,3 @@ test_that("decouple same results as independent functions", {
 
     expect_equal(res_decouple_defaults, exp_decouple_defaults, tolerance=0.1)
 })
-
-test_that("see expected toy call", {
-
-    # Choose the same defaults as in the section on generating expected results
-    expect_snapshot(
-        x = partial_decouple(show_toy_call = TRUE, include_time = FALSE) %>% {
-            TRUE
-        }
-    )
-})

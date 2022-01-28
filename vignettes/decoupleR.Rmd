@@ -50,10 +50,7 @@ bib <- c(
 project. To install the package, start R and enter:
 
 ```{r bioconductor_install, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager")
-}
-
+install.packages("BiocManager")
 BiocManager::install("decoupleR")
 ```
 
@@ -128,7 +125,7 @@ This network can be visualized like a graph. Green edges are positive regulation
 <img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/net_plot.png?raw=1" align="center" width="600">
 
 According to this network, the first population of samples should show high 
-activity for T1 and T3, while the second one only for T3.
+activity for T1 and T3, while the second one only for T2.
 
 ## Methods
 `r Biocpkg("decoupleR")` contains several methods. To check how many are 
@@ -149,7 +146,7 @@ To have a unified framework, all methods have these shared arguments:
     * `.source` refers to the biological entities.
     * `.target` refers to the molecular features.
     * `.mor` refers to the "strength" of the interaction (if available, else 1s will be used).
-* `minsize` : Minimum of target features per biological entity (5 by default). If less, sources are removed. This filtering prevents obtaining noisy activities from biological entities with very few matching target features in `mattrix`.
+* `minsize` : Minimum of target features per biological entity (5 by default). If less, sources are removed. This filtering prevents obtaining noisy activities from biological entities with very few matching target features in `matrix`.
 
 ## Running methods
 
@@ -196,13 +193,14 @@ pheatmap(mat_gsea, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheigh
 ```
 
 We can observe that for transcription factors T1 and T2, the obtained activities
-can distinguish the two sample populations. T3, according to the prior knowledge
-network it is a repressor and its activity should be down for the second 
-population of samples. This happens because `gsea` cannot model weights when 
+correctly distinguish the two sample populations. T3, on the other hand, should 
+be down for the second population of samples since it is a repressor. 
+This mislabeling of activities happens because `gsea` cannot model weights when 
 inferring biological activities. 
 
-When weights are available, we definitely recommend using 
-any of the methods that model weights to get better estimates, like `ulm`:
+When weights are available in the prior knowledge, we definitely recommend using 
+any of the methods that take them into account to get better estimates, 
+one example is `ulm`:
 
 ```{r res_ulm, message=TRUE}
 # Transform to matrix

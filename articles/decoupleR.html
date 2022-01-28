@@ -111,10 +111,7 @@
 </h2>
 <p><em><a href="https://bioconductor.org/packages/3.13/decoupleR" class="external-link">decoupleR</a></em> is an R package distributed as part of the Bioconductor project. To install the package, start R and enter:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
-<span class="op">}</span>
-
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"decoupleR"</span><span class="op">)</span></code></pre></div>
 <p>Alternatively, you can instead install the latest development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -181,7 +178,7 @@
 <p>Here we can see that some genes seem to be more expressed in one group of samples than in the other and vice-versa. Ideally, we would like to capture these differences in gene programs into interpretable biological entities. In this example we will do it by summarizing these differences in expression into transcription factor activities.</p>
 <p>The toy data also contains a simple net consisting of 3 transcription factors (Ts) with specific regulation to target genes (either positive or negative). This network can be visualized like a graph. Green edges are positive regulation (activation), red edges are negative regulation (inactivation):</p>
 <p><img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/net_plot.png?raw=1" align="center" width="600"></p>
-<p>According to this network, the first population of samples should show high activity for T1 and T3, while the second one only for T3.</p>
+<p>According to this network, the first population of samples should show high activity for T1 and T3, while the second one only for T2.</p>
 </div>
 <div class="section level3">
 <h3 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a>
@@ -223,7 +220,7 @@
 </ul>
 </li>
 <li>
-<code>minsize</code> : Minimum of target features per biological entity (5 by default). If less, sources are removed. This filtering prevents obtaining noisy activities from biological entities with very few matching target features in <code>mattrix</code>.</li>
+<code>minsize</code> : Minimum of target features per biological entity (5 by default). If less, sources are removed. This filtering prevents obtaining noisy activities from biological entities with very few matching target features in <code>matrix</code>.</li>
 </ul>
 </div>
 <div class="section level3">
@@ -294,8 +291,8 @@
 
 <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">mat_gsea</span>, cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_cols <span class="op">=</span> <span class="cn">F</span>, cellwidth <span class="op">=</span> <span class="fl">15</span>, cellheight <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></code></pre></div>
 <p><img src="decoupleR_files/figure-html/res_gsea-1.png" width="700"></p>
-<p>We can observe that for transcription factors T1 and T2, the obtained activities can distinguish the two sample populations. T3, according to the prior knowledge network it is a repressor and its activity should be down for the second population of samples. This happens because <code>gsea</code> cannot model weights when inferring biological activities.</p>
-<p>When weights are available, we definitely recommend using any of the methods that model weights to get better estimates, like <code>ulm</code>:</p>
+<p>We can observe that for transcription factors T1 and T2, the obtained activities correctly distinguish the two sample populations. T3, on the other hand, should be down for the second population of samples since it is a repressor. This mislabeling of activities happens because <code>gsea</code> cannot model weights when inferring biological activities.</p>
+<p>When weights are available in the prior knowledge, we definitely recommend using any of the methods that take them into account to get better estimates, one example is <code>ulm</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Transform to matrix</span>
 <span class="va">mat_ulm</span> <span class="op">&lt;-</span> <span class="va">res_ulm</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -365,7 +362,7 @@
 <span class="co">#&gt;  collate  en_US.UTF-8</span>
 <span class="co">#&gt;  ctype    en_US.UTF-8</span>
 <span class="co">#&gt;  tz       UTC</span>
-<span class="co">#&gt;  date     2022-01-27</span>
+<span class="co">#&gt;  date     2022-01-28</span>
 <span class="co">#&gt;  pandoc   2.11.4 @ /usr/local/bin/ (via rmarkdown)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
@@ -396,7 +393,7 @@
 <span class="co">#&gt;  crayon                 1.4.2    <span style="color: #555555;">2021-10-29</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  data.table             1.14.2   <span style="color: #555555;">2021-09-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  DBI                    1.1.2    <span style="color: #555555;">2021-12-20</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
-<span class="co">#&gt;  decoupleR            * 2.1.5    <span style="color: #555555;">2022-01-27</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
+<span class="co">#&gt;  decoupleR            * 2.1.5    <span style="color: #555555;">2022-01-28</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  DelayedArray           0.18.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  DelayedMatrixStats     1.14.3   <span style="color: #555555;">2021-08-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  desc                   1.4.0    <span style="color: #555555;">2021-09-28</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
@@ -438,7 +435,7 @@
 <span class="co">#&gt;  lattice                0.20-45  <span style="color: #555555;">2021-09-22</span> <span style="color: #555555;">[3]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  lifecycle              1.0.1    <span style="color: #555555;">2021-09-24</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  lubridate              1.8.0    <span style="color: #555555;">2021-10-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
-<span class="co">#&gt;  magrittr               2.0.1    <span style="color: #555555;">2020-11-17</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  magrittr               2.0.2    <span style="color: #555555;">2022-01-26</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  MASS                   7.3-55   <span style="color: #555555;">2022-01-13</span> <span style="color: #555555;">[3]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  Matrix                 1.4-0    <span style="color: #555555;">2021-12-08</span> <span style="color: #555555;">[3]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  MatrixGenerics         1.4.3    <span style="color: #555555;">2021-08-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
@@ -469,7 +466,7 @@
 <span class="co">#&gt;  rhdf5                  2.36.0   <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  rhdf5filters           1.4.0    <span style="color: #555555;">2021-05-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  Rhdf5lib               1.14.2   <span style="color: #555555;">2021-07-06</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
-<span class="co">#&gt;  rlang                  0.4.12   <span style="color: #555555;">2021-10-18</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  rlang                  1.0.0    <span style="color: #555555;">2022-01-26</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  rmarkdown              2.11     <span style="color: #555555;">2021-09-14</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  RobustRankAggreg       1.1      <span style="color: #555555;">2013-06-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  rpart                  4.1.16   <span style="color: #555555;">2022-01-24</span> <span style="color: #555555;">[3]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>

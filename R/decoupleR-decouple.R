@@ -60,14 +60,14 @@ decouple <- function(mat,
                      include_time = FALSE,
                      show_toy_call = FALSE,
                      minsize = 5) {
-    
+
     # Match statistic names with arguments
     for (stat in setdiff(statistics, names(args))) {
         args[[stat]] = list()
     }
     args <- args[names(args) %in% statistics]
     statistics <- statistics[match(names(args),statistics)]
-    
+
     # Overwrite minsize
     for (name in names(args)) {
         args[[name]][['minsize']] <- minsize
@@ -136,6 +136,7 @@ decouple <- function(mat,
         wmean = expr(run_wmean),
         ulm = expr(run_ulm),
         mlm = expr(run_mlm),
+        mlmreg = expr(run_mlmreg),
         wsum = expr(run_wsum),
         viper = expr(run_viper),
         gsva = expr(run_gsva),

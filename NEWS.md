@@ -1,9 +1,16 @@
 # decoupleR 2.1.
 
 ## Changes
+* `likelihood` param is deprecated, from now on, weights (positive or negative) 
+  should go to the `mor` column of `network`. Methods will still run if 
+  `likelihood` is specified, however their weights will be set to 1.
+
 * Added `minsize` argument to all methods, set to 5 by default. Sources 
 containing less than this value of targets in the input mat will be removed 
 from the  calculations.
+
+* `viper` methods:
+    * Now properly handles weights in `mor` by normalizing them to -1 and +1.
 
 * `ulm`/`mlm`/`udt`/`mdt` methods:
     * Changed how they processed the input network. Before the model 
@@ -19,7 +26,8 @@ from the  calculations.
     * Added seed to randomly break ties
     
 * `consensus` method: 
-    * Added seed to randomly break ties.
+    * No longer based on `RobustRankAggreg`. Now the consensus score is the mean of the
+    activities obtained after a double tailed z-score transformation.
 
 * Discarded `filter_regulons` function.
 
@@ -46,6 +54,8 @@ correlated to fit a model).
 * `ulm`, `mlm`, `mdt` and `udt` now accept matrices with one column as input. 
 
 * Results from `ulm` and `mlm` now correctly return un-grouped.
+
+* Methods correctly run when `mat` has no column names.
 
 # decoupleR 2.0
 

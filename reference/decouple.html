@@ -80,10 +80,10 @@ coupling a regulatory network with a variety of statistics.</p>
   <span class="va">network</span>,
   .source <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">source</span>,
   .target <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">target</span>,
-  statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"udt"</span>, <span class="st">"mdt"</span>, <span class="st">"aucell"</span>, <span class="st">"wmean"</span>, <span class="st">"wsum"</span>, <span class="st">"ulm"</span>, <span class="st">"mlm"</span>, <span class="st">"viper"</span>,
-    <span class="st">"gsva"</span>, <span class="st">"ora"</span>, <span class="st">"fgsea"</span><span class="op">)</span>,
+  statistics <span class="op">=</span> <span class="cn">NULL</span>,
   args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span>,
   consensus_score <span class="op">=</span> <span class="cn">TRUE</span>,
+  consensus_stats <span class="op">=</span> <span class="cn">NULL</span>,
   include_time <span class="op">=</span> <span class="cn">FALSE</span>,
   show_toy_call <span class="op">=</span> <span class="cn">FALSE</span>,
   minsize <span class="op">=</span> <span class="fl">5</span>
@@ -104,7 +104,8 @@ in <code>network</code> <code>.target</code> column.</p></dd>
 <dt>.target</dt>
 <dd><p>Column with target nodes.</p></dd>
 <dt>statistics</dt>
-<dd><p>Statistical methods to be coupled.</p></dd>
+<dd><p>Statistical methods to be run sequentially. If none are
+provided, only top performer methods are run (mlm, ulm and wsum).</p></dd>
 <dt>args</dt>
 <dd><p>A list of argument-lists the same length as <code>statistics</code>
 (or length 1). The default argument, list(NULL), will be recycled to the
@@ -112,7 +113,14 @@ same length as <code>statistics</code>, and will call each function with no argu
 (apart from <code>mat</code>, <code>network</code>, <code>.source</code> and, <code>.target</code>).</p></dd>
 <dt>consensus_score</dt>
 <dd><p>Boolean whether to run a consensus score between
-methods. Obtained scores are -log10(p-values).</p></dd>
+methods.</p></dd>
+<dt>consensus_stats</dt>
+<dd><p>List of estimate names to use for the calculation
+of the consensus score. This is used to filter out extra estimations
+from some methods, for example wsum returns wsum, corr_wsum and norm_wsum. If
+none are provided, and also no statstics where provided, only top performer
+methods are used (mlm, ulm and norm_wsum). Else, it will use all available
+estimates after running all methods in the statistics argument.</p></dd>
 <dt>include_time</dt>
 <dd><p>Should the time per statistic evaluated be informed?</p></dd>
 <dt>show_toy_call</dt>

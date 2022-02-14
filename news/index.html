@@ -69,10 +69,10 @@
 <h2 class="pkg-version" data-toc-text="2.1" id="decoupler-21">decoupleR 2.1.<a class="anchor" aria-label="anchor" href="#decoupler-21"></a></h2>
 <div class="section level3">
 <h3 id="changes-2-1">Changes<a class="anchor" aria-label="anchor" href="#changes-2-1"></a></h3>
-<ul><li><p><code>likelihood</code> param is deprecated, from now on, weights (positive or negative) should go to the <code>mor</code> column of <code>network</code>. Methods will still run if <code>likelihood</code> is specified, however their weights will be set to 1.</p></li>
+<ul><li><p><code>likelihood</code> param is deprecated, from now on, weights (positive or negative) should go to the <code>mor</code> column of <code>network</code>. Methods will still run if <code>likelihood</code> is specified, however they will be set to 1.</p></li>
 <li><p>Added <code>minsize</code> argument to all methods, set to 5 by default. Sources containing less than this value of targets in the input mat will be removed from the calculations.</p></li>
 <li>
-<p><code>viper</code> methods:</p>
+<p><code>viper</code> method:</p>
 <ul><li>Now properly handles weights in <code>mor</code> by normalizing them to -1 and +1.</li>
 </ul></li>
 <li>

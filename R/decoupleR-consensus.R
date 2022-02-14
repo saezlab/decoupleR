@@ -5,13 +5,11 @@
 #' 
 #' @param df `decouple` data frame result
 #' @param include_time Should the time per statistic evaluated be informed?
-#' @param seed A single value, interpreted as an integer, or NULL for random
-#'  number generation.
+#' @param seed Deprecated parameter.
 #'
 #' @return Updated tibble with the computed consensus score between methods
 #'
 #' @import purrr
-#' @import RobustRankAggreg
 #' @export
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -33,65 +31,56 @@
 #' run_consensus(results)
 run_consensus <- function(df,
                           include_time=FALSE,
-                          seed=42
+                          seed = NULL
                           ){
   start_time <- Sys.time()
-  # Split df by samples
-  cond_names <- df %>% 
-    group_by(.data$condition) %>% 
-    group_keys() %>%
-    pull(.data$condition)
-  lst_conds <- df %>%
-    group_by(.data$condition) %>%
-    group_split() %>%
-    stats::setNames(cond_names)
-
-  # Split each sample by method
+  
+  # Filter Infs
+  is_inf <- !is.finite(df$score)
+  if (any(is_inf)) {
+    warning("Infs detected in score, will be set to NAs. This might effect the final
+            consensus score since they will be ignored.")
+    df <- df %>%
+      dplyr::filter(!is_inf)
+  }
+  
   run_id <- max(df$run_id)
-  withr::with_seed(seed, {
-    consensus <- lst_conds %>%
-      # Generate a sorted list of sources per method
-      map(function(df){
-        df %>%
-          group_by(.data$statistic) %>%
-          group_split() %>%
-          map(function(df){
-            df %>%
-              mutate(rand=stats::rnorm(n())) %>% 
-              arrange(desc(abs(.data$score)), .data$rand) %>%
-              select(.data$source) %>%
-              pull()
-          })
-      }) %>%
-      # Compute ranks
-      map(function(lst){
-        RobustRankAggreg::rankMatrix(lst) %>%
-          RobustRankAggreg::aggregateRanks(rmat = .)
-      }) %>%
-      # Transform back to tibble
-      map2(., names(.), function(df, cond){
-        as_tibble(df) %>%
-          rename('source' = .data$Name, 'p_value' = .data$Score) %>%
-          mutate(score= -log10(.data$p_value),
-                 statistic = 'consensus',
-                 condition = cond,
-                 run_id = run_id + 1
-          )
-      }) %>%
-      bind_rows()
-  })
+  consensus <- df %>%
+    dplyr::group_by(.data$statistic, .data$condition) %>%
+    dplyr::group_split() %>%
+    purrr::map(function(df){
+      pos <- df %>%
+        dplyr::filter(.data$score > 0) %>%
+        rbind(., dplyr::mutate(., score=-.data$score)) %>%
+        dplyr::mutate(score=.data$score / sd(.data$score)) %>%
+        dplyr::filter(.data$score > 0)
+      neg <- df %>%
+        dplyr::filter(.data$score <= 0) %>%
+        rbind(., dplyr::mutate(., score=-.data$score)) %>%
+        dplyr::mutate(score=.data$score / sd(.data$score)) %>%
+        dplyr::filter(.data$score <= 0)
+      rbind(pos,neg)
+    }) %>%
+    dplyr::bind_rows() %>%
+    dplyr::group_by(.data$condition, .data$source) %>%
+    dplyr::summarize(score=mean(.data$score), .groups = 'drop') %>%
+    dplyr::mutate(p_value = 2*stats::pnorm(-abs(.data$score))) %>%
+    tibble::add_column(
+      statistic = 'consensus',
+      .before = 'source'
+    ) %>%
+    tibble::add_column(
+      run_id = run_id + 1,
+      .before = 'statistic'
+    )
 
   if (include_time) {
     consensus <- consensus %>%
-      add_column(
+      tibble::add_column(
         statistic_time = difftime(Sys.time(), start_time),
         .after = "score"
       )
   }
-
-  # Join results
-  result <- list(df, consensus) %>% bind_rows()
-
-  result
+  consensus
 }
 

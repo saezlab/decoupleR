@@ -3,13 +3,13 @@
 ## Changes
 * `likelihood` param is deprecated, from now on, weights (positive or negative) 
   should go to the `mor` column of `network`. Methods will still run if 
-  `likelihood` is specified, however their weights will be set to 1.
+  `likelihood` is specified, however they will be set to 1.
 
 * Added `minsize` argument to all methods, set to 5 by default. Sources 
 containing less than this value of targets in the input mat will be removed 
 from the  calculations.
 
-* `viper` methods:
+* `viper` method:
     * Now properly handles weights in `mor` by normalizing them to -1 and +1.
 
 * `ulm`/`mlm`/`udt`/`mdt` methods:

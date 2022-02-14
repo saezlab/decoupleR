@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,12 @@
 <h2 class="pkg-version" data-toc-text="2.1" id="decoupler-21">decoupleR 2.1.<a class="anchor" aria-label="anchor" href="#decoupler-21"></a></h2>
 <div class="section level3">
 <h3 id="changes-2-1">Changes<a class="anchor" aria-label="anchor" href="#changes-2-1"></a></h3>
-<ul><li><p>Added <code>minsize</code> argument to all methods, set to 5 by default. Sources containing less than this value of targets in the input mat will be removed from the calculations.</p></li>
+<ul><li><p><code>likelihood</code> param is deprecated, from now on, weights (positive or negative) should go to the <code>mor</code> column of <code>network</code>. Methods will still run if <code>likelihood</code> is specified, however their weights will be set to 1.</p></li>
+<li><p>Added <code>minsize</code> argument to all methods, set to 5 by default. Sources containing less than this value of targets in the input mat will be removed from the calculations.</p></li>
+<li>
+<p><code>viper</code> methods:</p>
+<ul><li>Now properly handles weights in <code>mor</code> by normalizing them to -1 and +1.</li>
+</ul></li>
 <li>
 <p><code>ulm</code>/<code>mlm</code>/<code>udt</code>/<code>mdt</code> methods:</p>
 <ul><li>Changed how they processed the input network. Before the model matrix only contained the intersection of features between mat and network’s targets, now it incorporates all features coming from mat ensuring a more robust prediction. Prediction values may change slightly from older versions.</li>
@@ -82,7 +87,7 @@
 </ul></li>
 <li>
 <p><code>consensus</code> method:</p>
-<ul><li>Added seed to randomly break ties.</li>
+<ul><li>No longer based on <code>RobustRankAggreg</code>. Now the consensus score is the mean of the activities obtained after a double tailed z-score transformation.</li>
 </ul></li>
 <li><p>Discarded <code>filter_regulons</code> function.</p></li>
 <li><p>Moved major dependencies to Suggest to reduce the number of dependencies needed.</p></li>
@@ -104,6 +109,7 @@
 <h3 id="bugfixes-2-1">Bugfixes<a class="anchor" aria-label="anchor" href="#bugfixes-2-1"></a></h3>
 <ul><li><p><code>ulm</code>, <code>mlm</code>, <code>mdt</code> and <code>udt</code> now accept matrices with one column as input.</p></li>
 <li><p>Results from <code>ulm</code> and <code>mlm</code> now correctly return un-grouped.</p></li>
+<li><p>Methods correctly run when <code>mat</code> has no column names.</p></li>
 </ul></div>
 </div>
     <div class="section level2">

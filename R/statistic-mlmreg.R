@@ -21,7 +21,6 @@
 #' @param na.rm Should missing values (including NaN) be omitted from the
 #'  calculations of [base::rowMeans()]?
 #' @param minsize Integer indicating the minimum number of targets per source.
-#' @param norm whether using L1-norm or L2-norm for regularization
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
@@ -54,7 +53,8 @@ run_mlmreg <- function(mat,
                     center = FALSE,
                     na.rm = FALSE,
                     minsize = 5,
-                    alpha = 1) {
+                    alpha = 1,
+                    low.limits = -Inf) {
 
   # "norm" parameter can only be L1 or L2
   stopifnot((alpha >= 0 ) && (alpha <= 1))
@@ -110,12 +110,10 @@ run_mlmreg <- function(mat,
 #' @keywords internal
 #' @noRd
 .mlmreg_evaluate_model <- function(condition, mat, mor_mat, alpha=1) {
-  # fit <- lm(mat[ , condition] ~ mor_mat) %>%
-  #     summary()
 
   fit <- glmnet(mor_mat, mat[, condition],
                 lambda.min.ratio=0.0001, nlambda=100,
-                lower.limits = 0,
+                lower.limits = -Inf,
                 alpha=alpha, # control ridge vs lasso
                 standardize=F, family='gaussian')
 
@@ -123,26 +121,19 @@ run_mlmreg <- function(mat,
   coef = round(coef, digits=6)
   colnames(coef) = round(fit$lambda, digits = 9)
 
-  coef = abs(coef)
-  coef1 = coef[, abs(colSums(coef)) >0]
-  norm_beta = scale(coef1, center=FALSE, scale=colSums(coef1) + abs(fit$a0[colSums(coef) >0]))
+  subcol = abs(colSums(coef)) >0
+  coef1 = coef[, subcol]
+  # norm_beta = scale(abs(coef1)**(2-alpha), center=FALSE,
+                    # scale=colSums(abs(coef1)**(2-alpha))/fit$dev.ratio[subcol] ) # adjust statistics by R^2, not helping performance
+  norm_beta = scale(abs(coef1)**(2-alpha), center=FALSE,
+                    scale=colSums(abs(coef1)**(2-alpha)))
   beta_max = apply(norm_beta, 1, max)
 
-  scores = beta_max # TODO: may need explore
+  beta_max_idx = apply(norm_beta, 1, which.max)
+  sign_vec = sign(sapply(1:length(beta_max), function(x) coef1[x, beta_max_idx[x]]))
+
+  scores = beta_max * sign_vec
   sources = colnames(mor_mat)
-
-  ###
-
-  # scores <- as.vector(fit$coefficients[,3][-1])
-  # pvals <- as.vector(fit$coefficients[,4][-1])
-  # sources <- colnames(mor_mat)
-  # diff_n <- length(sources) - length(scores)
-  # if (diff_n > 0) {
-  #   stop(stringr::str_glue('After intersecting mat and network, at least {diff_n} sources in the network are colinear with other sources.
-  #     Cannot fit a linear model with colinear covariables, please remove them.
-  #     Please run decoupleR::check_corr to see what regulators are correlated.
-  #     Anything above 0.5 correlation should be removed.'))
-  # }
 
   tibble(score=scores, source=sources)
 }

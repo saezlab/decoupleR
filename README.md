@@ -31,7 +31,9 @@ linked to a biological process based on prior knowledge. For example, in
 transcriptomics gene sets regulated by a transcription factor, or in
 phospho-proteomics phosphosites that are targeted by a kinase.
 
-<img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/graphical_abstract.png?raw=1" align="center" width="400">
+<p align="center" width="100%">
+<img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/graphical_abstract.png?raw=1" align="center" width="45%">
+</p>
 
 For more information about how this package has been used with real
 data, please check the following links:
@@ -52,10 +54,7 @@ data, please check the following links:
 project. To install the package, start R and enter:
 
 ``` r
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager")
-}
-
+install.packages("BiocManager")
 BiocManager::install("decoupleR")
 ```
 

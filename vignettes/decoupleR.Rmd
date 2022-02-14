@@ -16,7 +16,7 @@ output:
     code_folding: show
 package: "`r pkg_ver('decoupleR')`"
 vignette: >
-  %\VignetteIndexEntry{Introduction to decoupleR}
+  %\VignetteIndexEntry{decoupleR - Ensemble of methods to infer biological activities}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -114,8 +114,8 @@ pheatmap(mat, cluster_rows = F, cluster_cols = F)
 Here we can see that some genes seem to be more expressed in one group of 
 samples than in the other and vice-versa. Ideally, we would like to capture 
 these differences in gene programs into interpretable biological entities. 
-In this example we will do it by summarizing these differences in expression 
-into transcription factor activities.
+In this example we will do it by summarizing gene expression into transcription 
+factor activities.
 
 The toy data also contains a simple net consisting of 3 transcription factors 
 (Ts) with specific regulation to target genes (either positive or negative).
@@ -138,15 +138,21 @@ returning more than one estimate or providing significance of the estimation.
 To know what each method returns, please check their documentation like this
 `?run_mlm`.
 
-To have a unified framework, all methods have these shared arguments:
+To have a unified framework, methods have these shared arguments:
 
 * `mat` : input matrix of molecular readouts.
-* `network` : input prior knowledge information relating molecular features to biological entities.
-* `.source`,`.target` and `.mor` : column names where to extract the information from `network`. 
+* `network` : input prior knowledge information relating molecular features to 
+biological entities.
+* `.source`,`.target` and `.mor` : column names where to extract the information
+from `network`. 
     * `.source` refers to the biological entities.
     * `.target` refers to the molecular features.
-    * `.mor` refers to the "strength" of the interaction (if available, else 1s will be used).
-* `minsize` : Minimum of target features per biological entity (5 by default). If less, sources are removed. This filtering prevents obtaining noisy activities from biological entities with very few matching target features in `matrix`.
+    * `.mor` refers to the "strength" of the interaction (if available, else 1s 
+    will be used). Only available for methods that can model interaction weights. 
+* `minsize` : Minimum of target features per biological entity (5 by default). 
+If less, sources are removed. This filtering prevents obtaining noisy activities
+from biological entities with very few matching target features in `matrix`. For
+this example data-set we will have to keep it to 0 though. 
 
 ## Running methods
 
@@ -159,7 +165,7 @@ res_gsea <- run_fgsea(mat, network, .source='source', .target='target', nproc=1,
 res_gsea
 ```
 
-All methods return a result data-frame containing:
+Methods return a result data-frame containing:
 
 * `statistic`: name of the statistic. Depending on the method, there can be more than one per method.
 * `source`: name of the biological entity.
@@ -170,7 +176,8 @@ All methods return a result data-frame containing:
 In the case of `gsea`, it returns a simple estimate of activities (`fgsea`), 
 a normalized estimate (`norm_fgsea`) and p-values after doing permutations.
 
-Other methods can return different things, for example `ulm`:
+Other methods can return different things, for example Univariate Linear Model 
+(`ulm`):
 ```{r usage-ulm, message=TRUE}
 res_ulm <- run_ulm(mat, network, .source='source', .target='target', .mor='mor', minsize = 0)
 res_ulm
@@ -219,21 +226,18 @@ assigns T3 as inactive in the second population of samples.
 ### Multiple methods
 
 `r Biocpkg("decoupleR")` also allows to run multiple methods at the same time. 
-Moreover, it computes a consensus score based on the obtained rankings of the 
-biological activities across methods, called `consensus`.
+Moreover, it computes a consensus score based on the obtained activities across 
+methods, called `consensus`.
 
-To run all methods available at the same time use the function `decouple`. 
-Specific arguments to specific packages can be passed using the variable `args`.
-For more information check `?decouple`.
+By default, `deocuple` runs only the top performer methods in our benchmark (`mlm`,
+`ulm` and `wsum`), and estimates a consensus score across them. Specific 
+arguments to specific methods can be passed using the variable `args`. For more 
+information check `?decouple`.
 ```{r usage-decouple, message=TRUE}
 res_decouple <- decouple(mat, 
                          network, 
                          .source='source', 
                          .target='target',
-                         args = list(
-                           aucell = list(nproc=1),
-                           fgsea = list(nproc=1)
-                         ),
                          minsize = 0)
 res_decouple
 ```
@@ -250,8 +254,8 @@ mat_consensus <- res_decouple %>%
 pheatmap(mat_consensus, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheight = 40)
 ```
 
-As before, we can observe that T1 and T2 can separate our two populations. 
-However, methods seem to disagree for T3 enrichment.
+We can observe that the consensus score correctly predicts that T1 and T3 should
+be active in the first population of samples while T2 in the second one.
 
 
 ## Session information

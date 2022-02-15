@@ -74,9 +74,11 @@ decouple <- function(mat,
         if (is.null(consensus_stats)) {
             consensus_stats <- c('mlm','ulm','norm_wsum')
         }
-    } else if (tolower(statistics)=='all') {
-        statistics <- c('udt','mdt','aucell','wmean','wsum','ulm',
-                        'mlm','viper','gsva','ora','fgsea')
+    } else if (length(statistics) == 1) {
+        if (tolower(statistics)=='all') {
+            statistics <- c('udt','mdt','aucell','wmean','wsum','ulm',
+                            'mlm','viper','gsva','ora','fgsea')
+        }
     }
     
     # Match statistic names with arguments

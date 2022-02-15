@@ -9,6 +9,14 @@
 containing less than this value of targets in the input mat will be removed 
 from the  calculations.
 
+* Changed default behavior of the `decouple` function. Now if no methods are 
+specified in the `statistics` argument, the function will only run the top 
+performers in our benchmark (`mlm`, `ulm` and `wsum`). To run all methods like
+before, set `statistics` to 'all'. Moreover, the argument `consensus_stats` has 
+been added to filter statistics for the calculation of the `consensus` score. 
+By default it only uses `mlm`, `ulm` and `norm_wsum`, or if `statistics`=='all'
+all methods returned after running `decouple`.
+
 * `viper` method:
     * Now properly handles weights in `mor` by normalizing them to -1 and +1.
 

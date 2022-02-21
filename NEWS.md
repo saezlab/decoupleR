@@ -49,6 +49,16 @@ needed.
     * New vignette style
 
 ## New features
+* Added wrappers to easily query `Omnipath`, one of the largest data-bases 
+collecting prior-knowledge resources. Added these functions:
+    * `show_resources`: shows available resources inside `Omnipath`.
+    * `get_resource`: gets any resource from `Omnipath`.
+    * `get_dorothea`: gets the DoRothEA gene regulatory network for 
+    transcription factor (TF) activity estimation. Note: this version is 
+    slightly different from the one in the package `dorothea` since it contains 
+    new edges and TFs and also weights the interactions by confidence levels.
+    * `get_progeny`: gets the PROGENy model for pathway activity estimation.
+
 * Added `show_methods` function, it shows how many statistics are currently 
 available.
 

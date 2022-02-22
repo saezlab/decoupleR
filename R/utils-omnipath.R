@@ -93,7 +93,7 @@ show_resources <- function(){
 #' 
 #' @export
 #' @examples 
-#' df <- decoupleR::get_resource('PanglaoDB')
+#' df <- decoupleR::get_resource('SIGNOR')
 get_resource <- function(name){
   if (!name %in% show_resources()){
     stop(stringr::str_glue('{name} is not a valid resource. Please, run 
@@ -127,6 +127,7 @@ get_progeny <- function(organism='human', top=500){
     stop("organism can only be human or mouse.")
   }
   p <- get_resource('PROGENy') %>%
+    dplyr::mutate(weight=as.double(weight), p_value=as.double(p_value)) %>%
     dplyr::select(.data$genesymbol, .data$p_value, .data$pathway, .data$weight) %>%
     dplyr::group_by(.data$pathway) %>%
     dplyr::group_split() %>%

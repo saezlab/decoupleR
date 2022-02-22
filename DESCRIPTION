@@ -87,8 +87,7 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
-    withr,
-    RobustRankAggreg
+    withr
 Suggests: 
     glmnet (>= 4.1.0),
     GSVA,

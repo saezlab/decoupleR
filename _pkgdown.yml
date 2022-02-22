@@ -37,6 +37,16 @@ reference:
       - convert_f_defaults
       - rename_net
       - extract_sets
+      
+- title: Utils
+    desc: >
+    contents:
+      - check_corr
+      - get_toy_data
+      - show_methods
+      - .fit_preprocessing
+      - filt_minsize
+      - intersect_regulons
   
   - title: Omnipath wrappers
     desc: >

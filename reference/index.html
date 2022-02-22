@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -178,7 +178,7 @@
         </dt>
         <dd>Extract sets</dd>
       </dl></div><div class="section level2">
-      <h2 id="before-to-run-methods">Before to run methods<a class="anchor" aria-label="anchor" href="#before-to-run-methods"></a></h2>
+      <h2 id="utils">Utils<a class="anchor" aria-label="anchor" href="#utils"></a></h2>
       
       
 
@@ -190,24 +190,19 @@
 
       <dl><dt>
           
-          <code><a href="show_methods.html">show_methods()</a></code> 
-        </dt>
-        <dd>Show methods</dd>
-      </dl><dl><dt>
-          
-          <code><a href="intersect_regulons.html">intersect_regulons()</a></code> 
-        </dt>
-        <dd>Intersect network target features with input matrix.</dd>
-      </dl><dl><dt>
-          
           <code><a href="check_corr.html">check_corr()</a></code> 
         </dt>
         <dd>Check correlation (colinearity)</dd>
       </dl><dl><dt>
           
-          <code><a href="filt_minsize.html">filt_minsize()</a></code> 
+          <code><a href="get_toy_data.html">get_toy_data()</a></code> 
         </dt>
-        <dd>Filter sources with minsize targets</dd>
+        <dd>Generate a toy <code>mat</code> and <code>network</code>.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="show_methods.html">show_methods()</a></code> 
+        </dt>
+        <dd>Show methods</dd>
       </dl><dl><dt>
           
           <code><a href="dot-fit_preprocessing.html">.fit_preprocessing()</a></code> 
@@ -215,9 +210,49 @@
         <dd>Pre-processing for methods that fit networks.</dd>
       </dl><dl><dt>
           
-          <code><a href="get_toy_data.html">get_toy_data()</a></code> 
+          <code><a href="filt_minsize.html">filt_minsize()</a></code> 
         </dt>
-        <dd>Generate a toy <code>mat</code> and <code>network</code>.</dd>
+        <dd>Filter sources with minsize targets</dd>
+      </dl><dl><dt>
+          
+          <code><a href="intersect_regulons.html">intersect_regulons()</a></code> 
+        </dt>
+        <dd>Intersect network target features with input matrix.</dd>
+      </dl></div><div class="section level2">
+      <h2 id="omnipath-wrappers">Omnipath wrappers<a class="anchor" aria-label="anchor" href="#omnipath-wrappers"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="show_resources.html">show_resources()</a></code> 
+        </dt>
+        <dd>Shows available resources in Omnipath. For more information visit the
+official website for <a href="https://omnipathdb.org/" class="external-link">Omnipath</a>.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_resource.html">get_resource()</a></code> 
+        </dt>
+        <dd>Wrapper to access resources inside Omnipath.
+This wrapper allows to easily query different prior knowledge resources.
+To check available resources run <code><a href="../reference/show_resources.html">decoupleR::show_resources()</a></code>. For more
+information visit the official website for <a href="https://omnipathdb.org/" class="external-link">Omnipath</a>.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_dorothea.html">get_dorothea()</a></code> 
+        </dt>
+        <dd>DoRothEA gene regulatory network.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_progeny.html">get_progeny()</a></code> 
+        </dt>
+        <dd>Pathway RespOnsive GENes for activity inference (PROGENy).</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

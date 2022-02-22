@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,7 +82,8 @@
   sparse <span class="op">=</span> <span class="cn">FALSE</span>,
   center <span class="op">=</span> <span class="cn">FALSE</span>,
   na.rm <span class="op">=</span> <span class="cn">FALSE</span>,
-  minsize <span class="op">=</span> <span class="fl">5</span>
+  minsize <span class="op">=</span> <span class="fl">5</span>,
+  regularization <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -113,6 +114,8 @@ in <code>network</code> <code>.target</code> column.</p></dd>
 calculations of <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">base::rowMeans()</a></code>?</p></dd>
 <dt>minsize</dt>
 <dd><p>Integer indicating the minimum number of targets per source.</p></dd>
+<dt>regularization</dt>
+<dd><p>Indicate whether apply regularization. NULL if no regularization. Set to 'ridge' or 'lasso' to use the corresponding regularization scheme implemented in glmnet. Can also set to numerical values between 0 (ridge) to 1 (lasso), and any value in between represent elastic net.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -130,6 +133,13 @@ columns and targets as rows. The matrix is filled with the associated weights
 for each interaction. This matrix is used to fit a linear model to predict
 the observed molecular readouts per sample. The obtained t-values from the
 fitted model are the activities of the regulators.</p>
+<p>MLM also provides the option to fit a regularized multivariate linear model
+(ridge or lasso). Using the functions in the "glmnet" package, different
+stringency of regularization (lambda) results in an ensemble of many solutions.
+At each solution, the coefficients of regulators (sources) are scaled by the
+absolute sum of all coefficients, representing the "importance" of each regulator.
+For each regulator, its optimal "importance" (strongly positive or negative)
+among the ensemble is used to represent its activity.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

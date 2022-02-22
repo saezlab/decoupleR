@@ -49,7 +49,16 @@
     <loc>https://saezlab.github.io/decoupleR/reference/filt_minsize.html</loc>
   </url>
   <url>
+    <loc>https://saezlab.github.io/decoupleR/reference/get_dorothea.html</loc>
+  </url>
+  <url>
     <loc>https://saezlab.github.io/decoupleR/reference/get_profile_of.html</loc>
+  </url>
+  <url>
+    <loc>https://saezlab.github.io/decoupleR/reference/get_progeny.html</loc>
+  </url>
+  <url>
+    <loc>https://saezlab.github.io/decoupleR/reference/get_resource.html</loc>
   </url>
   <url>
     <loc>https://saezlab.github.io/decoupleR/reference/get_toy_data.html</loc>
@@ -110,6 +119,9 @@
   </url>
   <url>
     <loc>https://saezlab.github.io/decoupleR/reference/show_methods.html</loc>
+  </url>
+  <url>
+    <loc>https://saezlab.github.io/decoupleR/reference/show_resources.html</loc>
   </url>
   <url>
     <loc>https://saezlab.github.io/decoupleR/reference/tidyeval.html</loc>

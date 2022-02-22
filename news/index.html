@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,7 +102,18 @@
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-2-1">New features<a class="anchor" aria-label="anchor" href="#new-features-2-1"></a></h3>
-<ul><li><p>Added <code>show_methods</code> function, it shows how many statistics are currently available.</p></li>
+<ul><li>
+<p>Added wrappers to easily query <code>Omnipath</code>, one of the largest data-bases collecting prior-knowledge resources. Added these functions:</p>
+<ul><li>
+<code>show_resources</code>: shows available resources inside <code>Omnipath</code>.</li>
+<li>
+<code>get_resource</code>: gets any resource from <code>Omnipath</code>.</li>
+<li>
+<code>get_dorothea</code>: gets the DoRothEA gene regulatory network for transcription factor (TF) activity estimation. Note: this version is slightly different from the one in the package <code>dorothea</code> since it contains new edges and TFs and also weights the interactions by confidence levels.</li>
+<li>
+<code>get_progeny</code>: gets the PROGENy model for pathway activity estimation.</li>
+</ul></li>
+<li><p>Added <code>show_methods</code> function, it shows how many statistics are currently available.</p></li>
 <li><p>Added <code>check_corr</code> function, it shows how correlated regulators in a network are. It can be used to check for co-linearity for <code>mlm</code> and <code>mdt</code>.</p></li>
 <li><p>Added new error for <code>mlm</code> when co-variables are co-linear (regulators are too correlated to fit a model).</p></li>
 </ul></div>

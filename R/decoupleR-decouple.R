@@ -67,7 +67,7 @@ decouple <- function(mat,
                      include_time = FALSE,
                      show_toy_call = FALSE,
                      minsize = 5) {
-    
+
     # If NULL use top performer methods.
     if (is.null(statistics)){
         statistics <- c('mlm','ulm','wsum')
@@ -80,14 +80,14 @@ decouple <- function(mat,
                             'mlm','viper','gsva','ora','fgsea')
         }
     }
-    
+
     # Match statistic names with arguments
     for (stat in setdiff(statistics, names(args))) {
         args[[stat]] = list()
     }
     args <- args[names(args) %in% statistics]
     statistics <- statistics[match(names(args),statistics)]
-    
+
     # Overwrite minsize
     for (name in names(args)) {
         args[[name]][['minsize']] <- minsize

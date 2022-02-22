@@ -11,6 +11,14 @@
 #' the observed molecular readouts per sample. The obtained t-values from the
 #' fitted model are the activities of the regulators.
 #'
+#' MLM also provides the option to fit a regularized multivariate linear model
+#' (ridge or lasso). Using the functions in the "glmnet" package, different
+#' stringency of regularization (lambda) results in an ensemble of many solutions.
+#' At each solution, the coefficients of regulators (sources) are scaled by the
+#' absolute sum of all coefficients, representing the "importance" of each regulator.
+#' For each regulator, its optimal "importance" (strongly positive or negative)
+#' among the ensemble is used to represent its activity.
+
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
 #' @param sparse Deprecated parameter.
@@ -19,6 +27,7 @@
 #' @param na.rm Should missing values (including NaN) be omitted from the
 #'  calculations of [base::rowMeans()]?
 #' @param minsize Integer indicating the minimum number of targets per source.
+#' @param regularization Indicate whether apply regularization. NULL if no regularization. Set to 'ridge' or 'lasso' to use the corresponding regularization scheme implemented in glmnet. Can also set to numerical values between 0 (ridge) to 1 (lasso), and any value in between represent elastic net.
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
@@ -50,9 +59,29 @@ run_mlm <- function(mat,
                     sparse = FALSE,
                     center = FALSE,
                     na.rm = FALSE,
-                    minsize = 5) {
+                    minsize = 5,
+                    regularization = NULL) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
+
+  alpha = NULL
+
+  # Check the value in regularization is valid
+  if (is.numeric(regularization)) {
+    alpha = regularization
+    stopifnot((alpha >= 0 ) && (alpha <= 1))
+  }
+
+  if (is.character(regularization)) {
+    if (regularization == 'lasso') {
+      alpha = 1
+    } else if (regularization == 'ridge') {
+      alpha = 0
+    }
+    else {
+      stop("Invalid value for 'regularization")
+    }
+  }
 
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
@@ -64,7 +93,7 @@ run_mlm <- function(mat,
   .fit_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
   {
-    .mlm_analysis(.$mat, .$mor_mat)
+    .mlm_analysis(.$mat, .$mor_mat, alpha)
   } %>%
     ungroup()
 }
@@ -79,11 +108,12 @@ run_mlm <- function(mat,
 #' @inherit run_mlm return
 #' @keywords intern
 #' @noRd
-.mlm_analysis <- function(mat, mor_mat) {
+.mlm_analysis <- function(mat, mor_mat, alpha) {
   mlm_evaluate_model <- partial(
     .f = .mlm_evaluate_model,
     mat = mat,
-    mor_mat = mor_mat
+    mor_mat = mor_mat,
+    alpha = alpha
   )
 
   # Allocate the space for all conditions and evaluate the proposed model.
@@ -100,18 +130,47 @@ run_mlm <- function(mat,
 #'
 #' @keywords internal
 #' @noRd
-.mlm_evaluate_model <- function(condition, mat, mor_mat) {
-  fit <- lm(mat[ , condition] ~ mor_mat) %>%
+.mlm_evaluate_model <- function(condition, mat, mor_mat, alpha=NULL) {
+  if (is.null(alpha)) {
+    fit <- lm(mat[ , condition] ~ mor_mat) %>%
       summary()
-  scores <- as.vector(fit$coefficients[,3][-1])
-  pvals <- as.vector(fit$coefficients[,4][-1])
-  sources <- colnames(mor_mat)
-  diff_n <- length(sources) - length(scores)
-  if (diff_n > 0) {
-    stop(stringr::str_glue('After intersecting mat and network, at least {diff_n} sources in the network are colinear with other sources.
+    scores <- as.vector(fit$coefficients[,3][-1])
+    pvals <- as.vector(fit$coefficients[,4][-1])
+    sources <- colnames(mor_mat)
+    diff_n <- length(sources) - length(scores)
+    if (diff_n > 0) {
+      stop(stringr::str_glue('After intersecting mat and network, at least {diff_n} sources in the network are colinear with other sources.
       Cannot fit a linear model with colinear covariables, please remove them.
       Please run decoupleR::check_corr to see what regulators are correlated.
       Anything above 0.5 correlation should be removed.'))
+    }
+    tibble(score=scores, p_value=pvals, source=sources)
   }
-  tibble(score=scores, p_value=pvals, source=sources)
+  else {
+    fit <- glmnet(mor_mat, mat[, condition],
+                  lambda.min.ratio=0.0001, nlambda=100,
+                  lower.limits = -Inf,
+                  alpha=alpha, # control ridge vs lasso
+                  standardize=F, family='gaussian')
+
+    coef = as.matrix(fit$beta)
+    coef = round(coef, digits=6)
+    colnames(coef) = round(fit$lambda, digits = 9)
+
+    subcol = abs(colSums(coef)) >0
+    coef1 = coef[, subcol]
+
+    norm_beta = scale(abs(coef1)**(2-alpha), center=FALSE,
+                      scale=colSums(abs(coef1)**(2-alpha)))
+    beta_max = apply(norm_beta, 1, max)
+
+    beta_max_idx = apply(norm_beta, 1, which.max)
+    sign_vec = sign(sapply(1:length(beta_max), function(x) coef1[x, beta_max_idx[x]]))
+
+    scores = beta_max * sign_vec
+    sources = colnames(mor_mat)
+
+    tibble(score=scores, p_value=NA, source=sources)
+  }
+
 }

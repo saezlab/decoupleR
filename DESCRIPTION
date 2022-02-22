@@ -90,6 +90,7 @@ Imports:
     withr,
     RobustRankAggreg
 Suggests: 
+    glmnet (>= 4.1.0),
     GSVA,
     viper,
     fgsea (>= 1.15.4),

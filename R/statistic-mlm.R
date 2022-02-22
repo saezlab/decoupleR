@@ -147,7 +147,7 @@ run_mlm <- function(mat,
     tibble(score=scores, p_value=pvals, source=sources)
   }
   else {
-    fit <- glmnet(mor_mat, mat[, condition],
+    fit <- glmnet::glmnet(mor_mat, mat[, condition],
                   lambda.min.ratio=0.0001, nlambda=100,
                   lower.limits = -Inf,
                   alpha=alpha, # control ridge vs lasso

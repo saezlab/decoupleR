@@ -19,5 +19,5 @@ To check available resources run \code{decoupleR::show_resources()}. For more
 information visit the official website for \href{https://omnipathdb.org/}{Omnipath}.
 }
 \examples{
-df <- decoupleR::get_resource('PanglaoDB')
+df <- decoupleR::get_resource('SIGNOR')
 }

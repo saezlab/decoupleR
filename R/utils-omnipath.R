@@ -127,7 +127,7 @@ get_progeny <- function(organism='human', top=500){
     stop("organism can only be human or mouse.")
   }
   p <- get_resource('PROGENy') %>%
-    dplyr::mutate(weight=as.double(weight), p_value=as.double(p_value)) %>%
+    dplyr::mutate(weight=as.double(.data$weight), p_value=as.double(.data$p_value)) %>%
     dplyr::select(.data$genesymbol, .data$p_value, .data$pathway, .data$weight) %>%
     dplyr::group_by(.data$pathway) %>%
     dplyr::group_split() %>%

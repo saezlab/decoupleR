@@ -132,8 +132,8 @@ run_ora <- function(mat,
 #' @noRd
 .ora_contingency_table <- function(expected, observed, n_background) {
     true_positive <- intersect(observed, expected) %>% length()
-    false_positive <- setdiff(observed, expected) %>% length()
-    false_negative <- setdiff(expected, observed) %>% length()
+    false_positive <- setdiff(expected, observed) %>% length()
+    false_negative <- setdiff(observed, expected) %>% length()
     true_negative <- (n_background -
         true_positive - false_positive - false_negative)
 

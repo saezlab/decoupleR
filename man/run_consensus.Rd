@@ -4,15 +4,14 @@
 \alias{run_consensus}
 \title{Consensus score between methods}
 \usage{
-run_consensus(df, include_time = FALSE, seed = 42)
+run_consensus(df, include_time = FALSE, seed = NULL)
 }
 \arguments{
 \item{df}{\code{decouple} data frame result}
 
 \item{include_time}{Should the time per statistic evaluated be informed?}
 
-\item{seed}{A single value, interpreted as an integer, or NULL for random
-number generation.}
+\item{seed}{Deprecated parameter.}
 }
 \value{
 Updated tibble with the computed consensus score between methods

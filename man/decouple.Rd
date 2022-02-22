@@ -9,10 +9,10 @@ decouple(
   network,
   .source = .data$source,
   .target = .data$target,
-  statistics = c("udt", "mdt", "aucell", "wmean", "wsum", "ulm", "mlm", "viper",
-    "gsva", "ora", "fgsea"),
+  statistics = NULL,
   args = list(NULL),
   consensus_score = TRUE,
+  consensus_stats = NULL,
   include_time = FALSE,
   show_toy_call = FALSE,
   minsize = 5
@@ -30,7 +30,8 @@ in \code{network} \code{.target} column.}
 
 \item{.target}{Column with target nodes.}
 
-\item{statistics}{Statistical methods to be coupled.}
+\item{statistics}{Statistical methods to be run sequentially. If none are
+provided, only top performer methods are run (mlm, ulm and wsum).}
 
 \item{args}{A list of argument-lists the same length as \code{statistics}
 (or length 1). The default argument, list(NULL), will be recycled to the
@@ -38,7 +39,14 @@ same length as \code{statistics}, and will call each function with no arguments
 (apart from \code{mat}, \code{network}, \code{.source} and, \code{.target}).}
 
 \item{consensus_score}{Boolean whether to run a consensus score between
-methods. Obtained scores are -log10(p-values).}
+methods.}
+
+\item{consensus_stats}{List of estimate names to use for the calculation
+of the consensus score. This is used to filter out extra estimations
+from some methods, for example wsum returns wsum, corr_wsum and norm_wsum. If
+none are provided, and also no statstics where provided, only top performer
+methods are used (mlm, ulm and norm_wsum). Else, it will use all available
+estimates after running all methods in the statistics argument.}
 
 \item{include_time}{Should the time per statistic evaluated be informed?}
 

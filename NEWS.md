@@ -1,9 +1,24 @@
 # decoupleR 2.1.
 
 ## Changes
+* `likelihood` param is deprecated, from now on, weights (positive or negative) 
+  should go to the `mor` column of `network`. Methods will still run if 
+  `likelihood` is specified, however they will be set to 1.
+
 * Added `minsize` argument to all methods, set to 5 by default. Sources 
 containing less than this value of targets in the input mat will be removed 
 from the  calculations.
+
+* Changed default behavior of the `decouple` function. Now if no methods are 
+specified in the `statistics` argument, the function will only run the top 
+performers in our benchmark (`mlm`, `ulm` and `wsum`). To run all methods like
+before, set `statistics` to 'all'. Moreover, the argument `consensus_stats` has 
+been added to filter statistics for the calculation of the `consensus` score. 
+By default it only uses `mlm`, `ulm` and `norm_wsum`, or if `statistics`=='all'
+all methods returned after running `decouple`.
+
+* `viper` method:
+    * Now properly handles weights in `mor` by normalizing them to -1 and +1.
 
 * `ulm`/`mlm`/`udt`/`mdt` methods:
     * Changed how they processed the input network. Before the model 
@@ -19,7 +34,8 @@ from the  calculations.
     * Added seed to randomly break ties
     
 * `consensus` method: 
-    * Added seed to randomly break ties.
+    * No longer based on `RobustRankAggreg`. Now the consensus score is the mean of the
+    activities obtained after a double tailed z-score transformation.
 
 * Discarded `filter_regulons` function.
 
@@ -33,6 +49,16 @@ needed.
     * New vignette style
 
 ## New features
+* Added wrappers to easily query `Omnipath`, one of the largest data-bases 
+collecting prior-knowledge resources. Added these functions:
+    * `show_resources`: shows available resources inside `Omnipath`.
+    * `get_resource`: gets any resource from `Omnipath`.
+    * `get_dorothea`: gets the DoRothEA gene regulatory network for 
+    transcription factor (TF) activity estimation. Note: this version is 
+    slightly different from the one in the package `dorothea` since it contains 
+    new edges and TFs and also weights the interactions by confidence levels.
+    * `get_progeny`: gets the PROGENy model for pathway activity estimation.
+
 * Added `show_methods` function, it shows how many statistics are currently 
 available.
 
@@ -46,6 +72,8 @@ correlated to fit a model).
 * `ulm`, `mlm`, `mdt` and `udt` now accept matrices with one column as input. 
 
 * Results from `ulm` and `mlm` now correctly return un-grouped.
+
+* Methods correctly run when `mat` has no column names.
 
 # decoupleR 2.0
 

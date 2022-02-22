@@ -5,13 +5,20 @@
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format
-#' @param statistics Statistical methods to be coupled.
+#' @param statistics Statistical methods to be run sequentially. If none are 
+#' provided, only top performer methods are run (mlm, ulm and wsum).
 #' @param args A list of argument-lists the same length as `statistics`
 #'  (or length 1). The default argument, list(NULL), will be recycled to the
 #'  same length as `statistics`, and will call each function with no arguments
 #'   (apart from `mat`, `network`, `.source` and, `.target`).
 #' @param consensus_score Boolean whether to run a consensus score between
-#' methods. Obtained scores are -log10(p-values).
+#' methods.
+#' @param consensus_stats List of estimate names to use for the calculation 
+#' of the consensus score. This is used to filter out extra estimations 
+#' from some methods, for example wsum returns wsum, corr_wsum and norm_wsum. If
+#'  none are provided, and also no statstics where provided, only top performer 
+#'  methods are used (mlm, ulm and norm_wsum). Else, it will use all available 
+#'  estimates after running all methods in the statistics argument. 
 #' @param include_time Should the time per statistic evaluated be informed?
 #' @param minsize Integer indicating the minimum number of targets per source.
 #' @param show_toy_call The call of each statistic must be informed?
@@ -53,13 +60,26 @@ decouple <- function(mat,
                      network,
                      .source = .data$source,
                      .target = .data$target,
-                     statistics = c('udt','mdt','aucell','wmean','wsum','ulm',
-                                    'mlm','viper','gsva','ora','fgsea'),
+                     statistics = NULL,
                      args = list(NULL),
                      consensus_score = TRUE,
+                     consensus_stats = NULL,
                      include_time = FALSE,
                      show_toy_call = FALSE,
                      minsize = 5) {
+
+    # If NULL use top performer methods.
+    if (is.null(statistics)){
+        statistics <- c('mlm','ulm','wsum')
+        if (is.null(consensus_stats)) {
+            consensus_stats <- c('mlm','ulm','norm_wsum')
+        }
+    } else if (length(statistics) == 1) {
+        if (tolower(statistics)=='all') {
+            statistics <- c('udt','mdt','aucell','wmean','wsum','ulm',
+                            'mlm','viper','gsva','ora','fgsea')
+        }
+    }
 
     # Match statistic names with arguments
     for (stat in setdiff(statistics, names(args))) {
@@ -108,7 +128,15 @@ decouple <- function(mat,
         ) %>%
         mutate(run_id = as.numeric(.data$run_id))
     if (consensus_score){
-        df <- run_consensus(df, include_time=include_time)
+        if (!is.null(consensus_stats)) {
+            consensus <- df %>% 
+                dplyr::filter(.data$statistic %in% consensus_stats) %>%
+                decoupleR::run_consensus(., include_time=include_time)
+        } else {
+            consensus <- decoupleR::run_consensus(df, include_time=include_time)
+        }
+            
+        df <- dplyr::bind_rows(df, consensus)
     }
     df
 }

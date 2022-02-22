@@ -37,8 +37,7 @@ reference:
       - convert_f_defaults
       - rename_net
       - extract_sets
-      
-- title: Utils
+  - title: Utils
     desc: >
     contents:
       - check_corr
@@ -47,7 +46,6 @@ reference:
       - .fit_preprocessing
       - filt_minsize
       - intersect_regulons
-  
   - title: Omnipath wrappers
     desc: >
     contents:

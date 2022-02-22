@@ -100,7 +100,8 @@ get_resource <- function(name){
                          decoupleR::show_resources() to see the list of 
                          available resources.'))
   }
-  df <- OmnipathR::import_omnipath_annotations(resources = name, wide = TRUE)
+  df <- OmnipathR::import_omnipath_annotations(resources = name) %>%
+    OmnipathR::pivot_annotations(.)
   return(df)
 }
 

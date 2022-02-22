@@ -37,12 +37,11 @@ reference:
       - convert_f_defaults
       - rename_net
       - extract_sets
-  - title: Before to run methods
+  
+  - title: Omnipath wrappers
     desc: >
     contents:
-      - show_methods
-      - intersect_regulons
-      - check_corr
-      - filt_minsize
-      - .fit_preprocessing
-      - get_toy_data
+      - show_resources
+      - get_resource
+      - get_dorothea
+      - get_progeny

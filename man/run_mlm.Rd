@@ -14,8 +14,7 @@ run_mlm(
   sparse = FALSE,
   center = FALSE,
   na.rm = FALSE,
-  minsize = 5,
-  regularization = NULL
+  minsize = 5
 )
 }
 \arguments{
@@ -43,8 +42,6 @@ in \code{network} \code{.target} column.}
 calculations of \code{\link[base:colSums]{base::rowMeans()}}?}
 
 \item{minsize}{Integer indicating the minimum number of targets per source.}
-
-\item{regularization}{Indicate whether apply regularization. NULL if no regularization. Set to 'ridge' or 'lasso' to use the corresponding regularization scheme implemented in glmnet. Can also set to numerical values between 0 (ridge) to 1 (lasso), and any value in between represent elastic net.}
 }
 \value{
 A long format tibble of the enrichment scores for each source
@@ -66,14 +63,6 @@ columns and targets as rows. The matrix is filled with the associated weights
 for each interaction. This matrix is used to fit a linear model to predict
 the observed molecular readouts per sample. The obtained t-values from the
 fitted model are the activities of the regulators.
-
-MLM also provides the option to fit a regularized multivariate linear model
-(ridge or lasso). Using the functions in the "glmnet" package, different
-stringency of regularization (lambda) results in an ensemble of many solutions.
-At each solution, the coefficients of regulators (sources) are scaled by the
-absolute sum of all coefficients, representing the "importance" of each regulator.
-For each regulator, its optimal "importance" (strongly positive or negative)
-among the ensemble is used to represent its activity.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

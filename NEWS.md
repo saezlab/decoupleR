@@ -69,6 +69,8 @@ are. It can be used to check for co-linearity for `mlm` and `mdt`.
 correlated to fit a model).
 
 ## Bugfixes
+* `wmean` and `wsum` now return the correct empirical p-values.
+
 * `ulm`, `mlm`, `mdt` and `udt` now accept matrices with one column as input. 
 
 * Results from `ulm` and `mlm` now correctly return un-grouped.

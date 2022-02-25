@@ -152,6 +152,8 @@ run_wmean <- function(mat,
             # (times-1)/times
             p_value = if_else(.data$p_value == 0, 1/times, .data$p_value),
             p_value = if_else(.data$p_value == 1, (times-1)/times, .data$p_value),
+            p_value = if_else(.data$p_value >= 0.5, 1-.data$p_value, .data$p_value),
+            p_value = p_value * 2,
             c_score = .data$value * (-log10(.data$p_value))
         ) %>%
         # Reformat results

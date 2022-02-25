@@ -18,7 +18,7 @@ dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
 
 # Test for run_ora function -----------------------------------------------
 test_that("test run_mora with dorothea gene sets", {
-    res_1 <- run_ora(emat, dorothea_genesets, .source='tf', n_up=300, n_bottom=300)
+    res_1 <- run_ora(emat, dorothea_genesets, .source='tf')
     exp_1 <- file.path(expected_dir, "output-ora_dorothea_default.rds") %>%
         readRDS()
 

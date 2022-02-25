@@ -43,7 +43,7 @@ args <- list(
     ulm = list(),
     viper = list(),
     gsva = list(),
-    ora = list(n_up=300, n_bottom=300),
+    ora = list(),
     fgsea = list()
 )
 

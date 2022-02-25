@@ -39,7 +39,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,9 +94,12 @@
 <div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>decoupleR - Ensemble of methods to infer biological activities</h1>
-                        <h4 data-toc-skip class="author">Pau Badia-i-Mompel</h4>
+                        <h4 data-toc-skip class="author">Pau
+Badia-i-Mompel</h4>
             <address class="author_afil">
-      Heidelberg Universiy<br><h4 data-toc-skip class="author">Jesús Vélez-Santiago</h4>
+      Heidelberg
+Universiy<br><h4 data-toc-skip class="author">Jesús
+Vélez-Santiago</h4>
             <address class="author_afil">
       National Autonomous University of Mexico<br><small class="dont-index">Source: <a href="https://github.com/saezlab/decoupleR/blob/HEAD/vignettes/decoupleR.Rmd" class="external-link"><code>vignettes/decoupleR.Rmd</code></a></small>
       <div class="d-none name"><code>decoupleR.Rmd</code></div>
@@ -109,29 +112,40 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em> is an R package distributed as part of the Bioconductor project. To install the package, start R and enter:</p>
+<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em>
+is an R package distributed as part of the Bioconductor project. To
+install the package, start R and enter:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"decoupleR"</span><span class="op">)</span></code></pre></div>
-<p>Alternatively, you can instead install the latest development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>Alternatively, you can instead install the latest development version
+from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"saezlab/decoupleR"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
-<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em> (Badia-i-Mompel, Vélez-Santiago, Braunger, Geiss, Dimitrov, Müller-Dott, Taus, Dugourd, Holland, Flores, and Saez-Rodriguez, 2021) contains different statistical methods to extract biological activities from omics data using prior knowledge. Some of them are:</p>
+<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em>
+(Badia-i-Mompel, Vélez-Santiago, Braunger, Geiss, Dimitrov, Müller-Dott,
+Taus, Dugourd, Holland, Flores, and Saez-Rodriguez, 2021) contains
+different statistical methods to extract biological activities from
+omics data using prior knowledge. Some of them are:</p>
 <ul>
-<li>AUCell: (Aibar, Bravo Gonzalez-Blas, Moerman, Huynh-Thu, Imrichova, Hulselmans, Rambow, Marine, Geurts, Aerts, van den Oord, Kalender Atak, Wouters, and Aerts, 2017)</li>
+<li>AUCell: (Aibar, Bravo Gonzalez-Blas, Moerman, Huynh-Thu, Imrichova,
+Hulselmans, Rambow, Marine, Geurts, Aerts, van den Oord, Kalender Atak,
+Wouters, and Aerts, 2017)</li>
 <li>Fast GSEA: (Korotkevich, Sukhov, and Sergushichev, 2019)</li>
 <li>GSVA: (H{ä}nzelmann, Castelo, and Guinney, 2013)</li>
-<li>viper: (Alvarez, Shen, Giorgi, Lachmann, Ding, Ye, and Califano, 2016)</li>
+<li>viper: (Alvarez, Shen, Giorgi, Lachmann, Ding, Ye, and Califano,
+2016)</li>
 </ul>
 <p>In this vignette we showcase how to use it with some toy data.</p>
 <div class="section level3">
 <h3 id="libraries">Libraries<a class="anchor" aria-label="anchor" href="#libraries"></a>
 </h3>
-<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em> can be imported as:</p>
+<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em>
+can be imported as:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://saezlab.github.io/decoupleR/">decoupleR</a></span><span class="op">)</span>
 
@@ -142,7 +156,13 @@
 <div class="section level3">
 <h3 id="input-data">Input data<a class="anchor" aria-label="anchor" href="#input-data"></a>
 </h3>
-<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em> needs a matrix (<code>mat</code>) of any molecular readouts (gene expression, logFC, p-values, etc.) and a <code>network</code> that relates target features (genes, proteins, etc.) to “source” biological entities (pathways, transcription factors, molecular processes, etc.). Some methods also require the mode of regulation (MoR) for each interaction, defined as negative or positive weights.</p>
+<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em>
+needs a matrix (<code>mat</code>) of any molecular readouts (gene
+expression, logFC, p-values, etc.) and a <code>network</code> that
+relates target features (genes, proteins, etc.) to “source” biological
+entities (pathways, transcription factors, molecular processes, etc.).
+Some methods also require the mode of regulation (MoR) for each
+interaction, defined as negative or positive weights.</p>
 <p>To get an example data-set, run:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_toy_data.html">get_toy_data</a></span><span class="op">(</span><span class="op">)</span>
@@ -171,19 +191,30 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> T3     G07     -<span style="color: #BB0000;">3</span>  </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> T3     G08     -<span style="color: #BB0000;">1</span>  </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span> T3     G11      1</span></code></pre></div>
-<p>This example consists of two small populations of samples (S, cols) with different gene expression patterns (G, rows):</p>
+<p>This example consists of two small populations of samples (S, cols)
+with different gene expression patterns (G, rows):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">mat</span>, cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_cols <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p><img src="decoupleR_files/figure-html/show_matrix-1.png" width="700"></p>
-<p>Here we can see that some genes seem to be more expressed in one group of samples than in the other and vice-versa. Ideally, we would like to capture these differences in gene programs into interpretable biological entities. In this example we will do it by summarizing gene expression into transcription factor activities.</p>
-<p>The toy data also contains a simple net consisting of 3 transcription factors (Ts) with specific regulation to target genes (either positive or negative). This network can be visualized like a graph. Green edges are positive regulation (activation), red edges are negative regulation (inactivation):</p>
+<p>Here we can see that some genes seem to be more expressed in one
+group of samples than in the other and vice-versa. Ideally, we would
+like to capture these differences in gene programs into interpretable
+biological entities. In this example we will do it by summarizing gene
+expression into transcription factor activities.</p>
+<p>The toy data also contains a simple net consisting of 3 transcription
+factors (Ts) with specific regulation to target genes (either positive
+or negative). This network can be visualized like a graph. Green edges
+are positive regulation (activation), red edges are negative regulation
+(inactivation):</p>
 <p><img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/net_plot.png?raw=1" align="center" width="600"></p>
-<p>According to this network, the first population of samples should show high activity for T1 and T3, while the second one only for T2.</p>
+<p>According to this network, the first population of samples should
+show high activity for T1 and T3, while the second one only for T2.</p>
 </div>
 <div class="section level3">
 <h3 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a>
 </h3>
-<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em> contains several methods. To check how many are available, run:</p>
+<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em>
+contains several methods. To check how many are available, run:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/show_methods.html">show_methods</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 2</span></span>
@@ -201,26 +232,37 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span> run_viper     Virtual Inference of Protein-activity by Enriched Regulon anal…</span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">11</span> run_wmean     Weighted Mean (WMEAN)                                          </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">12</span> run_wsum      Weighted Sum (WSUM)</span></code></pre></div>
-<p>Each method models biological activities in a different manner, sometimes returning more than one estimate or providing significance of the estimation. To know what each method returns, please check their documentation like this <code><a href="../reference/run_mlm.html">?run_mlm</a></code>.</p>
+<p>Each method models biological activities in a different manner,
+sometimes returning more than one estimate or providing significance of
+the estimation. To know what each method returns, please check their
+documentation like this <code><a href="../reference/run_mlm.html">?run_mlm</a></code>.</p>
 <p>To have a unified framework, methods have these shared arguments:</p>
 <ul>
 <li>
 <code>mat</code> : input matrix of molecular readouts.</li>
 <li>
-<code>network</code> : input prior knowledge information relating molecular features to biological entities.</li>
+<code>network</code> : input prior knowledge information relating
+molecular features to biological entities.</li>
 <li>
-<code>.source</code>,<code>.target</code> and <code>.mor</code> : column names where to extract the information from <code>network</code>.
+<code>.source</code>,<code>.target</code> and <code>.mor</code> :
+column names where to extract the information from <code>network</code>.
 <ul>
 <li>
 <code>.source</code> refers to the biological entities.</li>
 <li>
 <code>.target</code> refers to the molecular features.</li>
 <li>
-<code>.mor</code> refers to the “strength” of the interaction (if available, else 1s will be used). Only available for methods that can model interaction weights.</li>
+<code>.mor</code> refers to the “strength” of the interaction (if
+available, else 1s will be used). Only available for methods that can
+model interaction weights.</li>
 </ul>
 </li>
 <li>
-<code>minsize</code> : Minimum of target features per biological entity (5 by default). If less, sources are removed. This filtering prevents obtaining noisy activities from biological entities with very few matching target features in <code>matrix</code>. For this example data-set we will have to keep it to 0 though.</li>
+<code>minsize</code> : Minimum of target features per biological
+entity (5 by default). If less, sources are removed. This filtering
+prevents obtaining noisy activities from biological entities with very
+few matching target features in <code>matrix</code>. For this example
+data-set we will have to keep it to 0 though.</li>
 </ul>
 </div>
 <div class="section level3">
@@ -229,7 +271,8 @@
 <div class="section level4">
 <h4 id="individual-methods">Individual methods<a class="anchor" aria-label="anchor" href="#individual-methods"></a>
 </h4>
-<p>As an example, let’s first run the Gene Set Enrichment Analysis method (<code>gsea</code>), one of the most well-known statistics:</p>
+<p>As an example, let’s first run the Gene Set Enrichment Analysis
+method (<code>gsea</code>), one of the most well-known statistics:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res_gsea</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_fgsea.html">run_fgsea</a></span><span class="op">(</span><span class="va">mat</span>, <span class="va">network</span>, .source<span class="op">=</span><span class="st">'source'</span>, .target<span class="op">=</span><span class="st">'target'</span>, nproc<span class="op">=</span><span class="fl">1</span>, minsize <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="va">res_gsea</span>
@@ -250,7 +293,8 @@
 <p>Methods return a result data-frame containing:</p>
 <ul>
 <li>
-<code>statistic</code>: name of the statistic. Depending on the method, there can be more than one per method.</li>
+<code>statistic</code>: name of the statistic. Depending on the
+method, there can be more than one per method.</li>
 <li>
 <code>source</code>: name of the biological entity.</li>
 <li>
@@ -258,10 +302,14 @@
 <li>
 <code>score</code>: inferred biological activity.</li>
 <li>
-<code>p_value</code>: if available, significance of the inferred activity.</li>
+<code>p_value</code>: if available, significance of the inferred
+activity.</li>
 </ul>
-<p>In the case of <code>gsea</code>, it returns a simple estimate of activities (<code>fgsea</code>), a normalized estimate (<code>norm_fgsea</code>) and p-values after doing permutations.</p>
-<p>Other methods can return different things, for example Univariate Linear Model (<code>ulm</code>):</p>
+<p>In the case of <code>gsea</code>, it returns a simple estimate of
+activities (<code>fgsea</code>), a normalized estimate
+(<code>norm_fgsea</code>) and p-values after doing permutations.</p>
+<p>Other methods can return different things, for example Univariate
+Linear Model (<code>ulm</code>):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res_ulm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ulm.html">run_ulm</a></span><span class="op">(</span><span class="va">mat</span>, <span class="va">network</span>, .source<span class="op">=</span><span class="st">'source'</span>, .target<span class="op">=</span><span class="st">'target'</span>, .mor<span class="op">=</span><span class="st">'mor'</span>, minsize <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="va">res_ulm</span>
@@ -279,7 +327,10 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ulm       T1     S09        4.49 0.001<span style="text-decoration: underline;">17</span> </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ulm       T1     S10        4.07 0.002<span style="text-decoration: underline;">25</span> </span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 62 more rows</span></span></code></pre></div>
-<p>In this case, <code>ulm</code> returns just an estimate (<code>ulm</code>) and its associated p-values. Each method can return different statistics, we recommend to check their documentation to know more about them.</p>
+<p>In this case, <code>ulm</code> returns just an estimate
+(<code>ulm</code>) and its associated p-values. Each method can return
+different statistics, we recommend to check their documentation to know
+more about them.</p>
 <p>Let us plot the obtained results, first for <code>gsea</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Transform to matrix</span>
@@ -291,8 +342,15 @@
 
 <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">mat_gsea</span>, cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_cols <span class="op">=</span> <span class="cn">F</span>, cellwidth <span class="op">=</span> <span class="fl">15</span>, cellheight <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></code></pre></div>
 <p><img src="decoupleR_files/figure-html/res_gsea-1.png" width="700"></p>
-<p>We can observe that for transcription factors T1 and T2, the obtained activities correctly distinguish the two sample populations. T3, on the other hand, should be down for the second population of samples since it is a repressor. This mislabeling of activities happens because <code>gsea</code> cannot model weights when inferring biological activities.</p>
-<p>When weights are available in the prior knowledge, we definitely recommend using any of the methods that take them into account to get better estimates, one example is <code>ulm</code>:</p>
+<p>We can observe that for transcription factors T1 and T2, the obtained
+activities correctly distinguish the two sample populations. T3, on the
+other hand, should be down for the second population of samples since it
+is a repressor. This mislabeling of activities happens because
+<code>gsea</code> cannot model weights when inferring biological
+activities.</p>
+<p>When weights are available in the prior knowledge, we definitely
+recommend using any of the methods that take them into account to get
+better estimates, one example is <code>ulm</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Transform to matrix</span>
 <span class="va">mat_ulm</span> <span class="op">&lt;-</span> <span class="va">res_ulm</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -303,13 +361,23 @@
 
 <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">mat_ulm</span>, cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_cols <span class="op">=</span> <span class="cn">F</span>, cellwidth <span class="op">=</span> <span class="fl">15</span>, cellheight <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></code></pre></div>
 <p><img src="decoupleR_files/figure-html/res_ulm-1.png" width="700"></p>
-<p>Since <code>ulm</code> models weights when estimating biological activities, it correctly assigns T3 as inactive in the second population of samples.</p>
+<p>Since <code>ulm</code> models weights when estimating biological
+activities, it correctly assigns T3 as inactive in the second population
+of samples.</p>
 </div>
 <div class="section level4">
 <h4 id="multiple-methods">Multiple methods<a class="anchor" aria-label="anchor" href="#multiple-methods"></a>
 </h4>
-<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em> also allows to run multiple methods at the same time. Moreover, it computes a consensus score based on the obtained activities across methods, called <code>consensus</code>.</p>
-<p>By default, <code>deocuple</code> runs only the top performer methods in our benchmark (<code>mlm</code>, <code>ulm</code> and <code>wsum</code>), and estimates a consensus score across them. Specific arguments to specific methods can be passed using the variable <code>args</code>. For more information check <code><a href="../reference/decouple.html">?decouple</a></code>.</p>
+<p><em><a href="https://bioconductor.org/packages/3.14/decoupleR" class="external-link">decoupleR</a></em>
+also allows to run multiple methods at the same time. Moreover, it
+computes a consensus score based on the obtained activities across
+methods, called <code>consensus</code>.</p>
+<p>By default, <code>deocuple</code> runs only the top performer methods
+in our benchmark (<code>mlm</code>, <code>ulm</code> and
+<code>wsum</code>), and estimates a consensus score across them.
+Specific arguments to specific methods can be passed using the variable
+<code>args</code>. For more information check
+<code><a href="../reference/decouple.html">?decouple</a></code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res_decouple</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/decouple.html">decouple</a></span><span class="op">(</span><span class="va">mat</span>, 
                          <span class="va">network</span>, 
@@ -331,7 +399,8 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      1 mlm       T3     S03        0.074<span style="text-decoration: underline;">9</span> 0.942  </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      1 mlm       T1     S04        3.82   0.005<span style="text-decoration: underline;">12</span></span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 422 more rows</span></span></code></pre></div>
-<p>Let us see the result for the consensus score in the previous <code>decouple</code> run:</p>
+<p>Let us see the result for the consensus score in the previous
+<code>decouple</code> run:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Transform to matrix</span>
 <span class="va">mat_consensus</span> <span class="op">&lt;-</span> <span class="va">res_decouple</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -342,7 +411,9 @@
 
 <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">mat_consensus</span>, cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_cols <span class="op">=</span> <span class="cn">F</span>, cellwidth <span class="op">=</span> <span class="fl">15</span>, cellheight <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></code></pre></div>
 <p><img src="decoupleR_files/figure-html/res_decouple-1.png" width="700"></p>
-<p>We can observe that the consensus score correctly predicts that T1 and T3 should be active in the first population of samples while T2 in the second one.</p>
+<p>We can observe that the consensus score correctly predicts that T1
+and T3 should be active in the first population of samples while T2 in
+the second one.</p>
 </div>
 </div>
 <div class="section level3">
@@ -358,8 +429,8 @@
 <span class="co">#&gt;  collate  en_US.UTF-8</span>
 <span class="co">#&gt;  ctype    en_US.UTF-8</span>
 <span class="co">#&gt;  tz       UTC</span>
-<span class="co">#&gt;  date     2022-02-24</span>
-<span class="co">#&gt;  pandoc   2.14.0.3 @ /usr/local/bin/ (via rmarkdown)</span>
+<span class="co">#&gt;  date     2022-02-25</span>
+<span class="co">#&gt;  pandoc   2.17.1.1 @ /usr/bin/ (via rmarkdown)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">package     </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version</span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span>
@@ -373,7 +444,7 @@
 <span class="co">#&gt;  colorspace     2.0-3   <span style="color: #555555;">2022-01-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">R-Forge (R 4.1.1)</span></span>
 <span class="co">#&gt;  crayon         1.5.0   <span style="color: #555555;">2022-02-14</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  data.table     1.14.2  <span style="color: #555555;">2021-09-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
-<span class="co">#&gt;  decoupleR    * 2.1.7   <span style="color: #555555;">2022-02-24</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
+<span class="co">#&gt;  decoupleR    * 2.1.8   <span style="color: #555555;">2022-02-25</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  desc           1.4.0   <span style="color: #555555;">2021-09-28</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  digest         0.6.29  <span style="color: #555555;">2021-12-01</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  dplyr        * 1.0.8   <span style="color: #555555;">2022-02-08</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
@@ -444,19 +515,41 @@
 <h2 id="bibliography">Bibliography<a class="anchor" aria-label="anchor" href="#bibliography"></a>
 </h2>
 <p>
-<a id="bib-aibar2017scenic"></a><a href="#cite-aibar2017scenic">[1]</a><cite> S. Aibar, C. Bravo Gonzalez-Blas, T. Moerman, et al. “SCENIC: Single-Cell Regulatory Network Inference And Clustering”. In: <em>Nature Methods</em> 14 (2017), pp. 1083-1086. DOI: <a href="https://doi.org/10.1038/nmeth.4463" class="external-link">10.1038/nmeth.4463</a>.</cite>
+<a id="bib-aibar2017scenic"></a><a href="#cite-aibar2017scenic">[1]</a><cite>
+S. Aibar, C. Bravo Gonzalez-Blas, T. Moerman, et al. “SCENIC:
+Single-Cell Regulatory Network Inference And Clustering”. In: <em>Nature
+Methods</em> 14 (2017), pp. 1083-1086. DOI:
+<a href="https://doi.org/10.1038/nmeth.4463" class="external-link">10.1038/nmeth.4463</a>.</cite>
 </p>
 <p>
-<a id="bib-alvarez2016functional"></a><a href="#cite-alvarez2016functional">[2]</a><cite> M. J. Alvarez, Y. Shen, F. M. Giorgi, et al. “Functional characterization of somatic mutations in cancer using network-based inference of protein activity”. In: <em>Nature genetics</em> 48.8 (2016), pp. 838–47.</cite>
+<a id="bib-alvarez2016functional"></a><a href="#cite-alvarez2016functional">[2]</a><cite>
+M. J. Alvarez, Y. Shen, F. M. Giorgi, et al. “Functional
+characterization of somatic mutations in cancer using network-based
+inference of protein activity”. In: <em>Nature genetics</em> 48.8
+(2016), pp. 838–47.</cite>
 </p>
 <p>
-<a id="bib-badiaimompel2021decoupler"></a><a href="#cite-badiaimompel2021decoupler">[3]</a><cite> P. Badia-i-Mompel, J. Vélez-Santiago, J. Braunger, et al. “decoupleR: Ensemble of computational methods to infer biological activities from omics data”. In: <em>bioRxiv</em> (2021). DOI: <a href="https://doi.org/https://doi.org/10.1101/2021.11.04.467271" class="external-link">https://doi.org/10.1101/2021.11.04.467271</a>.</cite>
+<a id="bib-badiaimompel2021decoupler"></a><a href="#cite-badiaimompel2021decoupler">[3]</a><cite>
+P. Badia-i-Mompel, J. Vélez-Santiago, J. Braunger, et al. “decoupleR:
+Ensemble of computational methods to infer biological activities from
+omics data”. In: <em>bioRxiv</em> (2021). DOI:
+<a href="https://doi.org/https://doi.org/10.1101/2021.11.04.467271" class="external-link">https://doi.org/10.1101/2021.11.04.467271</a>.</cite>
 </p>
 <p>
-<a id="bib-hanzelmann2013gsva"></a><a href="#cite-hanzelmann2013gsva">[4]</a><cite> S. Hänzelmann, R. Castelo, and J. Guinney. “GSVA: gene set variation analysis for microarray and RNA-Seq data”. In: <em>BMC Bioinformatics</em> 14 (2013), p. 7. DOI: <a href="https://doi.org/10.1186/1471-2105-14-7" class="external-link">10.1186/1471-2105-14-7</a>. URL: <a href="http://www.biomedcentral.com/1471-2105/14/7" class="external-link">http://www.biomedcentral.com/1471-2105/14/7</a>.</cite>
+<a id="bib-hanzelmann2013gsva"></a><a href="#cite-hanzelmann2013gsva">[4]</a><cite>
+S. Hänzelmann, R. Castelo, and J. Guinney. “GSVA: gene set variation
+analysis for microarray and RNA-Seq data”. In: <em>BMC
+Bioinformatics</em> 14 (2013), p. 7. DOI:
+<a href="https://doi.org/10.1186/1471-2105-14-7" class="external-link">10.1186/1471-2105-14-7</a>.
+URL:
+<a href="http://www.biomedcentral.com/1471-2105/14/7" class="external-link">http://www.biomedcentral.com/1471-2105/14/7</a>.</cite>
 </p>
 <p>
-<a id="bib-korotkevich2019fast"></a><a href="#cite-korotkevich2019fast">[5]</a><cite> G. Korotkevich, V. Sukhov, and A. Sergushichev. “Fast gene set enrichment analysis”. In: <em>bioRxiv</em> (2019). DOI: <a href="https://doi.org/10.1101/060012" class="external-link">10.1101/060012</a>. URL: <a href="http://biorxiv.org/content/early/2016/06/20/060012" class="external-link">http://biorxiv.org/content/early/2016/06/20/060012</a>.</cite>
+<a id="bib-korotkevich2019fast"></a><a href="#cite-korotkevich2019fast">[5]</a><cite>
+G. Korotkevich, V. Sukhov, and A. Sergushichev. “Fast gene set
+enrichment analysis”. In: <em>bioRxiv</em> (2019). DOI:
+<a href="https://doi.org/10.1101/060012" class="external-link">10.1101/060012</a>. URL:
+<a href="http://biorxiv.org/content/early/2016/06/20/060012" class="external-link">http://biorxiv.org/content/early/2016/06/20/060012</a>.</cite>
 </p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -467,12 +560,16 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Pau Badia-i-Mompel, Jesús Vélez-Santiago, Jana Braunger, Celina Geiss, Daniel Dimitrov, Sophia Müller-Dott, Petr Taus, Aurélien Dugourd, Christian H. Holland, Ricardo O. Ramirez Flores, Julio Saez-Rodriguez.</p>
+<p>Developed by Pau Badia-i-Mompel, Jesús Vélez-Santiago, Jana Braunger,
+Celina Geiss, Daniel Dimitrov, Sophia Müller-Dott, Petr Taus, Aurélien
+Dugourd, Christian H. Holland, Ricardo O. Ramirez Flores, Julio
+Saez-Rodriguez.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
     </footer>

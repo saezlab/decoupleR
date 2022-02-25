@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -161,16 +161,16 @@ each call to <code>run_wsum()</code>; <strong>wsum</strong>, <strong>norm_wsum</
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 60 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    statistic source condition  score p_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> corr_wsum FOXO4  GSM2753335 128.     0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> corr_wsum FOXO4  GSM2753336 129.     0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> corr_wsum FOXO4  GSM2753337 137.     0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> corr_wsum FOXO4  GSM2753338 138.     0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> corr_wsum NFIC   GSM2753335  42.7    0.23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> corr_wsum NFIC   GSM2753336  49.7    0.2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> corr_wsum NFIC   GSM2753337  33.3    0.27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> corr_wsum NFIC   GSM2753338  34.4    0.28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> corr_wsum RFXAP  GSM2753335  50.5    0.11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> corr_wsum RFXAP  GSM2753336  91.1    0.04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> corr_wsum FOXO4  GSM2753335 109.     0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> corr_wsum FOXO4  GSM2753336 109.     0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> corr_wsum FOXO4  GSM2753337 116.     0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> corr_wsum FOXO4  GSM2753338 117.     0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> corr_wsum NFIC   GSM2753335  22.6    0.46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> corr_wsum NFIC   GSM2753336  28.3    0.4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> corr_wsum NFIC   GSM2753337  15.7    0.54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> corr_wsum NFIC   GSM2753338  15.7    0.56</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> corr_wsum RFXAP  GSM2753335  34.6    0.22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> corr_wsum RFXAP  GSM2753336  71.5    0.08</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 50 more rows</span></span>
 </code></pre></div>
     </div>
@@ -179,11 +179,15 @@ each call to <code>run_wsum()</code>; <strong>wsum</strong>, <strong>norm_wsum</
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Pau Badia-i-Mompel, Jesús Vélez-Santiago, Jana Braunger, Celina Geiss, Daniel Dimitrov, Sophia Müller-Dott, Petr Taus, Aurélien Dugourd, Christian H. Holland, Ricardo O. Ramirez Flores, Julio Saez-Rodriguez.</p>
+  <p></p><p>Developed by Pau Badia-i-Mompel, Jesús Vélez-Santiago, Jana Braunger,
+Celina Geiss, Daniel Dimitrov, Sophia Müller-Dott, Petr Taus, Aurélien
+Dugourd, Christian H. Holland, Ricardo O. Ramirez Flores, Julio
+Saez-Rodriguez.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
     </footer></div>

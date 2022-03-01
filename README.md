@@ -24,12 +24,13 @@ issues](https://img.shields.io/github/issues/saezlab/decoupleR)](https://github.
 There are many methods that allow us to extract biological activities
 from omics data. `decoupleR` is a Bioconductor package containing
 different statistical methods to extract biological signatures from
-prior knowledge within a unified framework. It incorporates methods that
-take into account the sign and weight of network interactions.
-`decoupleR` can be used with any omic, as long as its features can be
-linked to a biological process based on prior knowledge. For example, in
-transcriptomics gene sets regulated by a transcription factor, or in
-phospho-proteomics phosphosites that are targeted by a kinase.
+prior knowledge within a unified framework. Additionally, it
+incorporates methods that take into account the sign and weight of
+network interactions. `decoupleR` can be used with any omic, as long as
+its features can be linked to a biological process based on prior
+knowledge. For example, in transcriptomics gene sets regulated by a
+transcription factor, or in phospho-proteomics phosphosites that are
+targeted by a kinase.
 
 <p align="center" width="100%">
 <img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/graphical_abstract.png?raw=1" align="center" width="45%">
@@ -40,7 +41,8 @@ data, please check the following links:
 
 -   [decoupleR’s
     vignette](https://saezlab.github.io/decoupleR/articles/decoupleR.html)
--   Python implementation (Coming soon)
+-   [Python
+    implementation](https://decoupler-py.readthedocs.io/en/latest/)
 -   [decoupleR’s manuscript
     repository](https://github.com/saezlab/decoupleR_manuscript)
 -   [Creation of benchmarking

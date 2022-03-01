@@ -43,7 +43,7 @@ For more information about how this package has been used with real data,
 please check the following links:
 
 - [decoupleR's vignette](https://saezlab.github.io/decoupleR/articles/decoupleR.html)
-- Python implementation (Coming soon)
+- [Python implementation](https://decoupler-py.readthedocs.io/en/latest/)
 - [decoupleR's manuscript repository](https://github.com/saezlab/decoupleR_manuscript)
 - [Creation of benchmarking pipelines](https://github.com/saezlab/decoupleRBench)
 - [Example of Kinase and TF activity estimation](https://saezlab.github.io/kinase_tf_mini_tuto/)

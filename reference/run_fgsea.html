@@ -147,7 +147,19 @@ across the samples. Resulting tibble contains the following columns:</p><ol><li>
 </ol></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function is a wrapper for the method <code><a href="https://rdrr.io/pkg/fgsea/man/fgsea.html" class="external-link">fgsea::fgsea</a></code>.</p>
+    <p>GSEA (Aravind et al., 2005) starts by transforming the input molecular
+readouts in mat to ranks for each sample. Then, an enrichment score
+<code>fgsea</code> is calculated by walking down the list of features, increasing
+a running-sum statistic when a feature in the target feature set is
+encountered and decreasing it when it is not. The final score is the maximum
+deviation from zero encountered in the random walk. Finally, a normalized
+score <code>norm_fgsea</code>, can be obtained by computing the z-score of the estimate
+compared to a null distribution obtained from N random permutations. The used
+implementation is taken from the package <code>fgsea</code> (Korotkevich et al., 2021).</p>
+<p>Aravind S. et al. (2005) Gene set enrichment analysis: A knowledge-based
+approach for interpreting genome-wide expression profiles. PNAS. 102, 43.</p>
+<p>Korotkevich G. et al. (2021) Fast gene set enrichment analysis. bioRxiv.
+DOI: https://doi.org/10.1101/060012.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

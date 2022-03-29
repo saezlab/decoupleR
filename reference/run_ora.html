@@ -188,8 +188,14 @@ across the samples. Resulting tibble contains the following columns:</p><ol><li>
 </ol></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Performs an over-representation analysis using <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">stats::fisher.test()</a></code>.
-Obtained scores are -log10(p-values).</p>
+    <p>ORA measures the overlap between the target feature set and a list of most
+altered molecular features in mat. The most altered molecular features can
+be selected from the top and or bottom of the molecular readout distribution,
+by default it is the top 5% positive values. With these, a contingency table
+is build and a one-tailed Fisher’s exact test is computed to determine if a
+regulator’s set of features are over-represented in the selected features
+from the data. The resulting score, <code>ora</code>, is the minus log10 of the
+obtained p-value.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

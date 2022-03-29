@@ -121,7 +121,15 @@ across the samples. Resulting tibble contains the following columns:</p><ol><li>
 </ol></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function is a wrapper for the method <code><a href="https://rdrr.io/pkg/GSVA/man/gsva.html" class="external-link">GSVA::gsva()</a></code>.</p>
+    <p>GSVA (Hänzelmann et al., 2013) starts by transforming the input molecular
+readouts in mat to a readout-level statistic using Gaussian kernel estimation
+of the cumulative density function. Then, readout-level statistics are
+ranked per sample and normalized to up-weight the two tails of the rank
+distribution. Afterwards, an enrichment score <code>gsva</code> is calculated
+using a running sum statistic that is normalized by subtracting the largest
+negative estimate from the largest positive one.</p>
+<p>Hänzelmann S. et al. (2013) GSVA: gene set variation analysis for microarray
+and RNA-seq data. BMC Bioinformatics, 14, 7.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

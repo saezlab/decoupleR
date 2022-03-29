@@ -1,17 +1,15 @@
 #' Multivariate Decision Trees (MDT)
 #'
 #' @description
-#' Calculates regulatory activities by fitting multivariate decision trees (MDT)
-#' using [ranger::ranger()].
+#' Calculates regulatory activities using MDT.
 #'
 #' @details
-#' MDT fits a multivariate ensemble of decision trees (random forest) to
-#' estimate regulatory activities. MDT transforms a given network into an
-#' adjacency matrix, placing sources as columns and targets as rows. The matrix
-#' is filled with the associated weights for each interaction. This matrix is
-#' used to fit a random forest model to predict the observed molecular
-#' readouts per sample. The obtained feature importances from the fitted model
-#' are the activities of the regulators.
+#' 
+#' MDT fits a multivariate regression random forest for each sample, where the
+#' observed molecular readouts in mat are the response variable and the
+#' regulator weights in net are the covariates. Target features with no
+#' associated weight are set to zero. The obtained feature importances from the
+#' fitted model are the activities `mdt` of the regulators in net.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format

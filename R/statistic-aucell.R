@@ -1,12 +1,20 @@
 #' AUCell
 #'
 #' @description
-#' Calculates regulatory activities using Area Under the Curve (AUC) from AUCell
+#' Calculates regulatory activities using AUCell.
 #'
 #' @details
-#' This function is a wrapper for the method `AUCell`. It uses the
-#' "Area Under the Curve" (AUC) to calculate whether a critical subset of input
-#' molecular features is enriched for each sample.
+#' AUCell (Aibar et al., 2017) uses the Area Under the Curve (AUC) to calculate
+#' whether a set of targets is enriched within the molecular readouts of each
+#' sample. To do so, AUCell first ranks the molecular features of each sample
+#' from highest to lowest value, resolving ties randomly. Then, an AUC can be
+#' calculated using by default the top 5% molecular features in the ranking.
+#' Therefore, this metric, `aucell`, represents the proportion of
+#' abundant molecular features in the target set, and their relative abundance
+#' value compared to the other features within the sample.
+#' 
+#' Aibar S. et al. (2017) Scenic: single-cell regulatory network inference and
+#' clustering. Nat. Methods, 14, 1083–1086.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format

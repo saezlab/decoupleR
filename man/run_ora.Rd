@@ -103,8 +103,14 @@ across the samples. Resulting tibble contains the following columns:
 Calculates regulatory activities using ORA.
 }
 \details{
-Performs an over-representation analysis using \code{\link[stats:fisher.test]{stats::fisher.test()}}.
-Obtained scores are -log10(p-values).
+ORA measures the overlap between the target feature set and a list of most
+altered molecular features in mat. The most altered molecular features can
+be selected from the top and or bottom of the molecular readout distribution,
+by default it is the top 5\% positive values. With these, a contingency table
+is build and a one-tailed Fisher’s exact test is computed to determine if a
+regulator’s set of features are over-represented in the selected features
+from the data. The resulting score, \code{ora}, is the minus log10 of the
+obtained p-value.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

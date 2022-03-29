@@ -66,7 +66,21 @@ across the samples. Resulting tibble contains the following columns:
 Calculates regulatory activities using FGSEA.
 }
 \details{
-This function is a wrapper for the method \code{fgsea::fgsea}.
+GSEA (Aravind et al., 2005) starts by transforming the input molecular
+readouts in mat to ranks for each sample. Then, an enrichment score
+\code{fgsea} is calculated by walking down the list of features, increasing
+a running-sum statistic when a feature in the target feature set is
+encountered and decreasing it when it is not. The final score is the maximum
+deviation from zero encountered in the random walk. Finally, a normalized
+score \code{norm_fgsea}, can be obtained by computing the z-score of the estimate
+compared to a null distribution obtained from N random permutations. The used
+implementation is taken from the package \code{fgsea} (Korotkevich et al., 2021).
+
+Aravind S. et al. (2005) Gene set enrichment analysis: A knowledge-based
+approach for interpreting genome-wide expression profiles. PNAS. 102, 43.
+
+Korotkevich G. et al. (2021) Fast gene set enrichment analysis. bioRxiv.
+DOI: https://doi.org/10.1101/060012.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

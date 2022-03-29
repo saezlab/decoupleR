@@ -1,14 +1,14 @@
 #' Univariate Decision Tree (UDT)
 #'
 #' @description
-#' Calculates regulatory activities by fitting univariate decision trees (UDT)
-#' using [rpart::rpart()].
+#' Calculates regulatory activities by using UDT.
 #'
 #' @details
-#' UDT fits a (univariate) decision tree to estimate regulatory activities. UDT
-#' fits a decision tree that predicts the observed molecular readouts using the
-#' given weights of a regulator as a single co-variate. The obtained feature
-#' importance from the fitted model is the activity of the regulator.
+#' UDT fits a single regression decision tree for each sample and regulator,
+#' where the observed molecular readouts in mat are the response variable and
+#' the regulator weights in net are the explanatory one. Target features with
+#' no associated weight are set to zero. The obtained feature importance from
+#' the fitted model is the activity `udt` of a given regulator.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format

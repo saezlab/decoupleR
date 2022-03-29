@@ -57,15 +57,15 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculates regulatory activities by computing the WMEAN.
+Calculates regulatory activities using WMEAN.
 }
 \details{
-Infers activity score for each regulator by weighting the molecular readouts
-of its targets by their mode of regulations and likelihoods. In addition, it
-runs permutations to calculate empirical p-values, providing normalized
-(z-score) and corrected activity (estimate * -log10(pval)) scores. This is
-represented in the \code{statistic} column which will contain three values for
-each call to \code{run_wmean()}; \strong{wmean}, \strong{norm_wmean} and \strong{corr_wmean}.
+WMEAN infers regulator activities by first multiplying each target feature by
+its associated weight which then are summed to an enrichment score
+\code{wmean}. Furthermore, permutations of random target features can
+be performed to obtain a null distribution that can be used to compute a
+z-score \code{norm_wmean}, or a corrected estimate \code{corr_wmean} by multiplying
+\code{wmean} by the minus log10 of the obtained empirical p-value.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

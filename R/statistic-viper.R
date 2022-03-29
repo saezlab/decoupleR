@@ -4,7 +4,14 @@
 #' Calculates regulatory activities using VIPER.
 #'
 #' @details
-#' This function is a wrapper for the method [viper::viper()].
+#' VIPER (Alvarez et al., 2016) estimates biological activities by performing a
+#' three-tailed enrichment score calculation. For further information check the
+#' supplementary information of the decoupler manuscript or the original
+#' publication.
+#' 
+#' Alvarez M.J.et al. (2016) Functional characterization of somatic mutations
+#' in cancer using network-based inference of protein activity. Nat. Genet.,
+#' 48, 838–847.
 #'
 #' @inheritParams .decoupler_mat_format
 #' @inheritParams .decoupler_network_format

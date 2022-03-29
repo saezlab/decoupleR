@@ -54,15 +54,14 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculates regulatory activities by fitting univariate linear models (ULM).
+Calculates regulatory activities using ULM.
 }
 \details{
-ULM fits a (univariate) linear model to estimate regulatory activities. ULM
-fits a linear model that predicts the observed molecular readouts using the given
-weights of a regulator as a single co-variate. The obtained t-value
-from the fitted model is the activity of the regulator. This approach was first
-described in:
-\href{https://www.nature.com/articles/s41525-020-00151-y?elqTrackId=d7efb03cf5174fe2ba84e1c34d602b13}{Improved detection of tumor suppressor events in single-cell RNA-Seq data}.
+ULM fits a linear model for each sample and regulator, where the observed
+molecular readouts in mat are the response variable and the regulator weights
+in net are the explanatory one. Target features with no associated weight
+are set to zero. The obtained t-value from the fitted model is the activity
+\code{ulm} of a given regulator.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

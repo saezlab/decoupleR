@@ -54,7 +54,16 @@ across the samples. Resulting tibble contains the following columns:
 Calculates regulatory activities using GSVA.
 }
 \details{
-This function is a wrapper for the method \code{\link[GSVA:gsva]{GSVA::gsva()}}.
+GSVA (Hänzelmann et al., 2013) starts by transforming the input molecular
+readouts in mat to a readout-level statistic using Gaussian kernel estimation
+of the cumulative density function. Then, readout-level statistics are
+ranked per sample and normalized to up-weight the two tails of the rank
+distribution. Afterwards, an enrichment score \code{gsva} is calculated
+using a running sum statistic that is normalized by subtracting the largest
+negative estimate from the largest positive one.
+
+Hänzelmann S. et al. (2013) GSVA: gene set variation analysis for microarray
+and RNA-seq data. BMC Bioinformatics, 14, 7.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")

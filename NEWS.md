@@ -47,6 +47,8 @@ needed.
     * Graphical abstract
     * Manuscript and citation
     * New vignette style
+    
+* Updated documentation for all methods.
 
 ## New features
 * Added wrappers to easily query `Omnipath`, one of the largest data-bases 

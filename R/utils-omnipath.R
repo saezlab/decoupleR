@@ -127,6 +127,7 @@ get_progeny <- function(organism='human', top=500){
     stop("organism can only be human or mouse.")
   }
   p <- get_resource('PROGENy') %>%
+    dplyr::distinct(.data$pathway, .data$genesymbol, .keep_all = TRUE) %>%
     dplyr::mutate(weight=as.double(.data$weight), p_value=as.double(.data$p_value)) %>%
     dplyr::select(.data$genesymbol, .data$p_value, .data$pathway, .data$weight) %>%
     dplyr::group_by(.data$pathway) %>%
@@ -143,9 +144,6 @@ get_progeny <- function(organism='human', top=500){
   if (organism=='mouse'){
     p$target <- stringr::str_to_sentence(p$target)
   }
-  
-  # Remove duplicates
-  p <- dplyr::distinct(p, .data$source, .data$target, .keep_all = TRUE)
   
   return(p)
 }

@@ -108,9 +108,8 @@ Suggests:
     pheatmap,
     testthat,
     OmnipathR,
+    tidyverse,
     Seurat
-Additional_repositories:
-    thomasp85/patchwork
 VignetteBuilder: 
     knitr
 biocViews: DifferentialExpression, FunctionalGenomics, GeneExpression,

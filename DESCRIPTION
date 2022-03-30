@@ -108,7 +108,8 @@ Suggests:
     pheatmap,
     testthat,
     OmnipathR,
-    Seurat
+    Seurat,
+    patchwork
 VignetteBuilder: 
     knitr
 biocViews: DifferentialExpression, FunctionalGenomics, GeneExpression,

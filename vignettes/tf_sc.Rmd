@@ -1,0 +1,253 @@
+---
+title: "Transcription factor activity inference from scRNA-seq"
+author:
+  - name: Pau Badia-i-Mompel
+    affiliation:
+    - Heidelberg Universiy
+output: 
+  BiocStyle::html_document:
+    self_contained: true
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+package: "`r pkg_ver('decoupleR')`"
+vignette: >
+  %\VignetteIndexEntry{Transcription factor activity inference from scRNA-seq}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+```
+
+scRNA-seq yield many molecular readouts that are hard to interpret by
+themselves. One way of summarizing this information is by inferring
+transcription factor (TF) activities from prior knowledge.
+
+In this notebook we showcase how to use `decoupleR` for TF activity inference
+with the 3k PBMCs 10X data-set. The data consists of 3k PBMCs from a Healthy
+Donor and is freely available from 10x Genomics [here](https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz)
+from this [webpage](https://support.10xgenomics.com/single-cell-gene-expression/datasets/1.1.0/pbmc3k).
+
+# Loading packages
+First, we need to load the relevant packages, `Seurat` to handle scRNA-seq data
+and `decoupleR` to use statistical methods.
+
+```{r "load packages", message = FALSE}
+## We load the required packages
+library(Seurat)
+library(decoupleR)
+
+# Only needed for data handling and plotting
+library(tidyverse)
+library(patchwork)
+library(ggplot2)
+library(pheatmap)
+```
+
+# Single-cell processing
+
+## Loading the data-set
+After manually downloading the data-set, we can open it using `Seurat` and
+perform a basic quality filtering step:
+```{r "load data", eval=FALSE}
+## Load the PBMC dataset
+pbmc.data <- Read10X(data.dir = "filtered_gene_bc_matrices/hg19/")
+
+## Initialize the Seurat object with the raw (non-normalized data).
+pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k",
+                           min.cells = 3, min.features = 200)
+```
+
+```{r "load data2", eval=TRUE, include=FALSE}
+pbmc <- readRDS("../inst/extdata/pbmc3k.rds")
+```
+
+## QC
+Here we follow the standard pre-processing steps as described in the `Seurat` [vignette](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html). These
+steps carry out the selection and filtration of cells based on quality control
+metrics, the data normalization, the detection of highly variable features and
+data scaling.
+
+```{r "preprocessing", message=FALSE}
+## Identification of mithocondrial genes
+pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
+
+## Filtering cells following standard QC criteria.
+pbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & 
+    percent.mt < 5)
+
+## Normalizing the data
+pbmc <- NormalizeData(pbmc, normalization.method = "LogNormalize", 
+    scale.factor = 10000)
+pbmc <- NormalizeData(pbmc)
+
+## Identify the 2000 most highly variable genes
+pbmc <- FindVariableFeatures(pbmc, selection.method = "vst", nfeatures = 2000)
+
+## We scale the data prior to clustering
+all.genes <- rownames(pbmc)
+pbmc <- ScaleData(pbmc, features = all.genes)
+```
+
+## Projection, clustering and annotation
+Then we group cells based on the similarity of their transcription profiles and
+annotate the obtained clusters based on their marker genes.
+To visualize the communities we perform UMAP reduction.
+
+```{r "clustering", message=FALSE, warning=FALSE}
+# Dimensional reduction
+pbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc), 
+               verbose = FALSE)
+
+# Find Nearest Neighbors
+pbmc <- FindNeighbors(pbmc, dims = 1:10, verbose = FALSE)
+
+# Cluster cells
+pbmc <- FindClusters(pbmc, resolution = 0.5, verbose = FALSE)
+
+# Project into UMAP
+pbmc <- RunUMAP(pbmc, dims = 1:10, umap.method = "uwot", metric = "cosine")
+
+## Assigning cell type identity to clusters (following Seurat's vignette)
+new.cluster.ids <- c("Naive CD4 T", "Memory CD4 T", "CD14+ Mono", "B", "CD8 T",
+                     "FCGR3A+ Mono", "NK", "DC", "Platelet")
+names(new.cluster.ids) <- levels(pbmc)
+pbmc <- RenameIdents(pbmc, new.cluster.ids)
+```
+
+```{r "pca", message = FALSE, warning = FALSE}
+DimPlot(pbmc, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
+```
+
+# DoRothEA network
+[DoRothEA](https://saezlab.github.io/dorothea/) is a comprehensive resource
+containing a curated collection of TFs and their transcriptional targets. Since
+these regulons were gathered from different types of evidence, interactions in
+DoRothEA are classified in different confidence levels, ranging from A (highest
+confidence) to D (lowest confidence). Moreover, each interaction is weighted by
+its confidence level and the sign of its mode of regulation (activation or
+inhibition).
+
+For this example we will use the human version (mouse is also available) and we
+will use the confidence levels ABC. To access it we can use `decoupleR`.
+
+```{r "dorothea", message=FALSE}
+net <- get_dorothea(organism='human', levels=c('A', 'B', 'C'))
+net
+```
+
+# Activity inference with Weighted Mean
+To infer activities we will run the Weighted Mean method (`wmean`). It infers
+regulator activities by first multiplying each target feature by its associated
+weight which then are summed to an enrichment score `wmean`. Furthermore,
+permutations of random target features can be performed to obtain a null
+distribution that can be used to compute a z-score `norm_wmean`, or a corrected
+estimate `corr_wmean` by multiplying `wmean` by the minus log10 of the obtained
+empirical p-value.
+
+In this example we use `wmean` but we could have used any other.
+To see what methods are available use `show_methods()`.
+
+To run decoupler methods, we need an input matrix (`mat`), an input prior
+knowledge network/resource (`net`), and the name of the columns of net that we
+want to use.
+
+```{r "wmean", message=FALSE}
+# Extract the normalized log-transformed counts
+mat <- as.matrix(pbmc@assays$RNA@data)
+
+# Run wmean
+acts <- run_wmean(mat=mat, net=net, .source='source', .target='target',
+                  .mor='mor', times = 100, minsize = 5)
+acts
+```
+
+From the obtained results, we will select the `norm_wmean` activities and store
+them in our object as a new assay called `tfs_wmean`:
+
+
+```{r "new_assay", message=FALSE}
+# Extract norm_wmean and store it in tfs_wmean in pbmc
+pbmc[['tfs_wmean']] <- acts %>%
+  filter(statistic == 'norm_wmean') %>%
+  pivot_wider(id_cols = 'source', names_from = 'condition',
+              values_from = 'score') %>%
+  column_to_rownames('source') %>%
+  Seurat::CreateAssayObject(.)
+
+# Change assay
+DefaultAssay(object = pbmc) <- "tfs_wmean"
+
+# Scale the data
+pbmc <- ScaleData(pbmc)
+pbmc@assays$tfs_wmean@data <- pbmc@assays$tfs_wmean@scale.data
+```
+
+This new assay can be used to plot activities. Here we observe the activity 
+inferred for PAX5 across cells, which it is particulary active in B cells. 
+Interestingly, PAX5 is a known TF crucial for B cell identity and function. 
+The inference of activities from “foot-prints” of target genes is more 
+informative than just looking at the molecular readouts of a given TF, as an 
+example here is the gene expression of PAX5, which is not very informative by 
+itself:
+```{r "projected_acts", message = FALSE, warning = FALSE, fig.width = 12, fig.height = 4}
+p1 <- DimPlot(pbmc, reduction = "umap", label = TRUE, pt.size = 0.5) + 
+  NoLegend() + ggtitle('Cell types')
+p2 <- (FeaturePlot(pbmc, features = c("PAX5")) & 
+  scale_colour_gradient2(low = 'blue', mid = 'white', high = 'red')) +
+  ggtitle('PAX5 activity')
+DefaultAssay(object = pbmc) <- "RNA"
+p3 <- FeaturePlot(pbmc, features = c("PAX5")) + ggtitle('PAX5 expression')
+DefaultAssay(object = pbmc) <- "tfs_wmean"
+p1 | p2 | p3
+```
+
+# Exploration
+We can also see what is the mean activity per group of the top 20 more variable
+TFs:
+```{r "mean_acts", message = FALSE, warning = FALSE}
+n_tfs <- 25
+# Extract activities from object as a long dataframe
+df <- t(as.matrix(pbmc@assays$tfs_wmean@data)) %>%
+  as.data.frame() %>%
+  mutate(cluster = Idents(pbmc)) %>%
+  pivot_longer(cols = -cluster, names_to = "source", values_to = "score") %>%
+  group_by(cluster, source) %>%
+  summarise(mean = mean(score))
+
+# Get top tfs with more variable means across clusters
+tfs <- df %>%
+  filter(cluster != 'Platelet') %>% # We ignore Platelets since they are noisy
+  group_by(source) %>%
+  summarise(std = sd(mean)) %>%
+  arrange(-abs(std)) %>%
+  head(n_tfs) %>%
+  pull(source)
+
+# Subset long data frame to top tfs and transform to wide matrix
+top_acts_mat <- df %>%
+  filter(source %in% tfs) %>%
+  pivot_wider(id_cols = 'cluster', names_from = 'source',
+              values_from = 'mean') %>%
+  column_to_rownames('cluster') %>%
+  as.matrix()
+
+# Choose color pallette
+palette_length = 100
+my_color = colorRampPalette(c("Darkblue", "white","red"))(palette_length)
+
+my_breaks <- c(seq(-3, 0, length.out=ceiling(palette_length/2) + 1),
+               seq(0.05, 3, length.out=floor(palette_length/2)))
+
+# Plot
+pheatmap(top_acts_mat, border_color = NA, color=my_color, breaks = my_breaks) 
+```
+Here we can observe other known marker TFs appering, GATA1 for platelets,
+RFX5 for the myeloid lineage and JUND for the lymphoid.
+

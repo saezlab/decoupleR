@@ -1,5 +1,5 @@
 ---
-title: "Transcription factor activity inference from scRNA-seq"
+title: "Pathway activity inference from scRNA-seq"
 author:
   - name: Pau Badia-i-Mompel
     affiliation:
@@ -13,7 +13,7 @@ output:
     code_folding: show
 package: "`r pkg_ver('decoupleR')`"
 vignette: >
-  %\VignetteIndexEntry{Transcription factor activity inference from scRNA-seq}
+  %\VignetteIndexEntry{Pathway activity activity inference from scRNA-seq}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -26,12 +26,13 @@ knitr::opts_chunk$set(
 ```
 
 scRNA-seq yield many molecular readouts that are hard to interpret by
-themselves. One way of summarizing this information is by inferring
-transcription factor (TF) activities from prior knowledge.
+themselves. One way of summarizing this information is by inferring pathway
+activities from prior knowledge.
 
-In this notebook we showcase how to use `decoupleR` for TF activity inference
+In this notebook we showcase how to use `decoupleR` for pathway activity inference
 with the 3k PBMCs 10X data-set. The data consists of 3k PBMCs from a Healthy
-Donor and is freely available from 10x Genomics [here](https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz)
+Donor and is freely available from 10x Genomics 
+[here](https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz)
 from this [webpage](https://support.10xgenomics.com/single-cell-gene-expression/datasets/1.1.0/pbmc3k).
 
 # Loading packages
@@ -125,20 +126,15 @@ pbmc <- RenameIdents(pbmc, new.cluster.ids)
 DimPlot(pbmc, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
 ```
 
-# DoRothEA network
-[DoRothEA](https://saezlab.github.io/dorothea/) is a comprehensive resource
-containing a curated collection of TFs and their transcriptional targets. Since
-these regulons were gathered from different types of evidence, interactions in
-DoRothEA are classified in different confidence levels, ranging from A (highest
-confidence) to D (lowest confidence). Moreover, each interaction is weighted by
-its confidence level and the sign of its mode of regulation (activation or
-inhibition).
+# PROGENy model
+[PROGENy](https://saezlab.github.io/progeny/) is a comprehensive resource
+containing a curated collection of pathways and their target genes, with weights
+for each interaction. For this example we will use the human weights
+(mouse is also available) and we will use the top 100 responsive genes ranked
+by p-value. To access it we can use `decoupleR`.
 
-For this example we will use the human version (mouse is also available) and we
-will use the confidence levels ABC. To access it we can use `decoupleR`.
-
-```{r "dorothea", message=FALSE}
-net <- get_dorothea(organism='human', levels=c('A', 'B', 'C'))
+```{r "progeny", message=FALSE}
+net <- get_progeny(organism = 'human', top = 100)
 net
 ```
 
@@ -164,17 +160,16 @@ mat <- as.matrix(pbmc@assays$RNA@data)
 
 # Run wmean
 acts <- run_wmean(mat=mat, net=net, .source='source', .target='target',
-                  .mor='mor', times = 100, minsize = 5)
+                  .mor='weight', times = 100, minsize = 5)
 acts
 ```
 
 # Visualization
 From the obtained results, we will select the `norm_wmean` activities and store
-them in our object as a new assay called `tfs_wmean`:
-
+them in our object as a new assay called `pathways_wmean`:
 ```{r "new_assay", message=FALSE}
-# Extract norm_wmean and store it in tfs_wmean in pbmc
-pbmc[['tfs_wmean']] <- acts %>%
+# Extract norm_wmean and store it in pathways_wmean in pbmc
+pbmc[['pathways_wmean']] <- acts %>%
   filter(statistic == 'norm_wmean') %>%
   pivot_wider(id_cols = 'source', names_from = 'condition',
               values_from = 'score') %>%
@@ -182,57 +177,38 @@ pbmc[['tfs_wmean']] <- acts %>%
   Seurat::CreateAssayObject(.)
 
 # Change assay
-DefaultAssay(object = pbmc) <- "tfs_wmean"
+DefaultAssay(object = pbmc) <- "pathways_wmean"
 
 # Scale the data
 pbmc <- ScaleData(pbmc)
-pbmc@assays$tfs_wmean@data <- pbmc@assays$tfs_wmean@scale.data
+pbmc@assays$pathways_wmean@data <- pbmc@assays$pathways_wmean@scale.data
 ```
 
-This new assay can be used to plot activities. Here we observe the activity 
-inferred for PAX5 across cells, which it is particulary active in B cells. 
-Interestingly, PAX5 is a known TF crucial for B cell identity and function. 
-The inference of activities from “foot-prints” of target genes is more 
-informative than just looking at the molecular readouts of a given TF, as an 
-example here is the gene expression of PAX5, which is not very informative by 
-itself:
-```{r "projected_acts", message = FALSE, warning = FALSE, fig.width = 12, fig.height = 4}
+This new assay can be used to plot activities. Here we visualize the Trail
+pathway, associated with apoptosis, which seems that in B and NK cells is more
+active.
+```{r "projected_acts", message = FALSE, warning = FALSE, fig.width = 8, fig.height = 4}
 p1 <- DimPlot(pbmc, reduction = "umap", label = TRUE, pt.size = 0.5) + 
   NoLegend() + ggtitle('Cell types')
-p2 <- (FeaturePlot(pbmc, features = c("PAX5")) & 
+p2 <- (FeaturePlot(pbmc, features = c("Trail")) & 
   scale_colour_gradient2(low = 'blue', mid = 'white', high = 'red')) +
-  ggtitle('PAX5 activity')
-DefaultAssay(object = pbmc) <- "RNA"
-p3 <- FeaturePlot(pbmc, features = c("PAX5")) + ggtitle('PAX5 expression')
-DefaultAssay(object = pbmc) <- "tfs_wmean"
-p1 | p2 | p3
+  ggtitle('Trail activity')
+p1 | p2
 ```
 
 # Exploration
-We can also see what is the mean activity per group of the top 20 more variable
-TFs:
+We can also see what is the mean activity per group across pathways:
 ```{r "mean_acts", message = FALSE, warning = FALSE}
-n_tfs <- 25
 # Extract activities from object as a long dataframe
-df <- t(as.matrix(pbmc@assays$tfs_wmean@data)) %>%
+df <- t(as.matrix(pbmc@assays$pathways_wmean@data)) %>%
   as.data.frame() %>%
   mutate(cluster = Idents(pbmc)) %>%
   pivot_longer(cols = -cluster, names_to = "source", values_to = "score") %>%
   group_by(cluster, source) %>%
   summarise(mean = mean(score))
 
-# Get top tfs with more variable means across clusters
-tfs <- df %>%
-  filter(cluster != 'Platelet') %>% # We ignore Platelets since they are noisy
-  group_by(source) %>%
-  summarise(std = sd(mean)) %>%
-  arrange(-abs(std)) %>%
-  head(n_tfs) %>%
-  pull(source)
-
-# Subset long data frame to top tfs and transform to wide matrix
+# Transform to wide matrix
 top_acts_mat <- df %>%
-  filter(source %in% tfs) %>%
   pivot_wider(id_cols = 'cluster', names_from = 'source',
               values_from = 'mean') %>%
   column_to_rownames('cluster') %>%
@@ -248,8 +224,8 @@ my_breaks <- c(seq(-3, 0, length.out=ceiling(palette_length/2) + 1),
 # Plot
 pheatmap(top_acts_mat, border_color = NA, color=my_color, breaks = my_breaks) 
 ```
-Here we can observe other known marker TFs appering, GATA1 for platelets,
-RFX5 for the myeloid lineage and JUND for the lymphoid.
+In this specific example, we can observe that WNT to be more active in
+Platelets, and that Trail is more active in B and NK cells.
 
 ## Session information
 

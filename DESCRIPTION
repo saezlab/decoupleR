@@ -109,10 +109,7 @@ Suggests:
     testthat,
     OmnipathR,
     tidyverse,
-    Seurat,
-    SeuratData
-Remotes:
-    satijalab/seurat-data
+    Seurat
 VignetteBuilder: 
     knitr
 biocViews: DifferentialExpression, FunctionalGenomics, GeneExpression,

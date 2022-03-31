@@ -109,7 +109,8 @@ Suggests:
     testthat,
     OmnipathR,
     tidyverse,
-    Seurat
+    Seurat,
+    SeuratData
 Remotes:
     satijalab/seurat-data
 VignetteBuilder: 

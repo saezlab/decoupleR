@@ -56,7 +56,7 @@ library(pheatmap)
 
 ## Loading the data-set
 We can download and open the data using `SeuratData`:
-```{r "load data", eval=FALSE}
+```{r "load data"}
 # Download
 InstallData("pbmc3k")
 

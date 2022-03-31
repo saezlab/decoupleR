@@ -42,6 +42,7 @@ and `decoupleR` to use statistical methods.
 ## We load the required packages
 library(Seurat)
 library(decoupleR)
+library(SeuratData)
 
 # Only needed for data handling and plotting
 library(tidyverse)
@@ -56,16 +57,12 @@ library(pheatmap)
 After manually downloading the data-set, we can open it using `Seurat` and
 perform a basic quality filtering step:
 ```{r "load data", eval=FALSE}
-## Load the PBMC dataset
-pbmc.data <- Read10X(data.dir = "filtered_gene_bc_matrices/hg19/")
+# Download
+InstallData("pbmc3k")
 
-## Initialize the Seurat object with the raw (non-normalized data).
-pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k",
-                           min.cells = 3, min.features = 200)
-```
-
-```{r "load data2", eval=TRUE, include=FALSE}
-pbmc <- readRDS("../inst/extdata/pbmc3k.rds")
+# Load
+data("pbmc3k")
+pbmc3k
 ```
 
 ## QC
@@ -76,23 +73,23 @@ data scaling.
 
 ```{r "preprocessing", message=FALSE}
 ## Identification of mithocondrial genes
-pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
+pbmc3k[["percent.mt"]] <- PercentageFeatureSet(pbmc3k, pattern = "^MT-")
 
 ## Filtering cells following standard QC criteria.
-pbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & 
+pbmc3k <- subset(pbmc3k, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & 
     percent.mt < 5)
 
 ## Normalizing the data
-pbmc <- NormalizeData(pbmc, normalization.method = "LogNormalize", 
+pbmc3k <- NormalizeData(pbmc3k, normalization.method = "LogNormalize", 
     scale.factor = 10000)
-pbmc <- NormalizeData(pbmc)
+pbmc3k <- NormalizeData(pbmc3k)
 
 ## Identify the 2000 most highly variable genes
-pbmc <- FindVariableFeatures(pbmc, selection.method = "vst", nfeatures = 2000)
+pbmc3k <- FindVariableFeatures(pbmc3k, selection.method = "vst", nfeatures = 2000)
 
 ## We scale the data prior to clustering
-all.genes <- rownames(pbmc)
-pbmc <- ScaleData(pbmc, features = all.genes)
+all.genes <- rownames(pbmc3k)
+pbmc3k <- ScaleData(pbmc3k, features = all.genes)
 ```
 
 ## Projection, clustering and annotation
@@ -102,27 +99,27 @@ To visualize the communities we perform UMAP reduction.
 
 ```{r "clustering", message=FALSE, warning=FALSE}
 # Dimensional reduction
-pbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc), 
+pbmc3k <- RunPCA(pbmc3k, features = VariableFeatures(object = pbmc3k), 
                verbose = FALSE)
 
 # Find Nearest Neighbors
-pbmc <- FindNeighbors(pbmc, dims = 1:10, verbose = FALSE)
+pbmc3k <- FindNeighbors(pbmc3k, dims = 1:10, verbose = FALSE)
 
 # Cluster cells
-pbmc <- FindClusters(pbmc, resolution = 0.5, verbose = FALSE)
+pbmc3k <- FindClusters(pbmc3k, resolution = 0.5, verbose = FALSE)
 
 # Project into UMAP
-pbmc <- RunUMAP(pbmc, dims = 1:10, umap.method = "uwot", metric = "cosine")
+pbmc3k <- RunUMAP(pbmc3k, dims = 1:10, umap.method = "uwot", metric = "cosine")
 
 ## Assigning cell type identity to clusters (following Seurat's vignette)
 new.cluster.ids <- c("Naive CD4 T", "Memory CD4 T", "CD14+ Mono", "B", "CD8 T",
                      "FCGR3A+ Mono", "NK", "DC", "Platelet")
-names(new.cluster.ids) <- levels(pbmc)
-pbmc <- RenameIdents(pbmc, new.cluster.ids)
+names(new.cluster.ids) <- levels(pbmc3k)
+pbmc3k <- RenameIdents(pbmc3k, new.cluster.ids)
 ```
 
 ```{r "umap", message = FALSE, warning = FALSE}
-DimPlot(pbmc, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
+DimPlot(pbmc3k, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
 ```
 
 # DoRothEA network
@@ -160,7 +157,7 @@ want to use.
 
 ```{r "wmean", message=FALSE}
 # Extract the normalized log-transformed counts
-mat <- as.matrix(pbmc@assays$RNA@data)
+mat <- as.matrix(pbmc3k@assays$RNA@data)
 
 # Run wmean
 acts <- run_wmean(mat=mat, net=net, .source='source', .target='target',
@@ -174,7 +171,7 @@ them in our object as a new assay called `tfs_wmean`:
 
 ```{r "new_assay", message=FALSE}
 # Extract norm_wmean and store it in tfs_wmean in pbmc
-pbmc[['tfs_wmean']] <- acts %>%
+pbmc3k[['tfs_wmean']] <- acts %>%
   filter(statistic == 'norm_wmean') %>%
   pivot_wider(id_cols = 'source', names_from = 'condition',
               values_from = 'score') %>%
@@ -182,11 +179,11 @@ pbmc[['tfs_wmean']] <- acts %>%
   Seurat::CreateAssayObject(.)
 
 # Change assay
-DefaultAssay(object = pbmc) <- "tfs_wmean"
+DefaultAssay(object = pbmc3k) <- "tfs_wmean"
 
 # Scale the data
-pbmc <- ScaleData(pbmc)
-pbmc@assays$tfs_wmean@data <- pbmc@assays$tfs_wmean@scale.data
+pbmc3k <- ScaleData(pbmc3k)
+pbmc3k@assays$tfs_wmean@data <- pbmc3k@assays$tfs_wmean@scale.data
 ```
 
 This new assay can be used to plot activities. Here we observe the activity 
@@ -197,14 +194,14 @@ informative than just looking at the molecular readouts of a given TF, as an
 example here is the gene expression of PAX5, which is not very informative by 
 itself:
 ```{r "projected_acts", message = FALSE, warning = FALSE, fig.width = 12, fig.height = 4}
-p1 <- DimPlot(pbmc, reduction = "umap", label = TRUE, pt.size = 0.5) + 
+p1 <- DimPlot(pbmc3k, reduction = "umap", label = TRUE, pt.size = 0.5) + 
   NoLegend() + ggtitle('Cell types')
-p2 <- (FeaturePlot(pbmc, features = c("PAX5")) & 
+p2 <- (FeaturePlot(pbmc3k, features = c("PAX5")) & 
   scale_colour_gradient2(low = 'blue', mid = 'white', high = 'red')) +
   ggtitle('PAX5 activity')
-DefaultAssay(object = pbmc) <- "RNA"
-p3 <- FeaturePlot(pbmc, features = c("PAX5")) + ggtitle('PAX5 expression')
-DefaultAssay(object = pbmc) <- "tfs_wmean"
+DefaultAssay(object = pbmc3k) <- "RNA"
+p3 <- FeaturePlot(pbmc3k, features = c("PAX5")) + ggtitle('PAX5 expression')
+DefaultAssay(object = pbmc3k) <- "tfs_wmean"
 p1 | p2 | p3
 ```
 
@@ -214,9 +211,9 @@ TFs:
 ```{r "mean_acts", message = FALSE, warning = FALSE}
 n_tfs <- 25
 # Extract activities from object as a long dataframe
-df <- t(as.matrix(pbmc@assays$tfs_wmean@data)) %>%
+df <- t(as.matrix(pbmc3k@assays$tfs_wmean@data)) %>%
   as.data.frame() %>%
-  mutate(cluster = Idents(pbmc)) %>%
+  mutate(cluster = Idents(pbmc3k)) %>%
   pivot_longer(cols = -cluster, names_to = "source", values_to = "score") %>%
   group_by(cluster, source) %>%
   summarise(mean = mean(score))

@@ -110,6 +110,8 @@ Suggests:
     OmnipathR,
     tidyverse,
     Seurat
+Remotes:
+    satijalab/seurat-data
 VignetteBuilder: 
     knitr
 biocViews: DifferentialExpression, FunctionalGenomics, GeneExpression,

@@ -39,7 +39,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,13 @@
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/pw_sc.html">Pathway activity inference from scRNA-seq</a>
+    <a class="dropdown-item" href="../articles/tf_sc.html">Transcription factor activity inference from scRNA-seq</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -429,11 +436,12 @@ the second one.</p>
 <span class="co">#&gt;  collate  en_US.UTF-8</span>
 <span class="co">#&gt;  ctype    en_US.UTF-8</span>
 <span class="co">#&gt;  tz       UTC</span>
-<span class="co">#&gt;  date     2022-03-29</span>
+<span class="co">#&gt;  date     2022-03-31</span>
 <span class="co">#&gt;  pandoc   2.17.1.1 @ /usr/local/bin/ (via rmarkdown)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">package     </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version</span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span>
+<span class="co">#&gt;  assertthat     0.2.1   <span style="color: #555555;">2019-03-21</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  BiocManager    1.30.16 <span style="color: #555555;">2021-06-15</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.1.3)</span></span>
 <span class="co">#&gt;  BiocParallel   1.28.3  <span style="color: #555555;">2021-12-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  BiocStyle    * 2.22.0  <span style="color: #555555;">2021-10-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
@@ -444,7 +452,8 @@ the second one.</p>
 <span class="co">#&gt;  colorspace     2.0-3   <span style="color: #555555;">2022-02-21</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  crayon         1.5.1   <span style="color: #555555;">2022-03-26</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  data.table     1.14.2  <span style="color: #555555;">2021-09-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
-<span class="co">#&gt;  decoupleR    * 2.1.8   <span style="color: #555555;">2022-03-29</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
+<span class="co">#&gt;  DBI            1.1.2   <span style="color: #555555;">2021-12-20</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
+<span class="co">#&gt;  decoupleR    * 2.1.9   <span style="color: #555555;">2022-03-31</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span>
 <span class="co">#&gt;  desc           1.4.1   <span style="color: #555555;">2022-03-06</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  digest         0.6.29  <span style="color: #555555;">2021-12-01</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>
 <span class="co">#&gt;  dplyr        * 1.0.8   <span style="color: #555555;">2022-02-08</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.1.0)</span></span>

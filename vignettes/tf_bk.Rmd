@@ -46,6 +46,7 @@ library(decoupleR)
 library(tidyverse)
 library(ggplot2)
 library(pheatmap)
+library(ggrepel)
 ```
 
 # Loading the data-set
@@ -248,8 +249,11 @@ ggplot(df, aes(x = logfc, y = -log10(p_value), color = color, size=abs(mor))) +
   ggtitle(tf)
 ```
 
-FOXA2 target genes seem to be more under-expressed in KO than in WT, therefore
-the KO worked. 
+Here blue means that the sign of multiplying the `mor` and `t-value` is negative, 
+meaning that these genes are "deactivating" the TF, and red means that the sign
+is positive, meaning that these genes are "activating" the TF. In this particular
+case, FOXA2 target genes seem to be more under-expressed in KO than in WT,
+therefore the KO worked. 
 
 # Session information
 

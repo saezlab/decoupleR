@@ -118,7 +118,7 @@ themselves. One way of summarizing this information is by inferring
 pathway activities from prior knowledge.</p>
 <p>In this notebook we showcase how to use <code>decoupleR</code> for
 pathway activity inference with a down-sampled PBMCs 10X data-set. The
-data consists of 200 PBMCs from a Healthy Donor. The original data is
+data consists of 160 PBMCs from a Healthy Donor. The original data is
 freely available from 10x Genomics <a href="https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz" class="external-link">here</a>
 from this <a href="https://support.10xgenomics.com/single-cell-gene-expression/datasets/1.1.0/pbmc3k" class="external-link">webpage</a>.</p>
 <div class="section level2">
@@ -206,20 +206,20 @@ use.</p>
 <span class="va">acts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_wmean.html">run_wmean</a></span><span class="op">(</span>mat<span class="op">=</span><span class="va">mat</span>, net<span class="op">=</span><span class="va">net</span>, .source<span class="op">=</span><span class="st">'source'</span>, .target<span class="op">=</span><span class="st">'target'</span>,
                   .mor<span class="op">=</span><span class="st">'weight'</span>, times <span class="op">=</span> <span class="fl">100</span>, minsize <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
 <span class="va">acts</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 8,400 × 5</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6,720 × 5</span></span>
 <span class="co">#&gt;    statistic  source   condition           score p_value</span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> corr_wmean Androgen AAACATACAACCAC-1  0.001<span style="text-decoration: underline;">46</span>  0.96  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> corr_wmean Androgen AAACGCTGTTTCTG-1 -<span style="color: #BB0000;">0.015</span><span style="color: #BB0000; text-decoration: underline;">1</span>   0.2   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> corr_wmean Androgen AAATCAACCCTATT-1  0.018<span style="text-decoration: underline;">5</span>   0.64  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> corr_wmean Androgen AACCTTTGGACGGA-1  0        0.100 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> corr_wmean Androgen AACGCCCTCGTACA-1  0        0.040<span style="text-decoration: underline;">0</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> corr_wmean Androgen AACGTCGAGTATCG-1  0.021<span style="text-decoration: underline;">4</span>   0.080<span style="text-decoration: underline;">0</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> corr_wmean Androgen AACTCACTCAAGCT-1  0.005<span style="text-decoration: underline;">14</span>  0.060<span style="text-decoration: underline;">0</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> corr_wmean Androgen AAGATGGAAAACAG-1  0.009<span style="text-decoration: underline;">88</span>  0.76  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> corr_wmean Androgen AAGATTACCGCCTT-1  0.016<span style="text-decoration: underline;">1</span>   0.66  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> corr_wmean Androgen AAGCCATGAACTGC-1  0.029<span style="text-decoration: underline;">1</span>   0.48  </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 8,390 more rows</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> corr_wmean Androgen AAACATACAACCAC-1  0.003<span style="text-decoration: underline;">21</span>  0.94  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> corr_wmean Androgen AAACGCTGTTTCTG-1 -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">7</span>   0.34  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> corr_wmean Androgen AACCTTTGGACGGA-1  0        0.080<span style="text-decoration: underline;">0</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> corr_wmean Androgen AACGCCCTCGTACA-1  0        0.020<span style="text-decoration: underline;">0</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> corr_wmean Androgen AACGTCGAGTATCG-1  0.024<span style="text-decoration: underline;">2</span>   0.140 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> corr_wmean Androgen AACTCACTCAAGCT-1  0.006<span style="text-decoration: underline;">72</span>  0.080<span style="text-decoration: underline;">0</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> corr_wmean Androgen AAGATGGAAAACAG-1  0.025<span style="text-decoration: underline;">0</span>   0.62  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> corr_wmean Androgen AAGATTACCGCCTT-1  0.008<span style="text-decoration: underline;">49</span>  0.86  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> corr_wmean Androgen AAGCCATGAACTGC-1  0.031<span style="text-decoration: underline;">4</span>   0.58  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> corr_wmean Androgen AAGGTCTGCAGATC-1  0        0.5   </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 6,710 more rows</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>

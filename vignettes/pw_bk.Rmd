@@ -1,0 +1,232 @@
+---
+title: "Pathway activity inference in bulk RNA-seq"
+author:
+  - name: Pau Badia-i-Mompel
+    affiliation:
+    - Heidelberg Universiy
+output: 
+  BiocStyle::html_document:
+    self_contained: true
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+package: "`r pkg_ver('decoupleR')`"
+vignette: >
+  %\VignetteIndexEntry{Pathway activity inference in bulk RNA-seq}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+```
+ 
+Bulk RNA-seq yield many molecular readouts that are hard to interpret by
+themselves. One way of summarizing this information is by inferring pathway
+activities from prior knowledge.
+
+In this notebook we showcase how to use `decoupleR` for pathway activity
+inference with a bulk RNA-seq data-set where the transcription factor FOXA2 was
+knocked out in pancreatic cancer cell lines. 
+
+The data consists of 3 Wild Type (WT) samples and 3 Knock Outs (KO). They are
+freely available in 
+[GEO](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE119931).
+
+# Loading packages
+First, we need to load the relevant packages:
+
+```{r "load packages", message = FALSE}
+## We load the required packages
+library(decoupleR)
+library(tidyverse)
+library(ggplot2)
+library(pheatmap)
+library(ggrepel)
+```
+
+# Loading the data-set
+Here we used an already processed bulk RNA-seq data-set. We provide the
+normalized log-transformed counts, the experimental design meta-data and the
+Differential Expressed Genes (DEGs) obtained using `limma`.
+We can open the data like this:
+```{r "load data"}
+inputs_dir <- system.file("extdata", package = "decoupleR")
+data <- readRDS(file.path(inputs_dir, "bk_data.rds"))
+```
+
+From `data` we can extract the mentioned information. Here we see the normalized
+log-transformed counts:
+```{r "counts"}
+# Remove NAs and set row names
+counts <- data$counts %>%
+  dplyr::mutate_if(~ any(is.na(.x)), ~ if_else(is.na(.x),0,.x)) %>% 
+  column_to_rownames(var = "gene") %>% 
+  as.matrix()
+head(counts)
+```
+
+The design meta-data:
+```{r "design"}
+design <- data$design
+design
+```
+
+And the results of `limma`, of which we are interested in extracting the
+obtained t-value from the contrast:
+```{r "deg"}
+# Extract t-values per gene
+deg <- data$limma_ttop %>%
+    select(ID, t) %>% 
+    filter(!is.na(t)) %>% 
+    column_to_rownames(var = "ID") %>%
+    as.matrix()
+head(deg)
+```
+
+# PROGENy model
+[PROGENy](https://saezlab.github.io/progeny/) is a comprehensive resource
+containing a curated collection of pathways and their target genes, with weights
+for each interaction. For this example we will use the human weights
+(mouse is also available) and we will use the top 100 responsive genes ranked
+by p-value. We can use `decoupleR` to retrieve it from `OmniPath`:
+
+```{r "progeny", message=FALSE}
+net <- get_progeny(organism = 'human', top = 100)
+net
+```
+
+# Activity inference with Weighted Mean
+To infer activities we will run the Weighted Mean method (`wmean`). It infers
+regulator activities by first multiplying each target feature by its associated
+weight which then are summed to an enrichment score `wmean`. Furthermore,
+permutations of random target features can be performed to obtain a null
+distribution that can be used to compute a z-score `norm_wmean`, or a corrected
+estimate `corr_wmean` by multiplying `wmean` by the minus log10 of the obtained
+empirical p-value.
+
+In this example we use `wmean` but we could have used any other.
+To see what methods are available use `show_methods()`.
+
+To run `decoupleR` methods, we need an input matrix (`mat`), an input prior
+knowledge network/resource (`net`), and the name of the columns of net that we
+want to use.
+
+```{r "sample_wmean", message=FALSE}
+# Run wmean
+sample_acts <- run_wmean(mat=counts, net=net, .source='source', .target='target',
+                  .mor='weight', times = 100, minsize = 5)
+sample_acts
+```
+
+# Visualization
+
+From the obtained results, we will select the `norm_wmean` activities and we 
+will observe the obtained activities per sample in a heat-map:
+```{r "heatmap"}
+# Transform to wide matrix
+sample_acts_mat <- sample_acts %>%
+  filter(statistic == 'norm_wmean') %>%
+  pivot_wider(id_cols = 'condition', names_from = 'source',
+              values_from = 'score') %>%
+  column_to_rownames('condition') %>%
+  as.matrix()
+
+# Scale per sample
+sample_acts_mat <- scale(sample_acts_mat)
+
+# Choose color palette
+palette_length = 100
+my_color = colorRampPalette(c("Darkblue", "white","red"))(palette_length)
+
+my_breaks <- c(seq(-3, 0, length.out=ceiling(palette_length/2) + 1),
+               seq(0.05, 3, length.out=floor(palette_length/2)))
+
+# Plot
+pheatmap(sample_acts_mat, border_color = NA, color=my_color, breaks = my_breaks) 
+```
+
+We can observe that WT samples have higher activities for p53 and TGFb than KO.
+On the other hand, KO show higher activities for MAPK and PI3K.
+
+We can also infer pathway activities from the t-values of the DEGs between KO
+and WT:
+```{r "contrast_wmean", message=FALSE}
+# Run wmean
+contrast_acts <- run_wmean(mat=deg, net=net, .source='source', .target='target',
+                  .mor='weight', times = 100, minsize = 5)
+contrast_acts
+```
+
+We select the `norm_wmean` activities and then we show the changes
+in activity between KO and WT:
+
+```{r "barplot"}
+# Filter norm_wmean
+f_contrast_acts <- contrast_acts %>%
+  filter(statistic == 'norm_wmean')
+
+# Plot
+ggplot(f_contrast_acts, aes(x = reorder(source, score), y = score)) + 
+    geom_bar(aes(fill = score), stat = "identity") +
+    scale_fill_gradient2(low = "darkblue", high = "indianred", 
+        mid = "whitesmoke", midpoint = 0) + 
+    theme_minimal() +
+    theme(axis.title = element_text(face = "bold", size = 12),
+        axis.text.x = 
+            element_text(angle = 45, hjust = 1, size =10, face= "bold"),
+        axis.text.y = element_text(size =10, face= "bold"),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()) +
+    xlab("Pathways")
+```
+
+As observed before, the pathways p53 and TGFb are deactivated in KO when
+compared to WT, while JAK-STAT and others seem to be activated.
+
+We can further visualize the most responsive genes in each pathway along their
+t-values to interpret the results. For example, let's see the genes that are 
+belong to the MAPK pathway:
+```{r "targets"}
+pathway <- 'MAPK'
+
+df <- net %>%
+  filter(source == pathway) %>%
+  arrange(target) %>%
+  mutate(ID = target, color = "3") %>%
+  column_to_rownames('target')
+inter <- sort(intersect(rownames(deg),rownames(df)))
+df <- df[inter, ]
+df['t_value'] <- deg[inter, ]
+df <- df %>%
+  mutate(color = if_else(weight > 0 & t_value > 0, '1', color)) %>%
+  mutate(color = if_else(weight > 0 & t_value < 0, '2', color)) %>%
+  mutate(color = if_else(weight < 0 & t_value > 0, '2', color)) %>%
+  mutate(color = if_else(weight < 0 & t_value < 0, '1', color))
+
+ggplot(df, aes(x = weight, y = t_value, color = color)) + geom_point() +
+  scale_colour_manual(values = c("red","royalblue3","grey")) +
+  geom_label_repel(aes(label = ID)) + 
+  theme_minimal() +
+  theme(legend.position = "none") +
+  geom_vline(xintercept = 0, linetype = 'dotted') +
+  geom_hline(yintercept = 0, linetype = 'dotted') +
+  ggtitle(pathway)
+
+
+```
+
+The pathway seems to be active since the majority of target genes with positive
+weights have positive t-values (1st quadrant), and the majority of the ones with
+negative weights have negative t-values (3d quadrant).
+
+# Session information
+
+```{r session_info, echo=FALSE}
+options(width = 120)
+sessioninfo::session_info()
+```

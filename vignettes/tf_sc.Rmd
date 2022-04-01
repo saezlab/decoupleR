@@ -57,7 +57,7 @@ Here we used a down-sampled version of the data used in the `Seurat`
 We can open the data like this:
 ```{r "load data"}
 inputs_dir <- system.file("extdata", package = "decoupleR")
-data <- readRDS(file.path(inputs_dir, "data.rds"))
+data <- readRDS(file.path(inputs_dir, "sc_data.rds"))
 ```
 
 We can observe that we have different cell types:
@@ -75,7 +75,8 @@ its confidence level and the sign of its mode of regulation (activation or
 inhibition).
 
 For this example we will use the human version (mouse is also available) and we
-will use the confidence levels ABC. To access it we can use `decoupleR`.
+will use the confidence levels ABC. We can use `decoupleR` to retrieve it from
+`OmniPath`:
 
 ```{r "dorothea", message=FALSE}
 net <- get_dorothea(organism='human', levels=c('A', 'B', 'C'))
@@ -113,7 +114,7 @@ From the obtained results, we will select the `norm_wmean` activities and store
 them in our object as a new assay called `tfswmean`:
 
 ```{r "new_assay", message=FALSE}
-# Extract norm_wmean and store it in tfs_wmean in pbmc
+# Extract norm_wmean and store it in tfswmean in pbmc
 data[['tfswmean']] <- acts %>%
   filter(statistic == 'norm_wmean') %>%
   pivot_wider(id_cols = 'source', names_from = 'condition',
@@ -177,7 +178,7 @@ top_acts_mat <- df %>%
   column_to_rownames('cluster') %>%
   as.matrix()
 
-# Choose color pallette
+# Choose color palette
 palette_length = 100
 my_color = colorRampPalette(c("Darkblue", "white","red"))(palette_length)
 
@@ -187,10 +188,11 @@ my_breaks <- c(seq(-3, 0, length.out=ceiling(palette_length/2) + 1),
 # Plot
 pheatmap(top_acts_mat, border_color = NA, color=my_color, breaks = my_breaks) 
 ```
+
 Here we can observe other known marker TFs appearing, PAX5 for B cells
 RFX5 for the myeloid lineage and JUND for the lymphoid.
 
-## Session information
+# Session information
 
 ```{r session_info, echo=FALSE}
 options(width = 120)

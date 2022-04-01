@@ -1,5 +1,5 @@
 ---
-title: "decoupleR - Ensemble of methods to infer biological activities"
+title: "Introduction"
 author:
   - name: Pau Badia-i-Mompel
     affiliation:
@@ -16,7 +16,7 @@ output:
     code_folding: show
 package: "`r pkg_ver('decoupleR')`"
 vignette: >
-  %\VignetteIndexEntry{decoupleR - Ensemble of methods to infer biological activities}
+  %\VignetteIndexEntry{Introduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -258,7 +258,7 @@ We can observe that the consensus score correctly predicts that T1 and T3 should
 be active in the first population of samples while T2 in the second one.
 
 
-## Session information
+# Session information
 
 ```{r session_info, echo=FALSE}
 options(width = 120)

@@ -63,6 +63,12 @@ Alternatively, you can instead install the latest development version from [GitH
 BiocManager::install("saezlab/decoupleR")
 ```
 
+## License
+Footprint methods inside `decoupleR` can be used for academic or commercial purposes, except `viper` which holds a non-commercial license. 
+
+The data redistributed by `OmniPath` does not have a license, each original resource carries their own. 
+[Here](https://omnipathdb.org/info) one can find the license information of all the resources in `OmniPath`.
+
 ## Citation
 Badia-i-Mompel P., Vélez Santiago J., Braunger J., Geiss C., Dimitrov D., Müller-Dott S., Taus P., Dugourd A., Holland
 C.H., Ramirez Flores R.O.  and Saez-Rodriguez J. 2022. decoupleR: ensemble of computational methods to infer

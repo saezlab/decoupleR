@@ -70,7 +70,7 @@ DimPlot(data, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
 containing a curated collection of pathways and their target genes, with weights
 for each interaction. For this example we will use the human weights
 (mouse is also available) and we will use the top 100 responsive genes ranked
-by p-value. To access it we can use `decoupleR`.
+by p-value. We can use `decoupleR` to retrieve it from `OmniPath`:
 
 ```{r "progeny", message=FALSE}
 net <- get_progeny(organism = 'human', top = 100)
@@ -107,7 +107,7 @@ acts
 From the obtained results, we will select the `norm_wmean` activities and store
 them in our object as a new assay called `pathwayswmean`:
 ```{r "new_assay", message=FALSE}
-# Extract norm_wmean and store it in pathways_wmean in data
+# Extract norm_wmean and store it in pathwayswmean in data
 data[['pathwayswmean']] <- acts %>%
   filter(statistic == 'norm_wmean') %>%
   pivot_wider(id_cols = 'source', names_from = 'condition',
@@ -153,7 +153,7 @@ top_acts_mat <- df %>%
   column_to_rownames('cluster') %>%
   as.matrix()
 
-# Choose color pallette
+# Choose color palette
 palette_length = 100
 my_color = colorRampPalette(c("Darkblue", "white","red"))(palette_length)
 
@@ -163,10 +163,11 @@ my_breaks <- c(seq(-2, 0, length.out=ceiling(palette_length/2) + 1),
 # Plot
 pheatmap(top_acts_mat, border_color = NA, color=my_color, breaks = my_breaks) 
 ```
+
 In this specific example, we can observe that Trail is more active in B and NK
 cells.
 
-## Session information
+# Session information
 
 ```{r session_info, echo=FALSE}
 options(width = 120)

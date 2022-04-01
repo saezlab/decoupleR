@@ -57,7 +57,7 @@ Here we used a down-sampled version of the data used in the `Seurat`
 We can open the data like this:
 ```{r "load data"}
 inputs_dir <- system.file("extdata", package = "decoupleR")
-data <- readRDS(file.path(inputs_dir, "data.rds"))
+data <- readRDS(file.path(inputs_dir, "sc_data.rds"))
 ```
 
 We can observe that we have different cell types:

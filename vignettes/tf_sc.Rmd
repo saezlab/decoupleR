@@ -30,7 +30,7 @@ themselves. One way of summarizing this information is by inferring
 transcription factor (TF) activities from prior knowledge.
 
 In this notebook we showcase how to use `decoupleR` for transcription factor activity
-inference with a down-sampled PBMCs 10X data-set. The data consists of 200 
+inference with a down-sampled PBMCs 10X data-set. The data consists of 160 
 PBMCs from a Healthy Donor. The original data is freely available from 10x Genomics 
 [here](https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz)
 from this [webpage](https://support.10xgenomics.com/single-cell-gene-expression/datasets/1.1.0/pbmc3k).

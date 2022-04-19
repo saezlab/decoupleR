@@ -9,18 +9,17 @@ input_dir <- system.file("testdata", "inputs", package = "decoupleR")
 expected_dir <- system.file("testdata", "outputs", "aucell", package = "decoupleR")
 
 # Data to run -------------------------------------------------------------
-
-emat <- file.path(input_dir, "input-expr_matrix.rds") %>%
+mat <- file.path(input_dir, "mat.rds") %>%
   readRDS()
 
-dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
+net <- file.path(input_dir, "net.rds") %>%
   readRDS()
 
 # Test for run_aucell function ---------------------------------------------
 
-test_that("test run_aucell with dorothea gene sets", {
-  res_1 <- run_aucell(emat, dorothea_genesets, .source='tf', nproc=1)
-  exp_1 <- file.path(expected_dir, "output-aucell_dorothea_default.rds") %>%
+test_that("test run_aucell", {
+  res_1 <- run_aucell(mat, net, minsize=0, nproc=1, aucMaxRank=3)
+  exp_1 <- file.path(expected_dir, "output-aucell.rds") %>%
     readRDS()
 
   expect_equal(res_1, exp_1, tolerance=0.01)

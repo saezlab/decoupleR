@@ -10,17 +10,17 @@ expected_dir <- system.file("testdata", "outputs", "ulm", package = "decoupleR")
 
 # Data to run -------------------------------------------------------------
 
-emat <- file.path(input_dir, "input-expr_matrix.rds") %>%
+mat <- file.path(input_dir, "mat.rds") %>%
     readRDS()
 
-dorothea_genesets <- file.path(input_dir, "input-dorothea_genesets.rds") %>%
+net <- file.path(input_dir, "net.rds") %>%
     readRDS()
 
 # Test for run_ulm function ---------------------------------------------
 
-test_that("test run_ulm with dorothea gene sets", {
-    res_1 <- run_ulm(emat, dorothea_genesets, .source='tf')
-    exp_1 <- file.path(expected_dir, "output-ulm_dorothea_default.rds") %>%
+test_that("test run_ulm", {
+    res_1 <- run_ulm(mat, net, minsize=0)
+    exp_1 <- file.path(expected_dir, "output-ulm.rds") %>%
         readRDS()
 
     expect_equal(res_1, exp_1, tolerance=0.01)

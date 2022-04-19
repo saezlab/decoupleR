@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,33 +159,24 @@ to zero. The obtained t-values from the fitted model are the activities
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">inputs_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"testdata"</span>, <span class="st">"inputs"</span>, package <span class="op">=</span> <span class="st">"decoupleR"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-expr_matrix.rds"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-dorothea_genesets.rds"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"mat.rds"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"net.rds"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu">run_mlm</span><span class="op">(</span><span class="va">mat</span>, <span class="va">network</span>, .source<span class="op">=</span><span class="st">'tf'</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    statistic source condition  score p_value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> mlm       FOXO4  GSM2753335 1.97  0.048<span style="text-decoration: underline;">5</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> mlm       NFIC   GSM2753335 0.808 0.419  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> mlm       SMAD3  GSM2753335 0.314 0.753  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> mlm       TFAP2A GSM2753335 1.02  0.309  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> mlm       RFXAP  GSM2753335 1.35  0.177  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> mlm       FOXO4  GSM2753336 1.93  0.053<span style="text-decoration: underline;">3</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> mlm       NFIC   GSM2753336 0.848 0.397  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> mlm       SMAD3  GSM2753336 0.525 0.599  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> mlm       TFAP2A GSM2753336 1.31  0.192  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> mlm       RFXAP  GSM2753336 2.11  0.034<span style="text-decoration: underline;">6</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> mlm       FOXO4  GSM2753337 2.18  0.029<span style="text-decoration: underline;">3</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> mlm       NFIC   GSM2753337 0.514 0.607  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> mlm       SMAD3  GSM2753337 0.904 0.366  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> mlm       TFAP2A GSM2753337 1.48  0.140  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> mlm       RFXAP  GSM2753337 2.74  0.006<span style="text-decoration: underline;">15</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> mlm       FOXO4  GSM2753338 2.16  0.030<span style="text-decoration: underline;">6</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> mlm       NFIC   GSM2753338 0.574 0.566  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> mlm       SMAD3  GSM2753338 0.923 0.356  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> mlm       TFAP2A GSM2753338 1.58  0.114  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span> mlm       RFXAP  GSM2753338 2.91  0.003<span style="text-decoration: underline;">65</span></span>
+<span class="r-in"><span class="fu">run_mlm</span><span class="op">(</span><span class="va">mat</span>, <span class="va">net</span>, minsize<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 72 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    statistic source condition   score p_value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> mlm       T1     S01        3.52   0.007<span style="text-decoration: underline;">81</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> mlm       T2     S01       -<span style="color: #BB0000;">1.13</span>   0.290  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> mlm       T3     S01       -<span style="color: #BB0000;">0.247</span>  0.811  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> mlm       T1     S02        3.48   0.008<span style="text-decoration: underline;">31</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> mlm       T2     S02       -<span style="color: #BB0000;">0.213</span>  0.837  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> mlm       T3     S02       -<span style="color: #BB0000;">0.353</span>  0.733  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> mlm       T1     S03        3.15   0.013<span style="text-decoration: underline;">5</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> mlm       T2     S03       -<span style="color: #BB0000;">0.638</span>  0.541  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> mlm       T3     S03        0.074<span style="text-decoration: underline;">9</span> 0.942  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> mlm       T1     S04        3.82   0.005<span style="text-decoration: underline;">12</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 62 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

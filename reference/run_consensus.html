@@ -18,7 +18,7 @@ result of the decouple function."><meta property="og:image" content="https://sae
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,45 +104,37 @@ result of the <code>decouple</code> function.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">inputs_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"testdata"</span>, <span class="st">"inputs"</span>, package <span class="op">=</span> <span class="st">"decoupleR"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-expr_matrix.rds"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-dorothea_genesets.rds"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"mat.rds"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"net.rds"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="decouple.html">decouple</a></span><span class="op">(</span></span>
 <span class="r-in">   mat <span class="op">=</span> <span class="va">mat</span>,</span>
-<span class="r-in">   network <span class="op">=</span> <span class="va">network</span>,</span>
-<span class="r-in">   .source <span class="op">=</span> <span class="st">"tf"</span>,</span>
+<span class="r-in">   network <span class="op">=</span> <span class="va">net</span>,</span>
+<span class="r-in">   .source <span class="op">=</span> <span class="st">"source"</span>,</span>
 <span class="r-in">   .target <span class="op">=</span> <span class="st">"target"</span>,</span>
 <span class="r-in">   statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wmean"</span>, <span class="st">"ulm"</span><span class="op">)</span>,</span>
 <span class="r-in">   args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span class="r-in">            wmean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>.mor <span class="op">=</span> <span class="st">"mor"</span>, .likelihood <span class="op">=</span> <span class="st">"likelihood"</span><span class="op">)</span>,</span>
 <span class="r-in">            ulm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>.mor <span class="op">=</span> <span class="st">"mor"</span>, .likelihood <span class="op">=</span> <span class="st">"likelihood"</span><span class="op">)</span></span>
 <span class="r-in">        <span class="op">)</span>,</span>
-<span class="r-in">   consensus_score <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span class="r-in">   consensus_score <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span class="r-in">   minsize <span class="op">=</span> <span class="fl">0</span></span>
 <span class="r-in">   <span class="op">)</span></span>
 <span class="r-in"><span class="fu">run_consensus</span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    condition  run_id statistic source score p_value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> GSM2753335      3 consensus FOXO4  1.59    0.111</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> GSM2753335      3 consensus NFIC   0.551   0.582</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GSM2753335      3 consensus RFXAP  0.904   0.366</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> GSM2753335      3 consensus SMAD3  0.356   0.721</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> GSM2753335      3 consensus TFAP2A 0.712   0.476</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> GSM2753336      3 consensus FOXO4  1.37    0.170</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> GSM2753336      3 consensus NFIC   0.515   0.606</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GSM2753336      3 consensus RFXAP  1.20    0.228</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GSM2753336      3 consensus SMAD3  0.426   0.670</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> GSM2753336      3 consensus TFAP2A 0.766   0.443</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> GSM2753337      3 consensus FOXO4  1.27    0.204</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> GSM2753337      3 consensus NFIC   0.328   0.743</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> GSM2753337      3 consensus RFXAP  1.40    0.163</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> GSM2753337      3 consensus SMAD3  0.486   0.627</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> GSM2753337      3 consensus TFAP2A 0.710   0.477</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> GSM2753338      3 consensus FOXO4  1.22    0.221</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> GSM2753338      3 consensus NFIC   0.342   0.732</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> GSM2753338      3 consensus RFXAP  1.43    0.154</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> GSM2753338      3 consensus SMAD3  0.487   0.627</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span> GSM2753338      3 consensus TFAP2A 0.722   0.471</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 72 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    condition run_id statistic source  score p_value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> S01            3 consensus T1      1.21    0.227</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> S01            3 consensus T2     -<span style="color: #BB0000;">0.327</span>   0.744</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> S01            3 consensus T3     -<span style="color: #BB0000;">0.217</span>   0.828</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> S02            3 consensus T1      1.21    0.226</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> S02            3 consensus T2     -<span style="color: #BB0000;">0.267</span>   0.789</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> S02            3 consensus T3     -<span style="color: #BB0000;">0.289</span>   0.773</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> S03            3 consensus T1      1.20    0.229</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> S03            3 consensus T2     -<span style="color: #BB0000;">0.320</span>   0.749</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> S03            3 consensus T3     -<span style="color: #BB0000;">0.196</span>   0.845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> S04            3 consensus T1      1.21    0.228</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 62 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,33 +159,24 @@ are set to zero. The obtained t-value from the fitted model is the activity
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">inputs_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"testdata"</span>, <span class="st">"inputs"</span>, package <span class="op">=</span> <span class="st">"decoupleR"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-expr_matrix.rds"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"input-dorothea_genesets.rds"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"mat.rds"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"net.rds"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu">run_ulm</span><span class="op">(</span><span class="va">mat</span>, <span class="va">network</span>, .source<span class="op">=</span><span class="st">'tf'</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    statistic source condition  score p_value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ulm       FOXO4  GSM2753335 2.06  0.039<span style="text-decoration: underline;">4</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ulm       FOXO4  GSM2753336 2.05  0.040<span style="text-decoration: underline;">6</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> ulm       FOXO4  GSM2753337 2.32  0.020<span style="text-decoration: underline;">1</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> ulm       FOXO4  GSM2753338 2.31  0.020<span style="text-decoration: underline;">7</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> ulm       NFIC   GSM2753335 0.903 0.366  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> ulm       NFIC   GSM2753336 0.978 0.328  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> ulm       NFIC   GSM2753337 0.679 0.497  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> ulm       NFIC   GSM2753338 0.748 0.455  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ulm       SMAD3  GSM2753335 0.548 0.584  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> ulm       SMAD3  GSM2753336 0.786 0.432  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> ulm       SMAD3  GSM2753337 1.17  0.242  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> ulm       SMAD3  GSM2753338 1.20  0.230  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> ulm       TFAP2A GSM2753335 1.24  0.214  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> ulm       TFAP2A GSM2753336 1.55  0.121  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> ulm       TFAP2A GSM2753337 1.75  0.081<span style="text-decoration: underline;">0</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> ulm       TFAP2A GSM2753338 1.85  0.063<span style="text-decoration: underline;">8</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> ulm       RFXAP  GSM2753335 1.35  0.178  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> ulm       RFXAP  GSM2753336 2.11  0.035<span style="text-decoration: underline;">0</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> ulm       RFXAP  GSM2753337 2.73  0.006<span style="text-decoration: underline;">25</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span> ulm       RFXAP  GSM2753338 2.90  0.003<span style="text-decoration: underline;">72</span></span>
+<span class="r-in"><span class="fu">run_ulm</span><span class="op">(</span><span class="va">mat</span>, <span class="va">net</span>, minsize<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 72 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    statistic source condition score  p_value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ulm       T1     S01        4.21 0.001<span style="text-decoration: underline;">80</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ulm       T1     S02        4.07 0.002<span style="text-decoration: underline;">24</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> ulm       T1     S03        3.85 0.003<span style="text-decoration: underline;">19</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> ulm       T1     S04        4.60 0.000<span style="text-decoration: underline;">979</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> ulm       T1     S05        3.90 0.002<span style="text-decoration: underline;">98</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> ulm       T1     S06        3.66 0.004<span style="text-decoration: underline;">42</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> ulm       T1     S07        4.31 0.001<span style="text-decoration: underline;">53</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> ulm       T1     S08        4.65 0.000<span style="text-decoration: underline;">902</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ulm       T1     S09        4.49 0.001<span style="text-decoration: underline;">17</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> ulm       T1     S10        4.07 0.002<span style="text-decoration: underline;">25</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 62 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

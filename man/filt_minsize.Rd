@@ -21,8 +21,8 @@ Filter sources of a net with less than minsize targets
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
-mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
-network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
-network <- rename_net(network, tf, target, mor, likelihood)
-filt_minsize(rownames(mat), network, minsize = 5)
+mat <- readRDS(file.path(inputs_dir, "mat.rds"))
+net <- readRDS(file.path(inputs_dir, "net.rds"))
+net <- rename_net(net, source, target, mor)
+filt_minsize(rownames(mat), net, minsize = 4)
 }

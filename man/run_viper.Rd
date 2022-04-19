@@ -83,10 +83,10 @@ in cancer using network-based inference of protein activity. Nat. Genet.,
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 
-mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
-network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+mat <- readRDS(file.path(inputs_dir, "mat.rds"))
+net <- readRDS(file.path(inputs_dir, "net.rds"))
 
-run_viper(mat, network, .source='tf', verbose = FALSE)
+run_viper(mat, net, minsize=0, verbose = FALSE)
 }
 \seealso{
 Other decoupleR statistics: 

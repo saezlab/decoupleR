@@ -13,20 +13,21 @@
 #' @export
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
-#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
-#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#' mat <- readRDS(file.path(inputs_dir, "mat.rds"))
+#' net <- readRDS(file.path(inputs_dir, "net.rds"))
 #'
 #' results <- decouple(
 #'    mat = mat,
-#'    network = network,
-#'    .source = "tf",
+#'    network = net,
+#'    .source = "source",
 #'    .target = "target",
 #'    statistics = c("wmean", "ulm"),
 #'    args = list(
 #'             wmean = list(.mor = "mor", .likelihood = "likelihood"),
 #'             ulm = list(.mor = "mor", .likelihood = "likelihood")
 #'         ),
-#'    consensus_score = FALSE
+#'    consensus_score = FALSE,
+#'    minsize = 0
 #'    )
 #' run_consensus(results)
 run_consensus <- function(df,

@@ -15,18 +15,17 @@ profile.}
 \item{values_fill}{Optionally, a (scalar) value that specifies what each
 \code{value} should be filled in with when missing.
 
-This can be a named list if you want to apply different aggregations
-to different value columns.}
+This can be a named list if you want to apply different fill values to
+different value columns.}
 }
 \value{
 A data frame with the expanded grid of the values passed in
 \code{sources} and filled as specified in the \code{fill} argument.
 }
 \description{
-Turns implicit missing values into explicit missing values.
-This is a wrapper around \code{\link[tidyr:expand]{expand()}},
-\code{\link[dplyr:mutate-joins]{dplyr::left_join()}} and \code{\link[tidyr:replace_na]{replace_na()}} that's
-useful for completing missing combinations of data.
+Turns implicit missing values into explicit missing values. This is a wrapper
+around \code{\link[tidyr:expand]{expand()}}, \code{\link[dplyr:mutate-joins]{dplyr::full_join()}} and \code{\link[tidyr:replace_na]{replace_na()}} that's useful for
+completing missing combinations of data.
 }
 \examples{
 \dontrun{

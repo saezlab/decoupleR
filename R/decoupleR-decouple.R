@@ -39,13 +39,13 @@
 #' if (FALSE) {
 #'     inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
-#'     mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
-#'     network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#'     mat <- readRDS(file.path(inputs_dir, "mat.rds"))
+#'     net <- readRDS(file.path(inputs_dir, "net.rds"))
 #'
 #'     decouple(
 #'         mat = mat,
-#'         network = network,
-#'         .source = "tf",
+#'         network = net,
+#'         .source = "source",
 #'         .target = "target",
 #'         statistics = c("gsva", "wmean", "wsum", "ulm", "aucell"),
 #'         args = list(
@@ -53,7 +53,8 @@
 #'             wmean = list(.mor = "mor", .likelihood = "likelihood"),
 #'             wsum = list(.mor = "mor"),
 #'             ulm = list(.mor = "mor")
-#'         )
+#'         ),
+#'         minsize = 0
 #'     )
 #' }
 decouple <- function(mat,

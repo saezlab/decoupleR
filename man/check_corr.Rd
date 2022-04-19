@@ -31,6 +31,6 @@ Checks the correlation across the regulators in a network.
 }
 \examples{
 inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
-network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
-check_corr(network, .source='tf')
+net <- readRDS(file.path(inputs_dir, "net.rds"))
+check_corr(net, .source='source')
 }

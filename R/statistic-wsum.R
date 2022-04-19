@@ -37,10 +37,10 @@
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
-#' mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
-#' network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+#' mat <- readRDS(file.path(inputs_dir, "mat.rds"))
+#' net <- readRDS(file.path(inputs_dir, "net.rds"))
 #'
-#' run_wsum(mat, network, .source='tf')
+#' run_wsum(mat, net, minsize=0)
 run_wsum <- function(mat,
                      network,
                      .source = .data$source,

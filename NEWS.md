@@ -1,3 +1,10 @@
+# decouplerR 2.2.
+
+## Changes
+* Changed example `mat` and `net` to toy examples.
+
+* Changed test data to toy data.
+
 # decoupleR 2.1.
 
 ## Changes

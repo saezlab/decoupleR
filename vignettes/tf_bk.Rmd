@@ -43,7 +43,9 @@ First, we need to load the relevant packages:
 ```{r "load packages", message = FALSE}
 ## We load the required packages
 library(decoupleR)
-library(tidyverse)
+library(dplyr)
+library(tibble)
+library(tidyr)
 library(ggplot2)
 library(pheatmap)
 library(ggrepel)

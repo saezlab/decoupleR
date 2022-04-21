@@ -108,7 +108,6 @@ Suggests:
     pheatmap,
     testthat,
     OmnipathR,
-    tidyverse,
     Seurat,
     ggplot2,
     ggrepel,

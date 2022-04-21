@@ -45,7 +45,9 @@ library(Seurat)
 library(decoupleR)
 
 # Only needed for data handling and plotting
-library(tidyverse)
+library(dplyr)
+library(tibble)
+library(tidyr)
 library(patchwork)
 library(ggplot2)
 library(pheatmap)

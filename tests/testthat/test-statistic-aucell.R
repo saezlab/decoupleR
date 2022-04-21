@@ -22,5 +22,5 @@ test_that("test run_aucell", {
   exp_1 <- file.path(expected_dir, "output-aucell.rds") %>%
     readRDS()
 
-  expect_equal(res_1, exp_1, tolerance=0.01)
+  expect_equal(res_1, exp_1, tolerance=1)
 })

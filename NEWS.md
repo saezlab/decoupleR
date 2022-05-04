@@ -1,12 +1,12 @@
 # decouplerR 2.2.
 
-## Bugfixes
-* `ora` now selects correctly the top and bottom genes for p-value estimation.
-
 ## Changes
 * Changed example `mat` and `net` to toy examples.
 
 * Changed test data to toy data.
+
+## Bugfixes
+* `ora` now selects correctly the top and bottom genes for p-value estimation.
 
 # decoupleR 2.1.
 

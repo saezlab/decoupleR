@@ -165,7 +165,7 @@ run_ora <- function(mat,
     mutate(rand=stats::rnorm(n())) %>% 
     arrange(.data$condition, .data$value, .data$rand) %>%
     group_by(.data$condition) %>%
-    do(bind_rows(head(., n = n_bottom),tail(., n = n_up))) %>%
+    dplyr::do(bind_rows(utils::head(., n = n_bottom), utils::tail(., n = n_up))) %>%
     arrange(.data$condition) %>%
     summarise(
       targets = rlang::set_names(list(.data$target), .data$condition[1]),

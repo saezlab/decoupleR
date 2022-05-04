@@ -1,3 +1,8 @@
+# decouplerR 2.3.
+
+## Bugfixes
+* `ora` now selects correctly the top and bottom genes for p-value estimation.
+
 # decouplerR 2.2.
 
 ## Changes

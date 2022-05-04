@@ -167,8 +167,8 @@ run_ora <- function(mat,
     group_by(.data$condition) %>%
     {
       bind_rows(
-        slice_max(., .data$value, n = n_up, with_ties = with_ties),
-        slice_min(., .data$value, n = n_bottom, with_ties = with_ties)
+        head(., n = n_up),
+        tail(., n = n_bottom)
       )
     } %>%
     arrange(.data$condition) %>%

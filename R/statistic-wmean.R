@@ -208,9 +208,9 @@ run_wmean <- function(mat,
 #' @noRd
 .wmean_map_model_data <- function(mat, shared_targets, random, randomize_type) {
     if (random) {
-        randomize_matrix(mat, randomize_type = randomize_type)[shared_targets, ]
+        randomize_matrix(mat, randomize_type = randomize_type)[shared_targets, , drop = FALSE]
     } else {
-        mat[shared_targets, ]
+        mat[shared_targets, , drop = FALSE]
     }
 }
 

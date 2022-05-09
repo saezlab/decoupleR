@@ -8,6 +8,8 @@
 ## Bugfixes
 * `ora` now selects correctly the top and bottom genes for p-value estimation.
 
+* `wmean` and `wsum` now handle named matrices with only one sample.
+
 # decoupleR 2.1.
 
 ## Changes

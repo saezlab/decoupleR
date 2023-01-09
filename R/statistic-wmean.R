@@ -59,7 +59,7 @@ run_wmean <- function(mat,
     }
 
     # Check for NAs/Infs in mat
-    check_nas_infs(mat)
+    mat <- check_nas_infs(mat)
 
     network <- network %>%
         rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})

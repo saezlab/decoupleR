@@ -52,7 +52,7 @@ run_mlm <- function(mat,
                     na.rm = FALSE,
                     minsize = 5) {
   # Check for NAs/Infs in mat
-  check_nas_infs(mat)
+  mat <- check_nas_infs(mat)
   
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
@@ -69,6 +69,7 @@ run_mlm <- function(mat,
     ungroup()
 }
 
+
 #' Wrapper to execute run_mlm() logic one finished preprocessing of data
 #'
 #' Fit a linear regression between the value of expression and the profile of its targets.
@@ -79,38 +80,42 @@ run_mlm <- function(mat,
 #' @inherit run_mlm return
 #' @keywords intern
 #' @noRd
-.mlm_analysis <- function(mat, mor_mat) {
-  mlm_evaluate_model <- partial(
-    .f = .mlm_evaluate_model,
-    mat = mat,
-    mor_mat = mor_mat
-  )
-  
-  # Allocate the space for all conditions and evaluate the proposed model.
-  expand_grid(
-    condition = colnames(mat)
-  ) %>%
-    rowwise(.data$condition) %>%
-    mutate(model = list(mlm_evaluate_model(.data$condition)), statistic='mlm') %>%
-    unnest(.data$model) %>%
-    select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
-}
 
-#' Wrapper to run mlm per sample (condition) at time
-#'
-#' @keywords internal
-#' @noRd
-.mlm_evaluate_model <- function(condition, mat, mor_mat) {
-  fit <- lm(mat[ , condition] ~ mor_mat) %>%
-    summary()
-  scores <- as.vector(fit$coefficients[,3][-1])
-  pvals <- as.vector(fit$coefficients[,4][-1])
-  sources <- colnames(mor_mat)
-  diff_n <- length(sources) - length(scores)
-  if (diff_n > 0) {
-    stop(stringr::str_glue('After intersecting mat and network, at least {diff_n} sources in the network are colinear with other sources.
+
+.mlm_analysis <- function(mat, mor_mat) {
+  
+    # run all linear models at the same time:
+    res_all <- lm(mat ~ mor_mat) %>% summary()
+    
+    if(ncol(mat) == 1){
+        # in case of a single condition, the summary of lm returns the table instead of 
+        # list of tables.
+        #
+        res_all = list(res_all)
+        names(res_all) <- colnames(mat)
+    }
+    
+    # summary is a list for each condition. Get the info we need: 
+    res_new <- res_all %>% lapply(X = ., function(fit){
+        
+        scores <- as.vector(fit$coefficients[,3][-1])
+        pvals <- as.vector(fit$coefficients[,4][-1])
+        sources <- colnames(mor_mat)
+        diff_n <- length(sources) - length(scores)
+        if (diff_n > 0) {
+            stop(stringr::str_glue('After intersecting mat and network, at least {diff_n} sources in the network are colinear with other sources.
       Cannot fit a linear model with colinear covariables, please remove them.
       Please run decoupleR::check_corr to see what regulators are correlated.'))
-  }
-  tibble(score=scores, p_value=pvals, source=sources)
+        }
+        tibble(score=scores, p_value=pvals, source=sources)
+    }) %>% bind_rows(.id = "condition") %>%
+        mutate(condition = gsub("Response ","", .data$condition)) %>%
+        mutate(statistic = "mlm", .before= 1) %>%
+        select(.data$statistic, .data$source, .data$condition,
+               .data$score, .data$p_value)
+    return(res_new)
 }
+
+
+
+

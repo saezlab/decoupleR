@@ -56,7 +56,7 @@ run_udt <- function(mat,
                     minsize = 5
 ) {
   # Check for NAs/Infs in mat
-  check_nas_infs(mat)
+  mat <- check_nas_infs(mat)
 
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.

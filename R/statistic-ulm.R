@@ -52,7 +52,7 @@ run_ulm <- function(mat,
                     minsize = 5
                     ) {
     # Check for NAs/Infs in mat
-    check_nas_infs(mat)
+    mat <- check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
     # Convert to standard tibble: source-target-mor.
@@ -80,34 +80,30 @@ run_ulm <- function(mat,
 #' @keywords intern
 #' @noRd
 .ulm_analysis <- function(mat, mor_mat) {
-    ulm_evaluate_model <- partial(
-        .f = .ulm_evaluate_model,
-        mat = mat,
-        mor_mat = mor_mat
-    )
 
-    # Allocate the space for all combinations of sources and conditions
-    # and evaluate the proposed model.
-    expand_grid(
-        source = colnames(mor_mat),
-        condition = colnames(mat)
-    ) %>%
-        rowwise(.data$source, .data$condition) %>%
-        mutate(model = list(ulm_evaluate_model(.data$source, .data$condition)), 
-               statistic='ulm', source=.data$source) %>%
-        unnest(.data$model) %>%
-        select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
-}
-
-#' Wrapper to run ulm one source (source) per sample (condition) at time
-#'
-#' @keywords internal
-#' @noRd
-.ulm_evaluate_model <- function(source, condition, mat, mor_mat) {
-    #data <- cbind(data.frame(y=mat[ , condition]), mor_mat[, source])
-    fit <- lm(mat[ , condition] ~ mor_mat[, source]) %>%
+    fit <- lm(mat ~ mor_mat) %>%
+      summary()
+    
+    res_all <- colnames(mor_mat) %>% lapply(X = ., function(source){
+      # Fit univariate lm
+      fit <- lm(mat ~ mor_mat[, source, drop = FALSE]) %>%
         summary()
-    scores <- as.vector(fit$coefficients[,3][-1])
-    pvals <- as.vector(fit$coefficients[,4][-1])
-    tibble(score=scores, p_value=pvals)
+      if(ncol(mat) == 1){
+        # in case of a single condition, the summary of lm returns the table instead of 
+        # list of tables.
+        #
+        fit <- list(fit)
+        names(fit) <- colnames(mat)
+      }
+      res_src <- fit %>% lapply(X = ., function(sample){
+        scores <- as.vector(sample$coefficients[,3][-1])
+        pvals <- as.vector(sample$coefficients[,4][-1])
+        tibble(score=scores, p_value=pvals, source=source)
+      }) %>% bind_rows(.id = "condition") %>%
+        mutate(condition = gsub("Response ","", .data$condition)) %>%
+        mutate(statistic = "ulm", .before= 1) %>%
+        select(.data$statistic, .data$source, .data$condition,
+               .data$score, .data$p_value)
+    }) %>% bind_rows()
+    res_all
 }

@@ -52,7 +52,7 @@ run_mlm <- function(mat,
                     na.rm = FALSE,
                     minsize = 5) {
   # Check for NAs/Infs in mat
-  check_nas_infs(mat)
+  mat <- check_nas_infs(mat)
   
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
@@ -83,8 +83,7 @@ run_mlm <- function(mat,
 
 
 .mlm_analysis <- function(mat, mor_mat) {
-    
-    mat = as.matrix(mat)
+  
     # run all linear models at the same time:
     res_all <- lm(mat ~ mor_mat) %>% summary()
     
@@ -110,9 +109,10 @@ run_mlm <- function(mat,
         }
         tibble(score=scores, p_value=pvals, source=sources)
     }) %>% bind_rows(.id = "condition") %>%
-        mutate(condition = gsub("Response ","",condition)) %>%
-        mutate(statistic = "mlm",.before= 1) %>%
-        select(statistic, source, condition, score, p_value)
+        mutate(condition = gsub("Response ","", .data$condition)) %>%
+        mutate(statistic = "mlm", .before= 1) %>%
+        select(.data$statistic, .data$source, .data$condition,
+               .data$score, .data$p_value)
     return(res_new)
 }
 

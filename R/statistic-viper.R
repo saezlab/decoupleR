@@ -56,7 +56,7 @@ run_viper <- function(mat,
                       eset.filter = FALSE,
                       ...) {
     # Check for NAs/Infs in mat
-    check_nas_infs(mat)
+    mat <- check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
     network <- network %>%

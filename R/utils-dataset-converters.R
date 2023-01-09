@@ -235,4 +235,5 @@ check_nas_infs <- function(mat){
     if (any(is.infinite(mat) | is.na(mat))){
         stop('Mat contains NAs or Infs, please remove them.')
     }
+    mat
 }

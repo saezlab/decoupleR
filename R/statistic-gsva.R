@@ -47,7 +47,7 @@ run_gsva <- function(mat,
                      minsize = 5,
                      ...) {
     # Check for NAs/Infs in mat
-    check_nas_infs(mat)
+    mat <- check_nas_infs(mat)
 
     # Before to start ---------------------------------------------------------
     network <- network %>%

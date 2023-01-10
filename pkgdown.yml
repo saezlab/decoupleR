@@ -1,5 +1,5 @@
 pandoc: 2.17.1.1
-pkgdown: 2.0.3
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   decoupleR: decoupleR.html
@@ -7,7 +7,7 @@ articles:
   pw_sc: pw_sc.html
   tf_bk: tf_bk.html
   tf_sc: tf_sc.html
-last_built: 2022-05-09T12:46Z
+last_built: 2023-01-10T10:07Z
 urls:
   reference: https://saezlab.github.io/decoupleR/reference
   article: https://saezlab.github.io/decoupleR/articles

@@ -19,20 +19,16 @@ pivot_wider_profile(
 \item{data}{A data frame to pivot.}
 
 \item{id_cols}{<\code{\link[tidyr:tidyr_tidy_select]{tidy-select}}> A set of columns that
-uniquely identifies each observation. Defaults to all columns in \code{data}
-except for the columns specified in \code{names_from} and \code{values_from}.
-Typically used when you have redundant variables, i.e. variables whose
-values are perfectly correlated with existing variables.}
+uniquely identify each observation. Typically used when you have
+redundant variables, i.e. variables whose values are perfectly correlated
+with existing variables.
 
-\item{names_from}{<\code{\link[tidyr:tidyr_tidy_select]{tidy-select}}> A pair of
-arguments describing which column (or columns) to get the name of the
-output column (\code{names_from}), and which column (or columns) to get the
-cell values from (\code{values_from}).
+Defaults to all columns in \code{data} except for the columns specified through
+\code{names_from} and \code{values_from}. If a tidyselect expression is supplied, it
+will be evaluated on \code{data} after removing the columns specified through
+\code{names_from} and \code{values_from}.}
 
-If \code{values_from} contains multiple values, the value will be added to the
-front of the output column.}
-
-\item{values_from}{<\code{\link[tidyr:tidyr_tidy_select]{tidy-select}}> A pair of
+\item{names_from, values_from}{<\code{\link[tidyr:tidyr_tidy_select]{tidy-select}}> A pair of
 arguments describing which column (or columns) to get the name of the
 output column (\code{names_from}), and which column (or columns) to get the
 cell values from (\code{values_from}).

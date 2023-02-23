@@ -163,6 +163,7 @@ jobs:
           ## Ideally, all dependencies should get installed in the first pass.
           ## Pass #1 at installing dependencies
           message(paste('****', Sys.time(), 'pass number 1 at installing dependencies: local dependencies ****'))
+          remotes::install_github('saezlab/OmnipathR@master', upgrade = FALSE)
           remotes::install_local(dependencies = TRUE, repos = c(BiocManager::repositories()), build_vignettes = TRUE, upgrade = TRUE)
         continue-on-error: true
         shell: Rscript {0}

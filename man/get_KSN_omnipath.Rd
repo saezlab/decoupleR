@@ -4,17 +4,10 @@
 \alias{get_KSN_omnipath}
 \title{Omnipath KSN}
 \usage{
-get_KSN_omnipath(resources = NULL)
+get_KSN_omnipath(...)
 }
 \arguments{
-\item{ressources}{vector of character with ressource names if specified.}
-}
-\value{
-A \code{network} dataframe with 3 columns:
-2. \code{source}: Source nodes of \code{network}.
-3. \code{target}: Targets nodes of \code{network}.
-4. \code{mor}: mode of regulation, indicates phosphorilations
-and dephsphorilations
+\item{...}{Passed to \code{OmnipathR::import_omnipath_enzsub}.}
 }
 \description{
 Generate a ready to use, curated Kinase/Substrate Network from omnipath
@@ -23,8 +16,4 @@ Generate a ready to use, curated Kinase/Substrate Network from omnipath
 Import PTM network from omnipath, then filter out anything that is not
 phospho or dephosphorilation. Then format the columns for use with decoupleR
 functions.
-}
-\examples{
-KSN_omnipath <- get_KSN_omnipath()
-
 }

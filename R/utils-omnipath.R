@@ -158,35 +158,42 @@ get_progeny <- function(organism='human', top=500){
 #' phospho or dephosphorilation. Then format the columns for use with decoupleR
 #' functions.
 #' 
-#' @param ressources vector of character with ressource names if specified.
-#' 
-#' @return A `network` dataframe with 3 columns:
-#'  2. `source`: Source nodes of `network`.
-#'  3. `target`: Targets nodes of `network`.
-#'  4. `mor`: mode of regulation, indicates phosphorilations 
-#'  and dephsphorilations
-#' @export
+#' @param ... Passed to ``OmnipathR::import_omnipath_enzsub``.
 #'
-#' @examples
-#' KSN_omnipath <- get_KSN_omnipath()
-#' 
-get_KSN_omnipath <- function(resources = NULL){
-  KSN_omnipath <- as.data.frame(OmnipathR::import_omnipath_enzsub(resources = resources)) #resources = c("PhosphoSite","SIGNOR","KEA","MIMP","PhosphoNetworks","HPRD")
-  KSN_omnipath$psite <- paste(KSN_omnipath$substrate_genesymbol, paste(KSN_omnipath$residue_type, KSN_omnipath$residue_offset, sep = ""), sep = "_")
+#' @importFrom magrittr %>% %T>%
+#' @importFrom rlang !!!
+#' @importFrom OmnipathR import_omnipath_enzsub omnipath_msg
+#' @importFrom dplyr filter mutate select group_by ungroup distinct
+#' @importFrom dplyr summarize_all first
+#' @export
+get_KSN_omnipath <- function(...) {
   
-  KSN_omnipath <- KSN_omnipath[KSN_omnipath$modification %in% c("phosphorylation","dephosphorylation"),c(3,13,7)] 
-  KSN_omnipath$modification <- ifelse(KSN_omnipath$modification == "phosphorylation", 1, -1)
+  # NSE vs. R CMD check workaround
+  modification <- substrate_genesymbol <- residue_type <- residue_offset <-
+    enzyme_genesymbol <- target <- mor <- comb <- NULL
   
-  names(KSN_omnipath) <- c("source","target","mor")
-  KSN_omnipath <- unique(KSN_omnipath)
+  list(...) %>%
+    OmnipathR::import_omnipath_enzsub(!!!.) %>%
+    filter(modification %in% c('phosphorylation', 'dephosphorylation')) %>%
+    mutate(
+      target = sprintf(
+        '%s_%s%i',
+        substrate_genesymbol,
+        residue_type,
+        residue_offset
+      ),
+      mor = (modification == 'phosphorylation') * 2L - 1L
+    ) %>%
+    select(source = enzyme_genesymbol, target, mor) %>%
+    distinct %>%
+    group_by(source, target) %>%
+    mutate(mor = min(mor)) %>%
+    summarize_all(first) %>%
+    ungroup %T>%
+    {OmnipathR::omnipath_msg(
+      'success',
+      '%i enzyme-PTM interactions after preprocessing.',
+      nrow(.)
+    )}
   
-  KSN_omnipath$comb <- paste(KSN_omnipath$source, KSN_omnipath$target, sep = "_")
-  dubbs <- KSN_omnipath[duplicated(KSN_omnipath$comb), "comb"]
-  
-  KSN_omnipath$mor <- ifelse(KSN_omnipath$comb %in% dubbs, -1, KSN_omnipath$mor)
-  KSN_omnipath <- unique(KSN_omnipath)
-  
-  KSN_omnipath <- KSN_omnipath[,-4]
-  
-  return(KSN_omnipath)
 }

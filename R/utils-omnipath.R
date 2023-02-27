@@ -148,3 +148,52 @@ get_progeny <- function(organism='human', top=500){
   return(p)
 }
 
+#' Omnipath KSN
+#'
+#' @description
+#' Generate a ready to use, curated Kinase/Substrate Network from omnipath
+#'
+#' @details
+#' Import PTM network from omnipath, then filter out anything that is not 
+#' phospho or dephosphorilation. Then format the columns for use with decoupleR
+#' functions.
+#' 
+#' @param ... Passed to ``OmnipathR::import_omnipath_enzsub``.
+#'
+#' @importFrom magrittr %>% %T>%
+#' @importFrom rlang !!!
+#' @importFrom OmnipathR import_omnipath_enzsub omnipath_msg
+#' @importFrom dplyr filter mutate select group_by ungroup distinct
+#' @importFrom dplyr summarize_all first
+#' @export
+get_KSN_omnipath <- function(...) {
+  
+  # NSE vs. R CMD check workaround
+  modification <- substrate_genesymbol <- residue_type <- residue_offset <-
+    enzyme_genesymbol <- target <- mor <- comb <- NULL
+  
+  list(...) %>%
+    OmnipathR::import_omnipath_enzsub(!!!.) %>%
+    filter(modification %in% c('phosphorylation', 'dephosphorylation')) %>%
+    mutate(
+      target = sprintf(
+        '%s_%s%i',
+        substrate_genesymbol,
+        residue_type,
+        residue_offset
+      ),
+      mor = (modification == 'phosphorylation') * 2L - 1L
+    ) %>%
+    select(source = enzyme_genesymbol, target, mor) %>%
+    distinct %>%
+    group_by(source, target) %>%
+    mutate(mor = min(mor)) %>%
+    summarize_all(first) %>%
+    ungroup %T>%
+    {OmnipathR::omnipath_msg(
+      'success',
+      '%i enzyme-PTM interactions after preprocessing.',
+      nrow(.)
+    )}
+  
+}

@@ -162,7 +162,6 @@ get_progeny <- function(organism='human', top=500){
 #'
 #' @importFrom magrittr %>% %T>%
 #' @importFrom rlang !!!
-#' @importFrom OmnipathR import_omnipath_enzsub omnipath_msg
 #' @importFrom dplyr filter mutate select group_by ungroup distinct
 #' @importFrom dplyr summarize_all first
 #' @export

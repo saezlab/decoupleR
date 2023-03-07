@@ -148,16 +148,16 @@ get_progeny <- function(organism='human', top=500){
   return(p)
 }
 
-#' Omnipath KSN
+#' OmniPath kinase-substrate network
 #'
-#' @description
-#' Generate a ready to use, curated Kinase/Substrate Network from omnipath
+#' Retrieve a ready to use, curated kinase-substrate Network from the OmniPath
+#' database.
 #'
 #' @details
-#' Import PTM network from omnipath, then filter out anything that is not 
+#' Import enzyme-PTM network from OmniPath, then filter out anything that is not
 #' phospho or dephosphorilation. Then format the columns for use with decoupleR
 #' functions.
-#' 
+#'
 #' @param ... Passed to ``OmnipathR::import_omnipath_enzsub``.
 #'
 #' @importFrom magrittr %>% %T>%
@@ -165,7 +165,7 @@ get_progeny <- function(organism='human', top=500){
 #' @importFrom dplyr filter mutate select group_by ungroup distinct
 #' @importFrom dplyr summarize_all first
 #' @export
-get_KSN_omnipath <- function(...) {
+get_ksn_omnipath <- function(...) {
   
   # NSE vs. R CMD check workaround
   modification <- substrate_genesymbol <- residue_type <- residue_offset <-

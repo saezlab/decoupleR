@@ -4,8 +4,12 @@ destination: docs
 
 template:
   bootstrap: 5
+  bootswatch: cosmo
+  bslib:
+    primary: "#A6A6A6"
   params:
     ganalytics: UA-119440867-11
+    highlightcss: false
 
 development:
   mode: auto
@@ -20,7 +24,9 @@ navbar:
        href: https://twitter.com/saezlab
      homepage:
        icon: "fas fa-university"
-       href: http://www.saezlab.org
+       href: https://www.saezlab.org
+     type: dark
+     bg: primary
 
 reference:
   - title: decoupleR
@@ -53,3 +59,4 @@ reference:
       - get_resource
       - get_dorothea
       - get_progeny
+      - get_ksn_omnipath

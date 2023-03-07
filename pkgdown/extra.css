@@ -1,0 +1,193 @@
+.contents p:first-of-type img {
+    background-color: white;
+    padding: 10px;
+    margin-top: 15px;
+    scale: 1.1;
+    position: relative;
+    left: 10%;
+}
+
+body {
+    font-size: 117%!important;
+}
+
+.bg-primary {
+    background-color: #A6A6A6!important;
+}
+
+nav[data-toggle="toc"] .nav > li > a {
+    border-radius: 0px!important;
+    padding-left: 1rem!important;
+}
+
+pre {
+    border-radius: 0px!important;
+    background-color: white!important;
+}
+
+code span, code a:any-link {
+    color: #1f1c1b!important;
+}/* Normal */
+code span.al, code span.al a:any-link {
+    color: #bf0303!important;
+    background-color: #f7e6e6!important;
+    font-weight: bold;
+} /* Alert */
+code span.an, code span.an a:any-link {
+    color: #ca60ca!important;
+} /* Annotation */
+code span.at, code span.at a:any-link {
+    color: #0057ae!important;
+} /* Attribute */
+code span.bn, code span.bn a:any-link {
+    color: #b08000!important;
+} /* BaseN */
+code span.bu, code span.bu a:any-link {
+    color: #644a9b!important;
+    font-weight: bold;
+} /* BuiltIn */
+code span.cf, code span.cf a:any-link {
+    color: #1f1c1b!important;
+    font-weight: bold;
+} /* ControlFlow */
+code span.ch, code span.ch a:any-link {
+    color: #924c9d!important;
+} /* Char */
+code span.cn, code span.cn a:any-link {
+    color: #aa5500!important;
+}/* Constant */
+code span.co, code span.co a:any-link {
+    color: #898887!important;
+}/* Comment */
+code span.cv, code span.cv a:any-link {
+    color: #0095ff!important;
+}/* CommentVar */
+code span.do, code span.do a:any-link {
+    color: #607880!important;
+}/* Documentation */
+code span.dt, code span.dt a:any-link {
+    color: #0057ae!important;
+}/* DataType */
+code span.dv, code span.dv a:any-link {
+    color: #b08000!important;
+}/* DecVal */
+code span.er, code span.er a:any-link {
+    color: #bf0303!important;
+    text-decoration: underline;
+} /* Error */
+code span.ex, code span.ex a:any-link {
+    color: #0095ff!important;
+    font-weight: bold;
+} /* Extension */
+code span.fl, code span.fl a:any-link {
+    color: #b08000!important;
+}/* Float */
+code span.fu,
+code span.fu a:any-link {
+    color: #644a9b!important;
+} /* Function */
+code span.im, code span.im a:any-link {
+    color: #ff5500!important;
+}/* Import */
+code span.in, code span.in a:any-link {
+    color: #b08000!important;
+}/* Information */
+code span.kw, code span.kw a:any-link {
+    /*color: #1f1c1b!important;*/
+    color: #007BA5!important;
+    font-weight: bold;
+} /* Keyword */
+code span.op, code span.op a:any-link {
+    /* color: #1f1c1b!important; */
+    color: #5E5E5E!important;
+}/* Operator */
+code span.ot, code span.ot a:any-link {
+    color: #006e28!important;
+}/* Other */
+code span.pp, code span.pp a:any-link {
+    color: #006e28!important;
+}/* Preprocessor */
+code span.re, code span.re a:any-link {
+    color: #0057ae!important;
+    background-color: #e0e9f8!important;
+} /* RegionMarker */
+code span.sc, code span.sc a:any-link {
+    color: #3daee9!important;
+}/* SpecialChar */
+code span.ss, code span.ss a:any-link {
+    color: #ff5500!important;
+}/* SpecialString */
+/* code span.st, code span.st a:any-link {
+    color: #bf0303!important;
+}/* String */
+code span.st, code span.st a:any-link {
+    color: #20794d!important;
+}/* String */
+code span.va, code span.va a:any-link {
+    color: #0057ae!important;
+}/* Variable */
+code span.vs, code span.vs a:any-link {
+    color: #bf0303!important;
+}/* VerbatimString */
+code span.wa, code span.wa a:any-link {
+    color: #bf0303!important;
+}/* Warning */
+
+.nav-text.text-muted {
+    color: #ffffff!important;
+}
+
+.nav-item.active > .nav-link {
+    background-color: #e9ecef!important;
+    color: #A6A6A6!important;
+}
+
+.navbar-dark input[type="search"] {
+    background-color: #e9ecef!important;
+    color: #212529!important;
+}
+
+.template-home > .row > #main > p > img {
+    background-color: #ffffff!important;
+    padding-top: 20px;
+}
+
+.template-home > .row > #main > .section > .page-header > img {
+    display: none!important;
+}
+
+.template-home h1, .template-home h2, .template-home h3, .template-home h4,
+.template-home h5, .template-home h6, .template-article .page-header h1 {
+    font-weight: 700!important;
+}
+
+h1#omnipathr {
+    font-size: 4.125rem!important;
+}
+
+img.logo {
+    background-color: #ffffff!important;
+}
+
+p.abstract {
+    font-size: calc(1.375rem + 1.5vw)!important;
+}
+
+h4.author {
+    font-size: 1.25rem!important;
+    margin-top: 1rem!important;
+}
+
+@media (min-width: 1200px){
+    p.abstract {
+        font-size: 2.5rem!important;
+    }
+}
+
+.author_afil {
+    font-size: small!important;
+}
+
+.nav-item {
+    margin-left: 10px!important;
+}

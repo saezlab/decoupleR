@@ -58,5 +58,6 @@ reference:
       - show_resources
       - get_resource
       - get_dorothea
+      - get_collectri
       - get_progeny
       - get_ksn_omnipath

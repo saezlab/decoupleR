@@ -128,16 +128,19 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>There are many methods that allow us to extract biological activities from omics data. <code>decoupleR</code> is a Bioconductor package containing different statistical methods to extract biological signatures from prior knowledge within a unified framework. Additionally, it incorporates methods that take into account the sign and weight of network interactions. <code>decoupleR</code> can be used with any omic, as long as its features can be linked to a biological process based on prior knowledge. For example, in transcriptomics gene sets regulated by a transcription factor, or in phospho-proteomics phosphosites that are targeted by a kinase.</p>
+<p>There are many methods that allow us to extract biological activities from omics data. <code>decoupleR</code> is a Bioconductor package containing different statistical methods to extract biological signatures from prior knowledge within a unified framework. Additionally, it incorporates methods that take into account the sign and weight of network interactions. <code>decoupleR</code> can be used with any omic, as long as its features can be linked to a biological process based on prior knowledge. For example, in transcriptomics gene sets regulated by a transcription factor, or in phospho-proteomics phosphosites that are targeted by a kinase. This is the R version, for its faster and memory efficient Python implementation go <a href="https://decoupler-py.readthedocs.io/en/latest/" class="external-link">here</a>.</p>
 <p align="center" width="100%">
 <img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/graphical_abstract.png?raw=1" align="center" width="45%"></p>
 <p>For more information about how this package has been used with real data, please check the following links:</p>
 <ul>
-<li><a href="https://saezlab.github.io/decoupleR/articles/decoupleR.html">decoupleR’s vignette</a></li>
-<li><a href="https://decoupler-py.readthedocs.io/en/latest/" class="external-link">Python implementation</a></li>
-<li><a href="https://github.com/saezlab/decoupleR_manuscript" class="external-link">decoupleR’s manuscript repository</a></li>
-<li><a href="https://github.com/saezlab/decoupleRBench" class="external-link">Creation of benchmarking pipelines</a></li>
+<li><a href="https://saezlab.github.io/decoupleR/articles/decoupleR.html">decoupleR’s general usage</a></li>
+<li><a href="https://saezlab.github.io/decoupleR/articles/pw_bk.html">Pathway activity inference in bulk RNA-seq</a></li>
+<li><a href="https://saezlab.github.io/decoupleR/articles/pw_sc.html">Pathway activity inference from scRNA-seq</a></li>
+<li><a href="https://saezlab.github.io/decoupleR/articles/tf_bk.html">Transcription factor activity inference in bulk RNA-seq</a></li>
+<li><a href="https://saezlab.github.io/decoupleR/articles/tf_sc.html">Transcription factor activity inference from scRNA-seq</a></li>
 <li><a href="https://saezlab.github.io/kinase_tf_mini_tuto/" class="external-link">Example of Kinase and TF activity estimation</a></li>
+<li><a href="https://github.com/saezlab/decoupleR_manuscript" class="external-link">decoupleR’s manuscript repository</a></li>
+<li><a href="https://decoupler-py.readthedocs.io/en/latest/" class="external-link">Python implementation</a></li>
 </ul>
 </div>
 </div>
@@ -151,6 +154,12 @@
 <p>Alternatively, you can instead install the latest development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"saezlab/decoupleR"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>Footprint methods inside <code>decoupleR</code> can be used for academic or commercial purposes, except <code>viper</code> which holds a non-commercial license.</p>
+<p>The data redistributed by <code>OmniPath</code> does not have a license, each original resource carries their own. <a href="https://omnipathdb.org/info" class="external-link">Here</a> one can find the license information of all the resources in <code>OmniPath</code>.</p>
+</div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>

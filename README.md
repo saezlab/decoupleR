@@ -30,7 +30,9 @@ network interactions. `decoupleR` can be used with any omic, as long as
 its features can be linked to a biological process based on prior
 knowledge. For example, in transcriptomics gene sets regulated by a
 transcription factor, or in phospho-proteomics phosphosites that are
-targeted by a kinase.
+targeted by a kinase. This is the R version, for its faster and memory
+efficient Python implementation go
+[here](https://decoupler-py.readthedocs.io/en/latest/).
 
 <p align="center" width="100%">
 <img src="https://github.com/saezlab/decoupleR/blob/master/inst/figures/graphical_abstract.png?raw=1" align="center" width="45%">
@@ -39,16 +41,22 @@ targeted by a kinase.
 For more information about how this package has been used with real
 data, please check the following links:
 
--   [decoupleR’s
-    vignette](https://saezlab.github.io/decoupleR/articles/decoupleR.html)
--   [Python
-    implementation](https://decoupler-py.readthedocs.io/en/latest/)
--   [decoupleR’s manuscript
-    repository](https://github.com/saezlab/decoupleR_manuscript)
--   [Creation of benchmarking
-    pipelines](https://github.com/saezlab/decoupleRBench)
--   [Example of Kinase and TF activity
-    estimation](https://saezlab.github.io/kinase_tf_mini_tuto/)
+- [decoupleR’s general
+  usage](https://saezlab.github.io/decoupleR/articles/decoupleR.html)
+- [Pathway activity inference in bulk
+  RNA-seq](https://saezlab.github.io/decoupleR/articles/pw_bk.html)
+- [Pathway activity inference from
+  scRNA-seq](https://saezlab.github.io/decoupleR/articles/pw_sc.html)
+- [Transcription factor activity inference in bulk
+  RNA-seq](https://saezlab.github.io/decoupleR/articles/tf_bk.html)
+- [Transcription factor activity inference from
+  scRNA-seq](https://saezlab.github.io/decoupleR/articles/tf_sc.html)
+- [Example of Kinase and TF activity
+  estimation](https://saezlab.github.io/kinase_tf_mini_tuto/)
+- [decoupleR’s manuscript
+  repository](https://github.com/saezlab/decoupleR_manuscript)
+- [Python
+  implementation](https://decoupler-py.readthedocs.io/en/latest/)
 
 # Installation
 
@@ -66,6 +74,16 @@ from [GitHub](https://github.com/) with:
 ``` r
 BiocManager::install("saezlab/decoupleR")
 ```
+
+## License
+
+Footprint methods inside `decoupleR` can be used for academic or
+commercial purposes, except `viper` which holds a non-commercial
+license.
+
+The data redistributed by `OmniPath` does not have a license, each
+original resource carries their own. [Here](https://omnipathdb.org/info)
+one can find the license information of all the resources in `OmniPath`.
 
 ## Citation
 

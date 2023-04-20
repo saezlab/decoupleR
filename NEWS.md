@@ -5,6 +5,8 @@
 * `mat` is now transformed to `matrix` automatically.
 
 ## New features
+* Added `get_collectri` wrapper to easily access the CollecTRI Gene Regulatory
+Network Network from `Omnipath`.
 * Added `get_ksn_omnipath` wrapper to easily access the Kinase-Substrate network
 from `Omnipath`.
 

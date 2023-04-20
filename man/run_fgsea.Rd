@@ -43,11 +43,7 @@ in \code{network} \code{.target} column.}
     \item{\code{minSize}}{Minimal size of a gene set to test. All pathways below the threshold are excluded.}
     \item{\code{maxSize}}{Maximal size of a gene set to test. All pathways above the threshold are excluded.}
     \item{\code{eps}}{This parameter sets the boundary for calculating the p value.}
-    \item{\code{scoreType}}{This parameter defines the GSEA score type.
-Possible options are ("std", "pos", "neg").
-By default ("std") the enrichment score is computed as in the original GSEA.
-The "pos" and "neg" score types are intended to be used for one-tailed tests
-(i.e. when one is interested only in positive ("pos") or negateive ("neg") enrichment).}
+    \item{\code{scoreType}}{This parameter defines the GSEA score type. Possible options are ("std", "pos", "neg")}
     \item{\code{gseaParam}}{GSEA parameter value, all gene-level statis are raised to the power of `gseaParam`
 before calculation of GSEA enrichment scores.}
     \item{\code{BPPARAM}}{Parallelization parameter used in bplapply.

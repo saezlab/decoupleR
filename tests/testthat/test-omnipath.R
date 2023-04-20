@@ -29,3 +29,10 @@ test_that("test get_dorothea mouse", {
   df <- get_dorothea(organism = 'mouse')
   testthat::expect_true(nrow(df) > 0)
 })
+
+test_that("test get_collectri", {
+  df <- get_collectri(split_complexes=FALSE)
+  testthat::expect_true(nrow(df) > 0)
+  df_split <- get_collectri(split_complexes=TRUE)
+  testthat::expect_true(nrow(df) < nrow(df_split))
+})

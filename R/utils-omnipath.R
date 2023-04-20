@@ -72,6 +72,56 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
   return(do)
 }
 
+#' CollecTRI gene regulatory network.
+#' Wrapper to access CollecTRI gene regulatory network. CollecTRI is a
+#' comprehensive resource containing a curated collection of transcription
+#' factors (TFs) and their target genes. It is an expansion of DoRothEA.
+#' Each interaction is weighted by its mode of regulation (either positive or negative).
+#' 
+#' @param organism Which organism to use. Only human and mouse are available.
+#' @param split_complexes Whether to split complexes into subunits. By default
+#' complexes are kept as they are.
+#'
+#' @export
+#' @examples
+#' collectri <- get_collectri(organism='human', split_complexes=FALSE)
+get_collectri <- function(organism='human', split_complexes=FALSE){
+
+  # Lead CollecTRI
+  collectri <- OmnipathR::collectri()
+  cols <- c('source_genesymbol', 'target_genesymbol', 'is_stimulation',
+            'is_inhibition')
+  
+  collectri_interactions <- collectri[!stringr::str_detect(collectri$source,
+                                                           "COMPLEX"), cols]
+  collectri_complex <- collectri[stringr::str_detect(collectri$source,
+                                                     "COMPLEX"), cols] 
+
+  if (!split_complexes){
+    collectri_complex <- collectri_complex %>%
+      dplyr::mutate(source_genesymbol = dplyr::case_when(
+        stringr::str_detect(source_genesymbol, "JUN") | 
+          stringr::str_detect(source_genesymbol, "FOS") ~ "AP1",
+        stringr::str_detect(source_genesymbol, "REL") | 
+          stringr::str_detect(source_genesymbol, "NFKB") ~ "NFKB")
+      )
+  }
+  
+  collectri <- base::rbind(collectri_interactions, collectri_complex) %>%
+    dplyr::distinct(.data$source_genesymbol, .data$target_genesymbol,
+                    .keep_all = TRUE) %>%
+    dplyr::mutate(weight = dplyr::case_when(
+      is_stimulation == 1 ~ 1,
+      is_stimulation == 0 ~ -1
+    )) %>%
+    dplyr::select(.data$source_genesymbol, .data$target_genesymbol,
+                  .data$weight) %>%
+    dplyr::rename("source" = .data$source_genesymbol,
+                  "target" = .data$target_genesymbol,
+                  "mor" = .data$weight,
+                  )
+  return(collectri)
+}
 
 #' Shows available resources in Omnipath. For more information visit the
 #' official website for [Omnipath](https://omnipathdb.org/).

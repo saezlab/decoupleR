@@ -4,6 +4,10 @@
 * `ulm` and `mlm` are now faster but consume more memory.
 * `mat` is now transformed to `matrix` automatically.
 
+## New features
+* Added `get_ksn_omnipath` wrapper to easily access the Kinase-Substrate network
+from `Omnipath`.
+
 # decouplerR 2.2.
 
 ## Changes

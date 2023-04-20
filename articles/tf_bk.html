@@ -218,20 +218,20 @@ available) and we will use the confidence levels ABC. We can use
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_dorothea.html">get_dorothea</a></span><span class="op">(</span>organism<span class="op">=</span><span class="st">'human'</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">net</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32,277 × 4</span></span></span>
-<span><span class="co">#&gt;    source confidence target     mor</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ADNP   C          ATF7IP   0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> ADNP   C          DYRK1A   0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> ADNP   C          TLK1     0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> ADNP   C          ZMYM4    0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> AHR    C          ARHGAP15 0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> AHR    C          ARID5B   0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> AHR    B          ASAP1    0.5  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> AHR    C          CREB5    0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> AHR    C          CTNNA1   0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> AHR    C          CTNNA2   0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 32,267 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32,275 × 4</span></span></span>
+<span><span class="co">#&gt;    source confidence target   mor</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> MYC    A          TERT       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> SMAD3  A          JUN        1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> SMAD4  A          JUN        1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> SP1    A          ALDOA      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> TP53   A          IGF1R     -<span style="color: #BB0000;">1</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> ZBTB16 A          CCNA2     -<span style="color: #BB0000;">1</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> RUNX1  A          IL3       -<span style="color: #BB0000;">1</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> STAT1  A          CDKN1A     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> STAT3  A          CDKN1A     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> RELA   A          ABCB1      1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 32,265 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="activity-inference-with-weighted-mean">Activity inference with Weighted Mean<a class="anchor" aria-label="anchor" href="#activity-inference-with-weighted-mean"></a>
@@ -266,11 +266,11 @@ use.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> corr_wmean AHR    PANC1.WT.Rep1       3.24     0.44</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> corr_wmean AHR    PANC1.WT.Rep2       0.697    0.84</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> corr_wmean AHR    PANC1.WT.Rep3       1.78     0.64</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> corr_wmean AR     PANC1.FOXA2KO.Rep1  6.29     0.2 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> corr_wmean AR     PANC1.FOXA2KO.Rep2  3.54     0.4 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> corr_wmean AR     PANC1.FOXA2KO.Rep3  4.41     0.32</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> corr_wmean AR     PANC1.WT.Rep1      15.5      0.02</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5,030 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> corr_wmean AR     PANC1.FOXA2KO.Rep1  5.22     0.26</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> corr_wmean AR     PANC1.FOXA2KO.Rep2  2.81     0.48</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> corr_wmean AR     PANC1.FOXA2KO.Rep3  2.98     0.46</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> corr_wmean AR     PANC1.WT.Rep1      15.4      0.02</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5,030 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
@@ -325,16 +325,16 @@ between KO and WT:</p>
 <span><span class="co">#&gt;    statistic  source condition   score p_value</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> corr_wmean AHR    t          0.016<span style="text-decoration: underline;">7</span>    0.7 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> corr_wmean AR     t         -<span style="color: #BB0000;">0.508</span>     0.02</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> corr_wmean AR     t         -<span style="color: #BB0000;">0.509</span>     0.02</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> corr_wmean ARID2  t          0.012<span style="text-decoration: underline;">9</span>    0.74</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> corr_wmean ARID3A t          0.415     0.18</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> corr_wmean ARNT   t          0.011<span style="text-decoration: underline;">7</span>    0.74</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> corr_wmean ARNTL  t          0.036<span style="text-decoration: underline;">9</span>    0.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> corr_wmean ASCL1  t          0.022<span style="text-decoration: underline;">2</span>    0.78</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> corr_wmean ATF1   t          0.056<span style="text-decoration: underline;">3</span>    0.52</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> corr_wmean ATF2   t          0.283     0.18</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> corr_wmean ATF3   t          0.026<span style="text-decoration: underline;">2</span>    0.74</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 830 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> corr_wmean ASCL1  t          0.022<span style="text-decoration: underline;">2</span>    0.78</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> corr_wmean ATF1   t          0.056<span style="text-decoration: underline;">3</span>    0.52</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> corr_wmean ATF2   t          0.022<span style="text-decoration: underline;">9</span>    0.56</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> corr_wmean ATF3   t          0.026<span style="text-decoration: underline;">2</span>    0.74</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> corr_wmean ATF4   t          0.415     0.08</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 830 more rows</span></span></span></code></pre></div>
 <p>We select the <code>norm_wmean</code> activities and then we show the
 changes in activity between KO and WT:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -413,21 +413,21 @@ the KO worked.</p>
 </h2>
 <pre><code><span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span></span>
-<span><span class="co">#&gt;  version  R version 4.2.2 (2022-10-31)</span></span>
-<span><span class="co">#&gt;  os       Ubuntu 22.04.1 LTS</span></span>
+<span><span class="co">#&gt;  version  R version 4.2.3 (2023-03-15)</span></span>
+<span><span class="co">#&gt;  os       Ubuntu 22.04.2 LTS</span></span>
 <span><span class="co">#&gt;  system   x86_64, linux-gnu</span></span>
 <span><span class="co">#&gt;  ui       X11</span></span>
 <span><span class="co">#&gt;  language en</span></span>
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       UTC</span></span>
-<span><span class="co">#&gt;  date     2023-03-07</span></span>
+<span><span class="co">#&gt;  date     2023-04-20</span></span>
 <span><span class="co">#&gt;  pandoc   2.19.2 @ /usr/local/bin/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">package     </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version</span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span></span>
 <span><span class="co">#&gt;  backports      1.4.1   <span style="color: #555555;">2021-12-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  BiocManager    1.30.20 <span style="color: #555555;">2023-02-24</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  BiocManager    1.30.20 <span style="color: #555555;">2023-02-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.3)</span></span></span>
 <span><span class="co">#&gt;  BiocStyle    * 2.26.0  <span style="color: #555555;">2022-11-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  bit            4.0.5   <span style="color: #555555;">2022-11-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  bit64          4.0.5   <span style="color: #555555;">2020-08-30</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
@@ -436,45 +436,44 @@ the KO worked.</p>
 <span><span class="co">#&gt;  cachem         1.0.7   <span style="color: #555555;">2023-02-24</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  cellranger     1.1.0   <span style="color: #555555;">2016-07-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  checkmate      2.1.0   <span style="color: #555555;">2022-04-21</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  cli            3.6.0   <span style="color: #555555;">2023-01-09</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  cli            3.6.1   <span style="color: #555555;">2023-03-23</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  colorspace     2.1-0   <span style="color: #555555;">2023-01-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  crayon         1.5.2   <span style="color: #555555;">2022-09-29</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  curl           5.0.0   <span style="color: #555555;">2023-01-12</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  decoupleR    * 2.3.3   <span style="color: #555555;">2023-03-07</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
+<span><span class="co">#&gt;  decoupleR    * 2.3.3   <span style="color: #555555;">2023-04-20</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  desc           1.4.2   <span style="color: #555555;">2022-09-08</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  digest         0.6.31  <span style="color: #555555;">2022-12-11</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  dplyr        * 1.1.0   <span style="color: #555555;">2023-01-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  ellipsis       0.3.2   <span style="color: #555555;">2021-04-29</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  dplyr        * 1.1.1   <span style="color: #555555;">2023-03-22</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  evaluate       0.20    <span style="color: #555555;">2023-01-17</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  fansi          1.0.4   <span style="color: #555555;">2023-01-22</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  farver         2.1.1   <span style="color: #555555;">2022-07-06</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
 <span><span class="co">#&gt;  fastmap        1.1.1   <span style="color: #555555;">2023-02-24</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  fs             1.6.1   <span style="color: #555555;">2023-02-06</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  generics       0.1.3   <span style="color: #555555;">2022-07-05</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  ggplot2      * 3.4.1   <span style="color: #555555;">2023-02-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  ggplot2      * 3.4.2   <span style="color: #555555;">2023-04-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  ggrepel      * 0.9.3   <span style="color: #555555;">2023-02-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  glue           1.6.2   <span style="color: #555555;">2022-02-24</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  gtable         0.3.1   <span style="color: #555555;">2022-09-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  gtable         0.3.3   <span style="color: #555555;">2023-03-21</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  highr          0.10    <span style="color: #555555;">2022-12-22</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  hms            1.1.2   <span style="color: #555555;">2022-08-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  htmltools      0.5.4   <span style="color: #555555;">2022-12-07</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  hms            1.1.3   <span style="color: #555555;">2023-03-21</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  htmltools      0.5.5   <span style="color: #555555;">2023-03-23</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  httr           1.4.5   <span style="color: #555555;">2023-02-24</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  igraph         1.4.1   <span style="color: #555555;">2023-02-24</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  igraph         1.4.2   <span style="color: #555555;">2023-04-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  jquerylib      0.1.4   <span style="color: #555555;">2021-04-26</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  jsonlite       1.8.4   <span style="color: #555555;">2022-12-06</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  knitr          1.42    <span style="color: #555555;">2023-01-25</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  labeling       0.4.2   <span style="color: #555555;">2020-10-20</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
 <span><span class="co">#&gt;  later          1.3.0   <span style="color: #555555;">2021-08-18</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  lattice        0.20-45 <span style="color: #555555;">2021-09-22</span> <span style="color: #555555;">[3]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  lattice        0.21-8  <span style="color: #555555;">2023-04-05</span> <span style="color: #555555;">[3]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  lifecycle      1.0.3   <span style="color: #555555;">2022-10-07</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  logger         0.2.2   <span style="color: #555555;">2021-10-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  magrittr       2.0.3   <span style="color: #555555;">2022-03-30</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  Matrix         1.5-3   <span style="color: #555555;">2022-11-11</span> <span style="color: #555555;">[3]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  Matrix         1.5-4   <span style="color: #555555;">2023-04-04</span> <span style="color: #555555;">[3]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  memoise        2.0.1   <span style="color: #555555;">2021-11-26</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  munsell        0.5.0   <span style="color: #555555;">2018-06-12</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
-<span><span class="co">#&gt;  OmnipathR      3.7.2   <span style="color: #555555;">2023-03-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">Github (saezlab/OmnipathR@c5f63b4)</span></span></span>
+<span><span class="co">#&gt;  OmnipathR      3.7.19  <span style="color: #555555;">2023-04-20</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">Github (saezlab/OmnipathR@6782812)</span></span></span>
 <span><span class="co">#&gt;  pheatmap     * 1.0.12  <span style="color: #555555;">2019-01-04</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
-<span><span class="co">#&gt;  pillar         1.8.1   <span style="color: #555555;">2022-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  pillar         1.9.0   <span style="color: #555555;">2023-03-22</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  pkgconfig      2.0.3   <span style="color: #555555;">2019-09-22</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  pkgdown        2.0.7   <span style="color: #555555;">2022-12-14</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  prettyunits    1.1.1   <span style="color: #555555;">2020-01-24</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
@@ -487,8 +486,8 @@ the KO worked.</p>
 <span><span class="co">#&gt;  Rcpp           1.0.10  <span style="color: #555555;">2023-01-22</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  readr          2.1.4   <span style="color: #555555;">2023-02-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  readxl         1.4.2   <span style="color: #555555;">2023-02-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  rlang          1.0.6   <span style="color: #555555;">2022-09-24</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  rmarkdown      2.20    <span style="color: #555555;">2023-01-19</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  rlang          1.1.0   <span style="color: #555555;">2023-03-14</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  rmarkdown      2.21    <span style="color: #555555;">2023-03-26</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  rprojroot      2.0.3   <span style="color: #555555;">2022-04-02</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  rvest          1.0.3   <span style="color: #555555;">2022-08-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  sass           0.4.5   <span style="color: #555555;">2023-01-24</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
@@ -498,15 +497,15 @@ the KO worked.</p>
 <span><span class="co">#&gt;  stringr        1.5.0   <span style="color: #555555;">2022-12-02</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  systemfonts    1.0.4   <span style="color: #555555;">2022-02-11</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  textshaping    0.3.6   <span style="color: #555555;">2021-10-13</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  tibble       * 3.1.8   <span style="color: #555555;">2022-07-22</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  tibble       * 3.2.1   <span style="color: #555555;">2023-03-20</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  tidyr        * 1.3.0   <span style="color: #555555;">2023-01-24</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  tidyselect     1.2.0   <span style="color: #555555;">2022-10-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  tzdb           0.3.0   <span style="color: #555555;">2022-03-28</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  utf8           1.2.3   <span style="color: #555555;">2023-01-31</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  vctrs          0.5.2   <span style="color: #555555;">2023-01-23</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  vctrs          0.6.1   <span style="color: #555555;">2023-03-22</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  vroom          1.6.1   <span style="color: #555555;">2023-01-22</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  withr          2.5.0   <span style="color: #555555;">2022-03-03</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  xfun           0.37    <span style="color: #555555;">2023-01-31</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  xfun           0.38    <span style="color: #555555;">2023-03-24</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  xml2           1.3.3   <span style="color: #555555;">2021-11-30</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  yaml           2.3.7   <span style="color: #555555;">2023-01-23</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt; </span></span>

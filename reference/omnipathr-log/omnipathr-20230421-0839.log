@@ -1,0 +1,34 @@
+[2023-04-21 08:39:09] [INFO]    [OmnipathR] Welcome to OmnipathR!
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] Reading JSON from `/github/home/.cache/OmnipathR/cache.json` (encoding: UTF-8).
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] JSON validation successful: TRUE
+[2023-04-21 08:39:09] [INFO]    [OmnipathR] Initialized cache: `/github/home/.cache/OmnipathR`.
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] Reading JSON from `/__w/_temp/Library/OmnipathR/db/db_def.json` (encoding: UTF-8).
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] JSON validation successful: TRUE
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] Reading JSON from `/__w/_temp/Library/OmnipathR/internal/magic_bytes.json` (encoding: UTF-8).
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] JSON validation successful: TRUE
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] Reading JSON from `/__w/_temp/Library/OmnipathR/internal/urls.json` (encoding: UTF-8).
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] JSON validation successful: TRUE
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] Reading JSON from `/__w/_temp/Library/OmnipathR/internal/id_types.json` (encoding: UTF-8).
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] JSON validation successful: TRUE
+[2023-04-21 08:39:09] [TRACE]   [OmnipathR] Loaded data from RDS `/github/home/.cache/OmnipathR/485498a0b8637e8a936f7efbf1fcc7b742d7867a-1.rds`.
+[2023-04-21 08:39:09] [INFO]    [OmnipathR] Loaded from cache: `https://omnipathdb.org/interactions?genesymbols=yes&datasets=collectri&organisms=9606&dorothea_levels=A,B&fields=sources,references,curation_effort&license=academic`
+[2023-04-21 08:39:11] [SUCCESS] [OmnipathR] Loaded 68297 interactions from cache.
+[2023-04-21 08:39:12] [TRACE]   [OmnipathR] Loaded data from RDS `/github/home/.cache/OmnipathR/46d37339bbc3f9a05bb89ccb79278cf1233f5cdf-1.rds`.
+[2023-04-21 08:39:12] [INFO]    [OmnipathR] Loaded from cache: `https://omnipathdb.org/interactions?genesymbols=yes&datasets=dorothea&organisms=9606&dorothea_levels=A,B,C,D&fields=sources,references,curation_effort,dorothea_level&license=academic`
+[2023-04-21 08:39:19] [SUCCESS] [OmnipathR] Loaded 278830 interactions from cache.
+[2023-04-21 08:39:29] [TRACE]   [OmnipathR] Reading JSON from `https://omnipathdb.org/resources` (encoding: UTF-8).
+[2023-04-21 08:39:29] [TRACE]   [OmnipathR] JSON validation successful: TRUE
+[2023-04-21 08:39:29] [TRACE]   [OmnipathR] Reading JSON from `https://omnipathdb.org/resources` (encoding: UTF-8).
+[2023-04-21 08:39:29] [TRACE]   [OmnipathR] JSON validation successful: TRUE
+[2023-04-21 08:39:31] [TRACE]   [OmnipathR] Loaded data from RDS `/github/home/.cache/OmnipathR/3492392585ba05414edfae46801492076437d7e7-1.rds`.
+[2023-04-21 08:39:31] [INFO]    [OmnipathR] Loaded from cache: `https://omnipathdb.org/annotations?resources=PROGENy&license=academic`
+[2023-04-21 08:39:31] [SUCCESS] [OmnipathR] Loaded 700239 annotation records from cache.
+[2023-04-21 08:39:33] [TRACE]   [OmnipathR] Reading JSON from `https://omnipathdb.org/resources` (encoding: UTF-8).
+[2023-04-21 08:39:33] [TRACE]   [OmnipathR] JSON validation successful: TRUE
+[2023-04-21 08:39:33] [TRACE]   [OmnipathR] Reading JSON from `https://omnipathdb.org/resources` (encoding: UTF-8).
+[2023-04-21 08:39:33] [TRACE]   [OmnipathR] JSON validation successful: TRUE
+[2023-04-21 08:39:33] [TRACE]   [OmnipathR] Loaded data from RDS `/github/home/.cache/OmnipathR/5d7471d810dce83117cd972d7cef5e5400db8f76-1.rds`.
+[2023-04-21 08:39:33] [INFO]    [OmnipathR] Loaded from cache: `https://omnipathdb.org/annotations?resources=SIGNOR&license=academic`
+[2023-04-21 08:39:33] [SUCCESS] [OmnipathR] Loaded 2948 annotation records from cache.
+[2023-04-21 08:39:54] [TRACE]   [OmnipathR] Reading JSON from `https://omnipathdb.org/resources` (encoding: UTF-8).
+[2023-04-21 08:39:54] [TRACE]   [OmnipathR] JSON validation successful: TRUE

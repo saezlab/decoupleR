@@ -67,21 +67,23 @@ We can observe that we have different cell types:
 DimPlot(data, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
 ```
 
-# DoRothEA network
-[DoRothEA](https://saezlab.github.io/dorothea/) is a comprehensive resource
-containing a curated collection of TFs and their transcriptional targets. Since
-these regulons were gathered from different types of evidence, interactions in
-DoRothEA are classified in different confidence levels, ranging from A (highest
-confidence) to D (lowest confidence). Moreover, each interaction is weighted by
-its confidence level and the sign of its mode of regulation (activation or
-inhibition).
+# CollecTRI network
+[CollecTRI](https://github.com/saezlab/CollecTRI) is a comprehensive resource
+containing a curated collection of TFs and their transcriptional targets
+compiled from 12 different resources. This collection provides an increased
+coverage of transcription factors and a superior performance in identifying
+perturbed TFs compared to our previous
+[DoRothEA](https://saezlab.github.io/dorothea/) network and other literature
+based GRNs. Similar to DoRothEA, interactions are weighted by their mode of
+regulation (activation or inhibition).
 
-For this example we will use the human version (mouse is also available) and we
-will use the confidence levels ABC. We can use `decoupleR` to retrieve it from
-`OmniPath`:
+For this example we will use the human version (mouse and rat are also
+available). We can use `decoupleR` to retrieve it from `OmniPath`. The argument
+`split_complexes` keeps complexes or splits them into subunits, by default we
+recommend to keep complexes together.
 
-```{r "dorothea", message=FALSE}
-net <- get_dorothea(organism='human', levels=c('A', 'B', 'C'))
+```{r "collectri"}
+net <- get_collectri(organism='human', split_complexes=FALSE)
 net
 ```
 
@@ -191,8 +193,8 @@ my_breaks <- c(seq(-3, 0, length.out=ceiling(palette_length/2) + 1),
 pheatmap(top_acts_mat, border_color = NA, color=my_color, breaks = my_breaks) 
 ```
 
-Here we can observe other known marker TFs appearing, PAX5 for B cells
-RFX5 for the myeloid lineage and JUND for the lymphoid.
+Here we can observe other known marker TFs appearing, EBF1 for B cells
+RFX5 for the myeloid lineage and EOMES for the lymphoid.
 
 # Session information
 

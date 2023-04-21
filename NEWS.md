@@ -1,5 +1,5 @@
-# decouplerR 2.3.
- 
+# decoupleR 2.3.x
+
 ## Changes
 * `ulm` and `mlm` are now faster but consume more memory.
 * `mat` is now transformed to `matrix` automatically.
@@ -10,34 +10,32 @@ Network Network from `Omnipath`.
 * Added `get_ksn_omnipath` wrapper to easily access the Kinase-Substrate network
 from `Omnipath`.
 
-# decouplerR 2.2.
+# decoupleR 2.2.x
 
 ## Changes
 * Changed example `mat` and `net` to toy examples.
-
 * Changed test data to toy data.
 
 ## Bugfixes
 * `ora` now selects correctly the top and bottom genes for p-value estimation.
-
 * `wmean` and `wsum` now handle named matrices with only one sample.
 
-# decoupleR 2.1.
+# decoupleR 2.1.x
 
 ## Changes
-* `likelihood` param is deprecated, from now on, weights (positive or negative) 
-  should go to the `mor` column of `network`. Methods will still run if 
+* `likelihood` param is deprecated, from now on, weights (positive or negative)
+  should go to the `mor` column of `network`. Methods will still run if
   `likelihood` is specified, however they will be set to 1.
 
-* Added `minsize` argument to all methods, set to 5 by default. Sources 
-containing less than this value of targets in the input mat will be removed 
+* Added `minsize` argument to all methods, set to 5 by default. Sources
+containing less than this value of targets in the input mat will be removed
 from the  calculations.
 
-* Changed default behavior of the `decouple` function. Now if no methods are 
-specified in the `statistics` argument, the function will only run the top 
+* Changed default behavior of the `decouple` function. Now if no methods are
+specified in the `statistics` argument, the function will only run the top
 performers in our benchmark (`mlm`, `ulm` and `wsum`). To run all methods like
-before, set `statistics` to 'all'. Moreover, the argument `consensus_stats` has 
-been added to filter statistics for the calculation of the `consensus` score. 
+before, set `statistics` to 'all'. Moreover, the argument `consensus_stats` has
+been added to filter statistics for the calculation of the `consensus` score.
 By default it only uses `mlm`, `ulm` and `norm_wsum`, or if `statistics`=='all'
 all methods returned after running `decouple`.
 
@@ -45,25 +43,25 @@ all methods returned after running `decouple`.
     * Now properly handles weights in `mor` by normalizing them to -1 and +1.
 
 * `ulm`/`mlm`/`udt`/`mdt` methods:
-    * Changed how they processed the input network. Before the model 
-    matrix only contained the intersection of features between mat and 
-    network's targets, now it incorporates all features coming from mat 
-    ensuring a more robust prediction. Prediction values may change slightly 
-    from older versions. 
-    * Deprecated `sparse` argument. 
-    
+    * Changed how they processed the input network. Before the model
+    matrix only contained the intersection of features between mat and
+    network's targets, now it incorporates all features coming from mat
+    ensuring a more robust prediction. Prediction values may change slightly
+    from older versions.
+    * Deprecated `sparse` argument.
+
 * `ora` method:
-    * Now takes top 5% features as default input instead of 300 up and bottom 
+    * Now takes top 5% features as default input instead of 300 up and bottom
     features.
     * Added seed to randomly break ties
-    
-* `consensus` method: 
+
+* `consensus` method:
     * No longer based on `RobustRankAggreg`. Now the consensus score is the mean of the
     activities obtained after a double tailed z-score transformation.
 
 * Discarded `filter_regulons` function.
 
-* Moved major dependencies to Suggest to reduce the number of dependencies 
+* Moved major dependencies to Suggest to reduce the number of dependencies
 needed.
 
 * Updated README by adding:
@@ -71,56 +69,56 @@ needed.
     * Graphical abstract
     * Manuscript and citation
     * New vignette style
-    
+
 * Updated documentation for all methods.
 
 ## New features
-* Added wrappers to easily query `Omnipath`, one of the largest data-bases 
+* Added wrappers to easily query `Omnipath`, one of the largest data-bases
 collecting prior-knowledge resources. Added these functions:
     * `show_resources`: shows available resources inside `Omnipath`.
     * `get_resource`: gets any resource from `Omnipath`.
-    * `get_dorothea`: gets the DoRothEA gene regulatory network for 
-    transcription factor (TF) activity estimation. Note: this version is 
-    slightly different from the one in the package `dorothea` since it contains 
+    * `get_dorothea`: gets the DoRothEA gene regulatory network for
+    transcription factor (TF) activity estimation. Note: this version is
+    slightly different from the one in the package `dorothea` since it contains
     new edges and TFs and also weights the interactions by confidence levels.
     * `get_progeny`: gets the PROGENy model for pathway activity estimation.
 
-* Added `show_methods` function, it shows how many statistics are currently 
+* Added `show_methods` function, it shows how many statistics are currently
 available.
 
-* Added `check_corr` function, it shows how correlated regulators in a network 
-are. It can be used to check for co-linearity for `mlm` and `mdt`. 
+* Added `check_corr` function, it shows how correlated regulators in a network
+are. It can be used to check for co-linearity for `mlm` and `mdt`.
 
-* Added new error for `mlm` when co-variables are co-linear (regulators are too 
+* Added new error for `mlm` when co-variables are co-linear (regulators are too
 correlated to fit a model).
 
 ## Bugfixes
 * `wmean` and `wsum` now return the correct empirical p-values.
 
-* `ulm`, `mlm`, `mdt` and `udt` now accept matrices with one column as input. 
+* `ulm`, `mlm`, `mdt` and `udt` now accept matrices with one column as input.
 
 * Results from `ulm` and `mlm` now correctly return un-grouped.
 
 * Methods correctly run when `mat` has no column names.
 
-# decoupleR 2.0
+# decoupleR 2.0.x
 
 ## Changes
 * Some method's names have been changed to make them easier to identify:
   * `pscira` now is called Weighted Sum (`wsum`).
   * `mean` now is called Weighted Mean (`wmean`).
   * `scira` now is called Univariate Linear Model (`ulm`).
-  
+
 * The column name for `tf` in the output tibbles has been changed to `source`.
 
 * Updated documentation for all methods.
 
 * Updated vignette and README.
 
-* `decouple` function now accepts order mismatch between the list of methods and 
+* `decouple` function now accepts order mismatch between the list of methods and
 the list of methods's arguments.
 
-* Moved benchmark branch to a separate repository as its own package: 
+* Moved benchmark branch to a separate repository as its own package:
 https://github.com/saezlab/decoupleRBench
 
 ## New features
@@ -137,17 +135,17 @@ https://github.com/saezlab/decoupleRBench
 * New `consensus` score based on `RobustRankAggreg::aggregateRanks()` added when
 running `decouple` with multiple methods.
 
-* New statistic `corr_wmean` inside `wmean`. 
+* New statistic `corr_wmean` inside `wmean`.
 
-* Methods based on permutations or statistical tests now return also a p-value 
-for the obtained score (`fgsea`, `mlm`, `ora`, `ulm`, `viper`, `wmean` and 
+* Methods based on permutations or statistical tests now return also a p-value
+for the obtained score (`fgsea`, `mlm`, `ora`, `ulm`, `viper`, `wmean` and
 `wsum`).
 
 * New error added when network edges are duplicated.
 
-* New error added when the input matrix contains NAs or Infs. 
+* New error added when the input matrix contains NAs or Infs.
 
-# decoupleR 1.1
+# decoupleR 1.1.x
 
 ## New features
 
@@ -159,7 +157,7 @@ columns to use as strings, integer position, symbol or expression.
 
 * New `decouple()` integrates the various member functions of the
   `decoupleR statistics` for centralized evaluation.
-  
+
 * New family `decoupleR statists` for shared documentation is made up of:
   * New `run_gsva()` incorporate a convinient wrapper for [GSVA::gsva()](https://rdrr.io/bioc/GSVA/man/gsva.html).
   * New `run_mean()` calculates both the unnormalized regulatory activity

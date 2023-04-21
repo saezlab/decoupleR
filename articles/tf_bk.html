@@ -202,36 +202,39 @@ extracting the obtained t-value and p-value from the contrast:</p>
 <span><span class="co">#&gt; RBP4    -1.728960  -8.529074 4.904579e-05</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="dorothea-network">DoRothEA network<a class="anchor" aria-label="anchor" href="#dorothea-network"></a>
+<h2 id="collectri-network">CollecTRI network<a class="anchor" aria-label="anchor" href="#collectri-network"></a>
 </h2>
-<p><a href="https://saezlab.github.io/dorothea/" class="external-link">DoRothEA</a> is a
+<p><a href="https://github.com/saezlab/CollecTRI" class="external-link">CollecTRI</a> is a
 comprehensive resource containing a curated collection of TFs and their
-transcriptional targets. Since these regulons were gathered from
-different types of evidence, interactions in DoRothEA are classified in
-different confidence levels, ranging from A (highest confidence) to D
-(lowest confidence). Moreover, each interaction is weighted by its
-confidence level and the sign of its mode of regulation (activation or
+transcriptional targets compiled from 12 different resources. This
+collection provides an increased coverage of transcription factors and a
+superior performance in identifying perturbed TFs compared to our
+previous <a href="https://saezlab.github.io/dorothea/" class="external-link">DoRothEA</a>
+network and other literature based GRNs. Similar to DoRothEA,
+interactions are weighted by their mode of regulation (activation or
 inhibition).</p>
-<p>For this example we will use the human version (mouse is also
-available) and we will use the confidence levels ABC. We can use
-<code>decoupleR</code> to retrieve it from <code>OmniPath</code>:</p>
+<p>For this example we will use the human version (mouse and rat are
+also available). We can use <code>decoupleR</code> to retrieve it from
+<code>OmniPath</code>. The argument <code>split_complexes</code> keeps
+complexes or splits them into subunits, by default we recommend to keep
+complexes together.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_dorothea.html">get_dorothea</a></span><span class="op">(</span>organism<span class="op">=</span><span class="st">'human'</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_collectri.html">get_collectri</a></span><span class="op">(</span>organism<span class="op">=</span><span class="st">'human'</span>, split_complexes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">net</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32,275 × 4</span></span></span>
-<span><span class="co">#&gt;    source confidence target   mor</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> MYC    A          TERT       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> SMAD3  A          JUN        1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> SMAD4  A          JUN        1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> SP1    A          ALDOA      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> TP53   A          IGF1R     -<span style="color: #BB0000;">1</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> ZBTB16 A          CCNA2     -<span style="color: #BB0000;">1</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> RUNX1  A          IL3       -<span style="color: #BB0000;">1</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> STAT1  A          CDKN1A     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> STAT3  A          CDKN1A     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> RELA   A          ABCB1      1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 32,265 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 45,398 × 3</span></span></span>
+<span><span class="co">#&gt;    source target   mor</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> MYC    TERT       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> SPI1   BGLAP      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> SMAD3  ADAM2      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> SMAD3  JUN        1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> SMAD4  ADAM2      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> SMAD4  JUN        1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> STAT5A IL2        1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> STAT5B IL2        1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> RELA   FAS        1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> WT1    NR0B1      1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 45,388 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="activity-inference-with-weighted-mean">Activity inference with Weighted Mean<a class="anchor" aria-label="anchor" href="#activity-inference-with-weighted-mean"></a>
@@ -257,20 +260,20 @@ use.</p>
 <span><span class="va">sample_acts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_wmean.html">run_wmean</a></span><span class="op">(</span>mat<span class="op">=</span><span class="va">counts</span>, net<span class="op">=</span><span class="va">net</span>, .source<span class="op">=</span><span class="st">'source'</span>, .target<span class="op">=</span><span class="st">'target'</span>,</span>
 <span>                  .mor<span class="op">=</span><span class="st">'mor'</span>, times <span class="op">=</span> <span class="fl">100</span>, minsize <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">sample_acts</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,040 × 5</span></span></span>
-<span><span class="co">#&gt;    statistic  source condition           score p_value</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> corr_wmean AHR    PANC1.FOXA2KO.Rep1  1.90     0.62</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> corr_wmean AHR    PANC1.FOXA2KO.Rep2  2.25     0.58</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> corr_wmean AHR    PANC1.FOXA2KO.Rep3  2.59     0.52</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> corr_wmean AHR    PANC1.WT.Rep1       3.24     0.44</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> corr_wmean AHR    PANC1.WT.Rep2       0.697    0.84</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> corr_wmean AHR    PANC1.WT.Rep3       1.78     0.64</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> corr_wmean AR     PANC1.FOXA2KO.Rep1  5.22     0.26</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> corr_wmean AR     PANC1.FOXA2KO.Rep2  2.81     0.48</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> corr_wmean AR     PANC1.FOXA2KO.Rep3  2.98     0.46</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> corr_wmean AR     PANC1.WT.Rep1      15.4      0.02</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5,030 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10,512 × 5</span></span></span>
+<span><span class="co">#&gt;    statistic  source condition          score p_value</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> corr_wmean ABL1   PANC1.FOXA2KO.Rep1 1.08     0.7 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> corr_wmean ABL1   PANC1.FOXA2KO.Rep2 0.399    0.88</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> corr_wmean ABL1   PANC1.FOXA2KO.Rep3 0.415    0.88</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> corr_wmean ABL1   PANC1.WT.Rep1      0        1   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> corr_wmean ABL1   PANC1.WT.Rep2      0.601    0.82</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> corr_wmean ABL1   PANC1.WT.Rep3      1.33     0.64</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> corr_wmean AHR    PANC1.FOXA2KO.Rep1 0.962    0.76</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> corr_wmean AHR    PANC1.FOXA2KO.Rep2 4.27     0.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> corr_wmean AHR    PANC1.FOXA2KO.Rep3 4.52     0.28</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> corr_wmean AHR    PANC1.WT.Rep1      0.960    0.76</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 10,502 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
@@ -311,9 +314,6 @@ samples in a heat-map:</p>
 <span><span class="co"># Plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">sample_acts_mat</span>, border_color <span class="op">=</span> <span class="cn">NA</span>, color<span class="op">=</span><span class="va">my_color</span>, breaks <span class="op">=</span> <span class="va">my_breaks</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="tf_bk_files/figure-html/heatmap-1.png" width="700"></p>
-<p>We can observe that WT samples have higher activities for PDX1 and
-SIX2 than KO. On the other hand, KO show higher activities for LYL1 and
-ZNF263.</p>
 <p>We can also infer pathway activities from the t-values of the DEGs
 between KO and WT:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -321,20 +321,20 @@ between KO and WT:</p>
 <span><span class="va">contrast_acts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_wmean.html">run_wmean</a></span><span class="op">(</span>mat<span class="op">=</span><span class="va">deg</span><span class="op">[</span>, <span class="st">'t'</span>, drop<span class="op">=</span><span class="cn">FALSE</span><span class="op">]</span>, net<span class="op">=</span><span class="va">net</span>, .source<span class="op">=</span><span class="st">'source'</span>, .target<span class="op">=</span><span class="st">'target'</span>,</span>
 <span>                  .mor<span class="op">=</span><span class="st">'mor'</span>, times <span class="op">=</span> <span class="fl">100</span>, minsize <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">contrast_acts</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 840 × 5</span></span></span>
-<span><span class="co">#&gt;    statistic  source condition   score p_value</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> corr_wmean AHR    t          0.016<span style="text-decoration: underline;">7</span>    0.7 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> corr_wmean AR     t         -<span style="color: #BB0000;">0.509</span>     0.02</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> corr_wmean ARID2  t          0.012<span style="text-decoration: underline;">9</span>    0.74</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> corr_wmean ARID3A t          0.415     0.18</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> corr_wmean ARNT   t          0.011<span style="text-decoration: underline;">7</span>    0.74</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> corr_wmean ASCL1  t          0.022<span style="text-decoration: underline;">2</span>    0.78</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> corr_wmean ATF1   t          0.056<span style="text-decoration: underline;">3</span>    0.52</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> corr_wmean ATF2   t          0.022<span style="text-decoration: underline;">9</span>    0.56</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> corr_wmean ATF3   t          0.026<span style="text-decoration: underline;">2</span>    0.74</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> corr_wmean ATF4   t          0.415     0.08</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 830 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,752 × 5</span></span></span>
+<span><span class="co">#&gt;    statistic  source condition    score p_value</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> corr_wmean ABL1   t          0.133      0.54</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> corr_wmean AHR    t          0.016<span style="text-decoration: underline;">2</span>     0.74</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> corr_wmean AIRE   t         -<span style="color: #BB0000;">0.046</span><span style="color: #BB0000; text-decoration: underline;">9</span>     0.24</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> corr_wmean AP1    t          0.246      0.04</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> corr_wmean APEX1  t          0.009<span style="text-decoration: underline;">19</span>    0.9 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> corr_wmean AR     t          0.007<span style="text-decoration: underline;">40</span>    0.32</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> corr_wmean ARID1A t         -<span style="color: #BB0000;">0.044</span><span style="color: #BB0000; text-decoration: underline;">2</span>     0.46</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> corr_wmean ARID3A t          1.04       0.1 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> corr_wmean ARID3B t          0.310      0.36</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> corr_wmean ARID4A t         -<span style="color: #BB0000;">0.057</span><span style="color: #BB0000; text-decoration: underline;">0</span>     0.48</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,742 more rows</span></span></span></code></pre></div>
 <p>We select the <code>norm_wmean</code> activities and then we show the
 changes in activity between KO and WT:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -368,8 +368,8 @@ changes in activity between KO and WT:</p>
 <span>        panel.grid.minor <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Pathways"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tf_bk_files/figure-html/barplot-1.png" width="700"></p>
-<p>As observed before, the pathways PDX1 and SIX2 are deactivated in KO
-when compared to WT, while LYL1 and ZNF263 seem to be activated.</p>
+<p>The TFs HLF and IRX1 are deactivated in KO when compared to WT, while
+FOSL1 and MYC seem to be activated.</p>
 <p>We can further visualize the most differential target genes in each
 TF along their p-values to interpret the results. For example, let’s see
 the genes that are belong to FOXA2:</p>

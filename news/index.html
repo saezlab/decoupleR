@@ -75,7 +75,37 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="2.1" id="decoupler-21">decoupleR 2.1.<a class="anchor" aria-label="anchor" href="#decoupler-21"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.3" id="decoupler-23x">decoupleR 2.3.x<a class="anchor" aria-label="anchor" href="#decoupler-23x"></a></h2>
+<div class="section level3">
+<h3 id="changes-2-3">Changes<a class="anchor" aria-label="anchor" href="#changes-2-3"></a></h3>
+<ul><li>
+<code>ulm</code> and <code>mlm</code> are now faster but consume more memory.</li>
+<li>
+<code>mat</code> is now transformed to <code>matrix</code> automatically.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-2-3">New features<a class="anchor" aria-label="anchor" href="#new-features-2-3"></a></h3>
+<ul><li>Added <code>get_collectri</code> wrapper to easily access the CollecTRI Gene Regulatory Network Network from <code>Omnipath</code>.</li>
+<li>Added <code>get_ksn_omnipath</code> wrapper to easily access the Kinase-Substrate network from <code>Omnipath</code>.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.2" id="decoupler-22x">decoupleR 2.2.x<a class="anchor" aria-label="anchor" href="#decoupler-22x"></a></h2>
+<div class="section level3">
+<h3 id="changes-2-2">Changes<a class="anchor" aria-label="anchor" href="#changes-2-2"></a></h3>
+<ul><li>Changed example <code>mat</code> and <code>net</code> to toy examples.</li>
+<li>Changed test data to toy data.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bugfixes-2-2">Bugfixes<a class="anchor" aria-label="anchor" href="#bugfixes-2-2"></a></h3>
+<ul><li>
+<code>ora</code> now selects correctly the top and bottom genes for p-value estimation.</li>
+<li>
+<code>wmean</code> and <code>wsum</code> now handle named matrices with only one sample.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.1" id="decoupler-21x">decoupleR 2.1.x<a class="anchor" aria-label="anchor" href="#decoupler-21x"></a></h2>
 <div class="section level3">
 <h3 id="changes-2-1">Changes<a class="anchor" aria-label="anchor" href="#changes-2-1"></a></h3>
 <ul><li><p><code>likelihood</code> param is deprecated, from now on, weights (positive or negative) should go to the <code>mor</code> column of <code>network</code>. Methods will still run if <code>likelihood</code> is specified, however they will be set to 1.</p></li>
@@ -136,7 +166,7 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="2.0" id="decoupler-20">decoupleR 2.0<a class="anchor" aria-label="anchor" href="#decoupler-20"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.0" id="decoupler-20x">decoupleR 2.0.x<a class="anchor" aria-label="anchor" href="#decoupler-20x"></a></h2>
 <div class="section level3">
 <h3 id="changes-2-0">Changes<a class="anchor" aria-label="anchor" href="#changes-2-0"></a></h3>
 <ul><li>
@@ -174,7 +204,7 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1" id="decoupler-11">decoupleR 1.1<a class="anchor" aria-label="anchor" href="#decoupler-11"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1" id="decoupler-11x">decoupleR 1.1.x<a class="anchor" aria-label="anchor" href="#decoupler-11x"></a></h2>
 <div class="section level3">
 <h3 id="new-features-1-1">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1"></a></h3>
 <p>All new features allow for <strong>tidy selection</strong>. Making it easier to evaluate different types of data for the same method. For instance, you can specify the columns to use as strings, integer position, symbol or expression.</p>

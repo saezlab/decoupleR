@@ -1,7 +1,7 @@
 Type: Package
 Package: decoupleR
 Title: decoupleR: Ensemble of computational methods to infer biological activities from omics data
-Version: 2.5.0
+Version: 2.4.1
 Authors@R: 
     c(person(given = "Pau",
              family = "Badia-i-Mompel",

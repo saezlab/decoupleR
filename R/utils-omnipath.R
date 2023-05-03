@@ -86,9 +86,24 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
 #' @examples
 #' collectri <- get_collectri(organism='human', split_complexes=FALSE)
 get_collectri <- function(organism='human', split_complexes=FALSE){
+  
+  # Process organism
+  organism <- tolower(organism)
+  if (!organism %in% c('human','mouse')){
+    stop("organism can only be human or mouse.")
+  }
+  if(organism=='human'){
+    organism <- 9606
+  } else {
+    organism <- 10090
+  }
 
-  # Lead CollecTRI
-  collectri <- OmnipathR::collectri()
+  # Load CollecTRI
+  collectri <- OmnipathR::collectri(organism = organism)
+  if (organism != 9606){
+    message('Note: Complexes can currently not be translated and will be removed')
+  }
+  
   cols <- c('source_genesymbol', 'target_genesymbol', 'is_stimulation',
             'is_inhibition')
   

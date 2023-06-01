@@ -14,40 +14,31 @@
 #' weights close to zero.
 #'
 #' @export
+#' @importFrom magrittr %<>%
 #' @examples
 #' dorothea <- get_dorothea(organism='human', levels=c('A', 'B', 'C'))
 get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
                          weight_dict = list('A'= 1, 'B'= 2, 'C'= 3, 'D'= 4)){
 
-  # Process organism
-  organism <- tolower(organism)
-  if (!organism %in% c('human','mouse')){
-    stop("organism can only be human or mouse.")
-  }
-  if(organism=='human'){
-    organism <- 9606
-  } else {
-    organism <- 10090
-  }
 
+  organism %<>% check_organism
   # Get Dorothea
-  do <- OmnipathR::dorothea(organism = organism,
-                                                dorothea_levels = c('A','B','C','D'),
-                                                genesymbols=T) %>%
-
+  do <-
+    OmnipathR::dorothea(
+      organism = organism,
+      dorothea_levels = c('A','B','C','D'),
+      genesymbols=TRUE
+    ) %>%
     # Filter columns
     dplyr::select('source_genesymbol', 'target_genesymbol', 'is_stimulation', 'is_inhibition',
                   'consensus_direction', 'consensus_stimulation', 'consensus_inhibition',
                   'dorothea_level') %>%
-
     # Remove duplicates
     dplyr::distinct(.data$source_genesymbol, .data$dorothea_level, .data$target_genesymbol, .keep_all = TRUE) %>%
-
     # Get bets confidence if more than one
     dplyr::mutate(dorothea_level=unlist(map(.data$dorothea_level, function(lvl){
       stringr::str_split(lvl, ';')[[1]][[1]]
     }))) %>%
-
     # Define mor
     mutate(
       mor=ifelse(
@@ -56,15 +47,12 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
         ifelse(.data$is_stimulation, 1,ifelse(.data$is_inhibition, -1, 1))
       )
     ) %>%
-
     # Weight mor by confidence
     mutate(mor=.data$mor / unlist(map(.data$dorothea_level, function(lvl){weight_dict[[lvl]]}))) %>%
-
     # Filter columns
-    dplyr::select('source_genesymbol', 'dorothea_level', 'target_genesymbol', 'mor')
-
-  # Rename
-  colnames(do) <- c('source', 'confidence', 'target', 'mor')
+    dplyr::select('source_genesymbol', 'dorothea_level', 'target_genesymbol', 'mor') %>%
+    # Rename
+    rlang::set_names(c('source', 'confidence', 'target', 'mor'))
 
   # Filter by levels
   do <- do %>% dplyr::filter(.data$confidence %in% levels)
@@ -77,7 +65,7 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
 #' comprehensive resource containing a curated collection of transcription
 #' factors (TFs) and their target genes. It is an expansion of DoRothEA.
 #' Each interaction is weighted by its mode of regulation (either positive or negative).
-#' 
+#'
 #' @param organism Which organism to use. Only human and mouse are available.
 #' @param split_complexes Whether to split complexes into subunits. By default
 #' complexes are kept as they are.
@@ -86,42 +74,32 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
 #' @examples
 #' collectri <- get_collectri(organism='human', split_complexes=FALSE)
 get_collectri <- function(organism='human', split_complexes=FALSE){
-  
-  # Process organism
-  organism <- tolower(organism)
-  if (!organism %in% c('human','mouse')){
-    stop("organism can only be human or mouse.")
-  }
-  if(organism=='human'){
-    organism <- 9606
-  } else {
-    organism <- 10090
-  }
 
+  organism %<>% check_organism
   # Load CollecTRI
   collectri <- OmnipathR::collectri(organism = organism)
-  if (organism != 9606){
+  if (organism != 9606L){
     message('Note: Complexes can currently not be translated and will be removed')
   }
-  
+
   cols <- c('source_genesymbol', 'target_genesymbol', 'is_stimulation',
             'is_inhibition')
-  
+
   collectri_interactions <- collectri[!stringr::str_detect(collectri$source,
                                                            "COMPLEX"), cols]
   collectri_complex <- collectri[stringr::str_detect(collectri$source,
-                                                     "COMPLEX"), cols] 
+                                                     "COMPLEX"), cols]
 
   if (!split_complexes){
     collectri_complex <- collectri_complex %>%
       dplyr::mutate(source_genesymbol = dplyr::case_when(
-        stringr::str_detect(source_genesymbol, "JUN") | 
+        stringr::str_detect(source_genesymbol, "JUN") |
           stringr::str_detect(source_genesymbol, "FOS") ~ "AP1",
-        stringr::str_detect(source_genesymbol, "REL") | 
+        stringr::str_detect(source_genesymbol, "REL") |
           stringr::str_detect(source_genesymbol, "NFKB") ~ "NFKB")
       )
   }
-  
+
   collectri <- base::rbind(collectri_interactions, collectri_complex) %>%
     dplyr::distinct(.data$source_genesymbol, .data$target_genesymbol,
                     .keep_all = TRUE) %>%
@@ -159,14 +137,39 @@ show_resources <- function(){
 #' @export
 #' @examples
 #' df <- decoupleR::get_resource('SIGNOR')
-get_resource <- function(name){
+get_resource <- function(name, organism = 'human', ...){
+
   if (!name %in% show_resources()){
     stop(stringr::str_glue('{name} is not a valid resource. Please, run
                          decoupleR::show_resources() to see the list of
                          available resources.'))
   }
-  df <- OmnipathR::import_omnipath_annotations(resources = name) %>%
-    OmnipathR::pivot_annotations(.)
+
+  organism %<>% check_organism
+
+  df <-
+    OmnipathR::import_omnipath_annotations(
+      resources = name,
+      ...,
+      wide = TRUE
+    ) %>%
+    {`if`(
+      organism != 9606L,
+      OmnipathR::orthology_translate_column(
+        .,
+        'uniprot',
+        target_organism = organism,
+        replace = TRUE
+      ) %>%
+      OmnipathR::translate_ids(
+        .,
+        uniprot,
+        genesymbol,
+        organism = organism
+      ),
+      .
+    )}
+
   return(df)
 }
 
@@ -186,12 +189,8 @@ get_resource <- function(name){
 #' @examples
 #' progeny <- get_progeny(organism='human', top=500)
 get_progeny <- function(organism='human', top=500){
-  # Process organism
-  organism <- tolower(organism)
-  if (!organism %in% c('human','mouse')){
-    stop("organism can only be human or mouse.")
-  }
-  p <- get_resource('PROGENy') %>%
+
+  p <- get_resource('PROGENy', organism = organism) %>%
     dplyr::distinct(.data$pathway, .data$genesymbol, .keep_all = TRUE) %>%
     dplyr::mutate(weight=as.double(.data$weight), p_value=as.double(.data$p_value)) %>%
     dplyr::select(.data$genesymbol, .data$p_value, .data$pathway, .data$weight) %>%
@@ -203,12 +202,8 @@ get_progeny <- function(organism='human', top=500){
         head(top)
     }) %>%
     dplyr::bind_rows() %>%
-    dplyr::select(.data$pathway, .data$genesymbol, .data$weight, .data$p_value)
-  colnames(p) <- c('source', 'target', 'weight', 'p_value')
-
-  if (organism=='mouse'){
-    p$target <- stringr::str_to_sentence(p$target)
-  }
+    dplyr::select(.data$pathway, .data$genesymbol, .data$weight, .data$p_value) %>%
+    rlang::set_names(c('source', 'target', 'weight', 'p_value')) %>%
 
   return(p)
 }
@@ -259,5 +254,22 @@ get_ksn_omnipath <- function(...) {
       '%i enzyme-PTM interactions after preprocessing.',
       nrow(.)
     )}
+
+}
+
+
+#' @noRd
+check_organism <- function(organism) {
+
+  # Process organism
+  ncbi_tax_id <- OmnipathR::ncbi_taxid(organism)
+  if (!ncbi_tax_id %in% c(9606L, 10090L, 10116L)){
+    stop(sprintf(
+      "Organism can only be human or mouse or rat, `%s` provided.",
+      ncbi_tax_id
+    ))
+  }
+
+  return(ncbi_tax_id)
 
 }

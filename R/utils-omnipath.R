@@ -20,7 +20,11 @@
 get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
                          weight_dict = list('A'= 1, 'B'= 2, 'C'= 3, 'D'= 4)){
 
-
+  if (packageVersion("OmnipathR") < package_version('3.9.4')){
+    warning("The installed version of OmnipathR is older than 3.9.4 To make
+    sure CollecTRI and DoRothEA data is processed correctly, please update to
+    the latest version by `remotes::install_github('https://github.com/saezlab/omnipath.git')`")
+  }
   organism %<>% check_organism
   # Get Dorothea
   do <-
@@ -73,15 +77,26 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
 #' @export
 #' @examples
 #' collectri <- get_collectri(organism='human', split_complexes=FALSE)
-get_collectri <- function(organism='human', split_complexes=FALSE){
+get_collectri <- function(organism='human', split_complexes=FALSE, ...){
 
   organism %<>% check_organism
   # Load CollecTRI
-  collectri <- OmnipathR::collectri(organism = organism)
-  if (organism != 9606L){
-    message('Note: Complexes can currently not be translated and will be removed')
+  collectri <- OmnipathR::collectri(organism = organism,
+                                    genesymbol=TRUE,
+                                    loops=TRUE, ...)
+  if (packageVersion("OmnipathR") < package_version('3.9.4')){
+    warning("The installed version of OmnipathR is older than 3.9.4 To make
+    sure CollecTRI and DoRothEA data is processed correctly, please update to
+    the latest version by `remotes::install_github('https://github.com/saezlab/omnipath.git')`")
   }
-
+  
+  if (organism == 9606L){
+    mirna <- OmnipathR::import_tf_mirna_interactions(genesymbols=TRUE,
+                                                     resources = "CollecTRI",
+                                                     strict_evidences = TRUE)
+    collectri <- base::rbind(collectri, mirna)
+  }
+  
   cols <- c('source_genesymbol', 'target_genesymbol', 'is_stimulation',
             'is_inhibition')
 

@@ -92,8 +92,8 @@ run_mlm <- function(mat,
         # list of tables.
         #
         res_all = list(res_all)
-        names(res_all) <- colnames(mat)
     }
+    names(res_all) <- colnames(mat)
     
     # summary is a list for each condition. Get the info we need: 
     res_new <- res_all %>% lapply(X = ., function(fit){
@@ -109,7 +109,6 @@ run_mlm <- function(mat,
         }
         tibble(score=scores, p_value=pvals, source=sources)
     }) %>% bind_rows(.id = "condition") %>%
-        mutate(condition = gsub("Response ","", .data$condition)) %>%
         mutate(statistic = "mlm", .before= 1) %>%
         select(.data$statistic, .data$source, .data$condition,
                .data$score, .data$p_value)

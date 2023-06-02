@@ -80,9 +80,6 @@ run_ulm <- function(mat,
 #' @keywords intern
 #' @noRd
 .ulm_analysis <- function(mat, mor_mat) {
-
-    fit <- lm(mat ~ mor_mat) %>%
-      summary()
     
     res_all <- colnames(mor_mat) %>% lapply(X = ., function(source){
       # Fit univariate lm
@@ -93,14 +90,13 @@ run_ulm <- function(mat,
         # list of tables.
         #
         fit <- list(fit)
-        names(fit) <- colnames(mat)
       }
+      names(fit) <- colnames(mat)
       res_src <- fit %>% lapply(X = ., function(sample){
         scores <- as.vector(sample$coefficients[,3][-1])
         pvals <- as.vector(sample$coefficients[,4][-1])
         tibble(score=scores, p_value=pvals, source=source)
       }) %>% bind_rows(.id = "condition") %>%
-        mutate(condition = gsub("Response ","", .data$condition)) %>%
         mutate(statistic = "ulm", .before= 1) %>%
         select(.data$statistic, .data$source, .data$condition,
                .data$score, .data$p_value)

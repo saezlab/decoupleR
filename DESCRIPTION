@@ -111,7 +111,8 @@ Suggests:
     Seurat,
     ggplot2,
     ggrepel,
-    patchwork
+    patchwork,
+    magick
 VignetteBuilder: 
     knitr
 biocViews: DifferentialExpression, FunctionalGenomics, GeneExpression,

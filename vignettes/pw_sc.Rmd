@@ -110,7 +110,7 @@ want to use.
 mat <- as.matrix(data@assays$RNA@data)
 
 # Run mlm
-acts <- run_Mlm(mat=mat, net=net, .source='source', .target='target',
+acts <- run_mlm(mat=mat, net=net, .source='source', .target='target',
                 .mor='weight', minsize = 5)
 acts
 ```

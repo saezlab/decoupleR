@@ -16,11 +16,11 @@
 #' @export
 #' @importFrom magrittr %<>%
 #' @examples
-#' dorothea <- get_dorothea(organism='human', levels=c('A', 'B', 'C'))
+#' dorothea <- get_dorothea(organism='human', levels=c('A', 'B'))
 get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
                          weight_dict = list('A'= 1, 'B'= 2, 'C'= 3, 'D'= 4)){
 
-  if (packageVersion("OmnipathR") < package_version('3.9.4')){
+  if (utils::packageVersion("OmnipathR") < package_version('3.9.4')){
     warning("The installed version of OmnipathR is older than 3.9.4 To make
     sure CollecTRI and DoRothEA data is processed correctly, please update to
     the latest version by `remotes::install_github('https://github.com/saezlab/omnipath.git')`")
@@ -73,6 +73,7 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
 #' @param organism Which organism to use. Only human and mouse are available.
 #' @param split_complexes Whether to split complexes into subunits. By default
 #' complexes are kept as they are.
+#' @param ... Ignored.
 #'
 #' @export
 #' @examples
@@ -84,19 +85,19 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
   collectri <- OmnipathR::collectri(organism = organism,
                                     genesymbol=TRUE,
                                     loops=TRUE, ...)
-  if (packageVersion("OmnipathR") < package_version('3.9.4')){
+  if (utils::packageVersion("OmnipathR") < package_version('3.9.4')){
     warning("The installed version of OmnipathR is older than 3.9.4 To make
     sure CollecTRI and DoRothEA data is processed correctly, please update to
     the latest version by `remotes::install_github('https://github.com/saezlab/omnipath.git')`")
   }
-  
+
   if (organism == 9606L){
     mirna <- OmnipathR::import_tf_mirna_interactions(genesymbols=TRUE,
                                                      resources = "CollecTRI",
                                                      strict_evidences = TRUE)
     collectri <- base::rbind(collectri, mirna)
   }
-  
+
   cols <- c('source_genesymbol', 'target_genesymbol', 'is_stimulation',
             'is_inhibition')
 
@@ -148,11 +149,16 @@ show_resources <- function(){
 #' information visit the official website for [Omnipath](https://omnipathdb.org/).
 #'
 #' @param name Name of the resource to query.
+#' @param organism Organism name or NCBI Taxonomy ID.
+#' @param ... Passed to \code{OmnipathR::import_omnipath_annotations}.
 #'
 #' @export
 #' @examples
 #' df <- decoupleR::get_resource('SIGNOR')
 get_resource <- function(name, organism = 'human', ...){
+
+  # NSE vs. R CMD check workaround
+  uniprot <- genesymbol <- NULL
 
   if (!name %in% show_resources()){
     stop(stringr::str_glue('{name} is not a valid resource. Please, run

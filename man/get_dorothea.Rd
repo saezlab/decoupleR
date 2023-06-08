@@ -27,5 +27,5 @@ factors (TFs) and their target genes. Each interaction is weighted by its
 mode of regulation (either positive or negative) and by its confidence level
 }
 \examples{
-dorothea <- get_dorothea(organism='human', levels=c('A', 'B', 'C'))
+dorothea <- get_dorothea(organism='human', levels=c('A', 'B'))
 }

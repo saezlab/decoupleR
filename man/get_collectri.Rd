@@ -8,13 +8,15 @@ comprehensive resource containing a curated collection of transcription
 factors (TFs) and their target genes. It is an expansion of DoRothEA.
 Each interaction is weighted by its mode of regulation (either positive or negative).}
 \usage{
-get_collectri(organism = "human", split_complexes = FALSE)
+get_collectri(organism = "human", split_complexes = FALSE, ...)
 }
 \arguments{
 \item{organism}{Which organism to use. Only human and mouse are available.}
 
 \item{split_complexes}{Whether to split complexes into subunits. By default
 complexes are kept as they are.}
+
+\item{...}{Ignored.}
 }
 \description{
 CollecTRI gene regulatory network.

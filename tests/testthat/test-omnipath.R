@@ -21,12 +21,12 @@ test_that("test get_progeny mouse", {
 })
 
 test_that("test get_dorothea human", {
-  df <- get_dorothea(organism = 'human')
+  df <- get_dorothea(organism = 'human', levels = c('A', 'B'))
   testthat::expect_true(nrow(df) > 0)
 })
 
 test_that("test get_dorothea mouse", {
-  df <- get_dorothea(organism = 'mouse')
+  df <- get_dorothea(organism = 'mouse', levels = c('A', 'B'))
   testthat::expect_true(nrow(df) > 0)
 })
 

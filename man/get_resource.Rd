@@ -7,10 +7,14 @@ This wrapper allows to easily query different prior knowledge resources.
 To check available resources run \code{decoupleR::show_resources()}. For more
 information visit the official website for \href{https://omnipathdb.org/}{Omnipath}.}
 \usage{
-get_resource(name)
+get_resource(name, organism = "human", ...)
 }
 \arguments{
 \item{name}{Name of the resource to query.}
+
+\item{organism}{Organism name or NCBI Taxonomy ID.}
+
+\item{...}{Passed to \code{OmnipathR::import_omnipath_annotations}.}
 }
 \description{
 Wrapper to access resources inside Omnipath.

@@ -7,8 +7,8 @@
 run_fgsea(
   mat,
   network,
-  .source = .data$source,
-  .target = .data$target,
+  .source = source,
+  .target = target,
   times = 100,
   nproc = 4,
   seed = 42,

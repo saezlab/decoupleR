@@ -7,8 +7,8 @@
 decouple(
   mat,
   network,
-  .source = .data$source,
-  .target = .data$target,
+  .source = source,
+  .target = target,
   statistics = NULL,
   args = list(NULL),
   consensus_score = TRUE,

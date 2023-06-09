@@ -7,8 +7,8 @@
 run_ora(
   mat,
   network,
-  .source = .data$source,
-  .target = .data$target,
+  .source = source,
+  .target = target,
   n_up = ceiling(0.05 * nrow(mat)),
   n_bottom = 0,
   n_background = 20000,

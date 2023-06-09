@@ -129,6 +129,12 @@ run_wsum <- function(mat,
         randomize_type = randomize_type
     )
 
+
+    # NSE vs. R CMD check workaround
+    corr_wsum <- wsum <- value <- source <- condition <- p_value <-
+    null_mean <- null_distribution <- null_sd <- z_score <- norm_wsum <-
+    statistic <- score <- NULL
+
     # Run model for random data
     map_dfr(seq_len(times), ~ wsum_run(random = TRUE)) %>%
         group_by(source, condition) %>%

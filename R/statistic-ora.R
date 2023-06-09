@@ -94,6 +94,10 @@ run_ora <- function(mat,
 #' @keywords internal
 #' @noRd
 .ora_analysis <- function(regulons, targets, n_background, ...) {
+
+    # NSE vs. R CMD check workaround
+    p.value <- NULL
+
     expand_grid(source = names(regulons), condition = names(targets)) %>%
         rowwise(source, condition) %>%
         summarise(.ora_fisher_exact_test(
@@ -159,14 +163,18 @@ run_ora <- function(mat,
 #' @keywords internal
 #' @noRd
 .ora_slice_targets <- function(mat, n_up, n_bottom, with_ties) {
-  mat %>%
+
+    # NSE vs. R CMD check workaround
+    rand <- targets <- target <- condition <- valueNULL
+
+    mat %>%
     as_tibble(rownames = "target") %>%
     tidyr::pivot_longer(
       cols = -target,
       names_to = "condition",
       values_to = "value"
     ) %>%
-    mutate(rand=stats::rnorm(n())) %>% 
+    mutate(rand=stats::rnorm(n())) %>%
     arrange(condition, value, rand) %>%
     group_by(condition) %>%
     dplyr::do(bind_rows(utils::head(., n = n_bottom), utils::tail(., n = n_up))) %>%

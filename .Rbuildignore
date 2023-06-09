@@ -8,6 +8,7 @@
 ^README\.Rmd$
 ^_pkgdown\.yml$
 ^docs$
+^doc.*$
 ^pkgdown$
 ^codecov\.yml$
 ^\.github$

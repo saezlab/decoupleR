@@ -20,6 +20,11 @@
 get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
                          weight_dict = list('A'= 1, 'B'= 2, 'C'= 3, 'D'= 4)){
 
+  # NSE vs. R CMD check workaround
+  is_stimulation <- is_inhibition <- confidence <- consensus_stimulation <-
+    consensus_inhibition <- dorothea_level <- mor <- source_genesymbol <-
+    target_genesymbol <- NULL
+
   if (utils::packageVersion("OmnipathR") < package_version('3.9.4')){
     warning("The installed version of OmnipathR is older than 3.9.4 To make
     sure CollecTRI and DoRothEA data is processed correctly, please update to
@@ -38,28 +43,28 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
                   'consensus_direction', 'consensus_stimulation', 'consensus_inhibition',
                   'dorothea_level') %>%
     # Remove duplicates
-    dplyr::distinct(.data$source_genesymbol, .data$dorothea_level, .data$target_genesymbol, .keep_all = TRUE) %>%
+    dplyr::distinct(source_genesymbol, dorothea_level, target_genesymbol, .keep_all = TRUE) %>%
     # Get bets confidence if more than one
-    dplyr::mutate(dorothea_level=unlist(map(.data$dorothea_level, function(lvl){
+    dplyr::mutate(dorothea_level=unlist(map(dorothea_level, function(lvl){
       stringr::str_split(lvl, ';')[[1]][[1]]
     }))) %>%
     # Define mor
     mutate(
       mor=ifelse(
-        .data$is_stimulation & .data$is_inhibition,
-        ifelse(.data$consensus_stimulation, 1, -1),
-        ifelse(.data$is_stimulation, 1,ifelse(.data$is_inhibition, -1, 1))
+        is_stimulation & is_inhibition,
+        ifelse(consensus_stimulation, 1, -1),
+        ifelse(is_stimulation, 1, ifelse(is_inhibition, -1, 1))
       )
     ) %>%
     # Weight mor by confidence
-    mutate(mor=.data$mor / unlist(map(.data$dorothea_level, function(lvl){weight_dict[[lvl]]}))) %>%
+    mutate(mor=mor / unlist(map(dorothea_level, function(lvl){weight_dict[[lvl]]}))) %>%
     # Filter columns
     dplyr::select('source_genesymbol', 'dorothea_level', 'target_genesymbol', 'mor') %>%
     # Rename
     rlang::set_names(c('source', 'confidence', 'target', 'mor'))
 
   # Filter by levels
-  do <- do %>% dplyr::filter(.data$confidence %in% levels)
+  do <- do %>% dplyr::filter(confidence %in% levels)
 
   return(do)
 }
@@ -79,6 +84,9 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
 #' @examples
 #' collectri <- get_collectri(organism='human', split_complexes=FALSE)
 get_collectri <- function(organism='human', split_complexes=FALSE, ...){
+
+  # NSE vs. R CMD check workaround
+  source_genesymbol <- target_genesymbol <- weight <- NULL
 
   organism %<>% check_organism
   # Load CollecTRI
@@ -117,17 +125,17 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
   }
 
   collectri <- base::rbind(collectri_interactions, collectri_complex) %>%
-    dplyr::distinct(.data$source_genesymbol, .data$target_genesymbol,
+    dplyr::distinct(source_genesymbol, target_genesymbol,
                     .keep_all = TRUE) %>%
     dplyr::mutate(weight = dplyr::case_when(
       is_stimulation == 1 ~ 1,
       is_stimulation == 0 ~ -1
     )) %>%
-    dplyr::select(.data$source_genesymbol, .data$target_genesymbol,
-                  .data$weight) %>%
-    dplyr::rename("source" = .data$source_genesymbol,
-                  "target" = .data$target_genesymbol,
-                  "mor" = .data$weight,
+    dplyr::select(source_genesymbol, target_genesymbol,
+                  weight) %>%
+    dplyr::rename("source" = source_genesymbol,
+                  "target" = target_genesymbol,
+                  "mor" = weight,
                   )
   return(collectri)
 }
@@ -211,19 +219,22 @@ get_resource <- function(name, organism = 'human', ...){
 #' progeny <- get_progeny(organism='human', top=500)
 get_progeny <- function(organism='human', top=500){
 
+  # NSE vs. R CMD check workaround
+  pathway <- genesymbol <- p_value <- weight <- NULL
+
   p <- get_resource('PROGENy', organism = organism) %>%
-    dplyr::distinct(.data$pathway, .data$genesymbol, .keep_all = TRUE) %>%
-    dplyr::mutate(weight=as.double(.data$weight), p_value=as.double(.data$p_value)) %>%
-    dplyr::select(.data$genesymbol, .data$p_value, .data$pathway, .data$weight) %>%
-    dplyr::group_by(.data$pathway) %>%
+    dplyr::distinct(pathway, genesymbol, .keep_all = TRUE) %>%
+    dplyr::mutate(weight=as.double(weight), p_value=as.double(p_value)) %>%
+    dplyr::select(genesymbol, p_value, pathway, weight) %>%
+    dplyr::group_by(pathway) %>%
     dplyr::group_split() %>%
     purrr::map(function(df){
       df %>%
-        dplyr::arrange(.data$p_value) %>%
+        dplyr::arrange(p_value) %>%
         head(top)
     }) %>%
     dplyr::bind_rows() %>%
-    dplyr::select(.data$pathway, .data$genesymbol, .data$weight, .data$p_value) %>%
+    dplyr::select(pathway, genesymbol, weight, p_value) %>%
     rlang::set_names(c('source', 'target', 'weight', 'p_value')) %>%
 
   return(p)

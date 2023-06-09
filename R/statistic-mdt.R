@@ -47,10 +47,10 @@
 #' run_mdt(mat, net, minsize=0)
 run_mdt <- function(mat,
                     network,
-                    .source = .data$source,
-                    .target = .data$target,
-                    .mor = .data$mor,
-                    .likelihood = .data$likelihood,
+                    .source = source,
+                    .target = target,
+                    .mor = mor,
+                    .likelihood = likelihood,
                     sparse = FALSE,
                     center = FALSE,
                     na.rm = FALSE,
@@ -60,6 +60,10 @@ run_mdt <- function(mat,
                     seed = 42,
                     minsize = 5
 ) {
+
+    # NSE vs. R CMD check workaround
+    condition <- likelihood <- mor <- score <- source <- target <- NULL
+
   # Check for NAs/Infs in mat
   mat <- check_nas_infs(mat)
 
@@ -102,13 +106,13 @@ run_mdt <- function(mat,
   expand_grid(
     condition = colnames(mat)
   ) %>%
-    rowwise(.data$condition) %>%
+    rowwise(condition) %>%
     summarise(
-      score = mdt_evaluate_model(.data$condition),
+      score = mdt_evaluate_model(condition),
       source = colnames(mor_mat),
       .groups = "drop"
     ) %>%
-    transmute(statistic = "mdt", .data$source, .data$condition, .data$score
+    transmute(statistic = "mdt", source, condition, score
     ) %>%
     arrange(source)
 }

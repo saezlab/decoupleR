@@ -1,3 +1,7 @@
+
+    # NSE vs. R CMD check workaround
+    ES <- NES <- condition <- p_value <- pathway <- pval <- score <- source <-    statistic <- target <- NULL
+
 #' Virtual Inference of Protein-activity by Enriched Regulon analysis (VIPER)
 #'
 #' @description
@@ -46,15 +50,19 @@
 #' run_viper(mat, net, minsize=0, verbose = FALSE)
 run_viper <- function(mat,
                       network,
-                      .source = .data$source,
-                      .target = .data$target,
-                      .mor = .data$mor,
-                      .likelihood = .data$likelihood,
+                      .source = source,
+                      .target = target,
+                      .mor = mor,
+                      .likelihood = likelihood,
                       verbose = FALSE,
                       minsize = 5,
                       pleiotropy = TRUE,
                       eset.filter = FALSE,
                       ...) {
+
+    # NSE vs. R CMD check workaround
+    likelihood <- mor <- score <- source <- target <- NULL
+
     # Check for NAs/Infs in mat
     mat <- check_nas_infs(mat)
 
@@ -72,7 +80,7 @@ run_viper <- function(mat,
         })
     # Transform to viper format
     network <- network %>%
-        dplyr::mutate(mor = .data$mor) %>%
+        dplyr::mutate(mor = mor) %>%
         split(.$source) %>%
         purrr::map(~ {
             list(
@@ -94,7 +102,7 @@ run_viper <- function(mat,
     ) %>%
         as.data.frame() %>%
         rownames_to_column("source") %>%
-        pivot_longer(-.data$source, names_to = "condition", values_to = "score") %>%
+        pivot_longer(-source, names_to = "condition", values_to = "score") %>%
         add_column(statistic = "viper", .before = 1) %>%
-        mutate(p_value = 2*stats::pnorm(-abs(.data$score)))
+        mutate(p_value = 2*stats::pnorm(-abs(score)))
 }

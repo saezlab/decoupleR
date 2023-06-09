@@ -46,8 +46,8 @@
 #' run_ora(mat, net, minsize=0)
 run_ora <- function(mat,
                     network,
-                    .source = .data$source,
-                    .target = .data$target,
+                    .source = source,
+                    .target = target,
                     n_up = ceiling(0.05 * nrow(mat)),
                     n_bottom = 0,
                     n_background = 20000,
@@ -55,6 +55,10 @@ run_ora <- function(mat,
                     seed = 42,
                     minsize = 5,
                     ...) {
+
+    # NSE vs. R CMD check workaround
+    condition <- p <- p_value <- rand <- score <- source <- statistic <- target    <- targets <- value <- NULL
+
     # Check for NAs/Infs in mat
     mat <- check_nas_infs(mat)
 
@@ -81,8 +85,8 @@ run_ora <- function(mat,
 #' Wrapper to execute `run_ora()` logic one finished preprocessing of data
 #'
 #' @inheritParams run_ora
-#' @param regulons Named list; names from `.data$source` and values
-#'  from `.data$target`.
+#' @param regulons Named list; names from `source` and values
+#'  from `target`.
 #' @param targets Named list; names from columns of `mat` and
 #'  values from sliced data of `mat`.
 #'
@@ -91,21 +95,21 @@ run_ora <- function(mat,
 #' @noRd
 .ora_analysis <- function(regulons, targets, n_background, ...) {
     expand_grid(source = names(regulons), condition = names(targets)) %>%
-        rowwise(.data$source, .data$condition) %>%
+        rowwise(source, condition) %>%
         summarise(.ora_fisher_exact_test(
-            expected = regulons[[.data$source]],
-            observed = targets[[.data$condition]],
+            expected = regulons[[source]],
+            observed = targets[[condition]],
             n_background = n_background,
             ...
         ),
         .groups = "drop"
         ) %>%
-        select(.data$source, .data$condition,
-               p_value = .data$p.value, everything()
+        select(source, condition,
+               p_value = p.value, everything()
         ) %>%
-        mutate(score = -log10(.data$p_value)) %>%
+        mutate(score = -log10(p_value)) %>%
         add_column(statistic = "ora", .before = 1) %>%
-        select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
+        select(statistic, source, condition, score, p_value)
 }
 
 #' Fisher Exact Test
@@ -158,20 +162,20 @@ run_ora <- function(mat,
   mat %>%
     as_tibble(rownames = "target") %>%
     tidyr::pivot_longer(
-      cols = -.data$target,
+      cols = -target,
       names_to = "condition",
       values_to = "value"
     ) %>%
     mutate(rand=stats::rnorm(n())) %>% 
-    arrange(.data$condition, .data$value, .data$rand) %>%
-    group_by(.data$condition) %>%
+    arrange(condition, value, rand) %>%
+    group_by(condition) %>%
     dplyr::do(bind_rows(utils::head(., n = n_bottom), utils::tail(., n = n_up))) %>%
-    arrange(.data$condition) %>%
+    arrange(condition) %>%
     summarise(
-      targets = rlang::set_names(list(.data$target), .data$condition[1]),
+      targets = rlang::set_names(list(target), condition[1]),
       .groups = "drop"
     ) %>%
-    pull(.data$targets)
+    pull(targets)
 }
 
 #' Check values of variables with n_prefix
@@ -188,7 +192,7 @@ run_ora <- function(mat,
 .ora_check_ns <- function(n_up, n_bottom, n_background, network, mat) {
     if (is.null(n_background)) {
         n_background <- network %>%
-            pull(.data$target) %>%
+            pull(target) %>%
             unique() %>%
             union(rownames(mat)) %>%
             length()

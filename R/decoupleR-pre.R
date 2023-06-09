@@ -65,6 +65,10 @@ intersect_regulons <- function(mat,
 #' net <- rename_net(net, source, target, mor)
 #' filt_minsize(rownames(mat), net, minsize = 4)
 filt_minsize <- function(mat_f_names, network, minsize = 5){
+
+    # NSE vs. R CMD check workaround
+    n <- source <- target <- NULL
+
   # Find shared targets
   shared_targets <- intersect(
     mat_f_names,
@@ -73,15 +77,15 @@ filt_minsize <- function(mat_f_names, network, minsize = 5){
   
   # Find sizes of sources after intersect and filter by minsize
   sources <- network %>%
-    dplyr::filter(.data$target %in% shared_targets) %>%
+    dplyr::filter(target %in% shared_targets) %>%
     dplyr::group_by(source) %>%
     dplyr::summarise(n=dplyr::n()) %>%
-    dplyr::filter(.data$n >= minsize) %>%
-    dplyr::pull(.data$source)
+    dplyr::filter(n >= minsize) %>%
+    dplyr::pull(source)
   
   # Filter sources
    network <- network %>%
-    dplyr::filter(.data$source %in% sources)
+    dplyr::filter(source %in% sources)
    
    if (nrow(network) == 0) {
      stop(stringr::str_glue('Network is empty after intersecting it with mat and
@@ -159,6 +163,10 @@ check_corr <- function(network,
                         .target = "target", 
                         .mor = "mor", 
                         .likelihood = NULL){
+
+    # NSE vs. R CMD check workaround
+    correlation <- likelihood <- weight <- NULL
+
   
   source <- as.symbol(.source)
   target <- as.symbol(.target)
@@ -166,10 +174,10 @@ check_corr <- function(network,
   
   network <- network %>%
     dplyr::mutate(likelihood=1) %>%
-    dplyr::mutate(weight = (!!mor)*.data$likelihood) %>% 
-    dplyr::select(!!source, !!target, .data$weight)
+    dplyr::mutate(weight = (!!mor)*likelihood) %>% 
+    dplyr::select(!!source, !!target, weight)
   network_wide <- network %>%
-    tidyr::pivot_wider(names_from = !!target, values_from = .data$weight, values_fill = 0) %>%
+    tidyr::pivot_wider(names_from = !!target, values_from = weight, values_fill = 0) %>%
     tibble::column_to_rownames(.source)
   
   cor_source <- stats::cor(t(network_wide))
@@ -179,8 +187,8 @@ check_corr <- function(network,
     as.data.frame() %>% 
     tibble::rownames_to_column(.source) %>%
     tidyr::pivot_longer(!(!!source), names_to = paste0(.source, ".2"), values_to = "correlation") %>%
-    dplyr::filter(!is.na(.data$correlation)) %>% 
-    dplyr::arrange(desc(.data$correlation))
+    dplyr::filter(!is.na(correlation)) %>% 
+    dplyr::arrange(desc(correlation))
   cor_source
 }
 

@@ -46,13 +46,17 @@
 #' run_fgsea(mat, net, minsize=0, nproc=1)
 run_fgsea <- function(mat,
                       network,
-                      .source = .data$source,
-                      .target = .data$target,
+                      .source = source,
+                      .target = target,
                       times = 100,
                       nproc = 4,
                       seed = 42,
                       minsize = 5,
                       ...) {
+
+    # NSE vs. R CMD check workaround
+    ES <- NES <- condition <- p_value <- pathway <- pval <- score <- source <-    statistic <- target <- NULL
+
   # Check for NAs/Infs in mat
   mat <- check_nas_infs(mat)
   
@@ -80,11 +84,11 @@ run_fgsea <- function(mat,
       result <- suppressWarnings(do.call(what = fgsea::fgsea, args = options))
     })
   }, .id = "condition") %>%
-    select(.data$pathway, .data$condition, .data$ES, .data$NES, .data$pval) %>%
+    select(pathway, condition, ES, NES, pval) %>%
     tidyr::pivot_longer(cols=c("ES","NES"), names_to ="statistic", values_to="score") %>%
-    mutate(statistic=if_else(.data$statistic=='ES', 'fgsea', 'norm_fgsea')) %>%
-    rename('source'=.data$pathway, 'p_value'=.data$pval) %>%
-    select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value) %>%
-    mutate(score = replace_na(.data$score, Inf)) %>%
-    mutate(p_value = replace_na(.data$p_value, 1/times))
+    mutate(statistic=if_else(statistic=='ES', 'fgsea', 'norm_fgsea')) %>%
+    rename('source'=pathway, 'p_value'=pval) %>%
+    select(statistic, source, condition, score, p_value) %>%
+    mutate(score = replace_na(score, Inf)) %>%
+    mutate(p_value = replace_na(p_value, 1/times))
 }

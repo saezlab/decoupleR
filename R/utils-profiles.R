@@ -1,3 +1,7 @@
+
+    # NSE vs. R CMD check workaround
+    condition <- likelihood <- mor <- score <- source <- target <- NULL
+
 #' @inherit tidyr::complete title
 #'
 #' @inherit tidyr::complete description

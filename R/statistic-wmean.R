@@ -43,16 +43,20 @@
 #' run_wmean(mat, net, minsize=0)
 run_wmean <- function(mat,
                      network,
-                     .source = .data$source,
-                     .target = .data$target,
-                     .mor = .data$mor,
-                     .likelihood = .data$likelihood,
+                     .source = source,
+                     .target = target,
+                     .mor = mor,
+                     .likelihood = likelihood,
                      times = 100,
                      seed = 42,
                      sparse = TRUE,
                      randomize_type = "rows",
                      minsize = 5
                      ) {
+
+    # NSE vs. R CMD check workaround
+    c_score <- condition <- corr_wmean <- likelihood <- mor <- norm_wmean <-    null_distribution <- null_mean <- null_sd <- p_value <- score <- source <-    statistic <- target <- value <- weight <- wmean <- z_score <- NULL
+
     # Before to start ---------------------------------------------------------
     if (times < 2) {
         rlang::abort(message = stringr::str_glue("Parameter 'times' must be greater than or equal to 2, but {times} was passed."))
@@ -69,7 +73,7 @@ run_wmean <- function(mat,
 
     # Calculate the weights that will be used for the evaluation of the model
     network <- network %>%
-        filter(.data$target %in% rownames(mat)) %>%
+        filter(target %in% rownames(mat)) %>%
         .wmean_calculate_weight()
 
     # Extract labels that will map to the expression and profile matrices
@@ -81,9 +85,9 @@ run_wmean <- function(mat,
     # Extract matrix of weights
     weight_mat <- network %>%
         pivot_wider_profile(
-            id_cols = .data$source,
-            names_from = .data$target,
-            values_from = .data$weight,
+            id_cols = source,
+            names_from = target,
+            values_from = weight,
             to_matrix = TRUE,
             to_sparse = sparse,
             values_fill = 0
@@ -130,42 +134,42 @@ run_wmean <- function(mat,
 
     # Run model for random data
     map_dfr(seq_len(times), ~ wmean_run(random = TRUE)) %>%
-        group_by(.data$source, .data$condition) %>%
+        group_by(source, condition) %>%
         summarise(
-            null_distribution = list(.data$value),
-            null_mean = mean(.data$value),
-            null_sd = stats::sd(.data$value),
+            null_distribution = list(value),
+            null_mean = mean(value),
+            null_sd = stats::sd(value),
             .groups = "drop"
         ) %>%
         # Run the true model and joined to random.
         left_join(y = wmean_run(random = FALSE), by = c("source", "condition")) %>%
         # Calculate scores
         mutate(
-            z_score = (.data$value - .data$null_mean) / .data$null_sd,
-            z_score = replace_na(.data$z_score, 0),
+            z_score = (value - null_mean) / null_sd,
+            z_score = replace_na(z_score, 0),
             p_value = map2_dbl(
-                .x = .data$null_distribution,
-                .y = .data$value,
+                .x = null_distribution,
+                .y = value,
                 .f = ~ sum(abs(.x) > abs(.y)) / length(.x)
             ),
             # Limit empirical p-value to lower bound 1/times and upper bound
             # (times-1)/times
-            p_value = if_else(.data$p_value == 0, 1/times, .data$p_value),
-            p_value = if_else(.data$p_value == 1, (times-1)/times, .data$p_value),
-            p_value = if_else(.data$p_value >= 0.5, 1-.data$p_value, .data$p_value),
-            p_value = .data$p_value * 2,
-            c_score = .data$value * (-log10(.data$p_value))
+            p_value = if_else(p_value == 0, 1/times, p_value),
+            p_value = if_else(p_value == 1, (times-1)/times, p_value),
+            p_value = if_else(p_value >= 0.5, 1-p_value, p_value),
+            p_value = p_value * 2,
+            c_score = value * (-log10(p_value))
         ) %>%
         # Reformat results
         select(-contains("null")) %>%
-        rename(corr_wmean = .data$c_score, wmean = .data$value, norm_wmean = .data$z_score) %>%
+        rename(corr_wmean = c_score, wmean = value, norm_wmean = z_score) %>%
         pivot_longer(
-            cols = c(.data$corr_wmean, .data$wmean, .data$norm_wmean),
+            cols = c(corr_wmean, wmean, norm_wmean),
             names_to = "statistic",
             values_to = "score"
         ) %>%
-        arrange(.data$statistic, .data$source, .data$condition) %>%
-        select(.data$statistic, .data$source, .data$condition, .data$score, .data$p_value)
+        arrange(statistic, source, condition) %>%
+        select(statistic, source, condition, score, p_value)
 }
 
 #' Wrapper to run wmean one time
@@ -186,11 +190,11 @@ run_wmean <- function(mat,
 #' @noRd
 .wmean_calculate_weight <- function(network) {
     network %>%
-        add_count(.data$source, name = "contribution") %>%
+        add_count(source, name = "contribution") %>%
         transmute(
-            .data$source,
-            .data$target,
-            weight = .data$mor * .data$likelihood
+            source,
+            target,
+            weight = mor * likelihood
         )
 }
 
@@ -232,5 +236,5 @@ run_wmean <- function(mat,
         as.matrix() %>%
         as.data.frame() %>%
         rownames_to_column("source") %>%
-        pivot_longer(-.data$source, names_to = "condition")
+        pivot_longer(-source, names_to = "condition")
 }

@@ -42,15 +42,19 @@
 #' run_ulm(mat, net, minsize=0)
 run_ulm <- function(mat,
                     network,
-                    .source = .data$source,
-                    .target = .data$target,
-                    .mor = .data$mor,
-                    .likelihood = .data$likelihood,
+                    .source = source,
+                    .target = target,
+                    .mor = mor,
+                    .likelihood = likelihood,
                     sparse = FALSE,
                     center = FALSE,
                     na.rm = FALSE,
                     minsize = 5
                     ) {
+
+    # NSE vs. R CMD check workaround
+    condition <- likelihood <- mor <- p_value <- score <- source <- statistic    <- target <- NULL
+
     # Check for NAs/Infs in mat
     mat <- check_nas_infs(mat)
 
@@ -98,8 +102,8 @@ run_ulm <- function(mat,
         tibble(score=scores, p_value=pvals, source=source)
       }) %>% bind_rows(.id = "condition") %>%
         mutate(statistic = "ulm", .before= 1) %>%
-        select(.data$statistic, .data$source, .data$condition,
-               .data$score, .data$p_value)
+        select(statistic, source, condition,
+               score, p_value)
     }) %>% bind_rows()
     res_all
 }

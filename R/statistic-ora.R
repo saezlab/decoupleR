@@ -165,7 +165,7 @@ run_ora <- function(mat,
 .ora_slice_targets <- function(mat, n_up, n_bottom, with_ties) {
 
     # NSE vs. R CMD check workaround
-    rand <- targets <- target <- condition <- valueNULL
+    rand <- targets <- target <- condition <- value <- NULL
 
     mat %>%
     as_tibble(rownames = "target") %>%

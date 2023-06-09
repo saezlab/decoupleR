@@ -4,7 +4,7 @@
 #' Calculates regulatory activities using MDT.
 #'
 #' @details
-#' 
+#'
 #' MDT fits a multivariate regression random forest for each sample, where the
 #' observed molecular readouts in mat are the response variable and the
 #' regulator weights in net are the covariates. Target features with no
@@ -38,6 +38,7 @@
 #' @import dplyr
 #' @import purrr
 #' @import tibble
+#' @importFrom parallelly availableCores
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -56,7 +57,7 @@ run_mdt <- function(mat,
                     na.rm = FALSE,
                     trees = 10,
                     min_n = 20,
-                    nproc = 4,
+                    nproc = availableCores(),
                     seed = 42,
                     minsize = 5
 ) {

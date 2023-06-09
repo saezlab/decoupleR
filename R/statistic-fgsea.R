@@ -4,7 +4,7 @@
 #' Calculates regulatory activities using FGSEA.
 #'
 #' @details
-#' 
+#'
 #' GSEA (Aravind et al., 2005) starts by transforming the input molecular
 #' readouts in mat to ranks for each sample. Then, an enrichment score
 #' `fgsea` is calculated by walking down the list of features, increasing
@@ -14,10 +14,10 @@
 #' score `norm_fgsea`, can be obtained by computing the z-score of the estimate
 #' compared to a null distribution obtained from N random permutations. The used
 #' implementation is taken from the package `fgsea` (Korotkevich et al., 2021).
-#' 
+#'
 #' Aravind S. et al. (2005) Gene set enrichment analysis: A knowledge-based
 #' approach for interpreting genome-wide expression profiles. PNAS. 102, 43.
-#' 
+#'
 #' Korotkevich G. et al. (2021) Fast gene set enrichment analysis. bioRxiv.
 #' DOI: https://doi.org/10.1101/060012.
 #'
@@ -36,6 +36,7 @@
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #' @family decoupleR statistics
+#' @importFrom parallelly availableCores
 #' @export
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -49,7 +50,7 @@ run_fgsea <- function(mat,
                       .source = source,
                       .target = target,
                       times = 100,
-                      nproc = 4,
+                      nproc = availableCores(),
                       seed = 42,
                       minsize = 5,
                       ...) {
@@ -59,7 +60,7 @@ run_fgsea <- function(mat,
 
   # Check for NAs/Infs in mat
   mat <- check_nas_infs(mat)
-  
+
   network <- network %>%
     rename_net({{ .source }}, {{ .target }})
   network <- filt_minsize(rownames(mat), network, minsize)
@@ -68,7 +69,7 @@ run_fgsea <- function(mat,
   if (is.null(colnames(mat))){
     colnames(mat) <- 1:ncol(mat)
   }
-  
+
   conditions <- colnames(mat) %>%
     set_names()
 

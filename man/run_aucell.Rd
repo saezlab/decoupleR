@@ -10,7 +10,7 @@ run_aucell(
   .source = source,
   .target = target,
   aucMaxRank = ceiling(0.05 * nrow(rankings)),
-  nproc = 4,
+  nproc = availableCores(),
   seed = 42,
   minsize = 5
 )

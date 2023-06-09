@@ -16,7 +16,7 @@
 #' Therefore, this metric, `aucell`, represents the proportion of
 #' abundant molecular features in the target set, and their relative abundance
 #' value compared to the other features within the sample.
-#' 
+#'
 #' Aibar S. et al. (2017) Scenic: single-cell regulatory network inference and
 #' clustering. Nat. Methods, 14, 1083–1086.
 #'
@@ -33,6 +33,7 @@
 #' @import dplyr
 #' @import tibble
 #' @import tidyr
+#' @importFrom parallelly availableCores
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -45,7 +46,7 @@ run_aucell <- function(mat,
                        .source = source,
                        .target = target,
                        aucMaxRank = ceiling(0.05 * nrow(rankings)),
-                       nproc = 4,
+                       nproc = availableCores(),
                        seed = 42,
                        minsize = 5
 ) {

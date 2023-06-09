@@ -10,7 +10,7 @@ run_fgsea(
   .source = source,
   .target = target,
   times = 100,
-  nproc = 4,
+  nproc = availableCores(),
   seed = 42,
   minsize = 5,
   ...

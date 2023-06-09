@@ -16,7 +16,7 @@ run_mdt(
   na.rm = FALSE,
   trees = 10,
   min_n = 20,
-  nproc = 4,
+  nproc = availableCores(),
   seed = 42,
   minsize = 5
 )

@@ -45,7 +45,7 @@
 #'
 #' @import dplyr
 #' @import tidyr
-#' @import rlang
+#' @importFrom rlang exec !!!
 get_profile_of <- function(data, sources, values_fill = NA) {
     # The function only allows to reduce or extend the length of the profile,
     # not to add metadata

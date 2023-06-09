@@ -91,7 +91,7 @@ jobs:
       - name: Install Linux system dependencies
         if: runner.os == 'Linux'
         run: |
-          sysreqs=$(Rscript -e 'cat("apt-get update -y && apt-get install -y", paste(gsub("apt-get install -y ", "", remotes::system_requirements("ubuntu", "20.04")), collapse = " "))')
+          sysreqs=$(Rscript -e 'cat("apt-get update -y && apt-get install -y", paste(gsub("apt-get install -y ", " qpdf ", remotes::system_requirements("ubuntu", "20.04")), collapse = " "))')
           echo $sysreqs
           sudo -s eval "$sysreqs"
 
@@ -138,6 +138,8 @@ jobs:
 
       - name: Run CMD check
         uses: r-lib/actions/check-r-package@v2
+        with:
+          error-on: "error"
 
       ## Might need an to add this to the if:  && runner.os == 'Linux'
       - name: Reveal testthat details

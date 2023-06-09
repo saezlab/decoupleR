@@ -1,4 +1,4 @@
-^renv$
+^renv
 ^renv\.lock$
 ^packrat/
 ^\.Rprofile$
@@ -7,9 +7,10 @@
 ^\.travis\.yml$
 ^README\.Rmd$
 ^_pkgdown\.yml$
-^docs$
-^doc$
-^pkgdown$
+^docs
+^doc
+^omnipathr-log
+^pkgdown
 ^codecov\.yml$
-^\.github$
-^\.git$
+^\.github
+^\.git

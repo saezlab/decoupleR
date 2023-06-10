@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.5.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,10 +84,10 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">run_aucell</span><span class="op">(</span></span>
 <span>  <span class="va">mat</span>,</span>
 <span>  <span class="va">network</span>,</span>
-<span>  .source <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">source</span>,</span>
-<span>  .target <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">target</span>,</span>
+<span>  .source <span class="op">=</span> <span class="va">source</span>,</span>
+<span>  .target <span class="op">=</span> <span class="va">target</span>,</span>
 <span>  aucMaxRank <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="fl">0.05</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">rankings</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  nproc <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  nproc <span class="op">=</span> <span class="fu">availableCores</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">42</span>,</span>
 <span>  minsize <span class="op">=</span> <span class="fl">5</span></span>
 <span><span class="op">)</span></span></code></pre></div>

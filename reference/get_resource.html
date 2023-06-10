@@ -28,7 +28,7 @@ information visit the official website for Omnipath."><meta property="og:image" 
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.5.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,13 +99,21 @@ information visit the official website for <a href="https://omnipathdb.org/" cla
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_resource</span><span class="op">(</span><span class="va">name</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_resource</span><span class="op">(</span><span class="va">name</span>, organism <span class="op">=</span> <span class="st">"human"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>name</dt>
 <dd><p>Name of the resource to query.</p></dd>
+
+
+<dt>organism</dt>
+<dd><p>Organism name or NCBI Taxonomy ID.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Passed to <code><a href="https://saezlab.github.io/OmnipathR/reference/import_omnipath_annotations.html" class="external-link">OmnipathR::import_omnipath_annotations</a></code>.</p></dd>
 
 </dl></div>
 

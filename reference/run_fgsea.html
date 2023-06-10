@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.5.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,10 +84,10 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">run_fgsea</span><span class="op">(</span></span>
 <span>  <span class="va">mat</span>,</span>
 <span>  <span class="va">network</span>,</span>
-<span>  .source <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">source</span>,</span>
-<span>  .target <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">target</span>,</span>
+<span>  .source <span class="op">=</span> <span class="va">source</span>,</span>
+<span>  .target <span class="op">=</span> <span class="va">target</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  nproc <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  nproc <span class="op">=</span> <span class="fu">availableCores</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">42</span>,</span>
 <span>  minsize <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -145,7 +145,11 @@ in <code>network</code> <code>.target</code> column.</p></dd>
 <dd><p>This parameter sets the boundary for calculating the p value.</p></dd>
 
     <dt><code>scoreType</code></dt>
-<dd><p>This parameter defines the GSEA score type. Possible options are ("std", "pos", "neg")</p></dd>
+<dd><p>This parameter defines the GSEA score type.
+Possible options are ("std", "pos", "neg").
+By default ("std") the enrichment score is computed as in the original GSEA.
+The "pos" and "neg" score types are intended to be used for one-tailed tests
+(i.e. when one is interested only in positive ("pos") or negateive ("neg") enrichment).</p></dd>
 
     <dt><code>gseaParam</code></dt>
 <dd><p>GSEA parameter value, all gene-level statis are raised to the power of `gseaParam`

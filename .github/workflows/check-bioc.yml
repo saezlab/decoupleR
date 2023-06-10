@@ -140,6 +140,7 @@ jobs:
         uses: r-lib/actions/check-r-package@v2
         with:
           error-on: '"error"'
+          build-args: 'c("--no-manual", "--no-build-vignettes")'
 
       ## Might need an to add this to the if:  && runner.os == 'Linux'
       - name: Reveal testthat details

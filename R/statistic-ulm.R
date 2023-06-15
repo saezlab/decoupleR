@@ -84,26 +84,26 @@ run_ulm <- function(mat,
 #' @keywords intern
 #' @noRd
 .ulm_analysis <- function(mat, mor_mat) {
+
+    # Compute dfs
+    df <- nrow(mor_mat) - 2
+
+    # Fit univariate lm
+    r <- cor(mor_mat, mat)
     
-    res_all <- colnames(mor_mat) %>% lapply(X = ., function(source){
-      # Fit univariate lm
-      fit <- lm(mat ~ mor_mat[, source, drop = FALSE]) %>%
-        summary()
-      if(ncol(mat) == 1){
-        # in case of a single condition, the summary of lm returns the table instead of 
-        # list of tables.
-        #
-        fit <- list(fit)
-      }
-      names(fit) <- colnames(mat)
-      res_src <- fit %>% lapply(X = ., function(sample){
-        scores <- as.vector(sample$coefficients[,3][-1])
-        pvals <- as.vector(sample$coefficients[,4][-1])
-        tibble(score=scores, p_value=pvals, source=source)
-      }) %>% bind_rows(.id = "condition") %>%
-        mutate(statistic = "ulm", .before= 1) %>%
-        select(statistic, source, condition,
-               score, p_value)
-    }) %>% bind_rows()
-    res_all
+    # Compute t-value
+    scores <- r * sqrt(df / ((1.0 - r + 1.0e-20)*(1.0 + r + 1.0e-20)))
+      
+    # Compute pvals
+    pvals <- pt(q=abs(scores), df=df, lower.tail = F) * 2
+    
+    scores <- reshape2::melt(t(scores))
+    colnames(scores) <- c('condition', 'source', 'score')
+    scores <- tibble(scores) %>%
+        mutate(statistic = "ulm", .before = 1) %>%
+        mutate(p_value = c(t(pvals)),
+               source=as.character(source),
+               condition=as.character(condition)) %>%
+        select(statistic, source, condition, score, p_value)
+    scores
 }

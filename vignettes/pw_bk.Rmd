@@ -55,6 +55,15 @@ library(ggrepel)
 Here we used an already processed bulk RNA-seq data-set. We provide the
 normalized log-transformed counts, the experimental design meta-data and the
 Differential Expressed Genes (DEGs) obtained using `limma`.
+
+For this example we use `limma` but we could have used `DeSeq2`, `edgeR` or any
+other statistical framework. decoupleR requires a gene level statistic to
+perform enrichment analysis but it is agnostic of how it was generated. However,
+we do recommend to use statistics that include the direction of change and its
+significance, for example the t-value obtained for `limma`(`t`) or `DeSeq2`(`stat`).
+edgeR does not return such statistic but we can create our own by weighting the
+obtained logFC by pvalue with this formula: `-log10(pvalue) * logFC`.
+
 We can open the data like this:
 ```{r "load data"}
 inputs_dir <- system.file("extdata", package = "decoupleR")

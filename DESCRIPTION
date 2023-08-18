@@ -1,7 +1,7 @@
 Type: Package
 Package: decoupleR
 Title: decoupleR: Ensemble of computational methods to infer biological activities from omics data
-Version: 2.5.2
+Version: 2.5.3
 Authors@R: 
     c(person(given = "Pau",
              family = "Badia-i-Mompel",
@@ -90,7 +90,7 @@ Imports:
     tidyselect,
     withr
 Suggests:
-    glmnet (>= 4.1.0),
+    glmnet (>= 4.1-7),
     GSVA,
     viper,
     fgsea (>= 1.15.4),

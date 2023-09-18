@@ -29,10 +29,20 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
   organism %<>% check_organism
   # Get Dorothea
   do <-
-    OmnipathR::dorothea(
-      organism = organism,
-      dorothea_levels = c('A','B','C','D'),
-      genesymbols=TRUE
+    tryCatch(
+      OmnipathR::dorothea(
+        organism = organism,
+        dorothea_levels = c('A','B','C','D'),
+        genesymbols=TRUE
+      ),
+      error = function(e){
+        OmnipathR::static_table(
+          query = 'interactions',
+          resource = 'dorothea',
+          organism = organism,
+          dorothea_levels = levels
+        )
+      }
     ) %>%
     # Filter columns
     dplyr::select('source_genesymbol', 'target_genesymbol', 'is_stimulation', 'is_inhibition',
@@ -84,18 +94,46 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
   # NSE vs. R CMD check workaround
   source_genesymbol <- target_genesymbol <- weight <- NULL
 
+  omnipathr_version_check()
   organism %<>% check_organism
   # Load CollecTRI
-  collectri <- OmnipathR::collectri(organism = organism,
-                                    genesymbol=TRUE,
-                                    loops=TRUE, ...)
-  omnipathr_version_check()
+  collectri <- tryCatch(
+    OmnipathR::collectri(
+      organism = organism,
+      genesymbol=TRUE,
+      loops=TRUE,
+      ...
+    ),
+    error = function(e){
+      OmnipathR::static_table(
+        query = 'interactions',
+        resource = 'collectri',
+        organism = organism
+      )
+    }
+  )
 
   if (organism == 9606L){
-    mirna <- OmnipathR::import_tf_mirna_interactions(genesymbols=TRUE,
-                                                     resources = "CollecTRI",
-                                                     strict_evidences = TRUE)
-    collectri <- base::rbind(collectri, mirna)
+    tryCatch(
+      {
+        collectri <-
+          OmnipathR::import_tf_mirna_interactions(
+            genesymbols=TRUE,
+            resources = "CollecTRI",
+            strict_evidences = TRUE
+          ) %>%
+          base::rbind(collectri, .)
+      },
+      error = function(e){
+        OmnipathR::omnipath_msg(
+          "error",
+          paste0(
+            "[decoupleR] Failed to download TF-miRNA interactions from ",
+            "OmniPath. For more information, see the OmnipathR log."
+          )
+        )
+      }
+    )
   }
 
   cols <- c('source_genesymbol', 'target_genesymbol', 'is_stimulation',
@@ -174,20 +212,55 @@ get_resource <- function(name, organism = 'human', ...){
 
   # NSE vs. R CMD check workaround
   uniprot <- genesymbol <- NULL
-
-  if (!name %in% show_resources()){
-    stop(stringr::str_glue('{name} is not a valid resource. Please, run
-                         decoupleR::show_resources() to see the list of
-                         available resources.'))
-  }
+  annot_resources <- tryCatch(
+    {
+      annot_resources <- show_resources()
+      if (!name %in% annot_resources){
+        stop(stringr::str_glue('{name} is not a valid resource. Please, run
+                             decoupleR::show_resources() to see the list of
+                             available resources.'))
+      }
+    },
+    error = function(e){
+      msg <- paste0(
+        "[decoupleR] Failed to check the list of available ",
+        "resources in OmniPath. Proceeding anyways."
+      )
+      OmnipathR::omnipath_msg("warn", msg)
+      warning(msg)
+    }
+  )
 
   organism %<>% check_organism
 
   df <-
-    OmnipathR::import_omnipath_annotations(
-      resources = name,
-      ...,
-      wide = TRUE
+    tryCatch(
+      OmnipathR::import_omnipath_annotations(
+        resources = name,
+        ...,
+        wide = TRUE
+      ),
+      error = function(e){
+        tryCatch(
+          OmnipathR::static_table(
+            query = 'annotations',
+            resource = name,
+            organism = organism
+          ),
+          error = function(e){
+            msg <-
+              sprintf(
+                paste0(
+                  "[decoupleR] Failed to download annotation resource `%s` ",
+                  "from OmniPath. For more information, see the OmnipathR log."
+                ),
+                name
+              )
+            OmnipathR::omnipath_msg("error", msg)
+            stop(msg)
+          }
+        )
+      }
     ) %>%
     {`if`(
       organism != 9606L,

@@ -25,11 +25,7 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
     consensus_inhibition <- dorothea_level <- mor <- source_genesymbol <-
     target_genesymbol <- NULL
 
-  if (utils::packageVersion("OmnipathR") < package_version('3.9.4')){
-    warning("The installed version of OmnipathR is older than 3.9.4 To make
-    sure CollecTRI and DoRothEA data is processed correctly, please update to
-    the latest version by `remotes::install_github('https://github.com/saezlab/omnipath.git')`")
-  }
+  omnipathr_version_check()
   organism %<>% check_organism
   # Get Dorothea
   do <-
@@ -93,11 +89,7 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
   collectri <- OmnipathR::collectri(organism = organism,
                                     genesymbol=TRUE,
                                     loops=TRUE, ...)
-  if (utils::packageVersion("OmnipathR") < package_version('3.9.4')){
-    warning("The installed version of OmnipathR is older than 3.9.4 To make
-    sure CollecTRI and DoRothEA data is processed correctly, please update to
-    the latest version by `remotes::install_github('https://github.com/saezlab/omnipath.git')`")
-  }
+  omnipathr_version_check()
 
   if (organism == 9606L){
     mirna <- OmnipathR::import_tf_mirna_interactions(genesymbols=TRUE,
@@ -139,6 +131,21 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
                   )
   return(collectri)
 }
+
+
+#' Emits a warning if OmnipathR is too old.
+#'
+#' @noRd
+omnipathr_version_check <- function() {
+
+  if (utils::packageVersion("OmnipathR") < package_version('3.9.4')){
+    warning("The installed version of OmnipathR is older than 3.9.4 To make
+    sure CollecTRI and DoRothEA data is processed correctly, please update to
+    the latest version by `remotes::install_github('saezlab/omnipathR')`.")
+  }
+
+}
+
 
 #' Shows available resources in Omnipath. For more information visit the
 #' official website for [Omnipath](https://omnipathdb.org/).

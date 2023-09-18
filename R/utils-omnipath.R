@@ -297,11 +297,26 @@ get_ksn_omnipath <- function(...) {
 }
 
 
+#' @importFrom magrittr %>% extract2
+#' @importFrom stringr str_to_lower
+#' @importFrom rlang %||%
 #' @noRd
 check_organism <- function(organism) {
 
+  COMMON_TO_NCBI <- list(
+      human = 9606L,
+      mouse = 10090L,
+      rat = 10116L
+  )
+
   # Process organism
-  ncbi_tax_id <- OmnipathR::ncbi_taxid(organism)
+  ncbi_tax_id <-
+    tryCatch(
+      OmnipathR::ncbi_taxid(organism),
+      error = function(e) {
+        organism %>% str_to_lower %>% {extract2(COMMON_TO_NCBI, .) %||% .}
+      }
+    )
   if (!ncbi_tax_id %in% c(9606L, 10090L, 10116L)){
     stop(sprintf(
       "Organism can only be human or mouse or rat, `%s` provided.",

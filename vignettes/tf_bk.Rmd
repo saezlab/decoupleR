@@ -174,7 +174,7 @@ pheatmap(sample_acts_mat, border_color = NA, color=my_color, breaks = my_breaks)
 ```
 
 
-We can also infer pathway activities from the t-values of the DEGs between KO
+We can also infer TF activities from the t-values of the DEGs between KO
 and WT:
 ```{r "contrast_ulm", message=FALSE}
 # Run ulm
@@ -213,7 +213,7 @@ ggplot(f_contrast_acts, aes(x = reorder(source, score), y = score)) +
         axis.text.y = element_text(size =10, face= "bold"),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) +
-    xlab("Pathways")
+    xlab("TFs")
 ```
 
 The TFs GLI3 and SPDEF are deactivated in KO when

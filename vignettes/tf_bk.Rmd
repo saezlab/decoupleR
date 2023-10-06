@@ -221,9 +221,9 @@ compared to WT, while MUC and NFKB1 seem to be activated.
 
 We can further visualize the most differential target genes in each TF along their
 p-values to interpret the results. For example, let's see the genes that are 
-belong to FOXA2:
+belong to SP1:
 ```{r "targets", warning=F}
-tf <- 'FOXA2'
+tf <- 'SP1'
 
 df <- net %>%
   filter(source == tf) %>%
@@ -253,9 +253,7 @@ ggplot(df, aes(x = logfc, y = -log10(p_value), color = color, size=abs(mor))) +
 
 Here blue means that the sign of multiplying the `mor` and `t-value` is negative, 
 meaning that these genes are "deactivating" the TF, and red means that the sign
-is positive, meaning that these genes are "activating" the TF. In this particular
-case, FOXA2 target genes seem to be more under-expressed in KO than in WT,
-therefore the KO worked. 
+is positive, meaning that these genes are "activating" the TF. 
 
 # Session information
 

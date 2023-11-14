@@ -65,13 +65,6 @@ project. To install the package, start R and enter:
 
 ``` r
 install.packages("BiocManager")
-BiocManager::install("decoupleR")
-```
-
-Alternatively, you can instead install the latest development version
-from [GitHub](https://github.com/) with:
-
-``` r
 BiocManager::install("saezlab/decoupleR")
 ```
 

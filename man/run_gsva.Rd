@@ -7,8 +7,8 @@
 run_gsva(
   mat,
   network,
-  .source = .data$source,
-  .target = .data$target,
+  .source = source,
+  .target = target,
   verbose = FALSE,
   method = "gsva",
   minsize = 5,

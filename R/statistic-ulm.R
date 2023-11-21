@@ -42,15 +42,19 @@
 #' run_ulm(mat, net, minsize=0)
 run_ulm <- function(mat,
                     network,
-                    .source = .data$source,
-                    .target = .data$target,
-                    .mor = .data$mor,
-                    .likelihood = .data$likelihood,
+                    .source = source,
+                    .target = target,
+                    .mor = mor,
+                    .likelihood = likelihood,
                     sparse = FALSE,
                     center = FALSE,
                     na.rm = FALSE,
                     minsize = 5
                     ) {
+
+    # NSE vs. R CMD check workaround
+    condition <- likelihood <- mor <- p_value <- score <- source <- statistic    <- target <- NULL
+
     # Check for NAs/Infs in mat
     mat <- check_nas_infs(mat)
 
@@ -81,29 +85,25 @@ run_ulm <- function(mat,
 #' @noRd
 .ulm_analysis <- function(mat, mor_mat) {
 
-    fit <- lm(mat ~ mor_mat) %>%
-      summary()
+    # Compute dfs
+    df <- nrow(mor_mat) - 2
+
+    # Fit univariate lm
+    r <- cor(mor_mat, mat)
     
-    res_all <- colnames(mor_mat) %>% lapply(X = ., function(source){
-      # Fit univariate lm
-      fit <- lm(mat ~ mor_mat[, source, drop = FALSE]) %>%
-        summary()
-      if(ncol(mat) == 1){
-        # in case of a single condition, the summary of lm returns the table instead of 
-        # list of tables.
-        #
-        fit <- list(fit)
-        names(fit) <- colnames(mat)
-      }
-      res_src <- fit %>% lapply(X = ., function(sample){
-        scores <- as.vector(sample$coefficients[,3][-1])
-        pvals <- as.vector(sample$coefficients[,4][-1])
-        tibble(score=scores, p_value=pvals, source=source)
-      }) %>% bind_rows(.id = "condition") %>%
-        mutate(condition = gsub("Response ","", .data$condition)) %>%
-        mutate(statistic = "ulm", .before= 1) %>%
-        select(.data$statistic, .data$source, .data$condition,
-               .data$score, .data$p_value)
-    }) %>% bind_rows()
-    res_all
+    # Compute t-value
+    scores <- r * sqrt(df / ((1.0 - r + 1.0e-20)*(1.0 + r + 1.0e-20)))
+      
+    # Compute pvals
+    pvals <- pt(q=abs(scores), df=df, lower.tail = F) * 2
+    
+    scores <- reshape2::melt(t(scores))
+    colnames(scores) <- c('condition', 'source', 'score')
+    scores <- tibble(scores) %>%
+        mutate(statistic = "ulm", .before = 1) %>%
+        mutate(p_value = c(t(pvals)),
+               source=as.character(source),
+               condition=as.character(condition)) %>%
+        select(statistic, source, condition, score, p_value)
+    scores
 }

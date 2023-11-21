@@ -7,10 +7,10 @@
 run_aucell(
   mat,
   network,
-  .source = .data$source,
-  .target = .data$target,
+  .source = source,
+  .target = target,
   aucMaxRank = ceiling(0.05 * nrow(rankings)),
-  nproc = 4,
+  nproc = availableCores(),
   seed = 42,
   minsize = 5
 )

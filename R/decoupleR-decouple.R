@@ -59,8 +59,8 @@
 #' }
 decouple <- function(mat,
                      network,
-                     .source = .data$source,
-                     .target = .data$target,
+                     .source = source,
+                     .target = target,
                      statistics = NULL,
                      args = list(NULL),
                      consensus_score = TRUE,
@@ -68,6 +68,10 @@ decouple <- function(mat,
                      include_time = FALSE,
                      show_toy_call = FALSE,
                      minsize = 5) {
+
+    # NSE vs. R CMD check workaround
+    condition <- run_id <- score <- source <- statistic <- target <- NULL
+
 
     # If NULL use top performer methods.
     if (is.null(statistics)){
@@ -120,18 +124,18 @@ decouple <- function(mat,
         .id = "run_id"
     ) %>%
         select(
-            .data$run_id,
-            .data$statistic,
-            .data$source,
-            .data$condition,
-            .data$score,
+            run_id,
+            statistic,
+            source,
+            condition,
+            score,
             everything()
         ) %>%
-        mutate(run_id = as.numeric(.data$run_id))
+        mutate(run_id = as.numeric(run_id))
     if (consensus_score){
         if (!is.null(consensus_stats)) {
             consensus <- df %>% 
-                dplyr::filter(.data$statistic %in% consensus_stats) %>%
+                dplyr::filter(statistic %in% consensus_stats) %>%
                 decoupleR::run_consensus(., include_time=include_time)
         } else {
             consensus <- decoupleR::run_consensus(df, include_time=include_time)

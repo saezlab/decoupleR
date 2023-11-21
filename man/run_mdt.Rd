@@ -7,16 +7,16 @@
 run_mdt(
   mat,
   network,
-  .source = .data$source,
-  .target = .data$target,
-  .mor = .data$mor,
-  .likelihood = .data$likelihood,
+  .source = source,
+  .target = target,
+  .mor = mor,
+  .likelihood = likelihood,
   sparse = FALSE,
   center = FALSE,
   na.rm = FALSE,
   trees = 10,
   min_n = 20,
-  nproc = 4,
+  nproc = availableCores(),
   seed = 42,
   minsize = 5
 )

@@ -1,3 +1,7 @@
+
+    # NSE vs. R CMD check workaround
+    c_score <- condition <- corr_wmean <- likelihood <- mor <- norm_wmean <-    null_distribution <- null_mean <- null_sd <- p_value <- score <- source <-    statistic <- target <- value <- weight <- wmean <- z_score <- NULL
+
 #' AUCell
 #'
 #' @description
@@ -12,7 +16,7 @@
 #' Therefore, this metric, `aucell`, represents the proportion of
 #' abundant molecular features in the target set, and their relative abundance
 #' value compared to the other features within the sample.
-#' 
+#'
 #' Aibar S. et al. (2017) Scenic: single-cell regulatory network inference and
 #' clustering. Nat. Methods, 14, 1083–1086.
 #'
@@ -29,6 +33,7 @@
 #' @import dplyr
 #' @import tibble
 #' @import tidyr
+#' @importFrom parallelly availableCores
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -38,13 +43,17 @@
 #' run_aucell(mat, net, minsize=0, nproc=1, aucMaxRank=3)
 run_aucell <- function(mat,
                        network,
-                       .source = .data$source,
-                       .target = .data$target,
+                       .source = source,
+                       .target = target,
                        aucMaxRank = ceiling(0.05 * nrow(rankings)),
-                       nproc = 4,
+                       nproc = availableCores(),
                        seed = 42,
                        minsize = 5
 ) {
+
+    # NSE vs. R CMD check workaround
+    source <- target <- NULL
+
   # Before to start ---------------------------------------------------------
   # Check for NAs/Infs in mat
   mat <- check_nas_infs(mat)

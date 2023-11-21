@@ -67,62 +67,71 @@ We can observe that we have different cell types:
 DimPlot(data, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
 ```
 
-# PROGENy model
-[PROGENy](https://saezlab.github.io/progeny/) is a comprehensive resource
-containing a curated collection of pathways and their target genes, with weights
-for each interaction. For this example we will use the human weights
-(mouse is also available) and we will use the top 100 responsive genes ranked
-by p-value. We can use `decoupleR` to retrieve it from `OmniPath`:
+### PROGENy model
+
+[PROGENy](https://saezlab.github.io/progeny/) is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction.
+For this example we will use the human weights (other organisms are available) and we will use the top 500 responsive genes ranked by p-value. Here is a brief description of each pathway:
+
+- **Androgen**: involved in the growth and development of the male reproductive organs.
+- **EGFR**: regulates growth, survival, migration, apoptosis, proliferation, and differentiation in mammalian cells
+- **Estrogen**: promotes the growth and development of the female reproductive organs.
+- **Hypoxia**: promotes angiogenesis and metabolic reprogramming when O2 levels are low.
+- **JAK-STAT**: involved in immunity, cell division, cell death, and tumor formation.
+- **MAPK**: integrates external signals and promotes cell growth and proliferation.
+- **NFkB**: regulates immune response, cytokine production and cell survival.
+- **p53**: regulates cell cycle, apoptosis, DNA repair and tumor suppression.
+- **PI3K**: promotes growth and proliferation.
+- **TGFb**: involved in development, homeostasis, and repair of most tissues.
+- **TNFa**: mediates haematopoiesis, immune surveillance, tumour regression and protection from infection.
+- **Trail**: induces apoptosis.
+- **VEGF**: mediates angiogenesis, vascular permeability, and cell migration.
+- **WNT**: regulates organ morphogenesis during development and tissue repair.
+
+To access it we can use `decoupleR`:
 
 ```{r "progeny", message=FALSE}
-net <- get_progeny(organism = 'human', top = 100)
+net <- get_progeny(organism = 'human', top = 500)
 net
 ```
 
-# Activity inference with Weighted Mean
-To infer activities we will run the Weighted Mean method (`wmean`). It infers
-regulator activities by first multiplying each target feature by its associated
-weight which then are summed to an enrichment score `wmean`. Furthermore,
-permutations of random target features can be performed to obtain a null
-distribution that can be used to compute a z-score `norm_wmean`, or a corrected
-estimate `corr_wmean` by multiplying `wmean` by the minus log10 of the obtained
-empirical p-value.
+# Activity inference with Multivariate Linear Model (MLM)
 
-In this example we use `wmean` but we could have used any other.
-To see what methods are available use `show_methods()`.
+To infer pathway enrichment scores we will run the Multivariate Linear Model (`mlm`) method. For each sample in our dataset (`mat`), it fits a linear model that predicts the observed gene expression based on all pathways' Pathway-Gene interactions weights.
+Once fitted, the obtained t-values of the slopes are the scores. If it is positive, we interpret that the pathway is active and if it is negative we interpret that it is inactive.
+
+![mlm](https://decoupler-py.readthedocs.io/en/1.4.0/_images/mlm.png)
 
 To run `decoupleR` methods, we need an input matrix (`mat`), an input prior
 knowledge network/resource (`net`), and the name of the columns of net that we
 want to use.
 
-```{r "wmean", message=FALSE}
+```{r "mlm", message=FALSE}
 # Extract the normalized log-transformed counts
 mat <- as.matrix(data@assays$RNA@data)
 
-# Run wmean
-acts <- run_wmean(mat=mat, net=net, .source='source', .target='target',
-                  .mor='weight', times = 100, minsize = 5)
+# Run mlm
+acts <- run_mlm(mat=mat, net=net, .source='source', .target='target',
+                .mor='weight', minsize = 5)
 acts
 ```
 
 # Visualization
-From the obtained results, we will select the `norm_wmean` activities and store
-them in our object as a new assay called `pathwayswmean`:
+From the obtained results, we will select the `ulm` activities and store
+them in our object as a new assay called `pathwaysmlm`:
 ```{r "new_assay", message=FALSE}
-# Extract norm_wmean and store it in pathwayswmean in data
-data[['pathwayswmean']] <- acts %>%
-  filter(statistic == 'norm_wmean') %>%
+# Extract mlm and store it in pathwaysmlm in data
+data[['pathwaysmlm']] <- acts %>%
   pivot_wider(id_cols = 'source', names_from = 'condition',
               values_from = 'score') %>%
   column_to_rownames('source') %>%
   Seurat::CreateAssayObject(.)
 
 # Change assay
-DefaultAssay(object = data) <- "pathwayswmean"
+DefaultAssay(object = data) <- "pathwaysmlm"
 
 # Scale the data
 data <- ScaleData(data)
-data@assays$pathwayswmean@data <- data@assays$pathwayswmean@scale.data
+data@assays$pathwaysmlm@data <- data@assays$pathwaysmlm@scale.data
 ```
 
 This new assay can be used to plot activities. Here we visualize the Trail
@@ -141,7 +150,7 @@ p1 | p2
 We can also see what is the mean activity per group across pathways:
 ```{r "mean_acts", message = FALSE, warning = FALSE}
 # Extract activities from object as a long dataframe
-df <- t(as.matrix(data@assays$pathwayswmean@data)) %>%
+df <- t(as.matrix(data@assays$pathwaysmlm@data)) %>%
   as.data.frame() %>%
   mutate(cluster = Idents(data)) %>%
   pivot_longer(cols = -cluster, names_to = "source", values_to = "score") %>%

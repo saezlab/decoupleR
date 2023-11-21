@@ -55,6 +55,15 @@ library(ggrepel)
 Here we used an already processed bulk RNA-seq data-set. We provide the
 normalized log-transformed counts, the experimental design meta-data and the
 Differential Expressed Genes (DEGs) obtained using `limma`.
+
+For this example we use `limma` but we could have used `DeSeq2`, `edgeR` or any
+other statistical framework. decoupleR requires a gene level statistic to
+perform enrichment analysis but it is agnostic of how it was generated. However,
+we do recommend to use statistics that include the direction of change and its
+significance, for example the t-value obtained for `limma`(`t`) or `DeSeq2`(`stat`).
+edgeR does not return such statistic but we can create our own by weighting the
+obtained logFC by pvalue with this formula: `-log10(pvalue) * logFC`.
+
 We can open the data like this:
 ```{r "load data"}
 inputs_dir <- system.file("extdata", package = "decoupleR")
@@ -110,39 +119,32 @@ net <- get_collectri(organism='human', split_complexes=FALSE)
 net
 ```
 
-# Activity inference with Weighted Mean
-To infer activities we will run the Weighted Mean method (`wmean`). It infers
-regulator activities by first multiplying each target feature by its associated
-weight which then are summed to an enrichment score `wmean`. Furthermore,
-permutations of random target features can be performed to obtain a null
-distribution that can be used to compute a z-score `norm_wmean`, or a corrected
-estimate `corr_wmean` by multiplying `wmean` by the minus log10 of the obtained
-empirical p-value.
+# Activity inference with Univariate Linear Model (ULM)
 
-In this example we use `wmean` but we could have used any other.
-To see what methods are available use `show_methods()`.
+To infer TF enrichment scores we will run the Univariate Linear Model (`ulm`) method. For each sample in our dataset (`mat`) and each TF in our network (`net`), it fits a linear model that predicts the observed gene expression
+based solely on the TF's TF-Gene interaction weights. Once fitted, the obtained t-value of the slope is the score. If it is positive, we interpret that the TF is active and if it is negative we interpret that it is inactive.
+
+![ulm](https://decoupler-py.readthedocs.io/en/1.4.0/_images/ulm.png)
 
 To run `decoupleR` methods, we need an input matrix (`mat`), an input prior
 knowledge network/resource (`net`), and the name of the columns of net that we
 want to use.
 
-```{r "sample_wmean", message=FALSE}
-# Run wmean
-sample_acts <- run_wmean(mat=counts, net=net, .source='source', .target='target',
-                  .mor='mor', times = 100, minsize = 5)
+```{r "sample_ulm", message=FALSE}
+# Run ulm
+sample_acts <- run_ulm(mat=counts, net=net, .source='source', .target='target',
+                  .mor='mor', minsize = 5)
 sample_acts
 ```
 
 # Visualization
 
-From the obtained results, we will select the `norm_wmean` activities and we 
-will observe the most variable activities across samples in a heat-map:
+From the obtained results we will observe the most variable activities across samples in a heat-map:
 ```{r "heatmap"}
 n_tfs <- 25
 
 # Transform to wide matrix
 sample_acts_mat <- sample_acts %>%
-  filter(statistic == 'norm_wmean') %>%
   pivot_wider(id_cols = 'condition', names_from = 'source',
               values_from = 'score') %>%
   column_to_rownames('condition') %>%
@@ -172,25 +174,23 @@ pheatmap(sample_acts_mat, border_color = NA, color=my_color, breaks = my_breaks)
 ```
 
 
-We can also infer pathway activities from the t-values of the DEGs between KO
+We can also infer TF activities from the t-values of the DEGs between KO
 and WT:
-```{r "contrast_wmean", message=FALSE}
-# Run wmean
-contrast_acts <- run_wmean(mat=deg[, 't', drop=FALSE], net=net, .source='source', .target='target',
-                  .mor='mor', times = 100, minsize = 5)
+```{r "contrast_ulm", message=FALSE}
+# Run ulm
+contrast_acts <- run_ulm(mat=deg[, 't', drop=FALSE], net=net, .source='source', .target='target',
+                  .mor='mor', minsize = 5)
 contrast_acts
 ```
 
-We select the `norm_wmean` activities and then we show the changes
+Let's show the changes
 in activity between KO and WT:
 
 ```{r "barplot"}
-# Filter norm_wmean
-f_contrast_acts <- contrast_acts %>%
-  filter(statistic == 'norm_wmean') %>%
-  mutate(rnk = NA)
 
 # Filter top TFs in both signs
+f_contrast_acts <- contrast_acts %>%
+  mutate(rnk = NA)
 msk <- f_contrast_acts$score > 0
 f_contrast_acts[msk, 'rnk'] <- rank(-f_contrast_acts[msk, 'score'])
 f_contrast_acts[!msk, 'rnk'] <- rank(-abs(f_contrast_acts[!msk, 'score']))
@@ -213,17 +213,17 @@ ggplot(f_contrast_acts, aes(x = reorder(source, score), y = score)) +
         axis.text.y = element_text(size =10, face= "bold"),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) +
-    xlab("Pathways")
+    xlab("TFs")
 ```
 
-The TFs HLF and IRX1 are deactivated in KO when
-compared to WT, while FOSL1 and MYC seem to be activated.
+The TFs GLI3 and SPDEF are deactivated in KO when
+compared to WT, while MUC and NFKB1 seem to be activated.
 
 We can further visualize the most differential target genes in each TF along their
 p-values to interpret the results. For example, let's see the genes that are 
-belong to FOXA2:
+belong to SP1:
 ```{r "targets", warning=F}
-tf <- 'FOXA2'
+tf <- 'SP1'
 
 df <- net %>%
   filter(source == tf) %>%
@@ -253,9 +253,7 @@ ggplot(df, aes(x = logfc, y = -log10(p_value), color = color, size=abs(mor))) +
 
 Here blue means that the sign of multiplying the `mor` and `t-value` is negative, 
 meaning that these genes are "deactivating" the TF, and red means that the sign
-is positive, meaning that these genes are "activating" the TF. In this particular
-case, FOXA2 target genes seem to be more under-expressed in KO than in WT,
-therefore the KO worked. 
+is positive, meaning that these genes are "activating" the TF. 
 
 # Session information
 

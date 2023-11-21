@@ -55,6 +55,15 @@ library(ggrepel)
 Here we used an already processed bulk RNA-seq data-set. We provide the
 normalized log-transformed counts, the experimental design meta-data and the
 Differential Expressed Genes (DEGs) obtained using `limma`.
+
+For this example we use `limma` but we could have used `DeSeq2`, `edgeR` or any
+other statistical framework. decoupleR requires a gene level statistic to
+perform enrichment analysis but it is agnostic of how it was generated. However,
+we do recommend to use statistics that include the direction of change and its
+significance, for example the t-value obtained for `limma`(`t`) or `DeSeq2`(`stat`).
+edgeR does not return such statistic but we can create our own by weighting the
+obtained logFC by pvalue with this formula: `-log10(pvalue) * logFC`.
+
 We can open the data like this:
 ```{r "load data"}
 inputs_dir <- system.file("extdata", package = "decoupleR")
@@ -91,54 +100,63 @@ head(deg)
 ```
 
 # PROGENy model
-[PROGENy](https://saezlab.github.io/progeny/) is a comprehensive resource
-containing a curated collection of pathways and their target genes, with weights
-for each interaction. For this example we will use the human weights
-(mouse is also available) and we will use the top 100 responsive genes ranked
-by p-value. We can use `decoupleR` to retrieve it from `OmniPath`:
+
+[PROGENy](https://saezlab.github.io/progeny/) is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction.
+For this example we will use the human weights (other organisms are available) and we will use the top 500 responsive genes ranked by p-value. Here is a brief description of each pathway:
+
+- **Androgen**: involved in the growth and development of the male reproductive organs.
+- **EGFR**: regulates growth, survival, migration, apoptosis, proliferation, and differentiation in mammalian cells
+- **Estrogen**: promotes the growth and development of the female reproductive organs.
+- **Hypoxia**: promotes angiogenesis and metabolic reprogramming when O2 levels are low.
+- **JAK-STAT**: involved in immunity, cell division, cell death, and tumor formation.
+- **MAPK**: integrates external signals and promotes cell growth and proliferation.
+- **NFkB**: regulates immune response, cytokine production and cell survival.
+- **p53**: regulates cell cycle, apoptosis, DNA repair and tumor suppression.
+- **PI3K**: promotes growth and proliferation.
+- **TGFb**: involved in development, homeostasis, and repair of most tissues.
+- **TNFa**: mediates haematopoiesis, immune surveillance, tumour regression and protection from infection.
+- **Trail**: induces apoptosis.
+- **VEGF**: mediates angiogenesis, vascular permeability, and cell migration.
+- **WNT**: regulates organ morphogenesis during development and tissue repair.
+
+To access it we can use `decoupleR`:
 
 ```{r "progeny", message=FALSE}
-net <- get_progeny(organism = 'human', top = 100)
+net <- get_progeny(organism = 'human', top = 500)
 net
 ```
 
-# Activity inference with Weighted Mean
-To infer activities we will run the Weighted Mean method (`wmean`). It infers
-regulator activities by first multiplying each target feature by its associated
-weight which then are summed to an enrichment score `wmean`. Furthermore,
-permutations of random target features can be performed to obtain a null
-distribution that can be used to compute a z-score `norm_wmean`, or a corrected
-estimate `corr_wmean` by multiplying `wmean` by the minus log10 of the obtained
-empirical p-value.
+# Activity inference with Multivariate Linear Model (MLM)
 
-In this example we use `wmean` but we could have used any other.
-To see what methods are available use `show_methods()`.
+To infer pathway enrichment scores we will run the Multivariate Linear Model (`mlm`) method. For each sample in our dataset (`mat`), it fits a linear model that predicts the observed gene expression based on all pathways' Pathway-Gene interactions weights.
+Once fitted, the obtained t-values of the slopes are the scores. If it is positive, we interpret that the pathway is active and if it is negative we interpret that it is inactive.
+
+![mlm](https://decoupler-py.readthedocs.io/en/1.4.0/_images/mlm.png)
 
 To run `decoupleR` methods, we need an input matrix (`mat`), an input prior
 knowledge network/resource (`net`), and the name of the columns of net that we
 want to use.
 
-```{r "sample_wmean", message=FALSE}
-# Run wmean
-sample_acts <- run_wmean(mat=counts, net=net, .source='source', .target='target',
-                  .mor='weight', times = 100, minsize = 5)
+```{r "sample_mlm", message=FALSE}
+# Run mlm
+sample_acts <- run_mlm(mat=counts, net=net, .source='source', .target='target',
+                  .mor='weight', minsize = 5)
 sample_acts
 ```
 
 # Visualization
 
-From the obtained results, we will select the `norm_wmean` activities and we 
+From the obtained results we 
 will observe the obtained activities per sample in a heat-map:
 ```{r "heatmap"}
 # Transform to wide matrix
 sample_acts_mat <- sample_acts %>%
-  filter(statistic == 'norm_wmean') %>%
   pivot_wider(id_cols = 'condition', names_from = 'source',
               values_from = 'score') %>%
   column_to_rownames('condition') %>%
   as.matrix()
 
-# Scale per sample
+# Scale per feature
 sample_acts_mat <- scale(sample_acts_mat)
 
 # Choose color palette
@@ -152,28 +170,21 @@ my_breaks <- c(seq(-3, 0, length.out=ceiling(palette_length/2) + 1),
 pheatmap(sample_acts_mat, border_color = NA, color=my_color, breaks = my_breaks) 
 ```
 
-We can observe that WT samples have higher activities for p53 and TGFb than KO.
-On the other hand, KO show higher activities for MAPK and PI3K.
-
 We can also infer pathway activities from the t-values of the DEGs between KO
 and WT:
-```{r "contrast_wmean", message=FALSE}
-# Run wmean
-contrast_acts <- run_wmean(mat=deg, net=net, .source='source', .target='target',
-                  .mor='weight', times = 100, minsize = 5)
+```{r "contrast_mlm", message=FALSE}
+# Run mlm
+contrast_acts <- run_mlm(mat=deg, net=net, .source='source', .target='target',
+                  .mor='weight', minsize = 5)
 contrast_acts
 ```
 
-We select the `norm_wmean` activities and then we show the changes
+Let's show the changes
 in activity between KO and WT:
 
 ```{r "barplot"}
-# Filter norm_wmean
-f_contrast_acts <- contrast_acts %>%
-  filter(statistic == 'norm_wmean')
-
 # Plot
-ggplot(f_contrast_acts, aes(x = reorder(source, score), y = score)) + 
+ggplot(contrast_acts, aes(x = reorder(source, score), y = score)) + 
     geom_bar(aes(fill = score), stat = "identity") +
     scale_fill_gradient2(low = "darkblue", high = "indianred", 
         mid = "whitesmoke", midpoint = 0) + 
@@ -187,8 +198,8 @@ ggplot(f_contrast_acts, aes(x = reorder(source, score), y = score)) +
     xlab("Pathways")
 ```
 
-As observed before, the pathways p53 and TGFb are deactivated in KO when
-compared to WT, while JAK-STAT and others seem to be activated.
+The pathway p53 and Trail are deactivated in KO when
+compared to WT, while MAPKK and JAK-STAT and seem to be activated.
 
 We can further visualize the most responsive genes in each pathway along their
 t-values to interpret the results. For example, let's see the genes that are 

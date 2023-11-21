@@ -44,10 +44,10 @@
 #' run_udt(mat, net, minsize=0)
 run_udt <- function(mat,
                     network,
-                    .source = .data$source,
-                    .target = .data$target,
-                    .mor = .data$mor,
-                    .likelihood = .data$likelihood,
+                    .source = source,
+                    .target = target,
+                    .mor = mor,
+                    .likelihood = likelihood,
                     sparse = FALSE,
                     center = FALSE,
                     na.rm = FALSE,
@@ -55,6 +55,10 @@ run_udt <- function(mat,
                     seed = 42,
                     minsize = 5
 ) {
+
+    # NSE vs. R CMD check workaround
+    condition <- likelihood <- mor <- score <- source <- target <- NULL
+
   # Check for NAs/Infs in mat
   mat <- check_nas_infs(mat)
 
@@ -102,7 +106,7 @@ run_udt <- function(mat,
                                 temp %>% pluck("condition", .x)))
 
   bind_cols(temp, score = score) %>%
-    transmute(statistic = "udt", .data$source, .data$condition, .data$score)
+    transmute(statistic = "udt", source, condition, score)
 }
 
 #' Wrapper to run udt per a sample (condition) at time

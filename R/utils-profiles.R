@@ -1,3 +1,7 @@
+
+    # NSE vs. R CMD check workaround
+    condition <- likelihood <- mor <- score <- source <- target <- NULL
+
 #' @inherit tidyr::complete title
 #'
 #' @inherit tidyr::complete description
@@ -40,8 +44,8 @@
 #' @seealso [complete][tidyr::complete] [expand][tidyr::expand]
 #'
 #' @import dplyr
-#' @import purrr
 #' @import tidyr
+#' @importFrom rlang exec !!!
 get_profile_of <- function(data, sources, values_fill = NA) {
     # The function only allows to reduce or extend the length of the profile,
     # not to add metadata
@@ -51,7 +55,8 @@ get_profile_of <- function(data, sources, values_fill = NA) {
     sources <- map(sources, unique)
 
     # Get combinations of the data and join them to the original data set
-    new_data <- lift_dl(expand_grid)(sources) %>%
+    new_data <-
+        exec(expand_grid, !!!sources) %>%
         left_join(data, by = names(sources))
 
     if (is_list(values_fill)) {

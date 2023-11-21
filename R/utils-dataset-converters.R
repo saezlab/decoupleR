@@ -58,13 +58,17 @@ rename_net <- function(network,
 #' net <- rename_net(net, source, target, mor)
 #' extract_sets(net)
 extract_sets <- function(network) {
+
+    # NSE vs. R CMD check workaround
+    regulons <- source <- target <- NULL
+
     network %>%
-        group_by(.data$source) %>%
+        group_by(source) %>%
         summarise(
-            regulons = set_names(list(.data$target), .data$source[1]),
+            regulons = set_names(list(target), source[1]),
             .groups = "drop"
         ) %>%
-        pull(.data$regulons)
+        pull(regulons)
 }
 
 # Helper functions --------------------------------------------------------
@@ -218,8 +222,12 @@ convert_f_defaults <- function(.data,
 #' @param network Network in tibble format.
 #' @noRd
 check_repeated_edges <- function(network){
+
+    # NSE vs. R CMD check workaround
+    source <- target <- NULL
+
     repeated <- network %>%
-        group_by(.data$source, .data$target) %>%
+        group_by(source, target) %>%
         filter(n()>1)
     if (nrow(repeated) > 1){
         stop('Network contains repeated edges, please remove them.')

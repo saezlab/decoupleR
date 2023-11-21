@@ -40,12 +40,16 @@
 #' run_gsva(mat, net, minsize=0, verbose = FALSE)
 run_gsva <- function(mat,
                      network,
-                     .source = .data$source,
-                     .target = .data$target,
+                     .source = source,
+                     .target = target,
                      verbose = FALSE,
                      method = "gsva",
                      minsize = 5,
                      ...) {
+
+    # NSE vs. R CMD check workaround
+    condition <- score <- source <- target <- NULL
+
     # Check for NAs/Infs in mat
     mat <- check_nas_infs(mat)
 
@@ -69,12 +73,12 @@ run_gsva <- function(mat,
         as.data.frame() %>%
         rownames_to_column(var = "source") %>%
         pivot_longer(
-            cols = -.data$source,
+            cols = -source,
             names_to = "condition",
             values_to = "score"
         ) %>%
         transmute(
             statistic = "gsva",
-            .data$source, .data$condition, .data$score
+            source, condition, score
         )
 }

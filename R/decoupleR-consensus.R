@@ -34,6 +34,10 @@ run_consensus <- function(df,
                           include_time=FALSE,
                           seed = NULL
                           ){
+
+    # NSE vs. R CMD check workaround
+    condition <- score <- source <- statistic <- NULL
+
   start_time <- Sys.time()
   
   # Filter Infs
@@ -47,25 +51,25 @@ run_consensus <- function(df,
   
   run_id <- max(df$run_id)
   consensus <- df %>%
-    dplyr::group_by(.data$statistic, .data$condition) %>%
+    dplyr::group_by(statistic, condition) %>%
     dplyr::group_split() %>%
     purrr::map(function(df){
       pos <- df %>%
-        dplyr::filter(.data$score > 0) %>%
-        rbind(., dplyr::mutate(., score=-.data$score)) %>%
-        dplyr::mutate(score=.data$score / sd(.data$score)) %>%
-        dplyr::filter(.data$score > 0)
+        dplyr::filter(score > 0) %>%
+        rbind(., dplyr::mutate(., score=-score)) %>%
+        dplyr::mutate(score=score / sd(score)) %>%
+        dplyr::filter(score > 0)
       neg <- df %>%
-        dplyr::filter(.data$score <= 0) %>%
-        rbind(., dplyr::mutate(., score=-.data$score)) %>%
-        dplyr::mutate(score=.data$score / sd(.data$score)) %>%
-        dplyr::filter(.data$score <= 0)
+        dplyr::filter(score <= 0) %>%
+        rbind(., dplyr::mutate(., score=-score)) %>%
+        dplyr::mutate(score=score / sd(score)) %>%
+        dplyr::filter(score <= 0)
       rbind(pos,neg)
     }) %>%
     dplyr::bind_rows() %>%
-    dplyr::group_by(.data$condition, .data$source) %>%
-    dplyr::summarize(score=mean(.data$score), .groups = 'drop') %>%
-    dplyr::mutate(p_value = 2*stats::pnorm(-abs(.data$score))) %>%
+    dplyr::group_by(condition, source) %>%
+    dplyr::summarize(score=mean(score), .groups = 'drop') %>%
+    dplyr::mutate(p_value = 2*stats::pnorm(-abs(score))) %>%
     tibble::add_column(
       statistic = 'consensus',
       .before = 'source'

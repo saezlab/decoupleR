@@ -128,7 +128,6 @@ jobs:
             any::pkgdown
             any::rcmdcheck
             any::BiocCheck
-            git::https://github.com/saezlab/OmnipathR
           upgrade: "TRUE"
 
       - name: Set BiocVersion

@@ -11,7 +11,7 @@ Each interaction is weighted by its mode of regulation (either positive or negat
 get_collectri(organism = "human", split_complexes = FALSE, ...)
 }
 \arguments{
-\item{organism}{Which organism to use. Only human and mouse are available.}
+\item{organism}{Which organism to use. Only human, mouse and rat are available.}
 
 \item{split_complexes}{Whether to split complexes into subunits. By default
 complexes are kept as they are.}

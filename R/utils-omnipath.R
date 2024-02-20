@@ -315,8 +315,7 @@ get_progeny <- function(organism='human', top=500){
     }) %>%
     dplyr::bind_rows() %>%
     dplyr::select(pathway, genesymbol, weight, p_value) %>%
-    rlang::set_names(c('source', 'target', 'weight', 'p_value')) %>%
-
+    rlang::set_names(c('source', 'target', 'weight', 'p_value'))
   return(p)
 }
 

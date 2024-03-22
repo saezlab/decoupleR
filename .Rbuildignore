@@ -15,3 +15,4 @@
 ^codecov\.yml$
 ^\.github
 ^\.git
+^\.bumpversion\.cfg$

@@ -82,6 +82,7 @@ run_ulm <- function(mat,
 #'
 #' @inherit run_ulm return
 #' @keywords intern
+#' @importFrom stats cor pt
 #' @noRd
 .ulm_analysis <- function(mat, mor_mat) {
 
@@ -90,13 +91,13 @@ run_ulm <- function(mat,
 
     # Fit univariate lm
     r <- cor(mor_mat, mat)
-    
+
     # Compute t-value
     scores <- r * sqrt(df / ((1.0 - r + 1.0e-20)*(1.0 + r + 1.0e-20)))
-      
+
     # Compute pvals
     pvals <- pt(q=abs(scores), df=df, lower.tail = F) * 2
-    
+
     scores <- reshape2::melt(t(scores))
     colnames(scores) <- c('condition', 'source', 'score')
     scores <- tibble(scores) %>%

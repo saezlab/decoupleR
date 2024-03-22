@@ -6,7 +6,7 @@
 #' factors (TFs) and their target genes. Each interaction is weighted by its
 #' mode of regulation (either positive or negative) and by its confidence level
 #'
-#' @param organism Which organism to use. Only human and mouse are available.
+#' @param organism Which organism to use. Only human, mouse and rat are available.
 #' @param levels List of confidence levels to return. Goes from A to D, A
 #' being the most confident and D being the less.
 #' @param weight_dict Dictionary of values to divide the mode of regulation
@@ -81,7 +81,7 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
 #' factors (TFs) and their target genes. It is an expansion of DoRothEA.
 #' Each interaction is weighted by its mode of regulation (either positive or negative).
 #'
-#' @param organism Which organism to use. Only human and mouse are available.
+#' @param organism Which organism to use. Only human, mouse and rat are available.
 #' @param split_complexes Whether to split complexes into subunits. By default
 #' complexes are kept as they are.
 #' @param ... Ignored.
@@ -315,8 +315,7 @@ get_progeny <- function(organism='human', top=500){
     }) %>%
     dplyr::bind_rows() %>%
     dplyr::select(pathway, genesymbol, weight, p_value) %>%
-    rlang::set_names(c('source', 'target', 'weight', 'p_value')) %>%
-
+    rlang::set_names(c('source', 'target', 'weight', 'p_value'))
   return(p)
 }
 

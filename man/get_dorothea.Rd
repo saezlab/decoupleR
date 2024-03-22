@@ -11,7 +11,7 @@ get_dorothea(
 )
 }
 \arguments{
-\item{organism}{Which organism to use. Only human and mouse are available.}
+\item{organism}{Which organism to use. Only human, mouse and rat are available.}
 
 \item{levels}{List of confidence levels to return. Goes from A to D, A
 being the most confident and D being the less.}

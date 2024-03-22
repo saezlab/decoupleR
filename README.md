@@ -64,8 +64,14 @@ data, please check the following links:
 project. To install the package, start R and enter:
 
 ``` r
-install.packages("BiocManager")
-BiocManager::install("saezlab/decoupleR")
+install.packages('BiocManager')
+BiocManager::install('saezlab/decoupleR')
+```
+
+Alternatively, if you find any error, try to install the latest version from GitHub:
+```r
+install.packages('remotes')
+remotes::install_github('saezlab/decoupleR')
 ```
 
 ## License

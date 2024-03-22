@@ -9,7 +9,6 @@
 ^_pkgdown\.yml$
 ^docs
 ^doc
-^inst/doc
 ^omnipathr-log
 ^pkgdown
 ^codecov\.yml$

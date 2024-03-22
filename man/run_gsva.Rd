@@ -10,8 +10,9 @@ run_gsva(
   .source = source,
   .target = target,
   verbose = FALSE,
-  method = "gsva",
-  minsize = 5,
+  method = c("gsva", "plage", "ssgsea", "zscore"),
+  minsize = 5L,
+  maxsize = Inf,
   ...
 )
 }
@@ -30,14 +31,58 @@ in \code{network} \code{.target} column.}
 \item{verbose}{Gives information about each calculation step. Default: FALSE.}
 
 \item{method}{Method to employ in the estimation of gene-set enrichment.
-scores per sample. By default this is set to gsva (Hänzelmann et al, 2013).}
+scores per sample. By default this is set to gsva (Hänzelmann et al, 2013).
+Further available methods are "plage", "ssgsea" and "zscore". Read more in
+the manual of \code{GSVA::gsva}.}
 
 \item{minsize}{Integer indicating the minimum number of targets per source.}
 
+\item{maxsize}{Integer indicating the maximum number of targets per source.}
+
 \item{...}{
-  Arguments passed on to \code{\link[GSVA:gsva]{GSVA::gsva}}
+  Arguments passed on to \code{\link[GSVA:gsvaParam-class]{GSVA::gsvaParam}}, \code{\link[GSVA:ssgseaParam-class]{GSVA::ssgseaParam}}
   \describe{
-    \item{\code{}}{}
+    \item{\code{assay}}{The name of the assay to use in case \code{exprData} is a multi-assay
+container, otherwise ignored.  By default, the first assay is used.}
+    \item{\code{annotation}}{The name of a Bioconductor annotation package for the gene
+identifiers occurring in the row names of the expression data matrix.  This
+can be used to map gene identifiers occurring in the gene sets if those are
+provided in a \code{\link{GeneSetCollection}}.  By default gene identifiers used in
+expression data matrix and gene sets are matched directly.}
+    \item{\code{kcdf}}{Character vector of length 1 denoting the kernel to use during
+the non-parametric estimation of the cumulative distribution function of
+expression levels across samples.  By default, \code{kcdf="Gaussian"} which is
+suitable when input expression values are continuous, such as microarray
+fluorescent units in logarithmic scale, RNA-seq log-CPMs, log-RPKMs or
+log-TPMs.  When input expression values are integer counts, such as those
+derived from RNA-seq experiments, then this argument should be set to
+\code{kcdf="Poisson"}.}
+    \item{\code{tau}}{Numeric vector of length 1.  The exponent defining the weight of
+the tail in the random walk performed by the \code{GSVA} (Hänzelmann et al.,
+2013) method.  The default value is 1 as described in the paper.}
+    \item{\code{maxDiff}}{Logical vector of length 1 which offers two approaches to
+calculate the enrichment statistic (ES) from the KS random walk statistic.
+\itemize{
+\item \code{FALSE}: ES is calculated as the maximum distance of the random walk
+from 0.
+\item \code{TRUE} (the default): ES is calculated as the magnitude difference between
+the largest positive and negative random walk deviations.
+}}
+    \item{\code{absRanking}}{Logical vector of length 1 used only when \code{maxDiff=TRUE}.
+When \code{absRanking=FALSE} (default) a modified Kuiper statistic is used to
+calculate enrichment scores, taking the magnitude difference between the
+largest positive and negative random walk deviations. When
+\code{absRanking=TRUE} the original Kuiper statistic that sums the largest
+positive and negative random walk deviations, is used. In this latter case,
+gene sets with genes enriched on either extreme (high or low) will be
+regarded as ’highly’ activated.}
+    \item{\code{alpha}}{Numeric vector of length 1.  The exponent defining the
+weight of the tail in the random walk performed by the \code{ssGSEA} (Barbie et
+al., 2009) method.  The default value is 0.25 as described in the paper.}
+    \item{\code{normalize}}{Logical vector of length 1; if \code{TRUE}  runs the \code{ssGSEA} method
+from Barbie et al. (2009) normalizing the scores by the absolute difference
+between the minimum and the maximum, as described in their paper. Otherwise
+this last normalization step is skipped.}
   }}
 }
 \value{
@@ -71,7 +116,7 @@ inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 mat <- readRDS(file.path(inputs_dir, "mat.rds"))
 net <- readRDS(file.path(inputs_dir, "net.rds"))
 
-run_gsva(mat, net, minsize=0, verbose = FALSE)
+run_gsva(mat, net, minsize=1, verbose = FALSE)
 }
 \seealso{
 Other decoupleR statistics: 

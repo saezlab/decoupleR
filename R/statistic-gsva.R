@@ -11,7 +11,7 @@
 #'  distribution. Afterwards, an enrichment score `gsva` is calculated
 #'  using a running sum statistic that is normalized by subtracting the largest
 #'  negative estimate from the largest positive one.
-#'  
+#'
 #'  Hänzelmann S. et al. (2013) GSVA: gene set variation analysis for microarray
 #'   and RNA-seq data. BMC Bioinformatics, 14, 7.
 #'
@@ -20,8 +20,12 @@
 #' @param verbose Gives information about each calculation step. Default: FALSE.
 #' @param method Method to employ in the estimation of gene-set enrichment.
 #' scores per sample. By default this is set to gsva (Hänzelmann et al, 2013).
+#' Further available methods are "plage", "ssgsea" and "zscore". Read more in
+#' the manual of \code{GSVA::gsva}.
 #' @param minsize Integer indicating the minimum number of targets per source.
-#' @inheritDotParams GSVA::gsva -expr -gset.idx.list
+#' @param maxsize Integer indicating the maximum number of targets per source.
+#' @inheritDotParams GSVA::gsvaParam -exprData -geneSets -minSize -maxSize
+#' @inheritDotParams GSVA::ssgseaParam -exprData -geneSets -minSize -maxSize
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
@@ -30,6 +34,11 @@
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #' @family decoupleR statistics
+#' @importFrom GSVA gsva gsvaParam
+#' @importFrom rlang !!! exec
+#' @importFrom tidyr pivot_longer
+#' @importFrom dplyr mutate
+#' @importFrom tibble rownames_to_column
 #' @export
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -37,18 +46,33 @@
 #' mat <- readRDS(file.path(inputs_dir, "mat.rds"))
 #' net <- readRDS(file.path(inputs_dir, "net.rds"))
 #'
-#' run_gsva(mat, net, minsize=0, verbose = FALSE)
+#' run_gsva(mat, net, minsize=1, verbose = FALSE)
 run_gsva <- function(mat,
                      network,
                      .source = source,
                      .target = target,
                      verbose = FALSE,
-                     method = "gsva",
-                     minsize = 5,
+                     method = c("gsva", "plage", "ssgsea", "zscore"),
+                     minsize = 5L,
+                     maxsize = Inf,
                      ...) {
 
     # NSE vs. R CMD check workaround
     condition <- score <- source <- target <- NULL
+
+    param <- tryCatch(
+        get(
+            sprintf('%sParam', method[1L]),
+            envir = asNamespace('GSVA'),
+            inherit = FALSE
+        ),
+        error = function(e) {
+            stop(sprintf(
+                'No such method in GSVA: `%s`. To learn more check ?gsva.',
+                method
+            ))
+        }
+    )
 
     # Check for NAs/Infs in mat
     mat <- check_nas_infs(mat)
@@ -60,25 +84,28 @@ run_gsva <- function(mat,
     regulons <- extract_sets(network)
 
     # Analysis ----------------------------------------------------------------
-    exec(
-        .fn = GSVA::gsva,
-        expr = mat,
-        gset.idx.list = regulons,
-        min.sz = 1,
-        max.sz = Inf,
-        verbose = verbose,
-        method = method,
-        !!!list(...)
+    GSVA::gsva(
+        expr = exec(
+            param,
+            exprData = mat,
+            geneSets = regulons,
+            minSize = minsize,
+            maxSize = maxsize,
+            !!!list(...)
+        ),
+        verbose = verbose
     ) %>%
-        as.data.frame() %>%
-        rownames_to_column(var = "source") %>%
-        pivot_longer(
-            cols = -source,
-            names_to = "condition",
-            values_to = "score"
-        ) %>%
-        transmute(
-            statistic = "gsva",
-            source, condition, score
-        )
+    as.data.frame() %>%
+    rownames_to_column(var = "source") %>%
+    pivot_longer(
+        cols = -source,
+        names_to = "condition",
+        values_to = "score"
+    ) %>%
+    mutate(
+        statistic = "gsva",
+        source, condition, score,
+        .keep = "none"
+    )
+
 }

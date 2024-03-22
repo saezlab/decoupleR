@@ -34,7 +34,6 @@
 #'  3. `condition`: Condition representing each column of `mat`.
 #'  4. `score`: Regulatory activity (enrichment score).
 #' @family decoupleR statistics
-#' @importFrom GSVA gsva gsvaParam
 #' @importFrom rlang !!! exec
 #' @importFrom tidyr pivot_longer
 #' @importFrom dplyr mutate

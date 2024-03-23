@@ -38,6 +38,8 @@
 #' @import dplyr
 #' @import purrr
 #' @import tibble
+#' @importFrom magrittr %<>% %>%
+#' @importFrom withr with_seed
 #' @importFrom parallelly availableCores
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -65,24 +67,21 @@ run_mdt <- function(mat,
     # NSE vs. R CMD check workaround
     condition <- likelihood <- mor <- score <- source <- target <- NULL
 
-  # Check for NAs/Infs in mat
-  mat <- check_nas_infs(mat)
+    # Check for NAs/Infs in mat
+    mat %<>% check_nas_infs
 
-  # Before to start ---------------------------------------------------------
-  # Convert to standard tibble: source-target-mor.
-  network <- network %>%
-    rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
-  network <- filt_minsize(rownames(mat), network, minsize)
-
-  # Preprocessing -----------------------------------------------------------
-  .fit_preprocessing(network, mat, center, na.rm, sparse) %>%
+    # Before to start ---------------------------------------------------------
+    # Convert to standard tibble: source-target-mor.
+    network %>%
+    rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }}) %>%
+    filt_minsize(rownames(mat), ., minsize) %>%
+    # Preprocessing -----------------------------------------------------------
+    .fit_preprocessing(mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
-  {
-    withr::with_seed(seed, {
-      .mdt_analysis(.$mat, .$mor_mat, trees, min_n, nproc)
-    })
-  }
+    {with_seed(seed, {.mdt_analysis(.$mat, .$mor_mat, trees, min_n, nproc)})}
+
 }
+
 
 #' Wrapper to execute run_mdt() logic one finished preprocessing of data
 #'
@@ -91,43 +90,60 @@ run_mdt <- function(mat,
 #' @param mor_mat
 #'
 #' @inherit run_mdt return
+#' @importFrom purrr partial
+#' @importFrom tidyr expand_grid
+#' @importFrom dplyr rowwise reframe mutate arrange relocate
 #' @keywords intern
 #' @noRd
 .mdt_analysis <- function(mat, mor_mat, trees, min_n, nproc) {
-  mdt_evaluate_model <- partial(
-    .f = .mdt_evaluate_model,
-    mat = mat,
-    mor_mat = mor_mat,
-    trees = trees,
-    min_n = min_n,
-    nproc = nproc
-  )
 
-  # Allocate the space for all conditions and evaluate the proposed model.
-  expand_grid(
-    condition = colnames(mat)
-  ) %>%
+     # NSE vs R CMD check workaround
+    condition <- NULL
+    mdt_evaluate_model <- partial(
+        .f = .mdt_evaluate_model,
+        mat = mat,
+        mor_mat = mor_mat,
+        trees = trees,
+        min_n = min_n,
+        nproc = nproc
+    )
+
+    # Allocate the space for all conditions and evaluate the proposed model.
+    expand_grid(
+        condition = colnames(mat)
+    ) %>%
     rowwise(condition) %>%
-    summarise(
-      score = mdt_evaluate_model(condition),
-      source = colnames(mor_mat),
-      .groups = "drop"
+    reframe(
+        score = mdt_evaluate_model(condition),
+        source = colnames(mor_mat),
     ) %>%
-    transmute(statistic = "mdt", source, condition, score
+    mutate(
+        statistic = "mdt",
+        source, condition, score,
+        .before = 1L
     ) %>%
-    arrange(source)
+    arrange(source) %>%
+    relocate(source, .after = 1L)
+
 }
+
 
 #' Wrapper to run mdt per a sample (condition) at time
 #'
+#' @importFrom purrr pluck
+#' @importFrom magrittr %>%
 #' @keywords internal
 #' @noRd
 .mdt_evaluate_model <- function(condition, mat, mor_mat, trees, min_n, nproc) {
-  ranger::ranger(condition ~ ., data = data.frame(condition=mat[, condition], mor_mat),
-                 num.trees = trees,
-                 importance = "impurity",
-                 min.node.size = min_n,
-                 num.threads = nproc) %>%
+
+    ranger::ranger(
+        condition ~ .,
+        data = data.frame(condition = mat[, condition], mor_mat),
+        num.trees = trees,
+        importance = "impurity",
+        min.node.size = min_n,
+        num.threads = nproc
+    ) %>%
     pluck("variable.importance")
 
 }

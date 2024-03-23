@@ -14,7 +14,7 @@ run_ulm(
   sparse = FALSE,
   center = FALSE,
   na.rm = FALSE,
-  minsize = 5
+  minsize = 5L
 )
 }
 \arguments{

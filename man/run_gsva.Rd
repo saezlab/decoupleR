@@ -33,9 +33,10 @@ in \code{network} \code{.target} column.}
 \item{method}{Method to employ in the estimation of gene-set enrichment.
 scores per sample. By default this is set to gsva (Hänzelmann et al, 2013).
 Further available methods are "plage", "ssgsea" and "zscore". Read more in
-the manual of \code{GSVA::gsva}.}
+the manual of \code{\link{GSVA::gsva}}.}
 
-\item{minsize}{Integer indicating the minimum number of targets per source.}
+\item{minsize}{Integer indicating the minimum number of targets per source.
+Must be greater than 0.}
 
 \item{maxsize}{Integer indicating the maximum number of targets per source.}
 

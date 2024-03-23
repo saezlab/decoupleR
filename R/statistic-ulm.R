@@ -28,11 +28,9 @@
 #' @family decoupleR statistics
 #' @export
 #'
-#' @import dplyr
-#' @import purrr
-#' @import tibble
-#' @import tidyr
 #' @importFrom stats coef lm summary.lm
+#' @importFrom magrittr %<>% %>%
+#' @importFrom dplyr ungroup
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -49,33 +47,37 @@ run_ulm <- function(mat,
                     sparse = FALSE,
                     center = FALSE,
                     na.rm = FALSE,
-                    minsize = 5
+                    minsize = 5L
                     ) {
 
     # NSE vs. R CMD check workaround
-    condition <- likelihood <- mor <- p_value <- score <- source <- statistic    <- target <- NULL
+    condition <- likelihood <- mor <- p_value <- score <-
+    source <- statistic <- target <- NULL
 
     # Check for NAs/Infs in mat
-    mat <- check_nas_infs(mat)
+    mat %<>% check_nas_infs
 
-    # Before to start ---------------------------------------------------------
+    network %>%
     # Convert to standard tibble: source-target-mor.
-    network <- network %>%
-        rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
-    network <- filt_minsize(rownames(mat), network, minsize)
+    rename_net(
+        {{ .source }},
+        {{ .target }},
+        {{ .mor }},
+        {{ .likelihood }}
+    ) %>%
+    filt_minsize(rownames(mat), ., minsize) %>%
+    # Preprocessing -------------------------------------------------------
+    .fit_preprocessing(mat, center, na.rm, sparse) %>%
+    # Model evaluation ----------------------------------------------------
+    {.ulm_analysis(.$mat, .$mor_mat)} %>%
+    ungroup()
 
-    # Preprocessing -----------------------------------------------------------
-    .fit_preprocessing(network, mat, center, na.rm, sparse) %>%
-        # Model evaluation --------------------------------------------------------
-        {
-            .ulm_analysis(.$mat, .$mor_mat)
-        } %>%
-        ungroup()
 }
 
-#' Wrapper to execute run_ulm() logic one finished preprocessing of data
+#' Wrapper to execute run_ulm() logic on preprocessed data
 #'
-#' Fit a linear regression between the value of expression and the profile of its targets.
+#' Fit a linear regression between the value of expression and
+#' the profile of its targets.
 #'
 #' @inheritParams run_ulm
 #' @param mor_mat
@@ -83,28 +85,41 @@ run_ulm <- function(mat,
 #' @inherit run_ulm return
 #' @keywords intern
 #' @importFrom stats cor pt
+#' @importFrom dplyr inner_join mutate select arrange
+#' @importFrom tibble as_tibble
+#' @importFrom tidyr pivot_longer
+#' @importFrom magrittr %<>% %>%
 #' @noRd
 .ulm_analysis <- function(mat, mor_mat) {
 
     # Compute dfs
-    df <- nrow(mor_mat) - 2
+    df <- nrow(mor_mat) - 2L
 
     # Fit univariate lm
     r <- cor(mor_mat, mat)
 
     # Compute t-value
-    scores <- r * sqrt(df / ((1.0 - r + 1.0e-20)*(1.0 + r + 1.0e-20)))
+    scores <- r * sqrt(df / ((1.0 - r + 1.0e-20) * (1.0 + r + 1.0e-20)))
 
     # Compute pvals
-    pvals <- pt(q=abs(scores), df=df, lower.tail = F) * 2
+    pvals <- pt(q = abs(scores), df = df, lower.tail = FALSE) * 2L
 
-    scores <- reshape2::melt(t(scores))
-    colnames(scores) <- c('condition', 'source', 'score')
-    scores <- tibble(scores) %>%
-        mutate(statistic = "ulm", .before = 1) %>%
-        mutate(p_value = c(t(pvals)),
-               source=as.character(source),
-               condition=as.character(condition)) %>%
-        select(statistic, source, condition, score, p_value)
-    scores
+    pivot_mat <- function(mat, value_col) {
+
+        mat %>% t %>%
+        as_tibble(rownames = 'condition') %>%
+        pivot_longer(-condition, names_to = 'source', values_to = value_col)
+
+    }
+
+    scores %>%
+    pivot_mat('score') %>%
+    inner_join(
+        pvals %>% pivot_mat('p_value'),
+        by = c('condition', 'source')
+    ) %>%
+    mutate(statistic = "ulm", .before = 1L) %>%
+    select(statistic, source, condition, score, p_value) %>%
+    arrange(source, condition)
+
 }

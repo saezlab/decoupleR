@@ -34,6 +34,7 @@
 #' @import tibble
 #' @import tidyr
 #' @importFrom parallelly availableCores
+#' @importFrom BiocParallel MulticoreParam
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -72,7 +73,7 @@ run_aucell <- function(mat,
                      exprMat = mat,
                      plotStats = FALSE,
                      verbose = FALSE,
-                     nCores = nproc)
+                     BPPARAM = MulticoreParam(workers = nproc))
   })
 
   withr::with_seed(seed, {

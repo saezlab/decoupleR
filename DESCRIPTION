@@ -76,6 +76,7 @@ BugReports: https://github.com/saezlab/decoupleR/issues
 Depends:
     R (>= 4.0)
 Imports:
+    BiocParallel,
     broom,
     dplyr,
     magrittr,

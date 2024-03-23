@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">decoupleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.9.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.9.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,8 +87,9 @@
 <span>  .source <span class="op">=</span> <span class="va">source</span>,</span>
 <span>  .target <span class="op">=</span> <span class="va">target</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"gsva"</span>,</span>
-<span>  minsize <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gsva"</span>, <span class="st">"plage"</span>, <span class="st">"ssgsea"</span>, <span class="st">"zscore"</span><span class="op">)</span>,</span>
+<span>  minsize <span class="op">=</span> <span class="fl">5L</span>,</span>
+<span>  maxsize <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -120,16 +121,75 @@ in <code>network</code> <code>.target</code> column.</p></dd>
 
 <dt>method</dt>
 <dd><p>Method to employ in the estimation of gene-set enrichment.
-scores per sample. By default this is set to gsva (Hänzelmann et al, 2013).</p></dd>
+scores per sample. By default this is set to gsva (Hänzelmann et al, 2013).
+Further available methods are "plage", "ssgsea" and "zscore". Read more in
+the manual of <code><a href="https://rdrr.io/pkg/GSVA/man/gsva.html" class="external-link">GSVA::gsva</a></code>.</p></dd>
 
 
 <dt>minsize</dt>
-<dd><p>Integer indicating the minimum number of targets per source.</p></dd>
+<dd><p>Integer indicating the minimum number of targets per source.
+Must be greater than 0.</p></dd>
+
+
+<dt>maxsize</dt>
+<dd><p>Integer indicating the maximum number of targets per source.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Arguments passed on to <code><a href="https://rdrr.io/pkg/GSVA/man/gsva.html" class="external-link">GSVA::gsva</a></code></p><dl><dt><code></code></dt>
-<dd></dd>
+<dd><p>Arguments passed on to <code><a href="https://rdrr.io/pkg/GSVA/man/gsvaParam-class.html" class="external-link">GSVA::gsvaParam</a></code>, <code><a href="https://rdrr.io/pkg/GSVA/man/ssgseaParam-class.html" class="external-link">GSVA::ssgseaParam</a></code></p><dl><dt><code>assay</code></dt>
+<dd><p>The name of the assay to use in case <code>exprData</code> is a multi-assay
+container, otherwise ignored.  By default, the first assay is used.</p></dd>
+
+    <dt><code>annotation</code></dt>
+<dd><p>The name of a Bioconductor annotation package for the gene
+identifiers occurring in the row names of the expression data matrix.  This
+can be used to map gene identifiers occurring in the gene sets if those are
+provided in a <code>GeneSetCollection</code>.  By default gene identifiers used in
+expression data matrix and gene sets are matched directly.</p></dd>
+
+    <dt><code>kcdf</code></dt>
+<dd><p>Character vector of length 1 denoting the kernel to use during
+the non-parametric estimation of the cumulative distribution function of
+expression levels across samples.  By default, <code>kcdf="Gaussian"</code> which is
+suitable when input expression values are continuous, such as microarray
+fluorescent units in logarithmic scale, RNA-seq log-CPMs, log-RPKMs or
+log-TPMs.  When input expression values are integer counts, such as those
+derived from RNA-seq experiments, then this argument should be set to
+<code>kcdf="Poisson"</code>.</p></dd>
+
+    <dt><code>tau</code></dt>
+<dd><p>Numeric vector of length 1.  The exponent defining the weight of
+the tail in the random walk performed by the <code>GSVA</code> (Hänzelmann et al.,
+2013) method.  The default value is 1 as described in the paper.</p></dd>
+
+    <dt><code>maxDiff</code></dt>
+<dd><p>Logical vector of length 1 which offers two approaches to
+calculate the enrichment statistic (ES) from the KS random walk statistic.</p><ul><li><p><code>FALSE</code>: ES is calculated as the maximum distance of the random walk
+from 0.</p></li>
+<li><p><code>TRUE</code> (the default): ES is calculated as the magnitude difference between
+the largest positive and negative random walk deviations.</p></li>
+</ul></dd>
+
+    <dt><code>absRanking</code></dt>
+<dd><p>Logical vector of length 1 used only when <code>maxDiff=TRUE</code>.
+When <code>absRanking=FALSE</code> (default) a modified Kuiper statistic is used to
+calculate enrichment scores, taking the magnitude difference between the
+largest positive and negative random walk deviations. When
+<code>absRanking=TRUE</code> the original Kuiper statistic that sums the largest
+positive and negative random walk deviations, is used. In this latter case,
+gene sets with genes enriched on either extreme (high or low) will be
+regarded as ’highly’ activated.</p></dd>
+
+    <dt><code>alpha</code></dt>
+<dd><p>Numeric vector of length 1.  The exponent defining the
+weight of the tail in the random walk performed by the <code>ssGSEA</code> (Barbie et
+al., 2009) method.  The default value is 0.25 as described in the paper.</p></dd>
+
+    <dt><code>normalize</code></dt>
+<dd><p>Logical vector of length 1; if <code>TRUE</code>  runs the <code>ssGSEA</code> method
+from Barbie et al. (2009) normalizing the scores by the absolute difference
+between the minimum and the maximum, as described in their paper. Otherwise
+this last normalization step is skipped.</p></dd>
 
   
 </dl></dd>
@@ -180,8 +240,7 @@ and RNA-seq data. BMC Bioinformatics, 14, 7.</p>
 <span class="r-in"><span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"mat.rds"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">inputs_dir</span>, <span class="st">"net.rds"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">run_gsva</span><span class="op">(</span><span class="va">mat</span>, <span class="va">net</span>, minsize<span class="op">=</span><span class="fl">0</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Calling gsva(expr=., gset.idx.list=., method=., ...) is deprecated; use a method-specific parameter object (see '?gsva').</span>
+<span class="r-in"><span><span class="fu">run_gsva</span><span class="op">(</span><span class="va">mat</span>, <span class="va">net</span>, minsize<span class="op">=</span><span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 72 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    statistic source condition score</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>

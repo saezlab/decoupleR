@@ -21,8 +21,9 @@
 #' @param method Method to employ in the estimation of gene-set enrichment.
 #' scores per sample. By default this is set to gsva (Hänzelmann et al, 2013).
 #' Further available methods are "plage", "ssgsea" and "zscore". Read more in
-#' the manual of \code{GSVA::gsva}.
+#' the manual of \code{\link{GSVA::gsva}}.
 #' @param minsize Integer indicating the minimum number of targets per source.
+#' Must be greater than 0.
 #' @param maxsize Integer indicating the maximum number of targets per source.
 #' @inheritDotParams GSVA::gsvaParam -exprData -geneSets -minSize -maxSize
 #' @inheritDotParams GSVA::ssgseaParam -exprData -geneSets -minSize -maxSize
@@ -58,6 +59,15 @@ run_gsva <- function(mat,
 
     # NSE vs. R CMD check workaround
     condition <- score <- source <- target <- NULL
+
+    if (minsize < 1L) {
+        paste(
+            'decoupleR::run_gsva: `minsize` must be greater than 0.',
+            'Using 1 as minimum number of targets per source.'
+        ) %>%
+        warning(call. = FALSE)
+        minsize <- 1L
+    }
 
     param <- tryCatch(
         get(

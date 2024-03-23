@@ -63,7 +63,7 @@ run_gsva <- function(mat,
         get(
             sprintf('%sParam', method[1L]),
             envir = asNamespace('GSVA'),
-            inherit = FALSE
+            inherits = FALSE
         ),
         error = function(e) {
             stop(sprintf(

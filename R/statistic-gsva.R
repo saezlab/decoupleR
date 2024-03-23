@@ -114,7 +114,8 @@ run_gsva <- function(mat,
     mutate(
         statistic = "gsva",
         source, condition, score,
-        .keep = "none"
+        .keep = "none",
+        .before = 1L
     )
 
 }

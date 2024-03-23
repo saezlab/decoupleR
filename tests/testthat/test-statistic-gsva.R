@@ -19,7 +19,7 @@ net <- file.path(input_dir, "net.rds") %>%
 # Test for run_gsva function ---------------------------------------------
 
 test_that("test run_gsva", {
-    res_1 <- run_gsva(mat, net, minsize=0, verbose = FALSE)
+    res_1 <- run_gsva(mat, net, minsize=1L, verbose = FALSE)
     exp_1 <- file.path(expected_dir, "output-gsva.rds") %>%
         readRDS()
 

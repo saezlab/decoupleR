@@ -26,6 +26,7 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
     target_genesymbol <- NULL
 
   omnipathr_version_check()
+  omnipathr_disable_doctest_bypass()
   organism %<>% check_organism
   # Get Dorothea
   do <-
@@ -95,6 +96,7 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
   source_genesymbol <- target_genesymbol <- weight <- NULL
 
   omnipathr_version_check()
+  omnipathr_disable_doctest_bypass()
   organism %<>% check_organism
   # Load CollecTRI
   collectri <- tryCatch(
@@ -185,6 +187,33 @@ omnipathr_version_check <- function() {
 }
 
 
+#' Do not bypass calls normally disabled on build servers
+#'
+#' OmnipathR bypasses calls to certain functions to ensure the doctest examples
+#' can be run within the 40 min time limit of Bioconductor build servers. The
+#' detection of the build server is based on host and user name. The function
+#' responsible for this is called `.slow_doctest`. When testing DecoupleR, this
+#' behavior might cause all kinds of problems. Hence here we disable it by
+#' overriding the `.slow_doctest` function in OmnipathR.
+#'
+#' @noRd
+omnipathr_disable_doctest_bypass <- function() {
+
+  do_nothing <- function() { invisible(NULL) }
+  ns <- loadNamespace('OmnipathR')
+  name <- '.slow_doctest'
+  ulb <- get('unlockBinding')
+  lb <- get('lockBinding')
+
+  if(name %in% names(ns)){
+    ulb(name, as.environment(ns))
+    assign(name, do_nothing, ns)
+    lb(name, as.environment(ns))
+  }
+
+}
+
+
 #' Shows available resources in Omnipath. For more information visit the
 #' official website for [Omnipath](https://omnipathdb.org/).
 #'
@@ -212,6 +241,9 @@ get_resource <- function(name, organism = 'human', ...){
 
   # NSE vs. R CMD check workaround
   uniprot <- genesymbol <- NULL
+
+  omnipathr_disable_doctest_bypass()
+
   annot_resources <- tryCatch(
     {
       annot_resources <- show_resources()

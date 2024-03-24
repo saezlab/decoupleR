@@ -17,8 +17,7 @@ test_that("test get_progeny human", {
 
 test_that("test get_progeny mouse", {
   df <- get_progeny(organism = 'mouse')
-  result <- `if`(Sys.info()['user'] == 'biocbuild', TRUE, nrow(df) > 0)
-  testthat::expect_true(result)
+  testthat::expect_true(nrow(df) > 0L)
 })
 
 test_that("test get_dorothea human", {

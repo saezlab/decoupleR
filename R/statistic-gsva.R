@@ -93,17 +93,15 @@ run_gsva <- function(mat,
     regulons <- extract_sets(network)
 
     # Analysis ----------------------------------------------------------------
-    GSVA::gsva(
-        expr = exec(
-            param,
-            exprData = mat,
-            geneSets = regulons,
-            minSize = minsize,
-            maxSize = maxsize,
-            !!!list(...)
-        ),
-        verbose = verbose
+    param %>%
+    exec(
+        exprData = mat,
+        geneSets = regulons,
+        minSize = minsize,
+        maxSize = maxsize,
+        !!!list(...)
     ) %>%
+    GSVA::gsva(param = ., verbose = verbose) %>%
     as.data.frame() %>%
     rownames_to_column(var = "source") %>%
     pivot_longer(

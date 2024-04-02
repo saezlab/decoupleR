@@ -51,9 +51,15 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: ubuntu-latest, r: '4.3', bioc: '3.17', cont: "bioconductor/bioconductor_docker:RELEASE_3_17", rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest" }
-          - { os: macOS-latest, r: '4.3', bioc: '3.17'}
-          - { os: windows-latest, r: '4.3', bioc: '3.17'}
+          - {
+            os: ubuntu-latest,
+            r: 'next',
+            bioc: '3.19',
+            cont: "bioconductor/bioconductor_docker:devel",
+            rspm: "https://packagemanager.rstudio.com/cran/__linux__/jammy/latest"
+          }
+          - { os: macOS-latest, r: '4.3', bioc: '3.19'}
+          - { os: windows-latest, r: '4.3', bioc: '3.19'}
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
@@ -68,7 +74,7 @@ jobs:
       ## https://github.com/r-lib/actions/blob/master/examples/check-standard.yaml
       ## If they update their steps, we will also need to update ours.
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       ## R is already included in the Bioconductor docker images
       - name: Setup R from r-lib
@@ -91,7 +97,7 @@ jobs:
       - name: Install Linux system dependencies
         if: runner.os == 'Linux'
         run: |
-          sysreqs=$(Rscript -e 'cat("apt-get update -y && apt-get install -y", paste(gsub("apt-get install -y ", " qpdf ", remotes::system_requirements("ubuntu", "20.04")), collapse = " "))')
+          sysreqs=$(Rscript -e 'cat("apt-get update -y && apt-get install -y", paste(gsub("apt-get install -y ", " qpdf ", remotes::system_requirements("ubuntu", "22.04")), collapse = " "))')
           echo $sysreqs
           sudo -s eval "$sysreqs"
 
@@ -104,7 +110,7 @@ jobs:
 
           ## Required to install magick as noted at
           ## https://github.com/r-lib/usethis/commit/f1f1e0d10c1ebc75fd4c18fa7e2de4551fd9978f#diff-9bfee71065492f63457918efcd912cf2
-          brew install imagemagick@6
+          brew install imagemagick
 
           ## For textshaping, required by ragg, and required by pkgdown
           brew install harfbuzz fribidi

@@ -165,37 +165,28 @@ get_collectri <- function(organism='human', split_complexes=FALSE, load_meta=FAL
           stringr::str_detect(source_genesymbol, "NFKB") ~ "NFKB")
       )
   }
-                  
+  
+  collectri <- base::rbind(collectri_interactions, collectri_complex) %>%
+    dplyr::distinct(source_genesymbol, target_genesymbol,
+                    .keep_all = TRUE) %>%
+    dplyr::mutate(weight = dplyr::case_when(
+      is_stimulation == 1 ~ 1,
+      is_stimulation == 0 ~ -1
+    )) %>%
+    dplyr::rename("source" = source_genesymbol,
+                  "target" = target_genesymbol,
+                  "mor" = weight)
+  
   if (!load_meta){
-    collectri <- base::rbind(collectri_interactions, collectri_complex) %>%
-      dplyr::distinct(source_genesymbol, target_genesymbol,
-                      .keep_all = TRUE) %>%
-      dplyr::mutate(weight = dplyr::case_when(
-        is_stimulation == 1 ~ 1,
-        is_stimulation == 0 ~ -1
-      )) %>%
-      dplyr::select(source_genesymbol, target_genesymbol,
-                    weight) %>%
-      dplyr::rename("source" = source_genesymbol,
-                    "target" = target_genesymbol,
-                    "mor" = weight)
+    collectri <- collectri %>% 
+      dplyr::select(source, target, mor)
   } else {
-    collectri <- base::rbind(collectri_interactions, collectri_complex) %>%
-      dplyr::distinct(source_genesymbol, target_genesymbol,
-                      .keep_all = TRUE) %>%
-      dplyr::mutate(weight = dplyr::case_when(
-        is_stimulation == 1 ~ 1,
-        is_stimulation == 0 ~ -1
-      )) %>%
-      dplyr::select(source_genesymbol, target_genesymbol,
-                    weight, sources, references, sign_decision, TF_category) %>%
+    collectri <- collectri %>% 
       dplyr::mutate(references = stringr::str_extract_all(references, "\\d+")) %>%
       dplyr::mutate(references = purrr::map_chr(references, ~paste(.x, collapse = ";"))) %>% 
-      dplyr::rename("source" = source_genesymbol,
-                    "target" = target_genesymbol,
-                    "mor" = weight,
-                    "resources" = sources,
-                    "PMIDs" = references)
+      dplyr::rename("resources" = sources,
+                    "PMIDs" = references) %>% 
+      dplyr::select(source, target, mor, resources, PMIDs, sign_decision, TF_category)
   }
   
   return(collectri)

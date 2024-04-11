@@ -85,12 +85,14 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
 #' @param organism Which organism to use. Only human, mouse and rat are available.
 #' @param split_complexes Whether to split complexes into subunits. By default
 #' complexes are kept as they are.
-#' @param ... Ignored.
+#' @param load_meta Whether to load meta data for the TF-gene interactions. This is set
+#' to false by default.
+#' @param ... Optional additional arguments, passed to OmniPath import_transcriptional_interactions.
 #'
 #' @export
 #' @examples
 #' collectri <- get_collectri(organism='human', split_complexes=FALSE)
-get_collectri <- function(organism='human', split_complexes=FALSE, ...){
+get_collectri <- function(organism='human', split_complexes=FALSE, load_meta=FALSE, ...){
 
   # NSE vs. R CMD check workaround
   source_genesymbol <- target_genesymbol <- weight <- NULL
@@ -104,6 +106,7 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
       organism = organism,
       genesymbol=TRUE,
       loops=TRUE,
+      extra_attrs = TRUE,
       ...
     ),
     error = function(e){
@@ -122,9 +125,12 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
           OmnipathR::import_tf_mirna_interactions(
             genesymbols=TRUE,
             resources = "CollecTRI",
-            strict_evidences = TRUE
+            strict_evidences = TRUE,
+            extra_attrs = TRUE
           ) %>%
-          base::rbind(collectri, .)
+          base::rbind(collectri, .) %>%
+          OmnipathR::extra_attrs_to_cols(sign_decision = CollecTRI_sign_decision,
+                                         TF_category = CollecTRI_tf_category)
       },
       error = function(e){
         OmnipathR::omnipath_msg(
@@ -140,6 +146,10 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
 
   cols <- c('source_genesymbol', 'target_genesymbol', 'is_stimulation',
             'is_inhibition')
+  
+  if (load_meta){
+    cols <- base::append(cols, c('sources', 'references', 'sign_decision', 'TF_category'))
+  }
 
   collectri_interactions <- collectri[!stringr::str_detect(collectri$source,
                                                            "COMPLEX"), cols]
@@ -155,7 +165,7 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
           stringr::str_detect(source_genesymbol, "NFKB") ~ "NFKB")
       )
   }
-
+  
   collectri <- base::rbind(collectri_interactions, collectri_complex) %>%
     dplyr::distinct(source_genesymbol, target_genesymbol,
                     .keep_all = TRUE) %>%
@@ -163,12 +173,22 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
       is_stimulation == 1 ~ 1,
       is_stimulation == 0 ~ -1
     )) %>%
-    dplyr::select(source_genesymbol, target_genesymbol,
-                  weight) %>%
     dplyr::rename("source" = source_genesymbol,
                   "target" = target_genesymbol,
-                  "mor" = weight,
-                  )
+                  "mor" = weight)
+  
+  if (!load_meta){
+    collectri <- collectri %>% 
+      dplyr::select(source, target, mor)
+  } else {
+    collectri <- collectri %>% 
+      dplyr::mutate(references = stringr::str_extract_all(references, "\\d+")) %>%
+      dplyr::mutate(references = purrr::map_chr(references, ~paste(.x, collapse = ";"))) %>% 
+      dplyr::rename("resources" = sources,
+                    "PMIDs" = references) %>% 
+      dplyr::select(source, target, mor, resources, PMIDs, sign_decision, TF_category)
+  }
+  
   return(collectri)
 }
 

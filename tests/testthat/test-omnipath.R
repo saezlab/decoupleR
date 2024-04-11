@@ -35,4 +35,6 @@ test_that("test get_collectri", {
   testthat::expect_true(nrow(df) > 0)
   df_split <- get_collectri(split_complexes=TRUE)
   testthat::expect_true(nrow(df) < nrow(df_split))
+  df_meta <- get_collectri(load_meta=TRUE)
+  testthat::expect_true(ncol(df) < ncol(df_meta))
 })

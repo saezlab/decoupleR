@@ -95,7 +95,7 @@ positive weights.
 To get an example data-set, run:
 
 ```{r read_example_data}
-data <- get_toy_data()
+data <- decoupleR::get_toy_data()
 
 mat <- data$mat
 head(mat,5)[,1:5]
@@ -108,7 +108,19 @@ This example consists of two small populations of samples (S, cols) with
 different gene expression patterns (G, rows):
 
 ```{r show_matrix, message=TRUE}
-pheatmap(mat, cluster_rows = F, cluster_cols = F)
+# Color scale
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu"))
+colors.use <- grDevices::colorRampPalette(colors = colors)(100)
+
+# Heatmap
+pheatmap::pheatmap(mat = mat,
+                   color = colors.use,
+                   border_color = "white",
+                   cellwidth = 15,
+                   cellheight = 15,
+                   cutree_cols = 2,
+                   treeheight_row = 0,
+                   treeheight_col = 0)
 ```
 
 Here we can see that some genes seem to be more expressed in one group of 
@@ -131,7 +143,7 @@ activity for T1 and T3, while the second one only for T2.
 `r Biocpkg("decoupleR")` contains several methods. To check how many are 
 available, run:
 ```{r usage-show_methods, message=TRUE}
-show_methods()
+decoupleR::show_methods()
 ```
 Each method models biological activities in a different manner, sometimes 
 returning more than one estimate or providing significance of the estimation. 
@@ -161,7 +173,12 @@ this example data-set we will have to keep it to 0 though.
 As an example, let’s first run the Gene Set Enrichment Analysis method (`gsea`), 
 one of the most well-known statistics:
 ```{r usage-fgsea, message=TRUE}
-res_gsea <- run_fgsea(mat, network, .source='source', .target='target', nproc=1, minsize = 0)
+res_gsea <- decoupleR::run_fgsea(mat = mat, 
+                                 network = network, 
+                                 .source = 'source', 
+                                 .target = 'target', 
+                                 nproc = 1, 
+                                 minsize = 0)
 res_gsea
 ```
 
@@ -179,7 +196,12 @@ a normalized estimate (`norm_fgsea`) and p-values after doing permutations.
 Other methods can return different things, for example Univariate Linear Model 
 (`ulm`):
 ```{r usage-ulm, message=TRUE}
-res_ulm <- run_ulm(mat, network, .source='source', .target='target', .mor='mor', minsize = 0)
+res_ulm <- decoupleR::run_ulm(mat = mat, 
+                              network = network, 
+                              .source = 'source', 
+                              .target = 'target', 
+                              .mor = 'mor', 
+                              minsize = 0)
 res_ulm
 ```
 
@@ -191,12 +213,24 @@ Let us plot the obtained results, first for `gsea`:
 ```{r res_gsea, message=TRUE}
 # Transform to matrix
 mat_gsea <- res_gsea %>%
-  filter(statistic=='fgsea') %>%
-  pivot_wider_profile(id_cols = source, names_from = condition, 
-                      values_from = score) %>%
-  as.matrix()
+            dplyr::filter(statistic == 'fgsea') %>%
+            decoupleR::pivot_wider_profile(id_cols = source, 
+                                           names_from = condition, 
+                                           values_from = score) %>%
+            as.matrix()
 
-pheatmap(mat_gsea, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheight = 40)
+# Color scale
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu"))
+colors.use <- grDevices::colorRampPalette(colors = colors)(100)
+
+# Heatmap
+pheatmap::pheatmap(mat = mat_gsea,
+                   color = colors.use,
+                   border_color = "white",
+                   cellwidth = 20,
+                   cellheight = 20,
+                   treeheight_row = 0,
+                   treeheight_col = 0)
 ```
 
 We can observe that for transcription factors T1 and T2, the obtained activities
@@ -212,12 +246,24 @@ one example is `ulm`:
 ```{r res_ulm, message=TRUE}
 # Transform to matrix
 mat_ulm <- res_ulm %>%
-  filter(statistic=='ulm') %>%
-  pivot_wider_profile(id_cols = source, names_from = condition, 
-                      values_from = score) %>%
-  as.matrix()
+           dplyr::filter(statistic=='ulm') %>%
+           decoupleR::pivot_wider_profile(id_cols = source, 
+                                          names_from = condition, 
+                                          values_from = score) %>%
+           as.matrix()
 
-pheatmap(mat_ulm, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheight = 40)
+# Color scale
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu"))
+colors.use <- grDevices::colorRampPalette(colors = colors)(100)
+
+# Heatmap
+pheatmap::pheatmap(mat = mat_ulm,
+                   color = colors.use,
+                   border_color = "white",
+                   cellwidth = 20,
+                   cellheight = 20,
+                   treeheight_row = 0,
+                   treeheight_col = 0)
 ```
 
 Since `ulm` models weights when estimating biological activities, it correctly
@@ -234,11 +280,11 @@ By default, `deocuple` runs only the top performer methods in our benchmark (`ml
 arguments to specific methods can be passed using the variable `args`. For more 
 information check `?decouple`.
 ```{r usage-decouple, message=TRUE}
-res_decouple <- decouple(mat, 
-                         network, 
-                         .source='source', 
-                         .target='target',
-                         minsize = 0)
+res_decouple <- decoupleR::decouple(mat, 
+                                    network, 
+                                    .source='source', 
+                                    .target='target',
+                                    minsize = 0)
 res_decouple
 ```
 
@@ -246,12 +292,23 @@ Let us see the result for the consensus score in the previous `decouple` run:
 ```{r res_decouple, message=TRUE}
 # Transform to matrix
 mat_consensus <- res_decouple %>%
-  filter(statistic=='consensus') %>%
-  pivot_wider_profile(id_cols = source, names_from = condition, 
-                      values_from = score) %>%
-  as.matrix()
+                 dplyr::filter(statistic=='consensus') %>%
+                 decoupleR::pivot_wider_profile(id_cols = source, 
+                                                names_from = condition, 
+                                                values_from = score) %>%
+                 as.matrix()
+# Color scale
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu"))
+colors.use <- grDevices::colorRampPalette(colors = colors)(100)
 
-pheatmap(mat_consensus, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheight = 40)
+# Heatmap
+pheatmap::pheatmap(mat = mat_consensus,
+                   color = colors.use,
+                   border_color = "white",
+                   cellwidth = 20,
+                   cellheight = 20,
+                   treeheight_row = 0,
+                   treeheight_col = 0)
 ```
 
 We can observe that the consensus score correctly predicts that T1 and T3 should

@@ -282,8 +282,8 @@ information check `?decouple`.
 ```{r usage-decouple, message=TRUE}
 res_decouple <- decoupleR::decouple(mat, 
                                     network, 
-                                    .source='source', 
-                                    .target='target',
+                                    .source ='source', 
+                                    .target ='target',
                                     minsize = 0)
 res_decouple
 ```
@@ -292,7 +292,7 @@ Let us see the result for the consensus score in the previous `decouple` run:
 ```{r res_decouple, message=TRUE}
 # Transform to matrix
 mat_consensus <- res_decouple %>%
-                 dplyr::filter(statistic=='consensus') %>%
+                 dplyr::filter(statistic == 'consensus') %>%
                  decoupleR::pivot_wider_profile(id_cols = source, 
                                                 names_from = condition, 
                                                 values_from = score) %>%

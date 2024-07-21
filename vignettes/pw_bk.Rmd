@@ -79,6 +79,7 @@ counts <- data$counts %>%
                            ~ dplyr::if_else(is.na(.x), 0, .x)) %>% 
           tibble::column_to_rownames(var = "gene") %>% 
           as.matrix()
+
 head(counts)
 ```
 
@@ -97,6 +98,7 @@ deg <- data$limma_ttop %>%
        dplyr::filter(!is.na(t)) %>% 
        tibble::column_to_rownames(var = "ID") %>%
        as.matrix()
+
 head(deg)
 ```
 
@@ -125,6 +127,7 @@ To access it we can use `decoupleR`:
 ```{r "progeny", message=FALSE}
 net <- decoupleR::get_progeny(organism = 'human', 
                               top = 500)
+
 net
 ```
 
@@ -202,16 +205,17 @@ in activity between KO and WT:
 
 ```{r "barplot"}
 # Plot
-ends <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
+
 p <- ggplot2::ggplot(data = contrast_acts, 
                      mapping = ggplot2::aes(x = stats::reorder(source, score), 
                                             y = score)) + 
      ggplot2::geom_bar(mapping = ggplot2::aes(fill = score),
                        color = "black",
                        stat = "identity") +
-     ggplot2::scale_fill_gradient2(low = ends[1], 
+     ggplot2::scale_fill_gradient2(low = colors[1], 
                                    mid = "whitesmoke", 
-                                   high = ends[2], 
+                                   high = colors[2], 
                                    midpoint = 0) + 
      ggplot2::theme_minimal() +
      ggplot2::theme(axis.title = element_text(face = "bold", size = 12),
@@ -224,6 +228,7 @@ p <- ggplot2::ggplot(data = contrast_acts,
               panel.grid.major = element_blank(), 
               panel.grid.minor = element_blank()) +
      ggplot2::xlab("Pathways")
+
 p
 ```
 
@@ -255,7 +260,7 @@ df <- df %>%
       dplyr::mutate(color = dplyr::if_else(weight < 0 & t_value > 0, '2', color)) %>%
       dplyr::mutate(color = dplyr::if_else(weight < 0 & t_value < 0, '1', color))
 
-ends <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
 
 p <- ggplot2::ggplot(data = df, 
                      mapping = ggplot2::aes(x = weight, 
@@ -264,7 +269,7 @@ p <- ggplot2::ggplot(data = df,
      ggplot2::geom_point(size = 2.5, 
                          color = "black") + 
      ggplot2::geom_point(size = 1.5) +
-     ggplot2::scale_colour_manual(values = c(ends[2], ends[1], "grey")) +
+     ggplot2::scale_colour_manual(values = c(colors[2], colors[1], "grey")) +
      ggrepel::geom_label_repel(mapping = ggplot2::aes(label = ID)) + 
      ggplot2::theme_minimal() +
      ggplot2::theme(legend.position = "none") +
@@ -272,7 +277,7 @@ p <- ggplot2::ggplot(data = df,
      ggplot2::geom_hline(yintercept = 0, linetype = 'dotted') +
      ggplot2::ggtitle(pathway)
 
-
+p
 ```
 
 The pathway seems to be active since the majority of target genes with positive

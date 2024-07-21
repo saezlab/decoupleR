@@ -155,10 +155,10 @@ p1 <- Seurat::DimPlot(data,
       Seurat::NoLegend() + 
       ggplot2::ggtitle('Cell types')
 
-ends <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
 
 p2 <- Seurat::FeaturePlot(data, features = c("Trail")) + 
-      ggplot2::scale_colour_gradient2(low = ends[1], mid = 'white', high = ends[2]) +
+      ggplot2::scale_colour_gradient2(low = colors[1], mid = 'white', high = colors[2]) +
       ggplot2::ggtitle('Trail activity')
 
 p <- p1 | p2

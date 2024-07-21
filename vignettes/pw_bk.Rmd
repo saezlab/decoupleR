@@ -180,8 +180,8 @@ pheatmap::pheatmap(mat = sample_acts_mat,
                    breaks = my_breaks,
                    cellwidth = 20,
                    cellheight = 20,
-                   treeheight_row = 0,
-                   treeheight_col = 0)
+                   treeheight_row = 20,
+                   treeheight_col = 20)
 ```
 
 We can also infer pathway activities from the t-values of the DEGs between KO

@@ -79,12 +79,14 @@ counts <- data$counts %>%
                            ~ dplyr::if_else(is.na(.x), 0, .x)) %>% 
           tibble::column_to_rownames(var = "gene") %>% 
           as.matrix()
+
 head(counts)
 ```
 
 The design meta-data:
 ```{r "design"}
 design <- data$design
+
 design
 ```
 
@@ -97,6 +99,7 @@ deg <- data$limma_ttop %>%
        dplyr::filter(!is.na(t)) %>% 
        tibble::column_to_rownames(var = "ID") %>%
        as.matrix()
+
 head(deg)
 ```
 
@@ -118,6 +121,7 @@ recommend to keep complexes together.
 ```{r "collectri"}
 net <- decoupleR::get_collectri(organism = 'human', 
                                 split_complexes = FALSE)
+
 net
 ```
 
@@ -140,6 +144,7 @@ sample_acts <- decoupleR::run_ulm(mat = counts,
                                   .target = 'target',
                                   .mor = 'mor', 
                                   minsize = 5)
+
 sample_acts
 ```
 
@@ -199,6 +204,7 @@ contrast_acts <- decoupleR::run_ulm(mat = deg[, 't', drop = FALSE],
                                     .target = 'target',
                                     .mor='mor', 
                                     minsize = 5)
+
 contrast_acts
 ```
 
@@ -247,6 +253,7 @@ p <- ggplot2::ggplot(data = f_contrast_acts,
               panel.grid.major = element_blank(), 
               panel.grid.minor = element_blank()) +
      ggplot2::xlab("TFs")
+
 p
 ```
 
@@ -295,6 +302,7 @@ p <- ggplot2::ggplot(data = df,
      ggplot2::geom_vline(xintercept = 0, linetype = 'dotted') +
      ggplot2::geom_hline(yintercept = 0, linetype = 'dotted') +
      ggplot2::ggtitle(tf)
+
 p
 ```
 

@@ -69,6 +69,7 @@ p <- Seurat::DimPlot(data,
                      label = TRUE, 
                      pt.size = 0.5) + 
      Seurat::NoLegend()
+
 p
 ```
 
@@ -90,6 +91,7 @@ recommend to keep complexes together.
 ```{r "collectri"}
 net <- decoupleR::get_collectri(organism = 'human', 
                                 split_complexes = FALSE)
+
 net
 ```
 
@@ -115,6 +117,7 @@ acts <- decoupleR::run_ulm(mat = mat,
                            .target = 'target',
                            .mor='mor', 
                            minsize = 5)
+
 acts
 ```
 
@@ -168,7 +171,9 @@ p3 <- Seurat::FeaturePlot(data,
       ggplot2::ggtitle('PAX5 expression')
 
 Seurat::DefaultAssay(data) <- "tfsulm"
+
 p <- p1 | p2 | p3
+p
 ```
 
 # Exploration
@@ -176,6 +181,7 @@ We can also see what is the mean activity per group of the top 20 more variable
 TFs:
 ```{r "mean_acts", message = FALSE, warning = FALSE}
 n_tfs <- 25
+
 # Extract activities from object as a long dataframe
 df <- t(as.matrix(data@assays$tfsulm@data)) %>%
       as.data.frame() %>%

@@ -179,6 +179,7 @@ res_gsea <- decoupleR::run_fgsea(mat = mat,
                                  .target = 'target', 
                                  nproc = 1, 
                                  minsize = 0)
+
 res_gsea
 ```
 
@@ -202,6 +203,7 @@ res_ulm <- decoupleR::run_ulm(mat = mat,
                               .target = 'target', 
                               .mor = 'mor', 
                               minsize = 0)
+
 res_ulm
 ```
 
@@ -285,6 +287,7 @@ res_decouple <- decoupleR::decouple(mat,
                                     .source ='source', 
                                     .target ='target',
                                     minsize = 0)
+
 res_decouple
 ```
 

@@ -86,6 +86,7 @@ head(counts)
 The design meta-data:
 ```{r "design"}
 design <- data$design
+
 design
 ```
 
@@ -197,6 +198,7 @@ contrast_acts <- decoupleR::run_mlm(mat  =deg,
                                     .target = 'target',
                                     .mor = 'weight', 
                                     minsize = 5)
+
 contrast_acts
 ```
 

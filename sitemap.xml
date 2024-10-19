@@ -1,147 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/404.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/articles/decoupleR.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/articles/pw_bk.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/articles/pw_sc.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/articles/tf_bk.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/articles/tf_sc.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/index.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/check_corr.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/convert_f_defaults.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/decouple.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/decoupleR-package.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/dot-decoupler_mat_format.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/dot-decoupler_network_format.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/dot-fit_preprocessing.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/extract_sets.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/filt_minsize.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/get_collectri.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/get_dorothea.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/get_ksn_omnipath.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/get_profile_of.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/get_progeny.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/get_resource.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/get_toy_data.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/intersect_regulons.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/pivot_wider_profile.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/randomize_matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/rename_net.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_aucell.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_consensus.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_fgsea.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_gsva.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_mdt.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_mlm.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_ora.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_udt.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_ulm.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_viper.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_wmean.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/run_wsum.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/show_methods.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/show_resources.html</loc>
-  </url>
-  <url>
-    <loc>https://saezlab.github.io/decoupleR/reference/tidyeval.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://saezlab.github.io/decoupleR/404.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/LICENSE-text.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/articles/decoupleR.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/articles/index.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/articles/pw_bk.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/articles/pw_sc.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/articles/tf_bk.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/articles/tf_sc.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/authors.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/index.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/news/index.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/check_corr.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/convert_f_defaults.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/decouple.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/decoupleR-package.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/dot-decoupler_mat_format.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/dot-decoupler_network_format.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/dot-fit_preprocessing.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/extract_sets.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/filt_minsize.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/get_collectri.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/get_dorothea.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/get_ksn_omnipath.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/get_profile_of.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/get_progeny.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/get_resource.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/get_toy_data.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/index.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/intersect_regulons.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/pipe.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/pivot_wider_profile.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/randomize_matrix.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/rename_net.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_aucell.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_consensus.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_fgsea.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_gsva.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_mdt.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_mlm.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_ora.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_udt.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_ulm.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_viper.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_wmean.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/run_wsum.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/show_methods.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/show_resources.html</loc></url>
+<url><loc>https://saezlab.github.io/decoupleR/reference/tidyeval.html</loc></url>
 </urlset>
+

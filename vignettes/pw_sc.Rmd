@@ -64,7 +64,12 @@ data <- readRDS(file.path(inputs_dir, "sc_data.rds"))
 
 We can observe that we have different cell types:
 ```{r "umap", message = FALSE, warning = FALSE}
-DimPlot(data, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
+p <- Seurat::DimPlot(data, 
+                     reduction = "umap", 
+                     label = TRUE, 
+                     pt.size = 0.5) + 
+     Seurat::NoLegend()
+p
 ```
 
 ### PROGENy model
@@ -90,7 +95,7 @@ For this example we will use the human weights (other organisms are available) a
 To access it we can use `decoupleR`:
 
 ```{r "progeny", message=FALSE}
-net <- get_progeny(organism = 'human', top = 500)
+net <- decoupleR::get_progeny(organism = 'human', top = 500)
 net
 ```
 
@@ -110,8 +115,12 @@ want to use.
 mat <- as.matrix(data@assays$RNA@data)
 
 # Run mlm
-acts <- run_mlm(mat=mat, net=net, .source='source', .target='target',
-                .mor='weight', minsize = 5)
+acts <- decoupleR::run_mlm(mat = mat, 
+                           net = net, 
+                           .source = 'source', 
+                           .target = 'target',
+                           .mor = 'weight', 
+                           minsize = 5)
 acts
 ```
 
@@ -121,16 +130,17 @@ them in our object as a new assay called `pathwaysmlm`:
 ```{r "new_assay", message=FALSE}
 # Extract mlm and store it in pathwaysmlm in data
 data[['pathwaysmlm']] <- acts %>%
-  pivot_wider(id_cols = 'source', names_from = 'condition',
-              values_from = 'score') %>%
-  column_to_rownames('source') %>%
-  Seurat::CreateAssayObject(.)
+                         tidyr::pivot_wider(id_cols = 'source', 
+                                            names_from = 'condition',
+                                            values_from = 'score') %>%
+                         tibble::column_to_rownames(var = 'source') %>%
+                         Seurat::CreateAssayObject(.)
 
 # Change assay
-DefaultAssay(object = data) <- "pathwaysmlm"
+Seurat::DefaultAssay(object = data) <- "pathwaysmlm"
 
 # Scale the data
-data <- ScaleData(data)
+data <- Seurat::ScaleData(data)
 data@assays$pathwaysmlm@data <- data@assays$pathwaysmlm@scale.data
 ```
 
@@ -138,12 +148,21 @@ This new assay can be used to plot activities. Here we visualize the Trail
 pathway, associated with apoptosis, which seems that in B and NK cells is more
 active.
 ```{r "projected_acts", message = FALSE, warning = FALSE, fig.width = 8, fig.height = 4}
-p1 <- DimPlot(data, reduction = "umap", label = TRUE, pt.size = 0.5) + 
-  NoLegend() + ggtitle('Cell types')
-p2 <- (FeaturePlot(data, features = c("Trail")) & 
-  scale_colour_gradient2(low = 'blue', mid = 'white', high = 'red')) +
-  ggtitle('Trail activity')
-p1 | p2
+p1 <- Seurat::DimPlot(data, 
+                      reduction = "umap", 
+                      label = TRUE, 
+                      pt.size = 0.5) + 
+      Seurat::NoLegend() + 
+      ggplot2::ggtitle('Cell types')
+
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
+
+p2 <- Seurat::FeaturePlot(data, features = c("Trail")) + 
+      ggplot2::scale_colour_gradient2(low = colors[1], mid = 'white', high = colors[2]) +
+      ggplot2::ggtitle('Trail activity')
+
+p <- p1 | p2
+p
 ```
 
 # Exploration
@@ -151,28 +170,38 @@ We can also see what is the mean activity per group across pathways:
 ```{r "mean_acts", message = FALSE, warning = FALSE}
 # Extract activities from object as a long dataframe
 df <- t(as.matrix(data@assays$pathwaysmlm@data)) %>%
-  as.data.frame() %>%
-  mutate(cluster = Idents(data)) %>%
-  pivot_longer(cols = -cluster, names_to = "source", values_to = "score") %>%
-  group_by(cluster, source) %>%
-  summarise(mean = mean(score))
+      as.data.frame() %>%
+      dplyr::mutate(cluster = Seurat::Idents(data)) %>%
+      tidyr::pivot_longer(cols = -cluster, 
+                          names_to = "source", 
+                          values_to = "score") %>%
+      dplyr::group_by(cluster, source) %>%
+      dplyr::summarise(mean = mean(score))
 
 # Transform to wide matrix
 top_acts_mat <- df %>%
-  pivot_wider(id_cols = 'cluster', names_from = 'source',
-              values_from = 'mean') %>%
-  column_to_rownames('cluster') %>%
-  as.matrix()
+                tidyr::pivot_wider(id_cols = 'cluster', 
+                                   names_from = 'source',
+                                   values_from = 'mean') %>%
+                tibble::column_to_rownames(var = 'cluster') %>%
+                as.matrix()
 
-# Choose color palette
-palette_length = 100
-my_color = colorRampPalette(c("Darkblue", "white","red"))(palette_length)
+# Color scale
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu"))
+colors.use <- grDevices::colorRampPalette(colors = colors)(100)
 
-my_breaks <- c(seq(-2, 0, length.out=ceiling(palette_length/2) + 1),
-               seq(0.05, 2, length.out=floor(palette_length/2)))
+my_breaks <- c(seq(-1.25, 0, length.out = ceiling(100 / 2) + 1),
+               seq(0.05, 1.25, length.out = floor(100 / 2)))
 
 # Plot
-pheatmap(top_acts_mat, border_color = NA, color=my_color, breaks = my_breaks) 
+pheatmap::pheatmap(mat = top_acts_mat,
+                   color = colors.use,
+                   border_color = "white",
+                   breaks = my_breaks,
+                   cellwidth = 20,
+                   cellheight = 20,
+                   treeheight_row = 20,
+                   treeheight_col = 20) 
 ```
 
 In this specific example, we can observe that Trail is more active in B and NK

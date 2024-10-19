@@ -75,15 +75,18 @@ log-transformed counts:
 ```{r "counts"}
 # Remove NAs and set row names
 counts <- data$counts %>%
-  dplyr::mutate_if(~ any(is.na(.x)), ~ if_else(is.na(.x),0,.x)) %>% 
-  column_to_rownames(var = "gene") %>% 
-  as.matrix()
+          dplyr::mutate_if(~ any(is.na(.x)), 
+                           ~ dplyr::if_else(is.na(.x), 0, .x)) %>% 
+          tibble::column_to_rownames(var = "gene") %>% 
+          as.matrix()
+
 head(counts)
 ```
 
 The design meta-data:
 ```{r "design"}
 design <- data$design
+
 design
 ```
 
@@ -92,10 +95,11 @@ obtained t-value from the contrast:
 ```{r "deg"}
 # Extract t-values per gene
 deg <- data$limma_ttop %>%
-    select(ID, t) %>% 
-    filter(!is.na(t)) %>% 
-    column_to_rownames(var = "ID") %>%
-    as.matrix()
+       dplyr::select(ID, t) %>% 
+       dplyr::filter(!is.na(t)) %>% 
+       tibble::column_to_rownames(var = "ID") %>%
+       as.matrix()
+
 head(deg)
 ```
 
@@ -122,7 +126,9 @@ For this example we will use the human weights (other organisms are available) a
 To access it we can use `decoupleR`:
 
 ```{r "progeny", message=FALSE}
-net <- get_progeny(organism = 'human', top = 500)
+net <- decoupleR::get_progeny(organism = 'human', 
+                              top = 500)
+
 net
 ```
 
@@ -139,8 +145,12 @@ want to use.
 
 ```{r "sample_mlm", message=FALSE}
 # Run mlm
-sample_acts <- run_mlm(mat=counts, net=net, .source='source', .target='target',
-                  .mor='weight', minsize = 5)
+sample_acts <- decoupleR::run_mlm(mat = counts, 
+                                  net = net, 
+                                  .source = 'source', 
+                                  .target = 'target',
+                                  .mor = 'weight', 
+                                  minsize = 5)
 sample_acts
 ```
 
@@ -151,31 +161,44 @@ will observe the obtained activities per sample in a heat-map:
 ```{r "heatmap"}
 # Transform to wide matrix
 sample_acts_mat <- sample_acts %>%
-  pivot_wider(id_cols = 'condition', names_from = 'source',
-              values_from = 'score') %>%
-  column_to_rownames('condition') %>%
-  as.matrix()
+                   tidyr::pivot_wider(id_cols = 'condition', 
+                                      names_from = 'source',
+                                      values_from = 'score') %>%
+                   tibble::column_to_rownames('condition') %>%
+                   as.matrix()
 
 # Scale per feature
 sample_acts_mat <- scale(sample_acts_mat)
 
-# Choose color palette
-palette_length = 100
-my_color = colorRampPalette(c("Darkblue", "white","red"))(palette_length)
+# Color scale
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu"))
+colors.use <- grDevices::colorRampPalette(colors = colors)(100)
 
-my_breaks <- c(seq(-3, 0, length.out=ceiling(palette_length/2) + 1),
-               seq(0.05, 3, length.out=floor(palette_length/2)))
+my_breaks <- c(seq(-2, 0, length.out = ceiling(100 / 2) + 1),
+               seq(0.05,2, length.out = floor(100 / 2)))
 
 # Plot
-pheatmap(sample_acts_mat, border_color = NA, color=my_color, breaks = my_breaks) 
+pheatmap::pheatmap(mat = sample_acts_mat,
+                   color = colors.use,
+                   border_color = "white",
+                   breaks = my_breaks,
+                   cellwidth = 20,
+                   cellheight = 20,
+                   treeheight_row = 20,
+                   treeheight_col = 20)
 ```
 
 We can also infer pathway activities from the t-values of the DEGs between KO
 and WT:
 ```{r "contrast_mlm", message=FALSE}
 # Run mlm
-contrast_acts <- run_mlm(mat=deg, net=net, .source='source', .target='target',
-                  .mor='weight', minsize = 5)
+contrast_acts <- decoupleR::run_mlm(mat  =deg, 
+                                    net = net, 
+                                    .source = 'source', 
+                                    .target = 'target',
+                                    .mor = 'weight', 
+                                    minsize = 5)
+
 contrast_acts
 ```
 
@@ -184,18 +207,31 @@ in activity between KO and WT:
 
 ```{r "barplot"}
 # Plot
-ggplot(contrast_acts, aes(x = reorder(source, score), y = score)) + 
-    geom_bar(aes(fill = score), stat = "identity") +
-    scale_fill_gradient2(low = "darkblue", high = "indianred", 
-        mid = "whitesmoke", midpoint = 0) + 
-    theme_minimal() +
-    theme(axis.title = element_text(face = "bold", size = 12),
-        axis.text.x = 
-            element_text(angle = 45, hjust = 1, size =10, face= "bold"),
-        axis.text.y = element_text(size =10, face= "bold"),
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank()) +
-    xlab("Pathways")
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
+
+p <- ggplot2::ggplot(data = contrast_acts, 
+                     mapping = ggplot2::aes(x = stats::reorder(source, score), 
+                                            y = score)) + 
+     ggplot2::geom_bar(mapping = ggplot2::aes(fill = score),
+                       color = "black",
+                       stat = "identity") +
+     ggplot2::scale_fill_gradient2(low = colors[1], 
+                                   mid = "whitesmoke", 
+                                   high = colors[2], 
+                                   midpoint = 0) + 
+     ggplot2::theme_minimal() +
+     ggplot2::theme(axis.title = element_text(face = "bold", size = 12),
+              axis.text.x = ggplot2::element_text(angle = 45, 
+                                                  hjust = 1, 
+                                                  size = 10, 
+                                                  face = "bold"),
+              axis.text.y = ggplot2::element_text(size = 10, 
+                                                  face = "bold"),
+              panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+     ggplot2::xlab("Pathways")
+
+p
 ```
 
 The pathway p53 and Trail are deactivated in KO when
@@ -208,29 +244,42 @@ belong to the MAPK pathway:
 pathway <- 'MAPK'
 
 df <- net %>%
-  filter(source == pathway) %>%
-  arrange(target) %>%
-  mutate(ID = target, color = "3") %>%
-  column_to_rownames('target')
-inter <- sort(intersect(rownames(deg),rownames(df)))
+      dplyr::filter(source == pathway) %>%
+      dplyr::arrange(target) %>%
+      dplyr::mutate(ID = target, 
+                    color = "3") %>%
+      tibble::column_to_rownames('target')
+
+inter <- sort(dplyr::intersect(rownames(deg), rownames(df)))
+
 df <- df[inter, ]
+
 df['t_value'] <- deg[inter, ]
+
 df <- df %>%
-  mutate(color = if_else(weight > 0 & t_value > 0, '1', color)) %>%
-  mutate(color = if_else(weight > 0 & t_value < 0, '2', color)) %>%
-  mutate(color = if_else(weight < 0 & t_value > 0, '2', color)) %>%
-  mutate(color = if_else(weight < 0 & t_value < 0, '1', color))
+      dplyr::mutate(color = dplyr::if_else(weight > 0 & t_value > 0, '1', color)) %>%
+      dplyr::mutate(color = dplyr::if_else(weight > 0 & t_value < 0, '2', color)) %>%
+      dplyr::mutate(color = dplyr::if_else(weight < 0 & t_value > 0, '2', color)) %>%
+      dplyr::mutate(color = dplyr::if_else(weight < 0 & t_value < 0, '1', color))
 
-ggplot(df, aes(x = weight, y = t_value, color = color)) + geom_point() +
-  scale_colour_manual(values = c("red","royalblue3","grey")) +
-  geom_label_repel(aes(label = ID)) + 
-  theme_minimal() +
-  theme(legend.position = "none") +
-  geom_vline(xintercept = 0, linetype = 'dotted') +
-  geom_hline(yintercept = 0, linetype = 'dotted') +
-  ggtitle(pathway)
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
 
+p <- ggplot2::ggplot(data = df, 
+                     mapping = ggplot2::aes(x = weight, 
+                                            y = t_value, 
+                                            color = color)) + 
+     ggplot2::geom_point(size = 2.5, 
+                         color = "black") + 
+     ggplot2::geom_point(size = 1.5) +
+     ggplot2::scale_colour_manual(values = c(colors[2], colors[1], "grey")) +
+     ggrepel::geom_label_repel(mapping = ggplot2::aes(label = ID)) + 
+     ggplot2::theme_minimal() +
+     ggplot2::theme(legend.position = "none") +
+     ggplot2::geom_vline(xintercept = 0, linetype = 'dotted') +
+     ggplot2::geom_hline(yintercept = 0, linetype = 'dotted') +
+     ggplot2::ggtitle(pathway)
 
+p
 ```
 
 The pathway seems to be active since the majority of target genes with positive

@@ -75,15 +75,18 @@ log-transformed counts:
 ```{r "counts"}
 # Remove NAs and set row names
 counts <- data$counts %>%
-  dplyr::mutate_if(~ any(is.na(.x)), ~ if_else(is.na(.x),0,.x)) %>% 
-  column_to_rownames(var = "gene") %>% 
-  as.matrix()
+          dplyr::mutate_if(~ any(is.na(.x)), 
+                           ~ dplyr::if_else(is.na(.x), 0, .x)) %>% 
+          tibble::column_to_rownames(var = "gene") %>% 
+          as.matrix()
+
 head(counts)
 ```
 
 The design meta-data:
 ```{r "design"}
 design <- data$design
+
 design
 ```
 
@@ -92,10 +95,11 @@ obtained t-value and p-value from the contrast:
 ```{r "deg"}
 # Extract t-values per gene
 deg <- data$limma_ttop %>%
-    select(ID, logFC, t, P.Value) %>% 
-    filter(!is.na(t)) %>% 
-    column_to_rownames(var = "ID") %>%
-    as.matrix()
+       dplyr::select(ID, logFC, t, P.Value) %>% 
+       dplyr::filter(!is.na(t)) %>% 
+       tibble::column_to_rownames(var = "ID") %>%
+       as.matrix()
+
 head(deg)
 ```
 
@@ -115,7 +119,9 @@ available). We can use `decoupleR` to retrieve it from `OmniPath`. The argument
 recommend to keep complexes together.
 
 ```{r "collectri"}
-net <- get_collectri(organism='human', split_complexes=FALSE)
+net <- decoupleR::get_collectri(organism = 'human', 
+                                split_complexes = FALSE)
+
 net
 ```
 
@@ -132,8 +138,13 @@ want to use.
 
 ```{r "sample_ulm", message=FALSE}
 # Run ulm
-sample_acts <- run_ulm(mat=counts, net=net, .source='source', .target='target',
-                  .mor='mor', minsize = 5)
+sample_acts <- decoupleR::run_ulm(mat = counts, 
+                                  net = net, 
+                                  .source = 'source', 
+                                  .target = 'target',
+                                  .mor = 'mor', 
+                                  minsize = 5)
+
 sample_acts
 ```
 
@@ -145,32 +156,41 @@ n_tfs <- 25
 
 # Transform to wide matrix
 sample_acts_mat <- sample_acts %>%
-  pivot_wider(id_cols = 'condition', names_from = 'source',
-              values_from = 'score') %>%
-  column_to_rownames('condition') %>%
-  as.matrix()
+                   tidyr::pivot_wider(id_cols = 'condition', 
+                                      names_from = 'source',
+                                      values_from = 'score') %>%
+                   tibble::column_to_rownames('condition') %>%
+                   as.matrix()
 
 # Get top tfs with more variable means across clusters
 tfs <- sample_acts %>%
-  group_by(source) %>%
-  summarise(std = sd(score)) %>%
-  arrange(-abs(std)) %>%
-  head(n_tfs) %>%
-  pull(source)
+       dplyr::group_by(source) %>%
+       dplyr::summarise(std = stats::sd(score)) %>%
+       dplyr::arrange(-abs(std)) %>%
+       head(n_tfs) %>%
+       dplyr::pull(source)
+
 sample_acts_mat <- sample_acts_mat[,tfs]
 
 # Scale per sample
 sample_acts_mat <- scale(sample_acts_mat)
 
 # Choose color palette
-palette_length = 100
-my_color = colorRampPalette(c("Darkblue", "white","red"))(palette_length)
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu"))
+colors.use <- grDevices::colorRampPalette(colors = colors)(100)
 
-my_breaks <- c(seq(-3, 0, length.out=ceiling(palette_length/2) + 1),
-               seq(0.05, 3, length.out=floor(palette_length/2)))
+my_breaks <- c(seq(-2, 0, length.out = ceiling(100 / 2) + 1),
+               seq(0.05, 2, length.out = floor(100 / 2)))
 
 # Plot
-pheatmap(sample_acts_mat, border_color = NA, color=my_color, breaks = my_breaks) 
+pheatmap::pheatmap(mat = sample_acts_mat,
+                   color = colors.use,
+                   border_color = "white",
+                   breaks = my_breaks,
+                   cellwidth = 15,
+                   cellheight = 15,
+                   treeheight_row = 20,
+                   treeheight_col = 20)
 ```
 
 
@@ -178,8 +198,13 @@ We can also infer TF activities from the t-values of the DEGs between KO
 and WT:
 ```{r "contrast_ulm", message=FALSE}
 # Run ulm
-contrast_acts <- run_ulm(mat=deg[, 't', drop=FALSE], net=net, .source='source', .target='target',
-                  .mor='mor', minsize = 5)
+contrast_acts <- decoupleR::run_ulm(mat = deg[, 't', drop = FALSE], 
+                                    net = net, 
+                                    .source = 'source', 
+                                    .target = 'target',
+                                    .mor='mor', 
+                                    minsize = 5)
+
 contrast_acts
 ```
 
@@ -190,30 +215,46 @@ in activity between KO and WT:
 
 # Filter top TFs in both signs
 f_contrast_acts <- contrast_acts %>%
-  mutate(rnk = NA)
+                   dplyr::mutate(rnk = NA)
+
 msk <- f_contrast_acts$score > 0
+
 f_contrast_acts[msk, 'rnk'] <- rank(-f_contrast_acts[msk, 'score'])
 f_contrast_acts[!msk, 'rnk'] <- rank(-abs(f_contrast_acts[!msk, 'score']))
-tfs <- f_contrast_acts %>%
-  arrange(rnk) %>%
-  head(n_tfs) %>%
-  pull(source)
-f_contrast_acts <- f_contrast_acts %>%
-  filter(source %in% tfs)
 
-# Plot
-ggplot(f_contrast_acts, aes(x = reorder(source, score), y = score)) + 
-    geom_bar(aes(fill = score), stat = "identity") +
-    scale_fill_gradient2(low = "darkblue", high = "indianred", 
-        mid = "whitesmoke", midpoint = 0) + 
-    theme_minimal() +
-    theme(axis.title = element_text(face = "bold", size = 12),
-        axis.text.x = 
-            element_text(angle = 45, hjust = 1, size =10, face= "bold"),
-        axis.text.y = element_text(size =10, face= "bold"),
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank()) +
-    xlab("TFs")
+tfs <- f_contrast_acts %>%
+       dplyr::arrange(rnk) %>%
+       head(n_tfs) %>%
+       dplyr::pull(source)
+
+f_contrast_acts <- f_contrast_acts %>%
+                   filter(source %in% tfs)
+
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
+
+p <- ggplot2::ggplot(data = f_contrast_acts, 
+                     mapping = ggplot2::aes(x = stats::reorder(source, score), 
+                                            y = score)) + 
+     ggplot2::geom_bar(mapping = ggplot2::aes(fill = score),
+                       color = "black",
+                       stat = "identity") +
+     ggplot2::scale_fill_gradient2(low = colors[1], 
+                                   mid = "whitesmoke", 
+                                   high = colors[2], 
+                                   midpoint = 0) + 
+     ggplot2::theme_minimal() +
+     ggplot2::theme(axis.title = element_text(face = "bold", size = 12),
+              axis.text.x = ggplot2::element_text(angle = 45, 
+                                                  hjust = 1, 
+                                                  size = 10, 
+                                                  face = "bold"),
+              axis.text.y = ggplot2::element_text(size = 10, 
+                                                  face = "bold"),
+              panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+     ggplot2::xlab("TFs")
+
+p
 ```
 
 The TFs GLI3 and SPDEF are deactivated in KO when
@@ -226,29 +267,43 @@ belong to SP1:
 tf <- 'SP1'
 
 df <- net %>%
-  filter(source == tf) %>%
-  arrange(target) %>%
-  mutate(ID = target, color = "3") %>%
-  column_to_rownames('target')
+      dplyr::filter(source == tf) %>%
+      dplyr::arrange(target) %>%
+      dplyr::mutate(ID = target, color = "3") %>%
+      tibble::column_to_rownames('target')
 
-inter <- sort(intersect(rownames(deg),rownames(df)))
+inter <- sort(dplyr::intersect(rownames(deg), rownames(df)))
+
 df <- df[inter, ]
-df[,c('logfc', 't_value', 'p_value')] <- deg[inter, ]
-df <- df %>%
-  mutate(color = if_else(mor > 0 & t_value > 0, '1', color)) %>%
-  mutate(color = if_else(mor > 0 & t_value < 0, '2', color)) %>%
-  mutate(color = if_else(mor < 0 & t_value > 0, '2', color)) %>%
-  mutate(color = if_else(mor < 0 & t_value < 0, '1', color))
 
-ggplot(df, aes(x = logfc, y = -log10(p_value), color = color, size=abs(mor))) +
-  geom_point() +
-  scale_colour_manual(values = c("red","royalblue3","grey")) +
-  geom_label_repel(aes(label = ID, size=1)) + 
-  theme_minimal() +
-  theme(legend.position = "none") +
-  geom_vline(xintercept = 0, linetype = 'dotted') +
-  geom_hline(yintercept = 0, linetype = 'dotted') +
-  ggtitle(tf)
+df[,c('logfc', 't_value', 'p_value')] <- deg[inter, ]
+
+df <- df %>%
+      dplyr::mutate(color = dplyr::if_else(mor > 0 & t_value > 0, '1', color)) %>%
+      dplyr::mutate(color = dplyr::if_else(mor > 0 & t_value < 0, '2', color)) %>%
+      dplyr::mutate(color = dplyr::if_else(mor < 0 & t_value > 0, '2', color)) %>%
+      dplyr::mutate(color = dplyr::if_else(mor < 0 & t_value < 0, '1', color))
+
+colors <- rev(RColorBrewer::brewer.pal(n = 11, name = "RdBu")[c(2, 10)])
+
+p <- ggplot2::ggplot(data = df, 
+                     mapping = ggplot2::aes(x = logfc, 
+                                            y = -log10(p_value), 
+                                            color = color,
+                                            size = abs(mor))) + 
+     ggplot2::geom_point(size = 2.5, 
+                         color = "black") + 
+     ggplot2::geom_point(size = 1.5) +
+     ggplot2::scale_colour_manual(values = c(colors[2], colors[1], "grey")) +
+     ggrepel::geom_label_repel(mapping = ggplot2::aes(label = ID,
+                                                      size = 1)) + 
+     ggplot2::theme_minimal() +
+     ggplot2::theme(legend.position = "none") +
+     ggplot2::geom_vline(xintercept = 0, linetype = 'dotted') +
+     ggplot2::geom_hline(yintercept = 0, linetype = 'dotted') +
+     ggplot2::ggtitle(tf)
+
+p
 ```
 
 Here blue means that the sign of multiplying the `mor` and `t-value` is negative, 

@@ -37,6 +37,7 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
         genesymbols=TRUE
       ),
       error = function(e){
+        OmnipathR::omnipath_msg("error", conditionMessage(e))
         OmnipathR::static_table(
           query = 'interactions',
           resource = 'dorothea',
@@ -107,6 +108,7 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
       ...
     ),
     error = function(e){
+      OmnipathR::omnipath_msg("error", conditionMessage(e))
       OmnipathR::static_table(
         query = 'interactions',
         resource = 'collectri',
@@ -119,7 +121,7 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
     tryCatch(
       {
         collectri <-
-          OmnipathR::import_tf_mirna_interactions(
+          OmnipathR::tf_mirna(
             genesymbols=TRUE,
             resources = "CollecTRI",
             strict_evidences = TRUE
@@ -127,6 +129,7 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
           base::rbind(collectri, .)
       },
       error = function(e){
+        OmnipathR::omnipath_msg("error", conditionMessage(e))
         OmnipathR::omnipath_msg(
           "error",
           paste0(
@@ -134,6 +137,7 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
             "OmniPath. For more information, see the OmnipathR log."
           )
         )
+        stop(msg)
       }
     )
   }
@@ -232,7 +236,7 @@ show_resources <- function(){
 #'
 #' @param name Name of the resource to query.
 #' @param organism Organism name or NCBI Taxonomy ID.
-#' @param ... Passed to \code{OmnipathR::import_omnipath_annotations}.
+#' @param ... Passed to \code{OmnipathR::annotations}.
 #'
 #' @export
 #' @examples
@@ -258,6 +262,7 @@ get_resource <- function(name, organism = 'human', ...){
         "[decoupleR] Failed to check the list of available ",
         "resources in OmniPath. Proceeding anyways."
       )
+      OmnipathR::omnipath_msg("error", conditionMessage(e))
       OmnipathR::omnipath_msg("warn", msg)
       warning(msg)
     }
@@ -267,12 +272,13 @@ get_resource <- function(name, organism = 'human', ...){
 
   df <-
     tryCatch(
-      OmnipathR::import_omnipath_annotations(
+      OmnipathR::annotations(
         resources = name,
         ...,
         wide = TRUE
       ),
       error = function(e){
+        OmnipathR::omnipath_msg("error", conditionMessage(e))
         tryCatch(
           OmnipathR::static_table(
             query = 'annotations',
@@ -280,6 +286,7 @@ get_resource <- function(name, organism = 'human', ...){
             organism = organism
           ),
           error = function(e){
+            OmnipathR::omnipath_msg("error", conditionMessage(e))
             msg <-
               sprintf(
                 paste0(
@@ -361,7 +368,7 @@ get_progeny <- function(organism='human', top=500){
 #' phospho or dephosphorilation. Then format the columns for use with decoupleR
 #' functions.
 #'
-#' @param ... Passed to ``OmnipathR::import_omnipath_enzsub``.
+#' @param ... Passed to \code{OmnipathR::enzyme_substrate}.
 #'
 #' @importFrom magrittr %>% %T>%
 #' @importFrom rlang !!!
@@ -375,7 +382,7 @@ get_ksn_omnipath <- function(...) {
     enzyme_genesymbol <- target <- mor <- comb <- NULL
 
   list(...) %>%
-    OmnipathR::import_omnipath_enzsub(!!!.) %>%
+    OmnipathR::enzyme_substrate(!!!.) %>%
     filter(modification %in% c('phosphorylation', 'dephosphorylation')) %>%
     mutate(
       target = sprintf(
@@ -418,6 +425,7 @@ check_organism <- function(organism) {
     tryCatch(
       OmnipathR::ncbi_taxid(organism),
       error = function(e) {
+        OmnipathR::omnipath_msg("warn", conditionMessage(e))
         organism %>% str_to_lower %>% {extract2(COMMON_TO_NCBI, .) %||% .}
       }
     )

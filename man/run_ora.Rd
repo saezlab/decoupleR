@@ -10,11 +10,11 @@ run_ora(
   .source = source,
   .target = target,
   n_up = ceiling(0.05 * nrow(mat)),
-  n_bottom = 0,
+  n_bottom = 0L,
   n_background = 20000,
   with_ties = TRUE,
   seed = 42,
-  minsize = 5,
+  minsize = 5L,
   ...
 )
 }
@@ -62,7 +62,7 @@ number generation.}
     tables, in which cases it indicates whether the exact probabilities
     (default) or a hybrid approximation thereof should be computed.}
     \item{\code{hybridPars}}{a numeric vector of length 3, by default describing
-    \dQuote{Cochran's conditions} for the validity of the chisquare
+    \dQuote{Cochran's conditions} for the validity of the chi-squared
     approximation, see \sQuote{Details}.}
     \item{\code{control}}{a list with named components for low level algorithm
     control.  At present the only one used is \code{"mult"}, a positive

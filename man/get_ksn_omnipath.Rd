@@ -7,7 +7,7 @@
 get_ksn_omnipath(...)
 }
 \arguments{
-\item{...}{Passed to \code{OmnipathR::import_omnipath_enzsub}.}
+\item{...}{Passed to \code{OmnipathR::enzyme_substrate}.}
 }
 \description{
 Retrieve a ready to use, curated kinase-substrate Network from the OmniPath

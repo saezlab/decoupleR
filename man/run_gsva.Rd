@@ -43,21 +43,37 @@ Must be greater than 0.}
 \item{...}{
   Arguments passed on to \code{\link[GSVA:gsvaParam-class]{GSVA::gsvaParam}}, \code{\link[GSVA:ssgseaParam-class]{GSVA::ssgseaParam}}
   \describe{
-    \item{\code{assay}}{The name of the assay to use in case \code{exprData} is a multi-assay
-container, otherwise ignored.  By default, the first assay is used.}
-    \item{\code{annotation}}{The name of a Bioconductor annotation package for the gene
-identifiers occurring in the row names of the expression data matrix.  This
-can be used to map gene identifiers occurring in the gene sets if those are
-provided in a \code{\link{GeneSetCollection}}.  By default gene identifiers used in
-expression data matrix and gene sets are matched directly.}
+    \item{\code{assay}}{Character vector of length 1.  The name of the assay to use in
+case \code{exprData} is a multi-assay container, otherwise ignored.  By default,
+the first assay is used.}
+    \item{\code{annotation}}{An object of class \code{\linkS4class{GeneIdentifierType}} from
+package \code{GSEABase} describing the gene identifiers used as the row names of
+the expression data set.  See \code{\link{GeneIdentifierType}} for help on available
+gene identifier types and how to construct them.  This
+information can be used to map gene identifiers occurring in the gene sets.
+
+If the default value \code{NULL} is provided, an attempt will be made to extract
+the gene identifier type from the expression data set provided as \code{exprData}
+(by calling \code{\link[GSVA]{gsvaAnnotation}} on it).  If still not successful, the
+\code{NullIdentifier()} will be used as the gene identifier type, gene identifier
+mapping will be disabled and gene identifiers used in expression data set and
+gene sets can only be matched directly.}
     \item{\code{kcdf}}{Character vector of length 1 denoting the kernel to use during
-the non-parametric estimation of the cumulative distribution function of
-expression levels across samples.  By default, \code{kcdf="Gaussian"} which is
-suitable when input expression values are continuous, such as microarray
-fluorescent units in logarithmic scale, RNA-seq log-CPMs, log-RPKMs or
-log-TPMs.  When input expression values are integer counts, such as those
-derived from RNA-seq experiments, then this argument should be set to
-\code{kcdf="Poisson"}.}
+the non-parametric estimation of the empirical cumulative distribution
+function (ECDF) of expression levels across samples. The value \code{kcdf="auto"}
+will allow GSVA to automatically choose one of the possible values. The
+value \code{kcdf="Gaussian"} is suitable when input expression values are
+continuous, such as microarray fluorescent units in logarithmic scale,
+RNA-seq log-CPMs, log-RPKMs, or log-TPMs. When input expression values are
+integer counts, such as those derived from RNA-seq experiments, then this
+argument should be set to \code{kcdf="Poisson"}. When we do not want to use a
+kernel approach for the estimation of the ECDF, then we should set
+\code{kcdf="none"}.}
+    \item{\code{kcdfNoneMinSampleSize}}{Integer vector of length 1. When \code{kcdf="auto"},
+this parameter decides at what minimum sample size \code{kcdf="none"}, i.e., the
+estimation of the empirical cumulative distribution function (ECDF) of
+expression levels across samples is performed directly without using a
+kernel. By default, this value is set to 200; see the \code{kcdf} slot.}
     \item{\code{tau}}{Numeric vector of length 1.  The exponent defining the weight of
 the tail in the random walk performed by the \code{GSVA} (Hänzelmann et al.,
 2013) method.  The default value is 1 as described in the paper.}
@@ -65,25 +81,57 @@ the tail in the random walk performed by the \code{GSVA} (Hänzelmann et al.,
 calculate the enrichment statistic (ES) from the KS random walk statistic.
 \itemize{
 \item \code{FALSE}: ES is calculated as the maximum distance of the random walk
-from 0.
+from 0. This approach produces a distribution of enrichment scores that is
+bimodal, but it can give large enrichment scores to gene sets whose genes
+are not concordantly activated in one direction only.
 \item \code{TRUE} (the default): ES is calculated as the magnitude difference between
-the largest positive and negative random walk deviations.
+the largest positive and negative random walk deviations. This default value
+gives larger enrichment scores to gene sets whose genes are concordantly
+activated in one direction only.
 }}
     \item{\code{absRanking}}{Logical vector of length 1 used only when \code{maxDiff=TRUE}.
 When \code{absRanking=FALSE} (default) a modified Kuiper statistic is used to
 calculate enrichment scores, taking the magnitude difference between the
 largest positive and negative random walk deviations. When
 \code{absRanking=TRUE} the original Kuiper statistic that sums the largest
-positive and negative random walk deviations, is used. In this latter case,
-gene sets with genes enriched on either extreme (high or low) will be
-regarded as ’highly’ activated.}
+positive and negative random walk deviations is used.}
+    \item{\code{sparse}}{Logical vector of length 1 used only when the input expression
+data in \code{exprData} is stored in a sparse matrix (e.g., a \code{dgCMatrix} or a
+\code{SingleCellExperiment} object storing the expression data in a \code{dgCMatrix}).
+In such a case, when \code{sparse=TRUE} (default), a sparse version of the GSVA
+algorithm will be applied. Otherwise, when \code{sparse=FALSE}, the classical
+version of the GSVA algorithm will be used.}
+    \item{\code{checkNA}}{Character vector of length 1 specifying whether the input
+expression data should be checked for the presence of missing (\code{NA}) values.
+This must be
+one of the strings \code{"auto"} (default), \code{"yes"}, or \code{"no"}. The default value
+\code{"auto"} means that the software will perform that check only when the input
+expression data is provided as a base \code{\link{matrix}}, an \code{\link{ExpressionSet}} or a
+\code{\link{SummarizedExperiment}} object, while every other type of input expression
+data container (e.g., \code{\link{SingleCellExperiment}}, etc.) will not be checked.
+If \code{checkNA="yes"}, then the input expression data will be checked for
+missing values irrespective of the object class of the data container, and
+if \code{checkNA="no"}, then that check will not be performed.}
+    \item{\code{use}}{Character vector of length 1 specifying a policy for dealing with
+missing values (\code{NA}s) in the input expression data argument \code{exprData}. It
+only applies when either \code{checkNA="yes"}, or \code{checkNA="auto"} (see the
+\code{checkNA} parameter. The argument value must be one of the strings
+\code{"everything"} (default), \code{"all.obs"}, or \code{"na.rm"}. The policy of the
+default value \code{"everything"} consists of propagating \code{NA}s so that the
+resulting enrichment score will be \code{NA}, whenever one or more of its
+contributing values is \code{NA}, giving a warning when that happens. When
+\code{use="all.obs"}, the presence of \code{NA}s in the input expression data will
+produce an error. Finally, when \code{use="na.rm"}, \code{NA} values in the input
+expression data will be removed from calculations, giving a warning when that
+happens, and giving an error if no values are left after removing the \code{NA}
+values.}
     \item{\code{alpha}}{Numeric vector of length 1.  The exponent defining the
 weight of the tail in the random walk performed by the \code{ssGSEA} (Barbie et
 al., 2009) method.  The default value is 0.25 as described in the paper.}
-    \item{\code{normalize}}{Logical vector of length 1; if \code{TRUE}  runs the \code{ssGSEA} method
-from Barbie et al. (2009) normalizing the scores by the absolute difference
-between the minimum and the maximum, as described in their paper. Otherwise
-this last normalization step is skipped.}
+    \item{\code{normalize}}{Logical vector of length 1; if \code{TRUE} runs the \code{ssGSEA}
+method from Barbie et al. (2009) normalizing the scores by the absolute
+difference between the minimum and the maximum, as described in their paper.
+Otherwise this final normalization step is skipped.}
   }}
 }
 \value{

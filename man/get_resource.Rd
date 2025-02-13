@@ -14,7 +14,7 @@ get_resource(name, organism = "human", ...)
 
 \item{organism}{Organism name or NCBI Taxonomy ID.}
 
-\item{...}{Passed to \code{OmnipathR::import_omnipath_annotations}.}
+\item{...}{Passed to \code{OmnipathR::annotations}.}
 }
 \description{
 Wrapper to access resources inside Omnipath.

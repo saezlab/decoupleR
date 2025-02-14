@@ -129,14 +129,13 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
           base::rbind(collectri, .)
       },
       error = function(e){
-        OmnipathR::omnipath_msg("error", conditionMessage(e))
-        OmnipathR::omnipath_msg(
-          "error",
+        msg <-
           paste0(
             "[decoupleR] Failed to download TF-miRNA interactions from ",
             "OmniPath. For more information, see the OmnipathR log."
           )
-        )
+        OmnipathR::omnipath_msg("error", conditionMessage(e))
+        OmnipathR::omnipath_msg("error", msg)
         stop(msg)
       }
     )

@@ -62,7 +62,7 @@ number generation.}
     tables, in which cases it indicates whether the exact probabilities
     (default) or a hybrid approximation thereof should be computed.}
     \item{\code{hybridPars}}{a numeric vector of length 3, by default describing
-    \dQuote{Cochran's conditions} for the validity of the chisquare
+    \dQuote{Cochran's conditions} for the validity of the chi-squared
     approximation, see \sQuote{Details}.}
     \item{\code{control}}{a list with named components for low level algorithm
     control.  At present the only one used is \code{"mult"}, a positive
@@ -132,6 +132,7 @@ Other decoupleR statistics:
 \code{\link{run_ulm}()},
 \code{\link{run_viper}()},
 \code{\link{run_wmean}()},
-\code{\link{run_wsum}()}
+\code{\link{run_wsum}()},
+\code{\link{run_zscore}()}
 }
 \concept{decoupleR statistics}

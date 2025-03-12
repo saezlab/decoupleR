@@ -29,7 +29,7 @@ Authors:
   \item Petr Taus \email{petr.taus@ceitec.muni.cz} (\href{https://orcid.org/0000-0003-3764-9033}{ORCID})
   \item Aurélien Dugourd \email{aurelien.dugourd@bioquant.uni-heidelberg.de} (\href{https://orcid.org/0000-0002-0714-028X}{ORCID})
   \item Christian H. Holland \email{cholland2408@gmail.com} (\href{https://orcid.org/0000-0002-3060-5786}{ORCID})
-  \item Ricardo O. Ramirez Flores \email{roramirezf@uni-heidelberg.de } (\href{https://orcid.org/0000-0003-0087-371X}{ORCID})
+  \item Ricardo O. Ramirez Flores \email{roramirezf@uni-heidelberg.de} (\href{https://orcid.org/0000-0003-0087-371X}{ORCID})
   \item Julio Saez-Rodriguez \email{pub.saez@uni-heidelberg.de} (\href{https://orcid.org/0000-0002-8552-8976}{ORCID})
 }
 

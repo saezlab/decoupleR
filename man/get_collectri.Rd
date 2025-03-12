@@ -8,7 +8,12 @@ comprehensive resource containing a curated collection of transcription
 factors (TFs) and their target genes. It is an expansion of DoRothEA.
 Each interaction is weighted by its mode of regulation (either positive or negative).}
 \usage{
-get_collectri(organism = "human", split_complexes = FALSE, ...)
+get_collectri(
+  organism = "human",
+  split_complexes = FALSE,
+  load_meta = FALSE,
+  ...
+)
 }
 \arguments{
 \item{organism}{Which organism to use. Only human, mouse and rat are available.}
@@ -16,7 +21,10 @@ get_collectri(organism = "human", split_complexes = FALSE, ...)
 \item{split_complexes}{Whether to split complexes into subunits. By default
 complexes are kept as they are.}
 
-\item{...}{Ignored.}
+\item{load_meta}{Whether to load meta data for the TF-gene interactions. This is set
+to false by default.}
+
+\item{...}{Optional additional arguments, passed to OmniPath import_transcriptional_interactions.}
 }
 \description{
 CollecTRI gene regulatory network.

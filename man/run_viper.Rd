@@ -100,6 +100,7 @@ Other decoupleR statistics:
 \code{\link{run_udt}()},
 \code{\link{run_ulm}()},
 \code{\link{run_wmean}()},
-\code{\link{run_wsum}()}
+\code{\link{run_wsum}()},
+\code{\link{run_zscore}()}
 }
 \concept{decoupleR statistics}

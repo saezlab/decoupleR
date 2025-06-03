@@ -443,7 +443,7 @@ check_organism <- function(organism) {
     )
   if (!ncbi_tax_id %in% c(9606L, 10090L, 10116L)){
     stop(sprintf(
-      "Organism can only be human or mouse or rat, `%s` provided.",
+      "Organism can only be human or mouse or rat (rnorvegicus), `%s` provided.",
       ncbi_tax_id
     ))
   }

@@ -1,0 +1,23 @@
+name: Deprecation Auto-Close
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  deprecate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment and close issue
+        uses: peter-evans/close-issue@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          comment: |
+            ⚠️ **This repository is deprecated.**
+
+            Thank you for opening an issue, but this repo is no longer maintained.
+
+            👉 Please open issues in the new repository instead:
+            https://github.com/scverse/decoupler
+

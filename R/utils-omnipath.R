@@ -37,13 +37,7 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
         genesymbols=TRUE
       ),
       error = function(e){
-        OmnipathR::omnipath_msg("error", conditionMessage(e))
-        OmnipathR::static_table(
-          query = 'interactions',
-          resource = 'dorothea',
-          organism = organism,
-          dorothea_levels = levels
-        )
+        omnipath_failed(e, "the DoRothEA network")
       }
     ) %>%
     # Filter columns
@@ -108,12 +102,7 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
       ...
     ),
     error = function(e){
-      OmnipathR::omnipath_msg("error", conditionMessage(e))
-      OmnipathR::static_table(
-        query = 'interactions',
-        resource = 'collectri',
-        organism = organism
-      )
+      omnipath_failed(e, "the CollecTRI network")
     }
   )
 
@@ -129,14 +118,7 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
           base::rbind(collectri, .)
       },
       error = function(e){
-        msg <-
-          paste0(
-            "[decoupleR] Failed to download TF-miRNA interactions from ",
-            "OmniPath. For more information, see the OmnipathR log."
-          )
-        OmnipathR::omnipath_msg("error", conditionMessage(e))
-        OmnipathR::omnipath_msg("error", msg)
-        stop(msg)
+        omnipath_failed(e, "the CollecTRI TF-miRNA interactions")
       }
     )
   }
@@ -173,6 +155,29 @@ get_collectri <- function(organism='human', split_complexes=FALSE, ...){
                   "mor" = weight,
                   )
   return(collectri)
+}
+
+
+#' Stops with an informative error after a failed OmniPath download
+#'
+#' @param e The condition from OmnipathR.
+#' @param what Character: description of the data that failed to download.
+#'
+#' @noRd
+omnipath_failed <- function(e, what) {
+
+  msg <- sprintf(
+    paste0(
+      "[decoupleR] Failed to download %s from OmniPath: %s ",
+      "The OmnipathR log has the details of each attempt: %s"
+    ),
+    what,
+    conditionMessage(e),
+    OmnipathR::omnipath_logfile()
+  )
+  OmnipathR::omnipath_msg("error", msg)
+  stop(msg, call. = FALSE)
+
 }
 
 
@@ -277,26 +282,9 @@ get_resource <- function(name, organism = 'human', ...){
         wide = TRUE
       ),
       error = function(e){
-        OmnipathR::omnipath_msg("error", conditionMessage(e))
-        tryCatch(
-          OmnipathR::static_table(
-            query = 'annotations',
-            resource = name,
-            organism = organism
-          ),
-          error = function(e){
-            OmnipathR::omnipath_msg("error", conditionMessage(e))
-            msg <-
-              sprintf(
-                paste0(
-                  "[decoupleR] Failed to download annotation resource `%s` ",
-                  "from OmniPath. For more information, see the OmnipathR log."
-                ),
-                name
-              )
-            OmnipathR::omnipath_msg("error", msg)
-            stop(msg)
-          }
+        omnipath_failed(
+          e,
+          sprintf("the annotation resource `%s`", name)
         )
       }
     ) %>%

@@ -1,3 +1,14 @@
+# decoupleR 2.19.x
+
+## Changes
+* `get_collectri`, `get_dorothea` and `get_resource` do not fall back to the
+  OmnipathR static tables any more. If the download from OmniPath fails, the
+  error message gives the reason and the path of the OmnipathR log file.
+* Tests: the `fgsea` p-values come from 100 permutations, and differ between
+  `fgsea` versions. The tests compare them with an absolute tolerance, and
+  the expected outputs are regenerated with `nproc=1`.
+* Documentation: package anchors for the links to GSVA and magrittr.
+
 # decoupleR 2.3.x
 
 ## Changes

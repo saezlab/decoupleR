@@ -23,5 +23,12 @@ test_that("test run_fgsea", {
   exp_1 <- file.path(expected_dir, "output-fgsea.rds") %>%
     readRDS()
 
-  expect_equal(res_1, exp_1, tolerance=0.01)
+  # The p-values come from 100 permutations: they differ between fgsea
+  # versions, hence we check them with an absolute tolerance
+  expect_equal(
+    dplyr::select(res_1, -p_value),
+    dplyr::select(exp_1, -p_value),
+    tolerance=0.01
+  )
+  expect_lt(max(abs(res_1$p_value - exp_1$p_value)), 0.25)
 })

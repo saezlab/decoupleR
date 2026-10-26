@@ -83,7 +83,7 @@ run_ora(mat, net, minsize=0, n_up=3, n_bottom=3) %>%
     saveRDS(out_default$ora)
 
 #----- run_fgsea() -------------------------------------------------------------
-run_fgsea(mat, net, minsize=0) %>%
+run_fgsea(mat, net, minsize=0, nproc=1) %>%
     saveRDS(out_default$fgsea)
 
 # decouple() --------------------------------------------------------------

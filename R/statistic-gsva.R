@@ -21,12 +21,14 @@
 #' @param method Method to employ in the estimation of gene-set enrichment.
 #' scores per sample. By default this is set to gsva (Hänzelmann et al, 2013).
 #' Further available methods are "plage", "ssgsea" and "zscore". Read more in
-#' the manual of \code{\link{GSVA::gsva}}.
+#' the manual of \code{\link[GSVA]{gsva}}.
 #' @param minsize Integer indicating the minimum number of targets per source.
 #' Must be greater than 0.
 #' @param maxsize Integer indicating the maximum number of targets per source.
-#' @inheritDotParams GSVA::gsvaParam -exprData -geneSets -minSize -maxSize
-#' @inheritDotParams GSVA::ssgseaParam -exprData -geneSets -minSize -maxSize
+#' @param ... Further arguments passed to \code{\link[GSVA]{gsvaParam}}
+#' (if \code{method} is "gsva") or \code{\link[GSVA]{ssgseaParam}} (if
+#' \code{method} is "ssgsea"), except \code{exprData}, \code{geneSets},
+#' \code{minSize} and \code{maxSize}.
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:

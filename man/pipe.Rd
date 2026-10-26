@@ -10,7 +10,7 @@ lhs \%>\% rhs
 Pipe an object forward into a function or call expression.
 }
 \description{
-See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
+See \code{magrittr::\link[magrittr]{\%>\%}} for details.
 }
 \examples{
 c(1, 2, 3) \%>\% sum()

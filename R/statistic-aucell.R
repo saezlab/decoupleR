@@ -29,6 +29,12 @@
 #' @param minsize Integer indicating the minimum number of targets per source.
 #'
 #' @family decoupleR statistics
+#' @return A long format tibble of the enrichment scores for each source
+#' across the samples. Resulting tibble contains the following columns:
+#' 1. `statistic`: Indicates which method is associated with which score.
+#' 2. `source`: Source nodes of `network`.
+#' 3. `condition`: Condition representing each column of `mat`.
+#' 4. `score`: Regulatory activity (enrichment score).
 #' @export
 #' @import dplyr
 #' @import tibble

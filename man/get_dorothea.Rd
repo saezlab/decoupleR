@@ -20,6 +20,10 @@ being the most confident and D being the less.}
 (-1 or 1), one for each confidence level. Bigger values will generate
 weights close to zero.}
 }
+\value{
+A tibble with the columns \code{source}, \code{confidence}, \code{target} and
+\code{mor}.
+}
 \description{
 Wrapper to access DoRothEA gene regulatory network. DoRothEA is a
 comprehensive resource containing a curated collection of transcription

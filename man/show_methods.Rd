@@ -6,6 +6,10 @@
 \usage{
 show_methods()
 }
+\value{
+A tibble with the columns \code{Function} (the function name) and \code{Name}
+(the full name of the method).
+}
 \description{
 Prints the methods available in decoupleR. The first column correspond to
 the function name in decoupleR and the second to the method's full name.

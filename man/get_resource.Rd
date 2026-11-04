@@ -16,6 +16,10 @@ get_resource(name, organism = "human", ...)
 
 \item{...}{Passed to \code{OmnipathR::annotations}.}
 }
+\value{
+A wide format tibble of the annotations from the resource, one
+column per annotation field.
+}
 \description{
 Wrapper to access resources inside Omnipath.
 This wrapper allows to easily query different prior knowledge resources.

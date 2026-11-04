@@ -7,6 +7,10 @@ official website for \href{https://omnipathdb.org/}{Omnipath}.}
 \usage{
 show_resources()
 }
+\value{
+A character vector with the names of the annotation resources in
+OmniPath.
+}
 \description{
 Shows available resources in Omnipath. For more information visit the
 official website for \href{https://omnipathdb.org/}{Omnipath}.

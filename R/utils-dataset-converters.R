@@ -7,6 +7,8 @@
 #' @inheritParams .decoupler_network_format
 #' @param def_mor Default value for .mor when not provided.
 #' 
+#' @return A tibble with the columns `source`, `target`, `mor` and
+#' `likelihood`, and the other columns of `network`.
 #' @export
 #' @examples 
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
@@ -49,6 +51,7 @@ rename_net <- function(network,
 #' 
 #' @inheritParams .decoupler_network_format
 #' 
+#' @return A named list of character vectors: the targets of each source.
 #' @export
 #' 
 #' @examples 

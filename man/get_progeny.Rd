@@ -11,6 +11,10 @@ get_progeny(organism = "human", top = 500)
 
 \item{top}{Number of genes per pathway to return.}
 }
+\value{
+A tibble with the columns \code{source} (pathway), \code{target}, \code{weight}
+and \code{p_value}.
+}
 \description{
 Wrapper to access PROGENy model gene weights. Each pathway is defined with a
 collection of target genes, each interaction has an associated p-value and

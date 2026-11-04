@@ -8,6 +8,9 @@
   `fgsea` versions. The tests compare them with an absolute tolerance, and
   the expected outputs are regenerated with `nproc=1`.
 * Documentation: package anchors for the links to GSVA and magrittr.
+* Documentation: the exported functions document their return values. The
+  CITATION file uses `bibentry`, and the vignettes use `TRUE` and `FALSE`
+  instead of `T` and `F`.
 
 # decoupleR 2.3.x
 

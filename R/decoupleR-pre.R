@@ -3,6 +3,8 @@
 #' Prints the methods available in decoupleR. The first column correspond to
 #' the function name in decoupleR and the second to the method's full name.
 #'
+#' @return A tibble with the columns `Function` (the function name) and `Name`
+#' (the full name of the method).
 #' @export
 #' @examples
 #' show_methods()

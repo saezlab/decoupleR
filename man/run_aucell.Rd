@@ -36,6 +36,16 @@ number generation.}
 
 \item{minsize}{Integer indicating the minimum number of targets per source.}
 }
+\value{
+A long format tibble of the enrichment scores for each source
+across the samples. Resulting tibble contains the following columns:
+\enumerate{
+\item \code{statistic}: Indicates which method is associated with which score.
+\item \code{source}: Source nodes of \code{network}.
+\item \code{condition}: Condition representing each column of \code{mat}.
+\item \code{score}: Regulatory activity (enrichment score).
+}
+}
 \description{
 Calculates regulatory activities using AUCell.
 }

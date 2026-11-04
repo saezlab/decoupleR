@@ -222,7 +222,7 @@ compared to WT, while MUC and NFKB1 seem to be activated.
 We can further visualize the most differential target genes in each TF along their
 p-values to interpret the results. For example, let's see the genes that are 
 belong to SP1:
-```{r "targets", warning=F}
+```{r "targets", warning=FALSE}
 tf <- 'SP1'
 
 df <- net %>%

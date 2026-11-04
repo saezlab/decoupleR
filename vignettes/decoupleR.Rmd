@@ -108,7 +108,7 @@ This example consists of two small populations of samples (S, cols) with
 different gene expression patterns (G, rows):
 
 ```{r show_matrix, message=TRUE}
-pheatmap(mat, cluster_rows = F, cluster_cols = F)
+pheatmap(mat, cluster_rows = FALSE, cluster_cols = FALSE)
 ```
 
 Here we can see that some genes seem to be more expressed in one group of 
@@ -196,7 +196,7 @@ mat_gsea <- res_gsea %>%
                       values_from = score) %>%
   as.matrix()
 
-pheatmap(mat_gsea, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheight = 40)
+pheatmap(mat_gsea, cluster_rows = FALSE, cluster_cols = FALSE, cellwidth = 15, cellheight = 40)
 ```
 
 We can observe that for transcription factors T1 and T2, the obtained activities
@@ -217,7 +217,7 @@ mat_ulm <- res_ulm %>%
                       values_from = score) %>%
   as.matrix()
 
-pheatmap(mat_ulm, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheight = 40)
+pheatmap(mat_ulm, cluster_rows = FALSE, cluster_cols = FALSE, cellwidth = 15, cellheight = 40)
 ```
 
 Since `ulm` models weights when estimating biological activities, it correctly
@@ -251,7 +251,7 @@ mat_consensus <- res_decouple %>%
                       values_from = score) %>%
   as.matrix()
 
-pheatmap(mat_consensus, cluster_rows = F, cluster_cols = F, cellwidth = 15, cellheight = 40)
+pheatmap(mat_consensus, cluster_rows = FALSE, cluster_cols = FALSE, cellwidth = 15, cellheight = 40)
 ```
 
 We can observe that the consensus score correctly predicts that T1 and T3 should

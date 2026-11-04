@@ -26,6 +26,10 @@ rename_net(
 
 \item{def_mor}{Default value for .mor when not provided.}
 }
+\value{
+A tibble with the columns \code{source}, \code{target}, \code{mor} and
+\code{likelihood}, and the other columns of \code{network}.
+}
 \description{
 Renames a given network to these column names: .source, .target, .mor, If
 .mor is not provided, then the function sets them to default values.

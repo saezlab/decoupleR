@@ -9,6 +9,9 @@ extract_sets(network)
 \arguments{
 \item{network}{Tibble or dataframe with edges and it's associated metadata.}
 }
+\value{
+A named list of character vectors: the targets of each source.
+}
 \description{
 Extracts feature sets from a renamed network (see \link{rename_net}).
 }

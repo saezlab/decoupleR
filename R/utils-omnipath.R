@@ -13,6 +13,8 @@
 #' (-1 or 1), one for each confidence level. Bigger values will generate
 #' weights close to zero.
 #'
+#' @return A tibble with the columns `source`, `confidence`, `target` and
+#' `mor`.
 #' @export
 #' @importFrom magrittr %<>%
 #' @examples
@@ -82,6 +84,7 @@ get_dorothea <- function(organism='human', levels=c('A', 'B', 'C'),
 #' complexes are kept as they are.
 #' @param ... Ignored.
 #'
+#' @return A tibble with the columns `source`, `target` and `mor`.
 #' @export
 #' @examples
 #' collectri <- get_collectri(organism='human', split_complexes=FALSE)
@@ -225,6 +228,8 @@ omnipathr_disable_doctest_bypass <- function() {
 #' Shows available resources in Omnipath. For more information visit the
 #' official website for [Omnipath](https://omnipathdb.org/).
 #'
+#' @return A character vector with the names of the annotation resources in
+#' OmniPath.
 #' @export
 #' @examples
 #' decoupleR::show_resources()
@@ -242,6 +247,8 @@ show_resources <- function(){
 #' @param organism Organism name or NCBI Taxonomy ID.
 #' @param ... Passed to \code{OmnipathR::annotations}.
 #'
+#' @return A wide format tibble of the annotations from the resource, one
+#' column per annotation field.
 #' @export
 #' @examples
 #' df <- decoupleR::get_resource('SIGNOR')
@@ -320,6 +327,8 @@ get_resource <- function(name, organism = 'human', ...){
 #'
 #' @importFrom utils head
 #'
+#' @return A tibble with the columns `source` (pathway), `target`, `weight`
+#' and `p_value`.
 #' @export
 #' @examples
 #' progeny <- get_progeny(organism='human', top=500)
@@ -361,6 +370,9 @@ get_progeny <- function(organism='human', top=500){
 #' @importFrom rlang !!!
 #' @importFrom dplyr filter mutate select group_by ungroup distinct
 #' @importFrom dplyr summarize_all first
+#' @return A tibble with the columns `source` (kinase or phosphatase), `target`
+#' (substrate and phosphosite) and `mor` (1 for phosphorylation, -1
+#' for dephosphorylation).
 #' @export
 get_ksn_omnipath <- function(...) {
 

@@ -18,6 +18,9 @@ complexes are kept as they are.}
 
 \item{...}{Ignored.}
 }
+\value{
+A tibble with the columns \code{source}, \code{target} and \code{mor}.
+}
 \description{
 CollecTRI gene regulatory network.
 Wrapper to access CollecTRI gene regulatory network. CollecTRI is a

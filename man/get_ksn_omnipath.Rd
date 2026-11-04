@@ -9,6 +9,11 @@ get_ksn_omnipath(...)
 \arguments{
 \item{...}{Passed to \code{OmnipathR::enzyme_substrate}.}
 }
+\value{
+A tibble with the columns \code{source} (kinase or phosphatase), \code{target}
+(substrate and phosphosite) and \code{mor} (1 for phosphorylation, -1
+for dephosphorylation).
+}
 \description{
 Retrieve a ready to use, curated kinase-substrate Network from the OmniPath
 database.

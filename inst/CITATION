@@ -3,11 +3,11 @@ bibentry(
   header = "To cite decoupleR in publications, please use:",
   author = c(
     person("Pau", "Badia-i-Mompel"),
-    person("Jesús", "Vélez Santiago"),
+    person("Jes\u00fas", "V\u00e9lez Santiago"),
     person("Jana", "Braunger"),
     person("Celina", "Geiss"),
     person("Daniel", "Dimitrov"),
-    person("Sophia", "Müller-Dott"),
+    person("Sophia", "M\u00fcller-Dott"),
     person("Petr", "Taus"),
     person("Aurelien", "Dugourd"),
     person(c("Christian", "H."), "Holland"),
@@ -25,8 +25,8 @@ bibentry(
   pages = "vbac016",
   doi = "10.1093/bioadv/vbac016",
   textVersion = paste(
-    "Badia-i-Mompel P., Vélez Santiago J., Braunger J., Geiss C., Dimitrov",
-    "D., Müller-Dott S., Taus P., Dugourd A., Holland C.H., Ramirez Flores",
+    "Badia-i-Mompel P., V\u00e9lez Santiago J., Braunger J., Geiss C., Dimitrov",
+    "D., M\u00fcller-Dott S., Taus P., Dugourd A., Holland C.H., Ramirez Flores",
     "R.O. and Saez-Rodriguez J. 2022. decoupleR: Ensemble of computational",
     "methods to infer biological activities from omics data. Bioinformatics",
     "Advances 2(1): vbac016. https://doi.org/10.1093/bioadv/vbac016"

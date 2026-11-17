@@ -1,6 +1,7 @@
 # decoupleR 2.19.x
 
 ## Changes
+* New maintainer: Denes Turei (turei.denes@gmail.com).
 * `get_collectri`, `get_dorothea` and `get_resource` do not fall back to the
   OmnipathR static tables any more. If the download from OmniPath fails, the
   error message gives the reason and the path of the OmnipathR log file.
